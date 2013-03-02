@@ -1,0 +1,9 @@
+.btn-primary {
+	border-color: @btnPrimaryBackground;
+    .buttonBackground(@btnPrimaryBackgroundHighlight, @btnPrimaryBackground, @white, 0 -1px 0 rgba(0, 0, 0, 0.25));
+	.box-shadow(inset 0 0 15px rgba(187,217,238,.25));
+}
+.navbar .nav > li > a.btn-primary:focus, 
+.navbar .nav > li > a.btn-primary:hover {
+    background-color: @btnPrimaryBackground;
+}

@@ -1,0 +1,54 @@
+/* Orange icons with optional class, or on hover/active states of certain elements */
+.icon-orange,
+.nav-pills > .active > a > [class^="icon-"],
+.nav-pills > .active > a > [class*=" icon-"],
+.nav-list > .active > a > [class^="icon-"],
+.nav-list > .active > a > [class*=" icon-"],
+.navbar-inverse .nav > .active > a > [class^="icon-"],
+.navbar-inverse .nav > .active > a > [class*=" icon-"],
+.dropdown-menu > li > a:hover > [class^="icon-"],
+.dropdown-menu > li > a:hover > [class*=" icon-"],
+.dropdown-menu > .active > a > [class^="icon-"],
+.dropdown-menu > .active > a > [class*=" icon-"],
+.dropdown-submenu:hover > a > [class^="icon-"],
+.dropdown-submenu:hover > a > [class*=" icon-"] {
+  background-image: url("@{iconOrangeSpritePath}");
+}
+
+/* Blue icons with optional class, or on hover/active states of certain elements */
+.icon-blue,
+.nav-pills > .active > a > [class^="icon-"],
+.nav-pills > .active > a > [class*=" icon-"],
+.nav-list > .active > a > [class^="icon-"],
+.nav-list > .active > a > [class*=" icon-"],
+.navbar-inverse .nav > .active > a > [class^="icon-"],
+.navbar-inverse .nav > .active > a > [class*=" icon-"],
+.dropdown-menu > li > a:hover > [class^="icon-"],
+.dropdown-menu > li > a:hover > [class*=" icon-"],
+.dropdown-menu > .active > a > [class^="icon-"],
+.dropdown-menu > .active > a > [class*=" icon-"],
+.dropdown-submenu:hover > a > [class^="icon-"],
+.dropdown-submenu:hover > a > [class*=" icon-"] {
+  background-image: url("@{iconBlueSpritePath}");
+}
+.icon-header             { background-position: -481px -48px; }
+.icon-cite               { background-position: -481px -72px; }
+
+.icon-cnr-utility {
+  background-image: url("@{cnrUtilitySpritePath}");
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+.icon-cnr-edition {
+  background-image: url("@{cnrEditionSpritePath}");
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+.icon-cnr-edit             { background-position: 0  0; &:hover {background-position: 0  -30px;}}
+.icon-cnr-delete           { background-position: -20px  0; &:hover {background-position: -20px  -30px;}}
+.icon-cnr-result-sign      { background-position: -60px  0; width: 25px; &:hover {background-position: -60px  -30px;}}
+.icon-cnr-shedule-sign     { background-position: -100px  0; width: 25px; &:hover {background-position: -100px  -30px;}}
+

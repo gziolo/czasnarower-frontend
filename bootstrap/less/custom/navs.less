@@ -1,0 +1,38 @@
+.navbar {
+  .nav-pills > li {
+    .box-shadow(inset 0 0 20px rgba(255,255,255,.2));
+    background-color: @black;
+	border: 1px solid @black;
+	margin-left: 3px;
+  }
+}
+.nav-tabs > li > a {
+  .border-radius(0);
+}
+.nav-pills > li > a {
+  .border-radius(0);
+}
+.nav-tabs.nav-stacked > li > a {
+  .border-radius(0);
+}
+.nav-tabs.nav-stacked > li:first-child > a {
+  .border-top-radius(0);
+}
+.nav-tabs.nav-stacked > li:last-child > a {
+  .border-bottom-radius(0);
+}
+.nav-tabs .dropdown-menu {
+  .border-radius(0); // remove the top rounded corners here since there is a hard edge above the menu
+}
+.nav-pills .dropdown-menu {
+  .border-radius(0); // make rounded corners match the pills
+}
+.tabs-below > .nav-tabs > li > a {
+  .border-radius(0);
+}
+.tabs-left > .nav-tabs > li > a {
+  .border-radius(0);
+}
+.tabs-right > .nav-tabs > li > a {
+  .border-radius(0);
+}

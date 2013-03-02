@@ -1,0 +1,27 @@
+#font {
+  #family {
+    .special() {
+       font-family: @specialFontFamily;
+       font-weight: normal;
+       text-transform: uppercase;
+    }
+  }
+  .special(@size: @fontSizeLarge, @weight: normal, @lineHeight: @baseLineHeight) {
+    #font > #family > .special;
+    #font > .shorthand(@size, @weight, @lineHeight);
+   }
+}
+
+#grid {
+  .core (@gridColumnWidth, @gridGutterWidth) {
+	.span-fixed (@columns) {
+      width: (@gridColumnWidth * @columns) + (@gridGutterWidth * (@columns - 1)) + (@gridGutterWidth + @fixedColumnWidth) + 3*@gridGutterWidth;
+    }
+
+    // Set the container width, and override it for fixed navbars in media queries
+    .container,
+    .navbar-static-top .container,
+    .navbar-fixed-top .container,
+    .navbar-fixed-bottom .container { .span-fixed(@gridColumns); }
+  }
+}

@@ -9,55 +9,65 @@
  */
 
 // Core variables and mixins
-@import "variables.less"; // Modify this for custom colors, font-sizes, etc
-@import "mixins.less";
+@import "default/variables.less"; // Modify this for custom colors, font-sizes, etc
+@import "custom/variables.less";
+@import "default/mixins.less";
+@import "custom/mixins.less";
 
 // CSS Reset
-@import "reset.less";
+@import "default/reset.less";
 
 // Grid system and page structure
-@import "scaffolding.less";
-@import "grid.less";
-@import "layouts.less";
+@import "default/scaffolding.less";
+@import "default/grid.less";
+@import "default/layouts.less";
 
 // Base CSS
-@import "type.less";
-@import "code.less";
-@import "forms.less";
-@import "tables.less";
+@import "default/type.less";
+@import "default/code.less";
+@import "default/forms.less";
+@import "default/tables.less";
 
 // Components: common
-@import "sprites.less";
-@import "dropdowns.less";
-@import "wells.less";
-@import "component-animations.less";
-@import "close.less";
+@import "default/sprites.less";
+@import "custom/sprites.less";
+@import "default/dropdowns.less";
+@import "custom/dropdowns.less";
+@import "default/wells.less";
+@import "default/component-animations.less";
+@import "default/close.less";
 
 // Components: Buttons & Alerts
-@import "buttons.less";
-@import "button-groups.less";
-@import "alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
+@import "default/buttons.less";
+@import "custom/buttons.less";
+@import "default/button-groups.less";
+@import "default/alerts.less"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
 
 // Components: Nav
-@import "navs.less";
-@import "navbar.less";
-@import "breadcrumbs.less";
-@import "pagination.less";
-@import "pager.less";
+@import "default/navs.less";
+@import "custom/navs.less";
+@import "default/navbar.less";
+@import "custom/navbar.less";
+@import "default/breadcrumbs.less";
+@import "default/pagination.less";
+@import "default/pager.less";
+@import "custom/pager.less";
 
 // Components: Popovers
-@import "modals.less";
-@import "tooltip.less";
-@import "popovers.less";
+@import "default/modals.less";
+@import "custom/modals.less";
+@import "default/tooltip.less";
+@import "default/popovers.less";
 
 // Components: Misc
-@import "thumbnails.less";
-@import "media.less";
-@import "labels-badges.less";
-@import "progress-bars.less";
-@import "accordion.less";
-@import "carousel.less";
-@import "hero-unit.less";
+@import "default/thumbnails.less";
+@import "custom/thumbnails.less";
+@import "default/media.less";
+@import "default/labels-badges.less";
+@import "default/progress-bars.less";
+@import "default/accordion.less";
+@import "default/carousel.less";
+@import "default/hero-unit.less";
 
 // Utility classes
-@import "utilities.less"; // Has to be last to override when necessary
+@import "default/utilities.less"; // Has to be last to override when necessary

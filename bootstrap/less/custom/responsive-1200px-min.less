@@ -1,0 +1,68 @@
+//
+// Responsive: Large desktop and up
+// --------------------------------------------------
+
+
+@media (min-width: 1200px) {
+
+	
+	.navbar-wrapper {
+		.container {
+	  		background: url('../img-1.3/header/01_b.jpg') top center no-repeat;
+	  	}
+  	}
+  // Fixed grid
+  #grid > .core(@gridColumnWidth1200, @gridGutterWidth1200);
+
+  // Fluid grid
+  #grid > .fluid(@fluidGridColumnWidth1200, @fluidGridGutterWidth1200);
+
+  // Input grid
+  #grid > .input(@gridColumnWidth1200, @gridGutterWidth1200);
+
+  // Thumbnails
+  .thumbnails {
+    margin-left: -@gridGutterWidth1200;
+  }
+  .thumbnails > li {
+    margin-left: @gridGutterWidth1200;
+  }
+  .row-fluid .thumbnails {
+    margin-left: 0;
+  }
+	
+  .entry {
+  	&.special {
+  	  &.shedule {
+  	  	.media-body {
+  	  		margin-bottom: 6px;
+  	  	}
+  	  	h6 {
+        	margin-top: 10px;
+    	}
+  	  	.shedule-participants {
+  	  		height: 35px;
+  	  		margin-top: 3px;
+  	  		.avatar img {
+  	  			width: 30px;
+  	  			height: 30px;
+  	  		}
+  	  	}
+  	  }
+  	}
+  }
+  .users-list {
+        height: 36px;
+        line-height: 36px;
+        .list {
+            height: 36px;
+        }
+        .header {
+        	line-height: 36px;
+        }
+        .cnr-join-us .btn {
+        	#font .special(18px, normal, 25px);
+    	}
+        .avatar img{ height: 30px; width: 30px; }
+    }
+}
