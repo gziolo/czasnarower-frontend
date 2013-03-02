@@ -1,6 +1,7 @@
 module.exports = function (grunt) {
   'use strict';
 
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -38,7 +39,7 @@ module.exports = function (grunt) {
           include: [
             'lib/main'
           ],
-          out: 'dist/main.js'
+          out: 'dist/js/main.js'
         }
       }
     },
@@ -68,10 +69,27 @@ module.exports = function (grunt) {
         'spec/lib/**/*.js'
       ],
       tasks: ['spec']
-    }
+    },
+    less : {
+      development : {
+        files : {
+          'dist/css/basic.css' : 'bootstrap/less/bootstrap.less',
+          'dist/css/responsive.css' : 'bootstrap/less/responsive.less'
+        }
+      },
+      production : {
+        options: {
+          yuicompress: true
+        },
+        files : {
+          'dist/css/basic.min.css' : ['bootstrap/less/bootstrap.less', 'bootstrap/less/responsive.less']
+        }
+      }
+    },
+    
   });
 
   grunt.registerTask('spec', ['jshint', 'mocha']);
-  grunt.registerTask('build', ['connect', 'spec', 'requirejs']);
+  grunt.registerTask('build', ['connect', 'spec', 'requirejs', 'less']);
   grunt.registerTask('default', ['connect', 'spec', 'watch']);
 };
