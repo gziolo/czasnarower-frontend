@@ -1,6 +1,27 @@
-czasnarower-frontend
+czasnarower-frontend 0.1.0 [![Build Status](https://travis-ci.org/gziolo/czasnarower-frontend.png?branch=master)](https://travis-ci.org/gziolo/czasnarower-frontend)
 ====================
 
 Frontend for Czas na rower!
 
-# czasnarower-frontend 0.1.0 [![Build Status](https://travis-ci.org/gziolo/czasnarower-frontend.png?branch=master)](https://travis-ci.org/gziolo/czasnarower-frontend)
+## Getting started
+
+### Requirements
+
+1. [bower](http://twitter.github.com/bower/): run `npm install -g bower` if needed
+2. [grunt-cli](https://github.com/gruntjs/grunt-cli): run `npm install -g grunt-cli` if needed
+
+### Building distribution version
+
+1. Run `npm install` to install build dependencies.
+2. Run `bower install` to install lib dependencies.
+3. Run `grunt build` and `main.js` will be placed in `dist/`.
+
+### How to run tests
+
+#### Browser
+
+Run `grunt`. Then visit `http://localhost:8899/spec/`.
+
+#### CLI
+
+Run `npm test`.
