@@ -1,0 +1,10 @@
+{
+  "name": "czasnarower-frontend",
+  "version": "0.1.0",
+  "main": "lib/main.js",
+  "dependencies": {
+    "jquery": "~1.9.1",
+    "requirejs": "~2.1.4",
+    "requirejs-text": "~2.0.5"
+  }
+}
