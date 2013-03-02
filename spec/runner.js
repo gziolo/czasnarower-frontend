@@ -3,11 +3,19 @@ var should;
 
 require.config({
   baseUrl: '../',
+  enforceDefine : true,
   paths: {
-    components: 'components',
     chai: 'node_modules/chai/chai',
-    sinonChai:'node_modules/sinon-chai/lib/sinon-chai'
-  }
+    sinonChai:'node_modules/sinon-chai/lib/sinon-chai',
+    jquery : 'components/jquery/jquery',
+    jquery_migrate: 'components/jquery/jquery-migrate'
+  },
+  shim: {
+    jquery_migrate : {
+      deps : ['jquery'],
+      exports : 'jQuery.migrateWarnings'
+    }
+  } 
 });
 
 define(['chai', 'sinonChai'], function (chai, sinonChai) {
@@ -22,7 +30,7 @@ define(['chai', 'sinonChai'], function (chai, sinonChai) {
   mocha.setup('bdd');
 
   require([
-    'spec/lib/dummy_spec'
+    'spec/lib/main_spec'
   ], function () {
     mocha.run();
   });

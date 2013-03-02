@@ -24,21 +24,20 @@ module.exports = function (grunt) {
         options: {
           baseUrl: '.',
           optimize: 'none',
+          enforceDefine: true,
           paths: {
-            aura: 'empty:',
-            jquery: 'empty:',
-            underscore: 'empty:',
-            eventemitter: 'components/eventemitter2/lib/eventemitter2'
+            jquery : 'components/jquery/jquery',
+            jquery_migrate: 'components/jquery/jquery-migrate'
           },
           shim: {
-            underscore: {
-              exports: '_'
+            jquery_migrate : {
+              deps : ['jquery'],
+              exports : 'jQuery.migrateWarnings'
             }
           },
           include: [
             'lib/main'
           ],
-          exclude: ['jquery'],
           out: 'dist/main.js'
         }
       }
