@@ -1,3 +1,5 @@
 /.settings
 /.project
+/components
+/dist
 /node_modules
