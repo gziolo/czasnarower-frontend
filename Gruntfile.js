@@ -73,8 +73,9 @@ module.exports = function (grunt) {
     less : {
       development : {
         files : {
-          'dist/css/bootstrap.css' : 'bootstrap/less/bootstrap.less',
-          'dist/css/responsive.css' : 'bootstrap/less/responsive.less'
+          'dist/css/basic.css' : 'bootstrap/less/bootstrap.less',
+          'dist/css/responsive.css' : 'bootstrap/less/responsive.less',
+          'dist/css/lightbox.css' : 'bootstrap/less/plugins/lightbox.less'
         }
       },
       production : {
@@ -82,7 +83,11 @@ module.exports = function (grunt) {
           yuicompress: true
         },
         files : {
-          'dist/css/bootstrap.min.css' : ['bootstrap/less/bootstrap.less', 'bootstrap/less/responsive.less']
+          'dist/css/bootstrap.min.css' : [
+            'bootstrap/less/bootstrap.less',
+            'bootstrap/less/responsive.less',
+            'bootstrap/less/plugins/lightbox.less'
+          ]
         }
       }
     },
