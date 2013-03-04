@@ -25,3 +25,9 @@ Run `grunt`. Then visit `http://localhost:8899/spec/`.
 #### CLI
 
 Run `npm test`.
+
+## Copyright and license
+
+Copyright (c) 2013 Czas na Rower http://www.czasnarower.pl.
+
+czasnarower-frontend is distributed under the MIT License.
