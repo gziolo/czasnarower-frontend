@@ -1125,6 +1125,15 @@ h1.special {
    	margin-top: 15px;
    	margin-bottom: 0;
    	position: relative;
+   	.carousel-indicators {
+   		li {
+   			background-color: fadeout(@black, 75%);
+   			box-shadow: 0 0 2px fadeout(@white, 50%);
+   			&.active {
+   				background-color: fadeout(@orange, 35%);	
+   			}
+		}
+   	}
    	.item {
    		border: 1px solid #fff;
    		height: 245px;
