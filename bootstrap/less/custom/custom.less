@@ -424,6 +424,7 @@ body {
     		}
     	}
     	q {
+    		font-style: oblique;
     		&:before, &:after {content: '"'}
     	}
     }
@@ -669,22 +670,7 @@ body {
 		top: -2px;
 	}
 }
-.items li {
-	list-style: none;
-	&:before {
-		content: ' ';
-		background-image: url("../img/glyphicons-halflings-orange.png");
-		background-position: -72px -96px;
-		height: 14px;
-    	line-height: 14px;
-    	margin-top: 1px;
-    	position: absolute;
-    	left: 15px;
-    	margin-top: 1px;
-    	vertical-align: text-top;
-    	width: 14px;
-	}
-}
+
 .photo {
     &.thumb {
         position: relative;
@@ -975,17 +961,38 @@ h1.special {
 	font-family: 'Bebas', "Trebuchet MS", Arial, sans-serif;	
 }
 .item_content {
+	padding-left: 5px;
+	padding-right: 5px;
 	h3 {
-		border-left: 4px solid #ff7600;
+		border-left: 5px solid @orange;
 	    font-size: 20px;
 	    line-height: 26px;
 	    padding-left: 10px;
 	}
 	q {
 		font-size: 1.1em;
-		font-weight: bold;
-		color: darken(@blueLight, 20%);
+		font-style: oblique;
+		color: lighten(@black, 10%);
 		&:before, &:after { content: '"'; color: @blueLight; font-size: 1.5em; line-height: 20px; }
+	}
+	.items {
+		margin-left: 20px;
+		li {
+			list-style: none;
+			&:before {
+				content: ' ';
+				background-image: url("../img/glyphicons-halflings-orange.png");
+				background-position: -72px -96px;
+				height: 14px;
+		    	line-height: 14px;
+		    	margin-top: 2px;
+		    	position: absolute;
+		    	left: 5px;
+		    	margin-top: 2px;
+		    	vertical-align: text-top;
+		    	width: 14px;
+			}
+		}
 	}
 }
 .header-subcontent {
