@@ -186,6 +186,7 @@
         table-layout:fixed;
         word-wrap:break-word;
         tr.visible-phone { display: table-row !important; }
+        td.visible-phone { display: table-cell !important; }
     }
     
     .media .photos-list.pull-right,
@@ -476,17 +477,16 @@
 	#personal_data .thumbs { clear: both; }
 	.user-action {
 		float: none;
-		.btn { display: block;width:100%; }
+		button.btn { width:100%; }
+		.btn { display: block; float: none; margin-bottom: 5px;}
 	}
-	#track_locations_form .map-legend-row,
-	.edition-menu {
+	.user-action > div.pull-right { float: none; }
+	#track_locations_form .map-legend-row {
 		.btn {
 			display: block;
 			float: none;
 		}
 	}
-	
-	.edition-menu > div.pull-right { float: none; }
 }
 
 
