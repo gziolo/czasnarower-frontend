@@ -219,6 +219,36 @@
 			height: auto;
 		}
 	}
+	.thumbnails {
+		.span3, .span3 .photo, .span4, .span4 .photo {
+			display: inline-block;
+			float: left;
+			width: auto;
+			.thumbnail { 
+				margin: 1px 3px;
+				img { max-width: 100%; }
+			}
+		}
+		.span3, .span4 { 
+			float: none; 
+			width: auto;
+		}
+		.span3 { width: 33%; margin-right: -1px; }
+		.span4 { width: 25%; }
+		.entry.special {
+			.author, .title {
+				background: fadeout(@black,30%);
+				position: absolute;
+				left: 0;
+				color: @white;
+				a {
+					color: @white;
+				}
+			}
+		}
+		.clearfix();
+	}
+	
 }
 
 @media (min-width: 321px) and (max-width: 767px){
@@ -274,36 +304,6 @@
 	}
 	#user_thumbs { clear: both; }
 	
-	#photos.thumbs, #photo_album, #team_thumbs, #user_thumbs, #recent_photos {
-		text-align: center;
-		header, h4 { text-align: left; }
-		.row:before, .row:after {
-			display: none;
-			clear: none;
-			content: none;
-		}
-		.row { display: inline; clear: none;}
-		.span3, .span3 .photo, .span4, .span4 .photo {
-			display: inline-block;
-			float: left;
-			width: auto;
-			.thumbnail { margin-right: 0;}
-		}
-		.span3, .span4 { float: none; }
-		.entry.special {
-			.author, .title {
-				background: fadeout(@black,30%);
-				position: absolute;
-				left: 0;
-				color: @white;
-				a {
-					color: @white;
-				}
-			}
-		}
-		.span3, .span4 { width: auto;}
-		.clearfix();
-	}
 	.entry {
 		&.list {
 	       .news-content {
@@ -457,20 +457,10 @@
 	}
 	
 	.photo.thumb {
-		margin-top: 1px;
 		float: left;
-		margin-right: 5px;
 		img { max-width: 115px;}
 	}
 	.photos-list .photo.thumb { float: right; }
-	.thumbs {
-		.row {display: block;
-			&:after {
-				clear: none;
-			} 
-		}
-		.clearfix();
-	}
 	.profile-one {
 		.pull-left { float: left; }
 	}
@@ -485,6 +475,14 @@
 		.btn {
 			display: block;
 			float: none;
+		}
+	}
+	
+	.thumbnails {
+		.span3 { width: 50%; margin: 0 -1px; }
+		.span4 { width: 33%; }
+		.photo.thumb {
+			max-width: 100%;
 		}
 	}
 }
@@ -519,4 +517,15 @@
 			.clearfix();
 		}
 	}
+	.thumbnails {
+		.span3 { width: 100%;  }
+		.span4 { width: 100%; }
+		.photo.thumb {
+			max-width: 100%; 
+			float: none;
+			display: table;
+			margin: 1px auto;
+		}
+	}
+	
 }
