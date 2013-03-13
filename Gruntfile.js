@@ -1,4 +1,4 @@
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   'use strict';
 
   grunt.loadNpmTasks('grunt-contrib-less');
@@ -11,82 +11,82 @@ module.exports = function (grunt) {
   var PORT = 8899;
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    connect: {
-      server: {
-        options: {
-          port: PORT,
-          base: '.'
+    pkg : grunt.file.readJSON('package.json'),
+    connect : {
+      server : {
+        options : {
+          port : PORT,
+          base : '.'
         }
       }
     },
-    requirejs: {
-      compile: {
-        options: {
-          baseUrl: '.',
-          optimize: 'none',
-          enforceDefine: true,
-          paths: {
+    requirejs : {
+      compile : {
+        options : {
+          baseUrl : '.',
+          optimize : 'none',
+          enforceDefine : true,
+          paths : {
             aura : 'components/aura/lib',
-            backbone: 'components/backbone/backbone',
+            backbone : 'components/backbone/backbone',
+            bootstrap : 'components/bootstrap/docs/assets/js/bootstrap',
             eventemitter : 'components/eventemitter2/lib/eventemitter2',
             jquery : 'components/jquery/jquery',
-            jquery_migrate: 'components/jquery/jquery-migrate',
+            jquery_migrate : 'components/jquery/jquery-migrate',
             text : 'components/requirejs-text/text',
-            underscore: 'components/underscore/underscore'
+            underscore : 'components/underscore/underscore'
           },
-          shim: {
+          shim : {
             'lib/main' : {
-              deps : ['jquery_migrate']
+              deps : [ 'jquery_migrate', 'bootstrap', 'backbone' ]
             },
-            backbone: {
-              deps: ['underscore', 'jquery'],
-              exports: 'Backbone'
+            backbone : {
+              deps : [ 'underscore', 'jquery' ],
+              exports : 'Backbone'
+            },
+            bootstrap : {
+              deps : [ 'jquery' ],
+              exports : '$.fn.affix'
             },
             jquery_migrate : {
-              deps : ['jquery'],
+              deps : [ 'jquery' ],
               exports : 'jQuery.migrateWarnings'
+            },
+            underscore : {
+              exports : '_'
             }
           },
-          include: [
-            'jquery',
-            'backbone',
-            'text',
-            'aura/ext/debug',
-            'aura/ext/mediator',
-            'aura/ext/widgets',
-            'lib/main'
-          ],
-          out: 'dist/js/main.js'
+          include : [ 'jquery', 'text', 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets', 'lib/main' ],
+          out : 'dist/js/main.js'
         }
       }
     },
-    jshint: {
-      all: {
-        options: {
-          jshintrc: '.jshintrc'
+    jshint : {
+      all : {
+        options : {
+          jshintrc : '.jshintrc'
         },
-        files: {
-          src: [
-            'lib/**/*.js',
-            'spec/lib/**/*.js'
-          ]
+        files : {
+          src : [ 'lib/**/*.js', 'spec/lib/**/*.js' ]
         }
       }
     },
-    mocha: {
-      all: {
-          options: {
-              urls: ['http://localhost:<%= connect.server.options.port %>/spec/index.html']
-          }
+    mocha : {
+      all : {
+        options : {
+          urls : [ 'http://localhost:<%= connect.server.options.port %>/spec/index.html' ]
+        }
       }
     },
-    watch: {
-      files: [
-        'lib/**/*.js',
-        'spec/lib/**/*.js'
-      ],
-      tasks: ['spec']
+    watch : {
+      css : {
+        files : [ 'bootstrap/less/**/*.less' ],
+        tasks : [ 'less' ]
+      },
+      js : {
+        files : [ 'lib/**/*.js', 'spec/lib/**/*.js' ],
+        tasks : [ 'spec' ]
+      }
     },
     less : {
       development : {
@@ -97,22 +97,18 @@ module.exports = function (grunt) {
         }
       },
       production : {
-        options: {
-          yuicompress: true
+        options : {
+          yuicompress : true
         },
         files : {
-          'dist/css/bootstrap.min.css' : [
-            'bootstrap/less/bootstrap.less',
-            'bootstrap/less/responsive.less',
-            'bootstrap/less/plugins/lightbox.less'
-          ]
+          'dist/css/bootstrap.min.css' : [ 'bootstrap/less/bootstrap.less', 'bootstrap/less/responsive.less', 'bootstrap/less/plugins/lightbox.less' ]
         }
       }
     },
 
   });
 
-  grunt.registerTask('spec', ['jshint', 'mocha']);
-  grunt.registerTask('build', ['connect', 'spec', 'requirejs', 'less']);
-  grunt.registerTask('default', ['connect', 'spec', 'watch']);
+  grunt.registerTask('spec', [ 'jshint', 'mocha' ]);
+  grunt.registerTask('build', [ 'connect', 'spec', 'requirejs', 'less' ]);
+  grunt.registerTask('default', [ 'connect', 'spec', 'watch' ]);
 };

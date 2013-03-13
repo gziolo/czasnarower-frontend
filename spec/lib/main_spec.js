@@ -1,6 +1,7 @@
-define(['lib/main'], function(main) {
+/*global describe:true it:true sinon:true */
+
+define([ 'lib/main' ], function(main) {
   'use strict';
-  /*global describe:true it:true sinon:true */
 
   describe('Main', function() {
     describe('Main init', function() {
