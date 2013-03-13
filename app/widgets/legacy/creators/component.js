@@ -1,11 +1,12 @@
-/*global Core:false */
+/*global Core */
 Core.Creator.register('component', function(facade, $) {
 
   var bindNavigation = function() {
     $('.component').each(function() {
       var component = $(this);
-      if (component.hasClass('user_box'))
+      if (component.hasClass('user_box')) {
         return true;
+      }
       var navigation = component.find('header.menu h4');
       if (2 > navigation.length) {
         return;

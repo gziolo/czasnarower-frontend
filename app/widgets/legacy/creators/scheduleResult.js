@@ -1,7 +1,6 @@
-/*global Core, bindFormElements */
+/*global Core, bindFormElements, setErrorCommunique */
 Core.Creator.register('scheduleResult', function(facade, $) {
 
-  var iScheduleId = null;
   var oWinners = {};
 
   function bindSuggestions() {
@@ -24,7 +23,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
 
   function bindPositions() {
     $('#position').change(function(oEvent) {
-      if ($(this).val() == 1) {
+      if ($(this).val() === '1') {
         $('#best_result_hours').val($('#result_hours').val());
         $('#best_result_minutes').val($('#result_minutes').val());
         $('#best_result_seconds').val($('#result_seconds').val());
@@ -33,7 +32,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
       }
     });
     $('#category_position').change(function(oEvent) {
-      if ($(this).val() == 1) {
+      if ($(this).val() === '1') {
         $('#best_category_result_hours').val($('#result_hours').val());
         $('#best_category_result_minutes').val($('#result_minutes').val());
         $('#best_category_result_seconds').val($('#result_seconds').val());
@@ -46,23 +45,23 @@ Core.Creator.register('scheduleResult', function(facade, $) {
 
     $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
     var errors = 0;
-    var category_val = jQuery.trim($('#category_name').val());
-    var category_sel_val = jQuery.trim($('#categories option:selected').val());
-    var distance_val = jQuery.trim($('#distance_name').val());
-    var distance_sel_val = jQuery.trim($('#distances option:selected').val());
-    var distance_length_val = jQuery.trim($('#distance_length').val());
+    var category_val = $.trim($('#category_name').val());
+    var category_sel_val = $.trim($('#categories option:selected').val());
+    var distance_val = $.trim($('#distance_name').val());
+    var distance_sel_val = $.trim($('#distances option:selected').val());
+    var distance_length_val = $.trim($('#distance_length').val());
     var gender_val = $('#gender').val();
-    var resultHour = jQuery.trim($('#result_hours').val());
-    var resultMinute = jQuery.trim($('#result_minutes').val());
-    var resultSecond = jQuery.trim($('#result_seconds').val());
-    var position_val = jQuery.trim($('#position').val());
-    var category_position_val = jQuery.trim($('#category_position').val());
-    var bestResultHour = jQuery.trim($('#best_result_hours').val());
-    var bestResultMinute = jQuery.trim($('#best_result_minutes').val());
-    var bestResultSecond = jQuery.trim($('#best_result_seconds').val());
+    var resultHour = $.trim($('#result_hours').val());
+    var resultMinute = $.trim($('#result_minutes').val());
+    var resultSecond = $.trim($('#result_seconds').val());
+    var position_val = $.trim($('#position').val());
+    var category_position_val = $.trim($('#category_position').val());
+    var bestResultHour = $.trim($('#best_result_hours').val());
+    var bestResultMinute = $.trim($('#best_result_minutes').val());
+    var bestResultSecond = $.trim($('#best_result_seconds').val());
 
-    if (category_val == '') {
-      if (category_sel_val == '-') {
+    if (category_val === '') {
+      if (category_sel_val === '-') {
         setErrorCommunique('category_communique', 'Musisz podać kategorię');
         errors += 1;
       } else {
@@ -70,8 +69,8 @@ Core.Creator.register('scheduleResult', function(facade, $) {
       }
     }
 
-    if (distance_val == '') {
-      if (distance_sel_val == '-') {
+    if (distance_val === '') {
+      if (distance_sel_val === '-') {
         setErrorCommunique('distance_communique', 'Musisz zdefiniować dystans');
         errors += 1;
       } else {
@@ -113,7 +112,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     if (bestResultHour &&
         bestResultMinute &&
         bestResultSecond &&
-        (bestResultHour > resultHour || bestResultHour == resultHour && bestResultMinute > resultMinute || bestResultHour == resultHour && bestResultMinute == resultMinute &&
+        (bestResultHour > resultHour || bestResultHour === resultHour && bestResultMinute > resultMinute || bestResultHour === resultHour && bestResultMinute === resultMinute &&
             bestResultSecond > resultSecond)) {
       setErrorCommunique('result_communique', 'Czas zwycięzcy nie może być gorszy od Twojego');
       errors += 1;
@@ -127,31 +126,32 @@ Core.Creator.register('scheduleResult', function(facade, $) {
 
   function bindResultElements() {
     $('#category_name').change(function() {
-      var val = jQuery.trim($(this).val().toLowerCase());
+      var val = $.trim($(this).val().toLowerCase());
       $(this).val(val);
       $('#categories option[value="-"]').attr('selected', true);
       $('#categories option').each(function(index, elem) {
-        if (val == $(this).text()) {
+        if (val === $(this).text()) {
           $(this).attr('selected', true);
         }
       });
     });
     $('#distance_name').change(function() {
       var repl = false;
-      var val = jQuery.trim($(this).val().toLowerCase());
+      var val = $.trim($(this).val().toLowerCase());
       $(this).val(val);
       $('#distances option[value="-"]').attr('selected', true);
       $('#distance_length').val('');
       $.each(oWinners, function(index, distance) {
-        if (val == index) {
+        if (val === index) {
           $('#distances option[value=' + val + ']').attr('selected', true);
           $('#distance_length').val(distance.km);
           createCategorySelect(val);
           repl = true;
         }
       });
-      if (!repl)
+      if (!repl) {
         createCategorySelect('-');
+      }
     });
   }
 
@@ -191,10 +191,10 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     $('#categories option').remove();
 
     if (oWinners[distance_val] && 0 < oWinners[distance_val]['categories'].length) {
-      category_val = undefined != category_val ? category_val : 0;
+      category_val = undefined !== category_val ? category_val : 0;
       $.each(oWinners[distance_val]['categories'], function(index, cat) {
-        selCat.append('<option ' + (category_val && category_val == cat.category_name ? 'selected ' : '') + 'class="category-select" value="' + index + '">' + cat.category_name + '</option>');
-        if ((undefined != category_val && category_val == cat.category_name) || (category_val == index)) {
+        selCat.append('<option ' + (category_val && category_val === cat.category_name ? 'selected ' : '') + 'class="category-select" value="' + index + '">' + cat.category_name + '</option>');
+        if ((undefined !== category_val && category_val === cat.category_name) || (category_val === index)) {
           var categoryData = oWinners[distance_val]['categories'][index];
           $('#category_racers').val(categoryData ? categoryData.racers : '0');
           $('#best_category_result_hours').val(categoryData ? categoryData.h : '00');
@@ -212,12 +212,12 @@ Core.Creator.register('scheduleResult', function(facade, $) {
 
     selCat.change(function() {
       var category = $(this).val();
-      var categoryData = category != '-' ? oWinners[distance_val]['categories'][category] : null;
-      $('#category_racers').val(category != '-' ? categoryData.racers : '0');
-      $('#best_category_result_hours').val(category != '-' ? categoryData.h : '00');
-      $('#best_category_result_minutes').val(category != '-' ? categoryData.m : '00');
-      $('#best_category_result_seconds').val(category != '-' ? categoryData.s : '00');
-      if (category != '-') {
+      var categoryData = category !== '-' ? oWinners[distance_val]['categories'][category] : null;
+      $('#category_racers').val(category !== '-' ? categoryData.racers : '0');
+      $('#best_category_result_hours').val(category !== '-' ? categoryData.h : '00');
+      $('#best_category_result_minutes').val(category !== '-' ? categoryData.m : '00');
+      $('#best_category_result_seconds').val(category !== '-' ? categoryData.s : '00');
+      if (category !== '-') {
         $('#category_name').val(oWinners[distance_val]['categories'][category]['category_name']).hide();
         $('#category_name_label').hide();
       } else {
@@ -228,7 +228,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
   }
 
   function selectDistance(distance) {
-    var distanceData = (distance != '-' && oWinners[distance].open) ? oWinners[distance].open : null;
+    var distanceData = (distance !== '-' && oWinners[distance].open) ? oWinners[distance].open : null;
     $('#racers').val(distanceData ? distanceData.racers : '0');
     $('#best_result_hours').val(distanceData ? distanceData.h : '00');
     $('#best_result_minutes').val(distanceData ? distanceData.m : '00');
@@ -239,7 +239,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     $('#best_category_result_seconds').val('00');
     $('#category_name').val('');
 
-    if (distance == '-') {
+    if (distance === '-') {
       $('#distance_name').val('').show();
       $('#distance_length').val('').show();
       $('#distance_name_label').show();
@@ -269,9 +269,9 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     var category_val = $('#category_name').val();
 
     $.each(oWinners, function(index, distance) {
-      selDist.append('<option ' + (distance_val == index ? 'selected ' : '') + ' class="distance-select" value="' + index + '">' + index + (distance.km ? ' (' + distance.km + 'km)' : '') +
+      selDist.append('<option ' + (distance_val === index ? 'selected ' : '') + ' class="distance-select" value="' + index + '">' + index + (distance.km ? ' (' + distance.km + 'km)' : '') +
           '</option>');
-      if (distance_val == index) {
+      if (distance_val === index) {
         var distanceData = oWinners[distance_val].open ? oWinners[distance_val].open : null;
         $('#racers').val(distanceData ? distanceData.racers : '0');
         $('#best_result_hours').val(distanceData ? distanceData.h : '00');
@@ -305,10 +305,10 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     $('body').on('click', '#result_' + params.id + ' .confirm-remove', function() {
       elem.popover('destroy');
       _removeResult(params);
-    })
+    });
     $('body').on('click', '#result_' + params.id + ' .cancel-remove', function() {
       elem.popover('hide');
-    })
+    });
   }
 
   function _removeResult(params) {
@@ -396,7 +396,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
   }
 
   function bindDatepicker() {
-    oDatepicker = $('#datepicker').datepicker({
+    $('#datepicker').datepicker({
       format : 'yyyy-mm-dd',
       language : 'pl'
     }).on('changeDate', function(ev) {
@@ -497,7 +497,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
           if (distance_length) {
             oWinners[distance]['km'] = distance_length;
           }
-          if (category == 'open') {
+          if (category === 'open') {
             oWinners[distance]['open'] = winner;
           } else {
             oWinners[distance]['categories'].push(winner);

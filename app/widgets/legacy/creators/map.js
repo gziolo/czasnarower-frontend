@@ -1,4 +1,4 @@
-/*global google:false Core:false */
+/*global Core, google */
 Core.Creator.register('map', function(facade, $) {
   "use strict";
 

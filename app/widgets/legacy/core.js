@@ -1,3 +1,4 @@
+/*global sStaticUrl */
 /*
  * Sample usage:
  * var _core = _core || [];
@@ -241,8 +242,6 @@ var Core = (function($, config) {
 
         $('body').append('<div id="jQueryDialog" class="modal">' + modal + '</div>');
 
-        var btns = '';
-
         for ( var i in options.buttons) {
           var btn = options.buttons[i];
           var btn_el = $('<button class="btn btn-primary">' + btn.text + '</button>').click(btn.click);
@@ -261,11 +260,11 @@ var Core = (function($, config) {
         };
         var loaderCss = {};
         if (params.loaderCss) {
-          jQuery.extend(loaderCss, params.loaderCss);
-        };
+          $.extend(loaderCss, params.loaderCss);
+        }
         if (params.overlayCss) {
-          jQuery.extend(overlayCss, params.overlayCss);
-        };
+          $.extend(overlayCss, params.overlayCss);
+        }
 
         elem.append('<div class="overlay">&nbsp;</div><div class="loader"><p>' + msg + '</p></div>');
         elem.find('.overlay').css(overlayCss).show();
@@ -307,7 +306,7 @@ var Core = (function($, config) {
 
   return {
     Creator : (function() {
-      var creators = [];
+      var creators = {};
       return {
         register : function(name, creator) {
           creators[name] = creator;
@@ -371,12 +370,12 @@ var Core = (function($, config) {
       facade.notify(messageInfo);
     }
   };
-}(jQuery, {
+}($, {
   staticUrl : sStaticUrl
 }));
 
 var _core = _core || [];
-jQuery(document).ready(function() {
+$(document).ready(function() {
   var length = _core.length;
   var action;
   while (length--) {

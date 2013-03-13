@@ -1,4 +1,4 @@
-/*global Core:false */
+/*global Core */
 Core.Creator.register('draft', function(facade, $) {
   var draftsLoaded = false;
   function _getDrafts() {
@@ -81,11 +81,9 @@ Core.Creator.register('draft', function(facade, $) {
     $('body').on('click', '#user_menu .drafts.button', function() {
       $('.user_quickbox').not('.drafts').addClass('hidden');
       $('.user_quickbox.drafts').toggleClass('hidden');
-      if (!draftsLoaded)
-        _getDrafts();/*
-                       * var elem = $(this), sUrl = elem.attr('data-href'); if
-                       * (sUrl) { window.location.href = sUrl; }
-                       */
+      if (!draftsLoaded) {
+        _getDrafts();
+      }
     });
   }
   return {

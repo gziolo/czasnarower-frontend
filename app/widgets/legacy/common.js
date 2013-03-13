@@ -1,3 +1,10 @@
+/*global wrapSelection */
+function setErrorCommunique(fieldName, textMsg) {
+  $('#' + fieldName).closest('.control-group').addClass('error alert alert-error');
+  $('#' + fieldName).html(textMsg);
+  $('#' + fieldName).fadeIn(1000);
+}
+
 var Schedule = {
 
   getRaces4selectedDay : function(sStartDay) {
@@ -50,6 +57,7 @@ var Forum = {
   }
 
 };
+
 var HTMLtextarea = {
   setBold : function() {
     wrapSelection("'''", "'''", "Pogrubienie");
@@ -136,7 +144,6 @@ function validateUserPhoto() {
   $(".control-group").removeClass('alert alert-error error');
 
   var photoValue = $("input[name='photo']").val();
-  var photoDescriptionValue = $("input[name='photo_description']").val();
   if (!photoValue) {
     setErrorCommunique('photo_error_communique', 'Prosimy o dodanie zdjęcia');
     return false;
@@ -170,7 +177,7 @@ function validateNews() {
     errors += 1;
   }
 
-  if (urlValue.length > 0 && urlValue.indexOf("http://") != 0 && urlValue.indexOf("https://") != 0) {
+  if (urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
     setErrorCommunique('url_communique', 'Adres strony musi zaczynać się od http:// lub https://');
     errors += 1;
   }
@@ -189,7 +196,6 @@ function validateSchedule() {
   var errors = 0;
   var raceNameValue = $("input[name='race_name']").val();
   var startPlaceValue = $("input[name='start_place']").val();
-  var startHourValue = $("input[name='start_hour']").val();
   var startDayValue = $("input[name='start_day']").val();
   var urlValue = $("input[name='url']").val();
 
@@ -205,7 +211,7 @@ function validateSchedule() {
     setErrorCommunique('start_place_communique', 'Miejsce startu jest wymagane');
     errors += 1;
   }
-  if (urlValue.length > 0 && urlValue.indexOf("http://") != 0 && urlValue.indexOf("https://") != 0) {
+  if (urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
     setErrorCommunique('url_communique', 'Adres strony musi zaczynać się od http:// lub https://');
     errors += 1;
   }
@@ -214,11 +220,6 @@ function validateSchedule() {
     return false;
   }
   return true;
-}
-function setErrorCommunique(fieldName, textMsg) {
-  $('#' + fieldName).closest('.control-group').addClass('error alert alert-error');
-  $('#' + fieldName).html(textMsg);
-  $('#' + fieldName).fadeIn(1000);
 }
 
 $(document).ready(function() {

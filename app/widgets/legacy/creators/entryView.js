@@ -1,9 +1,7 @@
-/*global Core:false */
+/*global Core */
 Core.Creator.register('entryView', function(facade, $) {
 
   function _removeNews(params) {
-
-    var iId = params.news_id;
     var urlData = {
       dao : 1,
       action : 19,
@@ -41,8 +39,6 @@ Core.Creator.register('entryView', function(facade, $) {
 
   function _removeTrack(params) {
 
-    var iId = params.track_id;
-    var oTrack = $('#track_' + iId);
     var urlData = {
       dao : 10,
       action : 19,
@@ -56,11 +52,8 @@ Core.Creator.register('entryView', function(facade, $) {
       data : urlData,
       url : 'ajax',
       beforeSend : function() {
-      // _showLoader({elem:oPhoto,overlayCss: {'height': 'auto',
-      // 'bottom': 0}, loaderCss:{'height': 'auto', 'bottom': 0} });
       },
       complete : function() {
-      // _hideLoader({elem: oComment});
       },
       success : function(oData) {
         if (!Number(oData['delete'].iStatus)) {
@@ -85,8 +78,6 @@ Core.Creator.register('entryView', function(facade, $) {
 
   function _removeSchedule(params) {
 
-    var iId = params.schedule_id;
-    var oTrack = $('#schedule_' + iId);
     var urlData = {
       dao : 8,
       action : 19,
@@ -134,10 +125,10 @@ Core.Creator.register('entryView', function(facade, $) {
     $('body').on('click', '#news_' + params.news_id + ' .confirm-remove', function() {
       elem.popover('destroy');
       _removeNews(params);
-    })
+    });
     $('body').on('click', '#news_' + params.news_id + ' .cancel-remove', function() {
       elem.popover('hide');
-    })
+    });
   }
 
   function _bindConfirmTrackRemove(params) {
@@ -153,10 +144,10 @@ Core.Creator.register('entryView', function(facade, $) {
     $('body').on('click', '#track_' + params.track_id + ' .confirm-remove', function() {
       elem.popover('destroy');
       _removeTrack(params);
-    })
+    });
     $('body').on('click', '#track_' + params.track_id + ' .cancel-remove', function() {
       elem.popover('hide');
-    })
+    });
   }
 
   function _bindConfirmScheduleRemove(params) {
@@ -172,10 +163,10 @@ Core.Creator.register('entryView', function(facade, $) {
     $('body').on('click', '#schedule_' + params.schedule_id + ' .confirm-remove', function() {
       elem.popover('destroy');
       _removeSchedule(params);
-    })
+    });
     $('body').on('click', '#schedule_' + params.schedule_id + ' .cancel-remove', function() {
       elem.popover('hide');
-    })
+    });
   }
   function bindButtons() {
 

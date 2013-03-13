@@ -1,4 +1,4 @@
-/*global Core:false */
+/*global Core */
 Core.Creator.register('plot', function(facade, $) {
   "use strict";
 
@@ -164,7 +164,7 @@ Core.Creator.register('plot', function(facade, $) {
     plotSizes[target] = $('#' + target).width();
 
     $(window).resize(function(event, ui) {
-      if (plotSizes[target] != $('#' + target).width()) {
+      if (plotSizes[target] !== $('#' + target).width()) {
         plotSizes[target] = $('#' + target).width();
         plot1.replot({});
       }

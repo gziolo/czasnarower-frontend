@@ -1,4 +1,4 @@
-/*global Core:false */
+/*global Core */
 Core.Creator.register('comment', function(facade, $) {
 
   function _showLoader(params) {
@@ -10,11 +10,11 @@ Core.Creator.register('comment', function(facade, $) {
     };
     var loaderCss = {};
     if (params.loaderCss) {
-      jQuery.extend(loaderCss, params.loaderCss);
-    };
+      $.extend(loaderCss, params.loaderCss);
+    }
     if (params.overlayCss) {
-      jQuery.extend(overlayCss, params.overlayCss);
-    };
+      $.extend(overlayCss, params.overlayCss);
+    }
 
     elem.append('<div class="overlay">&nbsp;</div><div class="loader"><p>' + msg + '</p></div>');
     elem.find('.overlay').css(overlayCss).show();
@@ -30,8 +30,9 @@ Core.Creator.register('comment', function(facade, $) {
   function showAlert(params) {
     var alert;
     var elem = params.elem;
-    if (!elem)
+    if (!elem) {
       return;
+    }
     alert = $('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button><strong>' + params.title + '</strong>' + params.content + '</div>');
     alert.alert();
     elem.append(alert);
@@ -213,10 +214,10 @@ Core.Creator.register('comment', function(facade, $) {
     $('body').on('click', '#comment_' + params.comment_id + ' .confirm-remove', function() {
       elem.popover('destroy');
       _removeComment(params);
-    })
+    });
     $('body').on('click', '#comment_' + params.comment_id + ' .cancel-remove', function() {
       elem.popover('hide');
-    })
+    });
   }
   function _removeComment(params) {
 
@@ -273,9 +274,6 @@ Core.Creator.register('comment', function(facade, $) {
   }
 
   function _getMoreComments(params) {
-
-    var iThreadId = params.id;
-
     var urlData = {
       dao : params.dao ? params.dao : 63,
       action : 5,
@@ -330,7 +328,7 @@ Core.Creator.register('comment', function(facade, $) {
 
   function appendComments(messageInfo) {
     var commentsData = messageInfo.data;
-    jQuery.each(commentsData, function(ob, item) {
+    $.each(commentsData, function(ob, item) {
       item.featured = false;
       $('#comments_content').append(facade.template('commentRow', item));
       _bindConfirmRemove({

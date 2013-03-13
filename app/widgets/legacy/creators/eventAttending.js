@@ -1,4 +1,4 @@
-/*global Core:false */
+/*global Core */
 Core.Creator.register('eventAttending', function(facade, $) {
   "use strict";
 

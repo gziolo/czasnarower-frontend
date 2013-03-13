@@ -1,4 +1,4 @@
-/*global google:false Core:false */
+/*global Core, google, InfoBox */
 Core.Creator.register('scheduleView', function(facade, $) {
 
   /**
@@ -49,20 +49,20 @@ Core.Creator.register('scheduleView', function(facade, $) {
     });
 
     $('#searchAddress').keypress(function(e) {
-      if (e.which == '13') {
+      if (e.which === 13) {
         _codeAddress(map);
       }
     });
   };
 
   var _createSchedules = function(map, data) {
-
+    var schedule = {};
     var latitude = 52.066667;
     var longitude = 19.483333;
     if (data.selected) {
-      var schedule = data.schedules[Number(data.selected)];
-      var latitude = schedule.latitude;
-      var longitude = schedule.longitude;
+      schedule = data.schedules[Number(data.selected)];
+      latitude = schedule.latitude;
+      longitude = schedule.longitude;
     }
     var centerLatLng = new google.maps.LatLng(latitude, longitude);
     map.setCenter(centerLatLng);
@@ -83,21 +83,27 @@ Core.Creator.register('scheduleView', function(facade, $) {
       var minZoomLevel = 6;
 
       google.maps.event.addListener(map, 'zoom_changed', function() {
-        if (map.getZoom() < minZoomLevel)
+        if (map.getZoom() < minZoomLevel) {
           map.setZoom(minZoomLevel);
+        }
       });
       google.maps.event.addListener(map, 'dragend', function() {
-        if (area.contains(map.getCenter()))
+        if (area.contains(map.getCenter())) {
           return;
+        }
         var c = map.getCenter(), x = c.lng(), y = c.lat(), maxX = area.getNorthEast().lng(), maxY = area.getNorthEast().lat(), minX = area.getSouthWest().lng(), minY = area.getSouthWest().lat();
-        if (x < minX)
+        if (x < minX) {
           x = minX;
-        if (x > maxX)
+        }
+        if (x > maxX) {
           x = maxX;
-        if (y < minY)
+        }
+        if (y < minY) {
           y = minY;
-        if (y > maxY)
+        }
+        if (y > maxY) {
           y = maxY;
+        }
         map.setCenter(new google.maps.LatLng(y, x));
       });
     }
@@ -114,7 +120,7 @@ Core.Creator.register('scheduleView', function(facade, $) {
 
         if (!mode) {
           anchor = _getScheduleAnchor(schedule.category, schedule.past);
-        } else if (Number(i) == Number(data.selected)) {
+        } else if (Number(i) === Number(data.selected)) {
           anchor = {
             x : 380,
             y : 32
@@ -162,7 +168,7 @@ Core.Creator.register('scheduleView', function(facade, $) {
 
       var category = $(this).val();
 
-      if (category == cat) {
+      if (category === cat) {
         $(this).attr('checked', true);
       } else {
         $(this).attr('checked', false);
@@ -309,7 +315,7 @@ Core.Creator.register('scheduleView', function(facade, $) {
     content += '<h6 class="muted">' + schedule.nick + '</h6>';
     content += '<p><i class="icon icon-map-marker"></i> ' + schedule.start_place + ' / ' + schedule.race_sort + '</p>';
     content += '<p><i class="icon-calendar icon"></i> ' + schedule.start_day + '</p>';
-    content += '<h6 class="pull-right"><a title="Przejdź do strony wyścigu" href="' + schedule.url_view + '"/>więcej &raquo;</a></h6>'
+    content += '<h6 class="pull-right"><a title="Przejdź do strony wyścigu" href="' + schedule.url_view + '"/>więcej &raquo;</a></h6>';
     content += '</div>';
 
     marker.content = content;
@@ -351,8 +357,8 @@ Core.Creator.register('scheduleView', function(facade, $) {
     geocoder.geocode({
       'address' : address
     }, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results.length == 1) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        if (results.length === 1) {
           var location = _formatGeocoderResult(results[0]);
           _zoomLocation(map, location);
 
@@ -401,8 +407,8 @@ Core.Creator.register('scheduleView', function(facade, $) {
         ret.locality = component;
       }
       if (component.long_name) {
-        if ($.inArray('postal_code', component.types) == -1 && $.inArray('post_box', component.types) == -1 && $.inArray('street_number', component.types) == -1 &&
-            $.inArray('floor', component.types) == -1 && $.inArray('route', component.types) == -1 && $.inArray('postal_code', component.types) == -1) {
+        if ($.inArray('postal_code', component.types) === -1 && $.inArray('post_box', component.types) === -1 && $.inArray('street_number', component.types) === -1 &&
+            $.inArray('floor', component.types) === -1 && $.inArray('route', component.types) === -1 && $.inArray('postal_code', component.types) === -1) {
           ret.raw_tags.push(component.long_name);
         }
 
@@ -415,11 +421,12 @@ Core.Creator.register('scheduleView', function(facade, $) {
    *
    */
   var _viewLocationSelect = function(map, locations) {
+    var txt = '';
     var outDiv = $('#geoAddresses');
     outDiv.empty();
 
     if (locations.length) {
-      var txt = '<p><small>Zostało znalezionych kilka pasujących adresów, kliknij na wybrany link aby zaznaczyć na mapie:</small></p>';
+      txt = '<p><small>Zostało znalezionych kilka pasujących adresów, kliknij na wybrany link aby zaznaczyć na mapie:</small></p>';
       $.each(locations, function(i, location) {
         txt += '<p class="location" id="location_' + i + '">' + location.name + '</p>';
       });
@@ -430,7 +437,7 @@ Core.Creator.register('scheduleView', function(facade, $) {
         _zoomLocation(map, locations[ind]);
       });
     } else {
-      var txt = '<p>Lokalizacji nie znaleziono.</p>';
+      txt = '<p>Lokalizacji nie znaleziono.</p>';
       outDiv.html(txt);
     }
     outDiv.show();
@@ -459,7 +466,7 @@ Core.Creator.register('scheduleView', function(facade, $) {
 
   function update() {
     _updateSchedulesView();
-  };
+  }
 
   return {
     init : function(data) {
@@ -516,7 +523,8 @@ Core.Creator.register('scheduleView', function(facade, $) {
       }
     },
     addMemberToSchedule : function(messageInfo) {
-      if (messageInfo.data.item_dao != 8) {
+      var dao = +messageInfo.data.item_dao;
+      if (dao !== 8) {
         return;
       }
       var memberData = facade.getUserData();
@@ -554,10 +562,7 @@ Core.Creator.register('scheduleView', function(facade, $) {
         $('#join_event_btn').show();
         $('#leave_event_btn').hide();
       }
-      var matching = $('#results .cnr-attendee[data-user-id=' + user.id + ']');
-      // if( matching.size() ){
-      // $('.addResult').hide();
-      // }
+      matching = $('#results .cnr-attendee[data-user-id=' + user.id + ']');
     },
     updateMemberSignedOut : function(messageInfo) {
       $('#join_event_btn').show();

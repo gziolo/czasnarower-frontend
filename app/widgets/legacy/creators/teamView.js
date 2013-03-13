@@ -1,4 +1,4 @@
-/*global Core:false */
+/*global Core */
 Core.Creator.register('teamView', function(facade, $) {
 
   function _addActivity(params) {

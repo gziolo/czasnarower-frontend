@@ -1,10 +1,8 @@
-/*global Core:false */
+/*global Core */
 Core.Creator.register('photoView', function(facade, $) {
 
   function _removePhoto(params) {
 
-    var iId = params.photo_id;
-    var oPhoto = $('#photo_' + iId);
     var urlData = {
       dao : 9,
       action : 5,
@@ -16,11 +14,8 @@ Core.Creator.register('photoView', function(facade, $) {
       data : urlData,
       url : 'ajax',
       beforeSend : function() {
-      // _showLoader({elem:oPhoto,overlayCss: {'height': 'auto',
-      // 'bottom': 0}, loaderCss:{'height': 'auto', 'bottom': 0} });
       },
       complete : function() {
-      // _hideLoader({elem: oComment});
       },
       success : function(oData) {
         if (!Number(oData['delete'].iStatus)) {
@@ -139,10 +134,10 @@ Core.Creator.register('photoView', function(facade, $) {
     $('body').on('click', '#photo_' + params.photo_id + ' .confirm-remove', function() {
       elem.popover('destroy');
       _removePhoto(params);
-    })
+    });
     $('body').on('click', '#photo_' + params.photo_id + ' .cancel-remove', function() {
       elem.popover('hide');
-    })
+    });
   }
 
   function _bindConfirmRemoveAvatar(params) {
@@ -158,10 +153,10 @@ Core.Creator.register('photoView', function(facade, $) {
     $('body').on('click', '.cnr-avatar-manage .confirm-remove', function() {
       elem.popover('destroy');
       _removeAvatar(params);
-    })
+    });
     $('body').on('click', '.cnr-avatar-manage .cancel-remove', function() {
       elem.popover('hide');
-    })
+    });
   }
 
   function _bindConfirmRemoveLogo(params) {
@@ -177,10 +172,10 @@ Core.Creator.register('photoView', function(facade, $) {
     $('body').on('click', '.cnr-logo-manage .confirm-remove', function() {
       elem.popover('destroy');
       _removeLogo(params);
-    })
+    });
     $('body').on('click', '.cnr-logo-manage .cancel-remove', function() {
       elem.popover('hide');
-    })
+    });
   }
 
   function _showEditForm(params) {
@@ -313,7 +308,7 @@ Core.Creator.register('photoView', function(facade, $) {
       $('.cnr-logo-remove').hide();
       $('.cnr-logo-add').show();
       $('.cnr-team-profile[data-team-id="' + data.team_id + '"]').before(
-          '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Logo zostało usunięte.</div>')
+          '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Logo zostało usunięte.</div>');
     },
     destroy : function() {}
   };

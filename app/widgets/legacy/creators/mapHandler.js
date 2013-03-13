@@ -1,4 +1,4 @@
-/*global google:false Core:false */
+/*global Core, google, InfoBox */
 Core.Creator.register('mapHandler', function(facade, $) {
 
   /**
@@ -16,10 +16,12 @@ Core.Creator.register('mapHandler', function(facade, $) {
   /**
    * global marker
    */
-  marker;
+  marker,
+  
+  geocoder;
 
   var _initializeMap = function(data) {
-
+    var pos;
     var mapElem = document.getElementById(data.id);
     var defaults = {
       center : new google.maps.LatLng(52.066667, 19.483333),
@@ -75,7 +77,7 @@ Core.Creator.register('mapHandler', function(facade, $) {
     });
 
     $('#searchAddress').keypress(function(e) {
-      if (e.which == '13') {
+      if (e.which === 13) {
         facade.notify({
           type : 'map-handler-code-address',
           data : {
@@ -101,14 +103,14 @@ Core.Creator.register('mapHandler', function(facade, $) {
     geocoder.geocode({
       'address' : address
     }, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results.length == 1) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        if (results.length === 1) {
           var location = _formatGeocoderResult(results[0]);
           _zoomLocation(map, location);
 
         } else if (results.length > 1) {
           var locations = [];
-          jQuery.each(results, function(i, result) {
+          $.each(results, function(i, result) {
             locations.push(_formatGeocoderResult(result));
           });
           _viewLocationSelect(map, locations);
@@ -134,25 +136,25 @@ Core.Creator.register('mapHandler', function(facade, $) {
     var addr_components = result.address_components;
     for ( var index = 0; index < addr_components.length; index++) {
       var component = addr_components[index];
-      if (jQuery.inArray('administrative_area_level_1', component.types) > -1) {
+      if ($.inArray('administrative_area_level_1', component.types) > -1) {
         ret.administrativeRegion = component;
         ret.name += ' (' + component.short_name + ')';
       }
-      if (jQuery.inArray('country', component.types) > -1) {
+      if ($.inArray('country', component.types) > -1) {
         ret.country = component;
       }
-      if (jQuery.inArray('administrative_area_level_2', component.types) > -1) {
+      if ($.inArray('administrative_area_level_2', component.types) > -1) {
         ret.administrativeRegion2 = component;
       }
-      if (jQuery.inArray('administrative_area_level_3', component.types) > -1) {
+      if ($.inArray('administrative_area_level_3', component.types) > -1) {
         ret.administrativeRegion3 = component;
       }
-      if (jQuery.inArray('locality', component.types) > -1) {
+      if ($.inArray('locality', component.types) > -1) {
         ret.locality = component;
       }
       if (component.long_name) {
-        if (jQuery.inArray('postal_code', component.types) == -1 && jQuery.inArray('post_box', component.types) == -1 && jQuery.inArray('street_number', component.types) == -1 &&
-            jQuery.inArray('floor', component.types) == -1 && jQuery.inArray('route', component.types) == -1 && jQuery.inArray('postal_code', component.types) == -1) {
+        if ($.inArray('postal_code', component.types) === -1 && $.inArray('post_box', component.types) === -1 && $.inArray('street_number', component.types) === -1 &&
+            $.inArray('floor', component.types) === -1 && $.inArray('route', component.types) === -1 && $.inArray('postal_code', component.types) === -1) {
           ret.raw_tags.push(component.long_name);
         }
 
@@ -165,12 +167,13 @@ Core.Creator.register('mapHandler', function(facade, $) {
    *
    */
   var _viewLocationSelect = function(map, locations) {
+    var txt = '';
     var outDiv = $('#geoAddresses');
     outDiv.empty();
 
     if (locations.length) {
-      var txt = '<p><small>Zostało znalezionych kilka pasujących adresów, kliknij na wybrany link aby zaznaczyć na mapie:</small></p>';
-      jQuery.each(locations, function(i, location) {
+      txt = '<p><small>Zostało znalezionych kilka pasujących adresów, kliknij na wybrany link aby zaznaczyć na mapie:</small></p>';
+      $.each(locations, function(i, location) {
         txt += '<p class="location" id="location_' + i + '">' + location.name + '</p>';
       });
       outDiv.html(txt);
@@ -180,7 +183,7 @@ Core.Creator.register('mapHandler', function(facade, $) {
         _zoomLocation(map, locations[ind]);
       });
     } else {
-      var txt = '<p>Lokalizacji nie znaleziono.</p>';
+      txt = '<p>Lokalizacji nie znaleziono.</p>';
       outDiv.html(txt);
     }
     outDiv.show();
@@ -210,10 +213,10 @@ Core.Creator.register('mapHandler', function(facade, $) {
    *
    */
   var _addLocation = function(data) {
-
+    var pos;
     var map = data.map;
     if (data.location) {
-      var pos = data.location.position;
+      pos = data.location.position;
       marker.setOptions({
         position : pos,
         map : map,
@@ -222,7 +225,7 @@ Core.Creator.register('mapHandler', function(facade, $) {
       map.setCenter(pos);
 
     } else {
-      var pos = new google.maps.LatLng(data.latitude, data.longitude);
+      pos = new google.maps.LatLng(data.latitude, data.longitude);
       marker.setOptions({
         position : pos,
         map : map,
@@ -237,7 +240,7 @@ Core.Creator.register('mapHandler', function(facade, $) {
     $('.btn.save-location').click(function(e) {
       var serviceName = $(this).data('serviceName');
       var id = +$(this).data('id');
-      if ('' == $('#longitude').val() || '' == $('#latitude').val()) {
+      if ('' === $('#longitude').val() || '' === $('#latitude').val()) {
         facade.dialogError({
           content : 'Lokalizacja nie została zaznaczona na mapie.'
         });

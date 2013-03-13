@@ -1,4 +1,4 @@
-/*global Core:false */
+/*global Core, moment */
 Core.Creator
     .register(
         'message',
@@ -62,9 +62,6 @@ Core.Creator
 
           }
           function _removeMessage(params) {
-
-            var iId = params.id;
-            var oMessage = $('#message_' + iId);
             var urlData = {
               dao : 52,
               action : 5,
@@ -76,12 +73,8 @@ Core.Creator
               data : urlData,
               url : 'ajax',
               beforeSend : function() {
-              // facade.showLoader({elem:oMessage, overlayCss: {'height':
-              // 'auto', 'bottom': 0}, loaderCss:{'height': 'auto', 'bottom': 0}
-              // });
               },
               complete : function() {
-              // facade.hideLoader({elem: oMessage});
               },
               success : function(oData) {
                 if (!Number(oData.remove.iStatus)) {
@@ -288,10 +281,11 @@ Core.Creator
             }
             if (messagesLoaded) {
               var chat = message.chat;
-              chat.last_msg = message, partner_id = chat.partner.id;
+              chat.last_msg = message;
+              var partner_id = chat.partner.id;
               var itemEl = createChat(chat);
               $('#user_menu .messages_list .message[data-partner="' + partner_id + '"]').remove();
-              if ($('#user_menu .messages_list .message').length == 4) {
+              if ($('#user_menu .messages_list .message').length === 4) {
                 $('#user_menu .messages_list .message:last').remove();
               }
               if ($("#user_menu .messages_list .message").length > 0) {
@@ -304,7 +298,7 @@ Core.Creator
               var firstMsg = $('#chat_list .message').not('.form').first();
               var currSender = +firstMsg.attr('data-sender') || 0;
               var el = $(facade.template('messageRow', message));
-              if (message.sender.id == +currSender) {
+              if (message.sender.id === currSender) {
                 var elCnt = el.find('.message-content');
                 firstMsg.find('.message-content:first').before(elCnt);
               } else {
@@ -320,7 +314,7 @@ Core.Creator
               var lastMsg = $('#chat_list .message').last();
               var currSender = +lastMsg.attr('data-sender') || 0;
               var el = $(facade.template('messageRow', item));
-              if (item.sender_id == currSender) {
+              if (item.sender_id === currSender) {
                 var elCnt = el.find('.message-content');
                 lastMsg.find('.message-content:last').after(elCnt);
               } else {
@@ -377,8 +371,9 @@ Core.Creator
             };
             var handleMsgClick = function(evt) {
               var el = $(this), msg = el.closest('.message'), href = msg.attr('data-href');
-              if (href)
+              if (href) {
                 window.location = href;
+              }
             };
             itemEl = $(facade.template('messageGroup', item));
             itemEl.find('.toggleMore').click(handleToggleMore);
@@ -395,7 +390,7 @@ Core.Creator
               $('.user_quickbox.messages .messages_list').append('<p><i>' + messagesData.error + '</i></p>');
               return;
             }
-            if (messagesData.length == 0) {
+            if (messagesData.length === 0) {
               return;
             }
             $.each(messagesData, function(ob, item) {
@@ -433,10 +428,10 @@ Core.Creator
             $('body').on('click', '#message_' + params.id + ' .confirm-remove', function() {
               elem.popover('destroy');
               _removeMessage(params);
-            })
+            });
             $('body').on('click', '#message_' + params.id + ' .cancel-remove', function() {
               elem.popover('hide');
-            })
+            });
           }
           function bindButtons() {
 
@@ -511,7 +506,7 @@ Core.Creator
               });
             };
             formatTime();
-            var t = setInterval(formatTime, 1000);
+            setInterval(formatTime, 1000);
 
           }
           return {

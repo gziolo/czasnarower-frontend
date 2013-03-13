@@ -1,4 +1,4 @@
-/*global Core:false */
+/*global Core, FB */
 Core.Creator.register('facebook', function(facade, $) {
   "use strict";
 
