@@ -4,9 +4,10 @@
   "main": "lib/main.js",
   "dependencies": {
     "aura" : "latest",
-    "jquery": "~1.9.1",
-    "requirejs": "~2.1.4",
-    "requirejs-text": "~2.0.5",
-    "underscore": "~1.4.4"
+    "backbone" : "0.9.10",
+    "jquery": "1.9.1",
+    "requirejs": "2.1.4",
+    "requirejs-text": "2.0.5",
+    "underscore": "1.4.4"
   }
 }

@@ -28,6 +28,7 @@ module.exports = function (grunt) {
           enforceDefine: true,
           paths: {
             aura : 'components/aura/lib',
+            backbone: 'components/backbone/backbone',
             eventemitter : 'components/eventemitter2/lib/eventemitter2',
             jquery : 'components/jquery/jquery',
             jquery_migrate: 'components/jquery/jquery-migrate',
@@ -38,14 +39,19 @@ module.exports = function (grunt) {
             'lib/main' : {
               deps : ['jquery_migrate']
             },
+            backbone: {
+              deps: ['underscore', 'jquery'],
+              exports: 'Backbone'
+            },
             jquery_migrate : {
               deps : ['jquery'],
               exports : 'jQuery.migrateWarnings'
             }
           },
           include: [
-            'text',
             'jquery',
+            'backbone',
+            'text',
             'aura/ext/debug',
             'aura/ext/mediator',
             'aura/ext/widgets',
@@ -103,7 +109,7 @@ module.exports = function (grunt) {
         }
       }
     },
-    
+
   });
 
   grunt.registerTask('spec', ['jshint', 'mocha']);

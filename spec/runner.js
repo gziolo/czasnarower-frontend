@@ -8,6 +8,7 @@ require.config({
     chai: 'node_modules/chai/chai',
     sinonChai:'node_modules/sinon-chai/lib/sinon-chai',
     aura : 'components/aura/lib',
+    backbone: 'components/backbone/backbone',
     eventemitter : 'components/eventemitter2/lib/eventemitter2',
     jquery : 'components/jquery/jquery',
     jquery_migrate: 'components/jquery/jquery-migrate',
@@ -18,11 +19,15 @@ require.config({
     'lib/main' : {
       deps : ['jquery_migrate']
     },
+    backbone: {
+      deps: ['underscore', 'jquery'],
+      exports: 'Backbone'
+    },
     jquery_migrate : {
       deps : ['jquery'],
       exports : 'jQuery.migrateWarnings'
     }
-  } 
+  }
 });
 
 define(['chai', 'sinonChai'], function (chai, sinonChai) {
