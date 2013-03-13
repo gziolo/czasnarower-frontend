@@ -123,7 +123,7 @@ Core.Creator.register('entryView', function(facade, $) {
     });
 
     $('body').on('click', '#news_' + params.news_id + ' .confirm-remove', function() {
-      elem.popover('destroy');
+      elem.popover('hide');
       _removeNews(params);
     });
     $('body').on('click', '#news_' + params.news_id + ' .cancel-remove', function() {
@@ -142,7 +142,7 @@ Core.Creator.register('entryView', function(facade, $) {
     });
 
     $('body').on('click', '#track_' + params.track_id + ' .confirm-remove', function() {
-      elem.popover('destroy');
+      elem.popover('hide');
       _removeTrack(params);
     });
     $('body').on('click', '#track_' + params.track_id + ' .cancel-remove', function() {
@@ -161,7 +161,7 @@ Core.Creator.register('entryView', function(facade, $) {
     });
 
     $('body').on('click', '#schedule_' + params.schedule_id + ' .confirm-remove', function() {
-      elem.popover('destroy');
+      elem.popover('hide');
       _removeSchedule(params);
     });
     $('body').on('click', '#schedule_' + params.schedule_id + ' .cancel-remove', function() {

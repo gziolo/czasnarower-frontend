@@ -426,7 +426,7 @@ Core.Creator
             });
 
             $('body').on('click', '#message_' + params.id + ' .confirm-remove', function() {
-              elem.popover('destroy');
+              elem.popover('hide');
               _removeMessage(params);
             });
             $('body').on('click', '#message_' + params.id + ' .cancel-remove', function() {

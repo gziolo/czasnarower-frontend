@@ -212,7 +212,7 @@ Core.Creator.register('comment', function(facade, $) {
     });
 
     $('body').on('click', '#comment_' + params.comment_id + ' .confirm-remove', function() {
-      elem.popover('destroy');
+      elem.popover('hide');
       _removeComment(params);
     });
     $('body').on('click', '#comment_' + params.comment_id + ' .cancel-remove', function() {

@@ -132,7 +132,7 @@ Core.Creator.register('photoView', function(facade, $) {
     });
 
     $('body').on('click', '#photo_' + params.photo_id + ' .confirm-remove', function() {
-      elem.popover('destroy');
+      elem.popover('hide');
       _removePhoto(params);
     });
     $('body').on('click', '#photo_' + params.photo_id + ' .cancel-remove', function() {
@@ -151,7 +151,7 @@ Core.Creator.register('photoView', function(facade, $) {
     });
 
     $('body').on('click', '.cnr-avatar-manage .confirm-remove', function() {
-      elem.popover('destroy');
+      elem.popover('hide');
       _removeAvatar(params);
     });
     $('body').on('click', '.cnr-avatar-manage .cancel-remove', function() {
@@ -170,7 +170,7 @@ Core.Creator.register('photoView', function(facade, $) {
     });
 
     $('body').on('click', '.cnr-logo-manage .confirm-remove', function() {
-      elem.popover('destroy');
+      elem.popover('hide');
       _removeLogo(params);
     });
     $('body').on('click', '.cnr-logo-manage .cancel-remove', function() {

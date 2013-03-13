@@ -159,7 +159,6 @@ Core.Creator.register('scheduleResult', function(facade, $) {
 
     $('#result_form').bind('submit', function(oEvent) {
       oEvent.preventDefault();
-
       if (!validateData()) {
         return false;
       }
@@ -175,6 +174,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
           $('#ebilightbox').html(sData);
           $('#message_communique').css('backgroundColor', '#FDF8D3');
           $('#message_communique').css('color', '#333333');
+          createDistanceSelect();
           bindResultForm();
         }
       });
@@ -191,10 +191,11 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     $('#categories option').remove();
 
     if (oWinners[distance_val] && 0 < oWinners[distance_val]['categories'].length) {
-      category_val = undefined !== category_val ? category_val : 0;
+      category_val = category_val || 0;
       $.each(oWinners[distance_val]['categories'], function(index, cat) {
-        selCat.append('<option ' + (category_val && category_val === cat.category_name ? 'selected ' : '') + 'class="category-select" value="' + index + '">' + cat.category_name + '</option>');
-        if ((undefined !== category_val && category_val === cat.category_name) || (category_val === index)) {
+        var isCurrentCategory = (category_val === cat.category_name || category_val === index);
+        selCat.append('<option ' + (isCurrentCategory ? 'selected ' : '') + 'class="category-select" value="' + index + '">' + cat.category_name + '</option>');
+        if (isCurrentCategory) {
           var categoryData = oWinners[distance_val]['categories'][index];
           $('#category_racers').val(categoryData ? categoryData.racers : '0');
           $('#best_category_result_hours').val(categoryData ? categoryData.h : '00');
@@ -238,7 +239,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     $('#best_category_result_minutes').val('00');
     $('#best_category_result_seconds').val('00');
     $('#category_name').val('');
-
+    
     if (distance === '-') {
       $('#distance_name').val('').show();
       $('#distance_length').val('').show();
@@ -267,7 +268,6 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     $('#distances option').remove();
     var distance_val = $('#distance_name').val();
     var category_val = $('#category_name').val();
-
     $.each(oWinners, function(index, distance) {
       selDist.append('<option ' + (distance_val === index ? 'selected ' : '') + ' class="distance-select" value="' + index + '">' + index + (distance.km ? ' (' + distance.km + 'km)' : '') +
           '</option>');
@@ -303,7 +303,7 @@ Core.Creator.register('scheduleResult', function(facade, $) {
     });
 
     $('body').on('click', '#result_' + params.id + ' .confirm-remove', function() {
-      elem.popover('destroy');
+      elem.popover('hide');
       _removeResult(params);
     });
     $('body').on('click', '#result_' + params.id + ' .cancel-remove', function() {
