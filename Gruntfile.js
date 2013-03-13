@@ -27,16 +27,28 @@ module.exports = function (grunt) {
           optimize: 'none',
           enforceDefine: true,
           paths: {
+            aura : 'components/aura/lib',
+            eventemitter : 'components/eventemitter2/lib/eventemitter2',
             jquery : 'components/jquery/jquery',
-            jquery_migrate: 'components/jquery/jquery-migrate'
+            jquery_migrate: 'components/jquery/jquery-migrate',
+            text : 'components/requirejs-text/text',
+            underscore: 'components/underscore/underscore'
           },
           shim: {
+            'lib/main' : {
+              deps : ['jquery_migrate']
+            },
             jquery_migrate : {
               deps : ['jquery'],
               exports : 'jQuery.migrateWarnings'
             }
           },
           include: [
+            'text',
+            'jquery',
+            'aura/ext/debug',
+            'aura/ext/mediator',
+            'aura/ext/widgets',
             'lib/main'
           ],
           out: 'dist/js/main.js'
