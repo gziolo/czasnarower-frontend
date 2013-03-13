@@ -8,13 +8,13 @@
     "sinon": "~1.5.2",
     "sinon-chai": "~2.3.1",
     "grunt": "~0.4.0",
-    "grunt-contrib-clean": "~0.4.0rc6",
-    "grunt-contrib-watch": "~0.2.0rc5",
-    "grunt-contrib-connect": "~0.1.1rc6",
-    "grunt-contrib-requirejs": "~0.3.0",
-    "grunt-contrib-jshint": "~0.1.1rc6",
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-watch": "~0.3.1",
+    "grunt-contrib-connect": "~0.2.0",
+    "grunt-contrib-requirejs": "~0.4.0",
+    "grunt-contrib-jshint": "~0.2.0",
     "grunt-contrib-less": "~0.5.0",
-    "grunt-mocha": "~0.2.2"
+    "grunt-mocha": "~0.2.3"
   },
   "scripts": {
     "pretest": "bower install",

@@ -17,7 +17,7 @@ require.config({
     underscore : 'components/underscore/underscore'
   },
   shim : {
-    'lib/main' : {
+    'app/app' : {
       deps : [ 'jquery_migrate', 'bootstrap', 'backbone' ]
     },
     backbone : {
@@ -49,7 +49,7 @@ define([ 'chai', 'sinonChai' ], function(chai, sinonChai) {
   chai.use(sinonChai);
   mocha.setup('bdd');
 
-  require([ 'spec/lib/main_spec' ], function() {
+  require([ 'spec/app/app_spec' ], function() {
     mocha.run();
   });
 });

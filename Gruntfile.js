@@ -37,7 +37,7 @@ module.exports = function(grunt) {
             underscore : 'components/underscore/underscore'
           },
           shim : {
-            'lib/main' : {
+            'app/app' : {
               deps : [ 'jquery_migrate', 'bootstrap', 'backbone' ]
             },
             backbone : {
@@ -56,7 +56,7 @@ module.exports = function(grunt) {
               exports : '_'
             }
           },
-          include : [ 'jquery', 'text', 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets', 'lib/main' ],
+          include : [ 'jquery', 'text', 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets', 'app/app' ],
           out : 'dist/js/main.js'
         }
       }
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
           jshintrc : '.jshintrc'
         },
         files : {
-          src : [ 'lib/**/*.js', 'spec/lib/**/*.js' ]
+          src : [ 'app/**/*.js', 'spec/app/**/*.js' ]
         }
       }
     },
@@ -84,7 +84,7 @@ module.exports = function(grunt) {
         tasks : [ 'less' ]
       },
       js : {
-        files : [ 'lib/**/*.js', 'spec/lib/**/*.js' ],
+        files : [ 'app/**/*.js', 'spec/app/**/*.js' ],
         tasks : [ 'spec' ]
       }
     },
