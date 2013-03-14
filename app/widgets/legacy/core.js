@@ -1,13 +1,7 @@
 /*global sStaticUrl */
-/*
- * Sample usage:
- * var _core = _core || [];
- * _core.push(['register', 'instruction 1', 'instruction', {test: 'test'}]);
- * _core.push(['notify', {type: 'test'}]);
- */
 
 /* Sample creator
- * Core.Creator.register('instruction', function(facade, $){
+ * core.creator.register('instruction', function(facade, $){
  *     return {
  *         init: function(data){
  *             console.debug('instruction ' + data.test);
@@ -34,8 +28,13 @@
  *     }
  * });
  */
-var Core = (function($, config) {
+define([ 'jquery' ], function($) {
   "use strict";
+
+  // TODO: move this global to require.config
+  var config = {
+    staticUrl : sStaticUrl || ''
+  };
 
   var moduleData = {};
   var listeners = [];
@@ -305,11 +304,11 @@ var Core = (function($, config) {
   }($, config));
 
   return {
-    Creator : (function() {
+    creator : (function() {
       var creators = {};
       return {
-        register : function(name, creator) {
-          creators[name] = creator;
+        register : function(name, creatorCallback) {
+          creators[name] = creatorCallback;
         },
         get : function(name) {
           if (!creators[name]) {
@@ -323,20 +322,20 @@ var Core = (function($, config) {
       if (moduleData[moduleId]) {
         return;
       }
-      var creator = this.Creator.get(creatorName);
-      if (!creator) {
+      var creatorCallback = this.creator.get(creatorName);
+      if (!creatorCallback) {
         return;
       }
       data = data || null;
       moduleData[moduleId] = {
-        creator : creator,
+        creatorCallback : creatorCallback,
         instance : null,
         data : data
       };
     },
 
     start : function(moduleId) {
-      moduleData[moduleId].instance = moduleData[moduleId].creator(facade, $);
+      moduleData[moduleId].instance = moduleData[moduleId].creatorCallback(facade, $);
       moduleData[moduleId].instance.init(moduleData[moduleId].data);
     },
 
@@ -370,28 +369,4 @@ var Core = (function($, config) {
       facade.notify(messageInfo);
     }
   };
-}($, {
-  staticUrl : sStaticUrl
-}));
-
-var _core = _core || [];
-$(document).ready(function() {
-  var length = _core.length;
-  var action;
-  while (length--) {
-    action = _core.shift();
-    if ('register' === action[0]) {
-      var data = action[3] || null;
-      Core.register(action[1], action[2], data);
-    }
-    _core.push(action);
-  }
-  Core.startAll();
-  length = _core.length;
-  while (length--) {
-    action = _core.shift();
-    if ('notify' === action[0]) {
-      Core.notify(action[1]);
-    }
-  }
 });

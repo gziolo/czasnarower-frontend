@@ -222,7 +222,7 @@ function validateSchedule() {
   return true;
 }
 
-$(document).ready(function() {
+function bindLoadEvents() {
 
   bindButtons();
   bindNewWindow();
@@ -241,11 +241,7 @@ $(document).ready(function() {
   setTimeout(function() {
     $("#userData_communique").fadeOut(2000);
   }, 5000);
-
-  $('body').addClass('body_bg');
-  $('#outside_container').addClass('outside_container_bg');
-  $('#content').addClass('content_bg');
-
+  
   var avatar = $('#user_menu .avatar').attr('src');
   $('#comment_form .avatar').attr('src', avatar);
 
@@ -259,6 +255,65 @@ $(document).ready(function() {
   });
   $('body').ajaxStop(function() {
     $(document.body).find('#preloader_content').hide().end().find('#preloader_bg').hide();
+  });
+
+}
+
+/*
+ * Sample usage: var _core = _core || []; _core.push(['register', 'instruction
+ * 1', 'instruction', {test: 'test'}]); _core.push(['notify', {type: 'test'}]);
+ */
+var _core = _core || [];
+
+define([ 'jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 'legacy/creators/facebook', 'legacy/creators/map', 'legacy/creators/mapHandler',
+    'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot', 'legacy/creators/plusone', 'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView', 'legacy/creators/twitter',
+    'legacy/creators/user', 'legacy/creators/usersDataView' ], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, mapCallback,
+    mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, plusoneCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback, trackViewCallback,
+    twitterCallback, userCallback, usersDataViewCallback) {
+
+  core.creator.register('comment', commentCallback);
+  core.creator.register('component', componentCallback);
+  core.creator.register('draft', draftCallback);
+  core.creator.register('entryView', entryViewCallback);
+  core.creator.register('eventAttending', eventAttendingCallback);
+  core.creator.register('facebook', facebookCallback);
+  core.creator.register('map', mapCallback);
+  core.creator.register('mapHandler', mapHandlerCallback);
+  core.creator.register('message', messageCallback);
+  core.creator.register('photoView', photoViewCallback);
+  core.creator.register('plot', plotCallback);
+  core.creator.register('plusone', plusoneCallback);
+  core.creator.register('scheduleResult', scheduleResultCallback);
+  core.creator.register('scheduleView', scheduleViewCallback);
+  core.creator.register('teamView', teamViewCallback);
+  core.creator.register('track', trackCallback);
+  core.creator.register('trackView', trackViewCallback);
+  core.creator.register('twitter', twitterCallback);
+  core.creator.register('user', userCallback);
+  core.creator.register('usersDataView', usersDataViewCallback);
+
+  $(document).ready(function() {
+    var length = _core.length;
+    var action;
+    
+    bindLoadEvents();
+
+    while (length--) {
+      action = _core.shift();
+      if ('register' === action[0]) {
+        var data = action[3] || null;
+        core.register(action[1], action[2], data);
+      }
+      _core.push(action);
+    }
+    core.startAll();
+    length = _core.length;
+    while (length--) {
+      action = _core.shift();
+      if ('notify' === action[0]) {
+        core.notify(action[1]);
+      }
+    }
   });
 
 });

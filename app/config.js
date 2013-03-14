@@ -13,12 +13,16 @@ define(function() {
       json2 : 'components/json2/json2',
       lightbox : 'app/vendor/bootstrap/plugins/lightbox',
       'load-image' : 'app/vendor/bootstrap/plugins/load-image',
+      moment : 'app/vendor/moment/moment',
+      'moment-pl' : 'app/vendor/moment/moment-pl',
       text : 'components/requirejs-text/text',
-      underscore : 'components/underscore/underscore'
+      underscore : 'components/underscore/underscore',
+      
+      legacy : 'app/widgets/legacy'
     },
     shim : {
       'app/app' : {
-        deps : [ 'jquery_migrate', 'text', 'bootstrap', 'datepicker', 'lightbox', 'backbone' ]
+        deps : [ 'jquery_migrate', 'text', 'bootstrap', 'datepicker', 'lightbox', 'backbone', 'legacy/common' ]
       },
       'aura/aura' : {
         deps : [ 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets' ]
