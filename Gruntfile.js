@@ -21,43 +21,22 @@ module.exports = function(grunt) {
       }
     },
     requirejs : {
-      compile : {
+      development : {
         options : {
           baseUrl : '.',
+          mainConfigFile : 'app/config.js',
           optimize : 'none',
-          enforceDefine : true,
-          paths : {
-            aura : 'components/aura/lib',
-            backbone : 'components/backbone/backbone',
-            bootstrap : 'components/bootstrap/docs/assets/js/bootstrap',
-            eventemitter : 'components/eventemitter2/lib/eventemitter2',
-            jquery : 'components/jquery/jquery',
-            jquery_migrate : 'components/jquery/jquery-migrate',
-            text : 'components/requirejs-text/text',
-            underscore : 'components/underscore/underscore'
-          },
-          shim : {
-            'app/app' : {
-              deps : [ 'jquery_migrate', 'bootstrap', 'backbone' ]
-            },
-            backbone : {
-              deps : [ 'underscore', 'jquery' ],
-              exports : 'Backbone'
-            },
-            bootstrap : {
-              deps : [ 'jquery' ],
-              exports : '$.fn.affix'
-            },
-            jquery_migrate : {
-              deps : [ 'jquery' ],
-              exports : 'jQuery.migrateWarnings'
-            },
-            underscore : {
-              exports : '_'
-            }
-          },
-          include : [ 'jquery', 'text', 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets', 'app/app' ],
+          include : [ 'app/app' ],
           out : 'dist/js/main.js'
+        }
+      },
+      production : {
+        options : {
+          baseUrl : '.',
+          mainConfigFile : 'app/config.js',
+          optimize : 'uglify',
+          include : [ 'app/app' ],
+          out : 'dist/js/main.min.js'
         }
       }
     },
@@ -67,7 +46,7 @@ module.exports = function(grunt) {
           jshintrc : '.jshintrc'
         },
         files : {
-          src : [ 'app/**/*.js', 'spec/app/**/*.js' ]
+          src : [ 'app/*.js', 'app/widgets/**/*.js', 'spec/app/**/*.js' ]
         }
       }
     },
@@ -109,6 +88,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('spec', [ 'jshint', 'mocha' ]);
+  grunt.registerTask('server', [ 'connect', 'watch' ]);
   grunt.registerTask('build', [ 'connect', 'spec', 'requirejs', 'less' ]);
   grunt.registerTask('default', [ 'connect', 'spec', 'watch' ]);
 };
