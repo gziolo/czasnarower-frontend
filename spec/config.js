@@ -1,4 +1,4 @@
-define([ '../app/config' ], function() {
+define([ '../js/config' ], function() {
   require.config({
     deps : [ 'spec/runner' ],
     paths : {

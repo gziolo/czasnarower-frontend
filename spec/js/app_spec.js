@@ -1,6 +1,6 @@
 /*global describe, it, sinon */
 
-define([ 'app/app' ], function(main) {
+define([ 'js/app' ], function(main) {
   'use strict';
 
   describe('Main', function() {

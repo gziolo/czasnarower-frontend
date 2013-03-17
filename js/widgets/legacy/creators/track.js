@@ -237,12 +237,14 @@ define(function() {
 
     function initializeForm() {
       $('#track_submit').click(function() {
+        $("#success_communique").remove();
         $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
         draft = false;
         saveTrack();
       });
 
       $('#track_draft_submit').click(function() {
+        $("#success_communique").remove();
         $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
         draft = true;
         saveTrack();
@@ -291,7 +293,7 @@ define(function() {
       });
 
       $('#track_location_submit').click(function() {
-        // $('.error').hide().empty();
+        $("#success_communique").remove();
         $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
         draft = false;
         if (validateTrackLocations()) {
@@ -300,7 +302,7 @@ define(function() {
       });
 
       $('#track_location_draft_submit').click(function() {
-        // $('.error').hide().empty();
+        $("#success_communique").remove();
         $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
         draft = true;
         if (validateTrackLocations()) {
@@ -573,7 +575,7 @@ define(function() {
       });
       marker.mainId = index + 1;
       moveMarkers(index + 1, 1, [ marker ]); // insert marker at position
-                                              // index+1
+      // index+1
       // and move right following markers
 
       var poly1 = aPolys[index], poly2, path1, path2;
@@ -1280,21 +1282,9 @@ define(function() {
             if (sData.result.sRedirect) {
               window.location = sData.result.sRedirect;
             } else {
-              facade.dialog({
-                title : 'Trasa zapisana',
-                content : sData.result.sMessage,
-                buttons : [ {
-                  text : sData.result.sButton,
-                  click : function() {
-                    if (sData.result.sRedirect) {
-                      window.location = sData.result.sRedirect;
-                      return false;
-                    } else {
-                      $(this).closest('.modal').modal('hide');
-                    }
-                  }
-                } ]
-              });
+              // display alert with proper info
+              $('<div id="success_communique" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>' + sData.result.sMessage + '</div>').insertBefore(
+                  '.form-actions');
               modified = false;
               fileSrc = '';
             }
@@ -1359,32 +1349,8 @@ define(function() {
             if (sData.result.sRedirect) {
               window.location = sData.result.sRedirect;
             } else {
-              var buttons = [ {
-                text : sData.result.sButton,
-                click : function() {
-                  if (sData.result.sRedirect) {
-                    window.location = sData.result.sRedirect;
-                  } else {
-                    $(this).closest('.modal').modal('hide');
-                  }
-                }
-              } ];
-              if (sData.result.aButtons) {
-                $.each(sData.result.aButtons, function(ind, button) {
-                  var tmpBtn = {
-                    text : button.sLabel,
-                    click : function() {
-                      window.location = button.sRedirect;
-                    }
-                  };
-                  buttons.push(tmpBtn);
-                });
-              }
-              facade.dialog({
-                title : 'Trasa zapisana',
-                content : sData.result.sMessage,
-                buttons : buttons
-              });
+              $('<div id="success_communique" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>' + sData.result.sMessage + '</div>').insertBefore(
+                  '.form-actions');
             }
           } else {
 

@@ -14,7 +14,7 @@ define([ 'chai', 'sinonChai' ], function(chai, sinonChai) {
   chai.use(sinonChai);
   mocha.setup('bdd');
 
-  require([ 'spec/app/app_spec' ], function() {
+  require([ 'spec/js/app_spec' ], function() {
     mocha.run();
   });
 });

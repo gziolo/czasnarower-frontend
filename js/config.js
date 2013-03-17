@@ -6,22 +6,22 @@ define(function() {
       aura : 'components/aura/lib',
       backbone : 'components/backbone/backbone',
       bootstrap : 'components/bootstrap/docs/assets/js/bootstrap',
-      datepicker : 'app/vendor/bootstrap/plugins/datepicker',
+      datepicker : 'js/vendor/bootstrap/plugins/datepicker',
       eventemitter : 'components/eventemitter2/lib/eventemitter2',
       jquery : 'components/jquery/jquery',
       jquery_migrate : 'components/jquery/jquery-migrate',
       json2 : 'components/json2/json2',
-      lightbox : 'app/vendor/bootstrap/plugins/lightbox',
-      'load-image' : 'app/vendor/bootstrap/plugins/load-image',
-      moment : 'app/vendor/moment/moment',
-      'moment-pl' : 'app/vendor/moment/moment-pl',
+      lightbox : 'js/vendor/bootstrap/plugins/lightbox',
+      'load-image' : 'js/vendor/bootstrap/plugins/load-image',
+      moment : 'js/vendor/moment/moment',
+      'moment-pl' : 'js/vendor/moment/moment-pl',
       text : 'components/requirejs-text/text',
       underscore : 'components/underscore/underscore',
       
-      legacy : 'app/widgets/legacy'
+      legacy : 'js/widgets/legacy'
     },
     shim : {
-      'app/app' : {
+      'js/app' : {
         deps : [ 'jquery_migrate', 'text', 'bootstrap', 'datepicker', 'lightbox', 'backbone', 'legacy/common' ]
       },
       'aura/aura' : {

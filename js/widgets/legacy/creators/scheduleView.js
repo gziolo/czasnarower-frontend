@@ -539,6 +539,13 @@ define(function() {
         $('#leave_event_btn.removeActivity').attr('data-id', messageInfo.data.id);
         var numAttendee = $('#schedule_members .cnr-attendee').size();
         $(".cnr-shedule_plan_no").html(numAttendee ? 'Liczba zapisanych: ' + numAttendee : 'Nikt jeszcze nie zgłosił udziału.');
+
+        // handle home-recommended-schedules
+        var homeElem = $('.shedule-participants[data-scheduleId="' + messageInfo.data.item_id + '"]');
+        if (homeElem.length) {
+          var num = +homeElem.find('.info .number').first().text();
+          homeElem.find('.info .number').text(num + 1);
+        }
       },
       removeMemberFromSchedule : function(messageInfo) {
         var user = facade.getUserData();

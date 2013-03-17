@@ -24,18 +24,18 @@ module.exports = function(grunt) {
       development : {
         options : {
           baseUrl : '.',
-          mainConfigFile : 'app/config.js',
+          mainConfigFile : 'js/config.js',
           optimize : 'none',
-          include : [ 'app/app' ],
+          include : [ 'js/app' ],
           out : 'dist/js/main.js'
         }
       },
       production : {
         options : {
           baseUrl : '.',
-          mainConfigFile : 'app/config.js',
+          mainConfigFile : 'js/config.js',
           optimize : 'uglify',
-          include : [ 'app/app' ],
+          include : [ 'js/app' ],
           out : 'dist/js/main.min.js'
         }
       }
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
           jshintrc : '.jshintrc'
         },
         files : {
-          src : [ 'app/*.js', 'app/widgets/**/*.js', 'spec/app/**/*.js' ]
+          src : [ 'js/*.js', 'js/widgets/**/*.js', 'spec/js/**/*.js' ]
         }
       }
     },
@@ -59,20 +59,19 @@ module.exports = function(grunt) {
     },
     watch : {
       css : {
-        files : [ 'bootstrap/less/**/*.less' ],
+        files : [ 'less/**/*.less' ],
         tasks : [ 'less' ]
       },
       js : {
-        files : [ 'app/**/*.js', 'spec/app/**/*.js' ],
+        files : [ 'js/**/*.js', 'spec/js/**/*.js' ],
         tasks : [ 'spec' ]
       }
     },
     less : {
       development : {
         files : {
-          'dist/css/basic.css' : 'bootstrap/less/bootstrap.less',
-          'dist/css/responsive.css' : 'bootstrap/less/responsive.less',
-          'dist/css/lightbox.css' : 'bootstrap/less/plugins/lightbox.less'
+          'dist/css/basic.css' : 'less/bootstrap.less',
+          'dist/css/responsive.css' : 'less/responsive.less'
         }
       },
       production : {
@@ -80,7 +79,7 @@ module.exports = function(grunt) {
           yuicompress : true
         },
         files : {
-          'dist/css/bootstrap.min.css' : [ 'bootstrap/less/bootstrap.less', 'bootstrap/less/responsive.less', 'bootstrap/less/plugins/lightbox.less' ]
+          'dist/css/bootstrap.min.css' : [ 'less/bootstrap.less', 'less/responsive.less' ]
         }
       }
     },
