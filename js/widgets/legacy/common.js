@@ -245,7 +245,7 @@ function bindLoadEvents() {
   var avatar = $('#user_menu .avatar').attr('src');
   $('#comment_form .avatar').attr('src', avatar);
 
-  $('body').ajaxStart(function() {
+  $(document).ajaxStart(function() {
     var oCss = {
       'height' : document.body.offsetHeight + "px",
       'width' : document.body.offsetWidth + "px"
@@ -253,7 +253,7 @@ function bindLoadEvents() {
     $(document.body).find('#preloader_content').show().css(oCss).end().find('#preloader_bg').show().css(oCss);
     $('#preloader_bg').css("opacity", 0.6);
   });
-  $('body').ajaxStop(function() {
+  $(document).ajaxStop(function() {
     $(document.body).find('#preloader_content').hide().end().find('#preloader_bg').hide();
   });
 

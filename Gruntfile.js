@@ -69,18 +69,22 @@ module.exports = function(grunt) {
     },
     less : {
       development : {
-        files : {
-          'dist/css/basic.css' : 'less/bootstrap.less',
-          'dist/css/responsive.css' : 'less/responsive.less'
-        }
+        files : [ {
+          src : 'less/bootstrap.less',
+          dest : 'dist/css/basic.css'
+        }, {
+          src : 'less/responsive.less',
+          dest : 'dist/css/responsive.css'
+        } ]
       },
       production : {
         options : {
           yuicompress : true
         },
-        files : {
-          'dist/css/bootstrap.min.css' : [ 'less/bootstrap.less', 'less/responsive.less' ]
-        }
+        files : [ {
+          src : [ 'less/bootstrap.less', 'less/responsive.less' ],
+          dest : 'dist/css/bootstrap.min.css'
+        } ]
       }
     },
 
