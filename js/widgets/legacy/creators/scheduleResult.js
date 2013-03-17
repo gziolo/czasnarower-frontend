@@ -173,10 +173,11 @@ define(function() {
           },
           success : function(sData) {
             $('#ebilightbox').html(sData);
-            $('#message_communique').css('backgroundColor', '#FDF8D3');
-            $('#message_communique').css('color', '#333333');
-            createDistanceSelect();
-            bindResultForm();
+            $('#ebilightbox').html(sData);
+            if ($('#ebilightbox form').length > 0) {
+              createDistanceSelect();
+              bindResultForm();
+            }
           }
         });
 
@@ -230,7 +231,7 @@ define(function() {
     }
 
     function selectDistance(distance) {
-      var distanceData = (distance !== '-' && oWinners[distance].open) ? oWinners[distance].open : null;
+      var distanceData = (distance !== '-' && oWinners[distance] !== undefined && oWinners[distance].open !== undefined) ? oWinners[distance].open : null;
       $('#racers').val(distanceData ? distanceData.racers : '0');
       $('#best_result_hours').val(distanceData ? distanceData.h : '00');
       $('#best_result_minutes').val(distanceData ? distanceData.m : '00');
@@ -251,7 +252,7 @@ define(function() {
         $('#distance_name').val(distance).hide();
         $('#distance_name_label').hide();
 
-        if (oWinners[distance].km) {
+        if (oWinners[distance] !== undefined && oWinners[distance].km !== undefined) {
           $('#distance_length').val(oWinners[distance].km).hide();
           $('#distance_length_label').hide();
         } else {

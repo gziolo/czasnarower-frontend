@@ -6,15 +6,16 @@ define(function() {
       aura : 'components/aura/lib',
       backbone : 'components/backbone/backbone',
       bootstrap : 'components/bootstrap/docs/assets/js/bootstrap',
-      datepicker : 'js/vendor/bootstrap/plugins/datepicker',
+      bootstrap_datepicker : 'js/vendor/bootstrap/plugins/datepicker',
+      bootstrap_lightbox : 'js/vendor/bootstrap/plugins/lightbox',
+      bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
       eventemitter : 'components/eventemitter2/lib/eventemitter2',
       jquery : 'components/jquery/jquery',
       jquery_migrate : 'components/jquery/jquery-migrate',
       json2 : 'components/json2/json2',
-      lightbox : 'js/vendor/bootstrap/plugins/lightbox',
       'load-image' : 'js/vendor/bootstrap/plugins/load-image',
       moment : 'js/vendor/moment/moment',
-      'moment-pl' : 'js/vendor/moment/moment-pl',
+      moment_pl : 'js/vendor/moment/moment-pl',
       text : 'components/requirejs-text/text',
       underscore : 'components/underscore/underscore',
       
@@ -22,7 +23,7 @@ define(function() {
     },
     shim : {
       'js/app' : {
-        deps : [ 'jquery_migrate', 'text', 'bootstrap', 'datepicker', 'lightbox', 'backbone', 'legacy/common' ]
+        deps : [ 'jquery_migrate', 'text', 'bootstrap', 'bootstrap_datepicker', 'bootstrap_lightbox', 'bootstrap_tag', 'backbone', 'legacy/common' ]
       },
       'aura/aura' : {
         deps : [ 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets' ]
@@ -35,8 +36,12 @@ define(function() {
         deps : [ 'jquery' ],
         exports : '$.fn.affix'
       },
-      datepicker : {
+      bootstrap_datepicker : {
         deps : [ 'bootstrap' ]
+      },
+      bootstrap_tag : {
+        deps : [ 'bootstrap' ],
+        exports : '$.fn.tag'
       },
       jquery : {
         deps : [ 'json2' ]

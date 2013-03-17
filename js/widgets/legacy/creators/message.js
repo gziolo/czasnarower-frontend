@@ -1,5 +1,5 @@
 define(
-    [ 'moment-pl' ],
+    [ 'moment_pl' ],
     function(moment) {
       return function(facade, $) {
 
