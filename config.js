@@ -1,6 +1,5 @@
 define(function() {
   require.config({
-    baseUrl : '../',
     enforceDefine : true,
     paths : {
       aura : 'components/aura/lib',
@@ -22,11 +21,8 @@ define(function() {
       legacy : 'js/widgets/legacy'
     },
     shim : {
-      'js/app' : {
-        deps : [ 'jquery_migrate', 'text', 'bootstrap', 'bootstrap_datepicker', 'bootstrap_lightbox', 'bootstrap_tag', 'backbone', 'legacy/common' ]
-      },
       'aura/aura' : {
-        deps : [ 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets' ]
+        //deps : [ 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets' ]
       },
       backbone : {
         deps : [ 'jquery', 'underscore' ],

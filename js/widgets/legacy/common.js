@@ -241,9 +241,72 @@ function bindLoadEvents() {
   setTimeout(function() {
     $("#userData_communique").fadeOut(2000);
   }, 5000);
-  
+
   var avatar = $('#user_menu .avatar').attr('src');
   $('#comment_form .avatar').attr('src', avatar);
+
+  $('#schedule_start_datepicker').datepicker({
+    format : 'yyyy-mm-dd',
+    language : 'pl'
+  }).on('changeDate', function(ev) {
+    $('#schedule_start_day').val($('#schedule_start_datepicker').data('date'));
+    var date = $('#schedule_start_day').val();
+    Schedule.getRaces4selectedDay(date);
+    $('#schedule_start_datepicker').datepicker('hide');
+  });
+
+  $('#schedule_cycle').change(function() {
+    var cycleName = $(this);
+    var raceName = $("#schedule_race_name");
+    var changeValue = true;
+    if (raceName.val()) {
+      changeValue = false;
+      $(this).find('option').each(function() {
+        if ($(this).text() === raceName.val()) {
+          changeValue = true;
+        }
+      });
+    }
+    if (changeValue) {
+      if (cycleName.val() !== 'inny') {
+        raceName.val(cycleName.val());
+      } else {
+        raceName.val('');
+      }
+    }
+  });
+
+  $('.form_steps li').not('.active').css("opacity", 0.5);
+
+  $('input[id=photo]').change(function() {
+    $('#photoCover').val($(this).val());
+  });
+
+  $('input[id=track_file]').change(function() {
+    $('#track_fileCover').val($(this).val());
+  });
+
+  $('#myCarousel').carousel({
+    interval : 5000
+  }).bind('slid', function(evt) {
+    var id = $("#myCarousel .item.active").attr("data-id");
+    // console.log(id);
+    $("#myCarousel .carousel-items article.active").removeClass("active");
+    $("#myCarousel .carousel-items article[data-id=" + id + "]").addClass("active");
+  });
+
+  $('#myCarousel .carousel-items article').bind("mouseover", function(evt) {
+    var id = +$(this).attr('data-id') - 1;
+    $("#myCarousel .active").removeClass("active");
+    $("#myCarousel .carousel-items article[data-id=" + (id + 1) + "]").addClass("active");
+    $("#myCarousel .item[data-id=" + (id + 1) + "]").addClass("active");
+  });
+
+  $(function() {
+    $("body").tooltip({
+      selector : "a[rel=tooltip]"
+    });
+  });
 
   $(document).ajaxStart(function() {
     var oCss = {
@@ -265,12 +328,14 @@ function bindLoadEvents() {
  */
 var _core = _core || [];
 
-define([ 'jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 'legacy/creators/facebook', 'legacy/creators/map', 'legacy/creators/mapHandler',
-    'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot', 'legacy/creators/plusone', 'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView', 'legacy/creators/twitter',
-    'legacy/creators/user', 'legacy/creators/usersDataView' ], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, mapCallback,
-    mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, plusoneCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback, trackViewCallback,
-    twitterCallback, userCallback, usersDataViewCallback) {
+define([ 'jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending',
+    'legacy/creators/facebook', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot', 'legacy/creators/plusone',
+    'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView', 'legacy/creators/twitter',
+    'legacy/creators/user', 'legacy/creators/usersDataView' ], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback,
+    mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, plusoneCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback,
+    trackViewCallback, twitterCallback, userCallback, usersDataViewCallback) {
 
+  window.Core = core;
   core.creator.register('comment', commentCallback);
   core.creator.register('component', componentCallback);
   core.creator.register('draft', draftCallback);
@@ -295,7 +360,7 @@ define([ 'jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/co
   $(document).ready(function() {
     var length = _core.length;
     var action;
-    
+
     bindLoadEvents();
 
     while (length--) {

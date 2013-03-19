@@ -9,6 +9,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   var PORT = 8899;
@@ -16,7 +17,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg : grunt.file.readJSON('package.json'),
     clean : {
-      build : [ 'dist' ]
+      build : [ 'dist/frontend' ]
     },
     connect : {
       server : {
@@ -27,22 +28,38 @@ module.exports = function(grunt) {
       }
     },
     requirejs : {
-      development : {
+      require : {
         options : {
-          baseUrl : '.',
-          mainConfigFile : 'js/config.js',
-          optimize : 'none',
-          include : [ 'js/app' ],
-          out : 'dist/js/main.js'
+          baseUrl : './',
+          optimize : 'uglify',
+          name : 'components/requirejs/require',
+          out : 'dist/frontend/js/require.js'
         }
       },
+      main : {
+        options : {
+          baseUrl : './',
+          optimize : 'uglify',
+          name : 'js/main',
+          out : 'dist/frontend/js/main.js'
+        }
+      },
+      /*development : {
+        options : {
+          baseUrl : './',
+          mainConfigFile : 'config.js',
+          optimize : 'none',
+          name : 'js/app',
+          out : 'dist/frontend/js/app.js'
+        }
+      },*/
       production : {
         options : {
-          baseUrl : '.',
-          mainConfigFile : 'js/config.js',
+          baseUrl : './',
+          mainConfigFile : 'config.js',
           optimize : 'uglify',
-          include : [ 'js/app' ],
-          out : 'dist/js/main.min.js'
+          name : 'js/app',
+          out : 'dist/frontend/js/app.js'
         }
       }
     },
@@ -63,8 +80,48 @@ module.exports = function(grunt) {
         }
       }
     },
+    less : {
+      /*development : {
+        files : [ {
+          src : 'less/bootstrap.less',
+          dest : 'dist/frontend/css/basic.css'
+        }, {
+          src : 'less/responsive.less',
+          dest : 'dist/frontend/css/responsive.css'
+        } ]
+      },*/
+      production : {
+        options : {
+          yuicompress : true
+        },
+        files : [ {
+          src : [ 'less/bootstrap.less', 'less/responsive.less' ],
+          dest : 'dist/frontend/css/bootstrap.css'
+        } ]
+      }
+    },
+    imagemin : {
+      all : {
+        files : [ {
+          expand : true,
+          cwd : 'img/',
+          src : '**/*',
+          dest : 'dist/frontend/img/'
+        } ]
+      }
+    },
+    copy : {
+      all : {
+        files : [ {
+          expand : true,
+          cwd : 'img/',
+          src : '**/*.gif',
+          dest : 'dist/frontend/img/'
+        } ]
+      }
+    },
     watch : {
-      css : {
+      less : {
         files : [ 'less/**/*.less' ],
         tasks : [ 'less' ]
       },
@@ -72,32 +129,12 @@ module.exports = function(grunt) {
         files : [ 'js/**/*.js', 'spec/js/**/*.js' ],
         tasks : [ 'spec' ]
       }
-    },
-    less : {
-      development : {
-        files : [ {
-          src : 'less/bootstrap.less',
-          dest : 'dist/css/basic.css'
-        }, {
-          src : 'less/responsive.less',
-          dest : 'dist/css/responsive.css'
-        } ]
-      },
-      production : {
-        options : {
-          yuicompress : true
-        },
-        files : [ {
-          src : [ 'less/bootstrap.less', 'less/responsive.less' ],
-          dest : 'dist/css/bootstrap.min.css'
-        } ]
-      }
-    },
-
+    }
   });
 
   grunt.registerTask('spec', [ 'jshint', 'connect', 'mocha' ]);
+  grunt.registerTask('css', [ 'less', 'imagemin', 'copy' ]);
   grunt.registerTask('run', [ 'connect', 'watch' ]);
-  grunt.registerTask('build', [ 'clean',  'spec', 'requirejs', 'less' ]);
+  grunt.registerTask('build', [ 'clean', 'spec', 'requirejs', 'css' ]);
   grunt.registerTask('default', [ 'spec', 'watch' ]);
 };

@@ -1,5 +1,6 @@
-define([ '../js/config' ], function() {
+define([ '../config' ], function() {
   require.config({
+    baseUrl : '../',
     deps : [ 'spec/runner' ],
     paths : {
       chai : 'node_modules/chai/chai',

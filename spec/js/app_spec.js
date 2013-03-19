@@ -6,7 +6,7 @@ define([ 'js/app' ], function(main) {
   describe('Main', function() {
     describe('Main init', function() {
       it('should be main equal Test', function() {
-        main.should.equal('Test');
+        main.should.be.a('object');
       });
     });
   });
