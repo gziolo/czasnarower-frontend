@@ -17,7 +17,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg : grunt.file.readJSON('package.json'),
     clean : {
-      build : [ 'dist/frontend' ]
+      all : [ 'dist/frontend' ]
     },
     connect : {
       server : {
