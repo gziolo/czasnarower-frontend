@@ -1,17 +1,23 @@
 module.exports = function(grunt) {
   'use strict';
 
-  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-mocha');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   var PORT = 8899;
 
   grunt.initConfig({
     pkg : grunt.file.readJSON('package.json'),
+    clean : {
+      build : [ 'dist' ]
+    },
     connect : {
       server : {
         options : {
@@ -90,8 +96,8 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('spec', [ 'jshint', 'mocha' ]);
-  grunt.registerTask('server', [ 'connect', 'watch' ]);
-  grunt.registerTask('build', [ 'connect', 'spec', 'requirejs', 'less' ]);
-  grunt.registerTask('default', [ 'connect', 'spec', 'watch' ]);
+  grunt.registerTask('spec', [ 'jshint', 'connect', 'mocha' ]);
+  grunt.registerTask('run', [ 'connect', 'watch' ]);
+  grunt.registerTask('build', [ 'clean',  'spec', 'requirejs', 'less' ]);
+  grunt.registerTask('default', [ 'spec', 'watch' ]);
 };
