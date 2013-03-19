@@ -44,7 +44,7 @@ module.exports = function(grunt) {
           out : 'dist/frontend/js/main.js'
         }
       },
-      /*development : {
+      development : {
         options : {
           baseUrl : './',
           mainConfigFile : 'config.js',
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
           name : 'js/app',
           out : 'dist/frontend/js/app.js'
         }
-      },*/
+      },
       production : {
         options : {
           baseUrl : './',
@@ -81,15 +81,12 @@ module.exports = function(grunt) {
       }
     },
     less : {
-      /*development : {
+      development : {
         files : [ {
-          src : 'less/bootstrap.less',
-          dest : 'dist/frontend/css/basic.css'
-        }, {
-          src : 'less/responsive.less',
-          dest : 'dist/frontend/css/responsive.css'
+          src : [ 'less/bootstrap.less', 'less/responsive.less' ],
+          dest : 'dist/frontend/css/bootstrap.css'
         } ]
-      },*/
+      },
       production : {
         options : {
           yuicompress : true
@@ -133,8 +130,12 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('spec', [ 'jshint', 'connect', 'mocha' ]);
-  grunt.registerTask('css', [ 'less', 'imagemin', 'copy' ]);
+  grunt.registerTask('css-development', [ 'less:development', 'imagemin', 'copy' ]);
+  grunt.registerTask('css-production', [ 'less:production', 'imagemin', 'copy' ]);
+  grunt.registerTask('js-development', [ 'requirejs:require', 'requirejs:main', 'requirejs:development' ]);
+  grunt.registerTask('js-production', [ 'requirejs:require', 'requirejs:main', 'requirejs:production' ]);
   grunt.registerTask('run', [ 'connect', 'watch' ]);
-  grunt.registerTask('build', [ 'clean', 'spec', 'requirejs', 'css' ]);
+  grunt.registerTask('build-dev', [ 'clean', 'spec', 'js-development', 'css-development' ]);
+  grunt.registerTask('build', [ 'clean', 'spec', 'js-production', 'css-production' ]);
   grunt.registerTask('default', [ 'spec', 'watch' ]);
 };
