@@ -4,11 +4,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-connect');
-  // grunt.loadNpmTasks('grunt-mocha');
+  grunt.loadNpmTasks('grunt-mocha');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
   grunt.loadNpmTasks('grunt-contrib-less');
-  // grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
@@ -74,13 +74,13 @@ module.exports = function(grunt) {
         }
       }
     },
-    /* mocha : {
+    mocha : {
       all : {
         options : {
           urls : [ 'http://localhost:<%= connect.server.options.port %>/spec/index.html' ]
         }
       }
-    }, */
+    },
     less : {
       development : {
         files : [ {
@@ -98,16 +98,16 @@ module.exports = function(grunt) {
         } ]
       }
     },
-    /* imagemin : {
+    imagemin : {
       all : {
         files : [ {
           expand : true,
           cwd : 'img/',
-          src : '** /*',
+          src : '**/*',
           dest : 'dist/frontend/img/'
         } ]
       }
-    }, */
+    },
     copy : {
       all : {
         files : [ {
@@ -130,9 +130,9 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('spec', [ 'jshint', 'connect'/* , 'mocha' */ ]);
-  grunt.registerTask('css-development', [ 'less:development'/* , 'imagemin' */, 'copy' ]);
-  grunt.registerTask('css-production', [ 'less:production'/* , 'imagemin' */, 'copy' ]);
+  grunt.registerTask('spec', [ 'jshint', 'connect', 'mocha' ]);
+  grunt.registerTask('css-development', [ 'less:development', 'imagemin', 'copy' ]);
+  grunt.registerTask('css-production', [ 'less:production', 'imagemin', 'copy' ]);
   grunt.registerTask('js-development', [ 'requirejs:require', 'requirejs:main', 'requirejs:development' ]);
   grunt.registerTask('js-production', [ 'requirejs:require', 'requirejs:main', 'requirejs:production' ]);
   grunt.registerTask('run', [ 'connect', 'watch' ]);
