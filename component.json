@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "main": "lib/main.js",
   "dependencies": {
-    "aura" : "latest",
     "backbone" : "0.9.10",
     "bootstrap" : "2.3.1",
     "jquery": "1.9.1",

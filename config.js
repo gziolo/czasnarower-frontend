@@ -2,7 +2,7 @@ define(function() {
   require.config({
     enforceDefine : true,
     paths : {
-      aura : 'components/aura/lib',
+      // aura : 'components/aura/lib',
       backbone : 'components/backbone/backbone',
       bootstrap : 'components/bootstrap/docs/assets/js/bootstrap',
       bootstrap_datepicker : 'js/vendor/bootstrap/plugins/datepicker',
@@ -17,13 +17,13 @@ define(function() {
       moment_pl : 'js/vendor/moment/moment-pl',
       text : 'components/requirejs-text/text',
       underscore : 'components/underscore/underscore',
-      
+
       legacy : 'js/widgets/legacy'
     },
     shim : {
-      'aura/aura' : {
-        //deps : [ 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets' ]
-      },
+      /*'aura/aura' : {
+        deps : [ 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets' ]
+      },*/
       backbone : {
         deps : [ 'jquery', 'underscore' ],
         exports : 'Backbone'
