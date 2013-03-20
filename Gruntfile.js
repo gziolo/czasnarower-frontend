@@ -59,6 +59,7 @@ module.exports = function(grunt) {
           mainConfigFile : 'config.js',
           optimize : 'uglify',
           name : 'js/app',
+          include : [ 'legacy/common' ],
           out : 'dist/frontend/js/app.js'
         }
       }
