@@ -1,0 +1,28 @@
+<article data-partner="<%= partner.id %>" class="media message" data-href="<%= url_view %>">
+	<aside class="pull-left">
+		<a class="thumbnail media-object user_icon" href="<%= partner.url_view %>" title="<%- translate('Przejdź do profilu') %>">
+			<img class="avatar" src="<%= partner.url_avatar %>" width="50" height="50" alt=""/>
+		</a>
+	</aside>
+	<div class="media-body">
+		<h5><%= partner.nick %></h5>
+		<section class="message-body content<% if (last_msg.sender_id == partner.id) { %> received<% } %>">
+			<p class="msg">
+				<span class="author"><%= last_msg.sender_nick %></span>:
+				<%= last_msg.content.substring(0,100) %>
+				<% if (last_msg.content.length > 100) { %>
+					<span class="hidden"><%= last_msg.content.substring(100) %></span>
+					<span class="toggleMore"><%- translate('więcej') %> &raquo;</span>
+				<% } %>
+			</p>
+			<h6>
+				<time datetime="<%= last_msg.created %>"><%= last_msg.created_date %></time>
+			</h6>
+		</section>
+		<div class="answer-btn pull-right" data-subject="<%= last_msg.subject %>" data-receiver-id="<%= partner.id %>">
+			<div class="btn btn-small btn-primary user-signed-in">
+    			<%- translate('Odpowiedz') %>
+			</div>
+		</div>
+	</div>
+</article>

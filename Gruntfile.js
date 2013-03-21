@@ -1,16 +1,8 @@
 module.exports = function(grunt) {
   'use strict';
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib');
   grunt.loadNpmTasks('grunt-mocha');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
-  grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-contrib-watch');
 
   var PORT = 8899;
 
@@ -44,7 +36,7 @@ module.exports = function(grunt) {
           out : 'dist/frontend/js/main.js'
         }
       },
-      development : {
+      app_development : {
         options : {
           baseUrl : './',
           mainConfigFile : 'config.js',
@@ -53,7 +45,7 @@ module.exports = function(grunt) {
           out : 'dist/frontend/js/app.js'
         }
       },
-      production : {
+      app : {
         options : {
           baseUrl : './',
           mainConfigFile : 'config.js',
@@ -109,7 +101,15 @@ module.exports = function(grunt) {
       }
     },
     copy : {
-      all : {
+      js_development : {
+        files : [ {
+          expand : true,
+          cwd : 'js/widgets/',
+          src : [ '**/*.js', '**/*.html' ],
+          dest : 'dist/frontend/js/widgets'
+        } ]
+      },
+      img : {
         files : [ {
           expand : true,
           cwd : 'img/',
@@ -131,12 +131,12 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('spec', [ 'jshint', 'connect', 'mocha' ]);
-  grunt.registerTask('css-development', [ 'less:development', 'imagemin', 'copy' ]);
-  grunt.registerTask('css-production', [ 'less:production', 'imagemin', 'copy' ]);
-  grunt.registerTask('js-development', [ 'requirejs:require', 'requirejs:main', 'requirejs:development' ]);
-  grunt.registerTask('js-production', [ 'requirejs:require', 'requirejs:main', 'requirejs:production' ]);
+  grunt.registerTask('css-development', [ 'less:development', 'imagemin', 'copy:img' ]);
+  grunt.registerTask('css-production', [ 'less:production', 'imagemin', 'copy:img' ]);
+  grunt.registerTask('js-development', [ 'requirejs:require', 'requirejs:main', 'requirejs:app_development', 'copy:js_development' ]);
+  grunt.registerTask('js-production', [ 'requirejs:require', 'requirejs:main', 'requirejs:app' ]);
   grunt.registerTask('run', [ 'connect', 'watch' ]);
-  grunt.registerTask('build-dev', [ 'clean', 'spec', 'js-development', 'css-development' ]);
+  grunt.registerTask('build-development', [ 'clean', 'spec', 'js-development', 'css-development' ]);
   grunt.registerTask('build', [ 'clean', 'spec', 'js-production', 'css-production' ]);
   grunt.registerTask('default', [ 'spec', 'watch' ]);
 };

@@ -28,14 +28,16 @@
  *     }
  * });
  */
-define([ 'jquery' ], function($) {
+define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', 'text!legacy/templates/comment/row.html', 'text!legacy/templates/entry/draftItem.html',
+    'text!legacy/templates/event/attendingMember.html', 'text!legacy/templates/message/group.html', 'text!legacy/templates/message/row.html', 'text!legacy/templates/photo/editForm.html',
+    'text!legacy/templates/team/attendingMember.html', 'text!legacy/templates/user/info.html' ], function($, _, commentAddFormTemplate, commentRowTemplate, entryDraftItemTemplate,
+    eventAttendingMemberTemplate, messageGroupTemplate, messageRowTemplate, photoEditFormTemplate, teamAttendingMemberTemplate, userInfoTemplate) {
   "use strict";
 
   // TODO: move this global to require.config
   var config = {
     staticUrl : sStaticUrl || ''
   };
-
   var moduleData = {};
   var listeners = [];
 
@@ -43,7 +45,17 @@ define([ 'jquery' ], function($) {
     var loadedScripts = {};
     var modalDialog = null;
     var userData = null;
-    var templates = {};
+    var templates = {
+        'commentAddForm' : _.template(commentAddFormTemplate),
+        'commentRow' : _.template(commentRowTemplate),
+        'entryDraftItem' : _.template(entryDraftItemTemplate),
+        'eventAttendingMember' : _.template(eventAttendingMemberTemplate),
+        'messageGroup' : _.template(messageGroupTemplate),
+        'messageRow' : _.template(messageRowTemplate),
+        'photoEditForm' : _.template(photoEditFormTemplate),
+        'teamAttendingMember' : _.template(teamAttendingMemberTemplate),
+        'userInfo' : _.template(userInfoTemplate)
+      };
 
     return {
       notify : function(messageInfo) {
@@ -212,9 +224,12 @@ define([ 'jquery' ], function($) {
         $('script:first').before(js);
       },
       template : function(name, data) {
-        if (!templates[name]) {
-          templates[name] = _.template($('#' + name + 'Template').html());
+        if (templates[name] === undefined) {
+          return '';
         }
+        data.translate = function(text) {
+          return text;
+        };
         return templates[name](data);
       },
       dialog : function(options) {

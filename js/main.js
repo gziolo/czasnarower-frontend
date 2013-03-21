@@ -6,10 +6,8 @@ require([ 'config' ], function() {
     return 'v=' + window.jsVersion;
   };
   require.config({
+    baseUrl : window.sStaticUrl + 'frontend/',
     deps : [ 'js/app' ],
-    paths : {
-      'js/app' : 'app'
-    },
     urlArgs : getUrlArgs()
   });
 });

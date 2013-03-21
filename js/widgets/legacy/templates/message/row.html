@@ -1,0 +1,20 @@
+<article data-sender="<%= sender.id %>" data-message="<%= message_id %>" class="message<% if (user_id == receiver_id) { %> received<% } %><% if (received == 'f') { %> new<% } %>">
+       	<aside class="pull-left">
+       		<a class="thumbnail user_icon media-object" href="<%= sender.url_view %>">
+       		 	<img class="avatar" src="<%= sender.url_avatar %>" width="50" height="50" alt=""/>
+       		</a>
+       	</aside>
+		<section class="message-content" id="message_<%= id %>">
+       		<div class="message-body">
+				<header>
+        			<span title="<%- translate('Usuń wiadomość') %>"
+                       	style=""
+                       	class="edition remove remove-message"
+						data-user-id="<%= user_id %>"
+               			data-id="<%= id %>"><i class="icon icon-remove icon-blue"></i>
+               	 	</span>
+   				</header>
+       			<p><small><time datetime="<%= created %>"><%= created_date %></time></small> <%= content.replace(/\n/g,'<br />') %></p>
+       		</div>
+		</section>			
+</article>
