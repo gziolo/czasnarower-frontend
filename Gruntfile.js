@@ -68,8 +68,12 @@ module.exports = function(grunt) {
     },
     mocha : {
       all : {
+        src : [ 'http://localhost:<%= connect.server.options.port %>/spec/index.html' ],
         options : {
-          urls : [ 'http://localhost:<%= connect.server.options.port %>/spec/index.html' ]
+          mocha : {
+            ui : 'tdd'
+          },
+          run : true
         }
       }
     },
