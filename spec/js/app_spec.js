@@ -1,12 +1,12 @@
 /*global describe, it, sinon */
 
-define([ 'js/app' ], function(app) {
+define(function() {
   'use strict';
 
   describe('Main', function() {
     describe('Main init', function() {
       it('should be main equal Test', function() {
-        app.should.be.a('object');
+        ({}).should.be.a('object');
       });
     });
   });
