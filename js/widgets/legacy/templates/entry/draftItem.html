@@ -1,0 +1,9 @@
+<article class="draft entry small">
+	<div class="cnt">
+		<h2 class="title"><a href="<%= url_view %>"><%= title %></a></h2>
+		<div class="txt">
+        	<p class="msg"><%= description.substring(0,100) %><% if (description.length > 100) { %>...<% } %></p>
+ 		</div>
+ 		<p class="author clearfix"><%= created_date %><a class="btn btn-mini pull-right" href="<%= url_edit %>" title="<%- translate('Przejdź do edycji wpisu') %>"><i class="icon icon-blue icon-edit"></i> <%- translate('Edytuj') %></a></p>
+	</div>
+</article>

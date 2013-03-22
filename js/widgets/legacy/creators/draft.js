@@ -71,7 +71,7 @@ define(function() {
         return;
       }
       for ( var i = 0; i < drafts.length; i++) {
-        el = facade.template('draftItem', drafts[i]);
+        el = facade.template('entryDraftItem', drafts[i]);
         $('.drafts_list').append(el);
       }
       $('.drafts_list .draft:last').addClass('last');

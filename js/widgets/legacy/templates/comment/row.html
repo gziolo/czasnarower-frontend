@@ -1,0 +1,14 @@
+<article class="entry media comment<% if (featured) print(' featured') %>" id="comment_<%- comment_id %>">
+	<aside class="pull-left">
+		<a href="<%- url_user %>" title="<%- translate('Przejdź do profilu użytkownika') %> <%- nick %>" class="thumbnail media-object">
+			<img src="<%- avatar %>" width="50" height="50" alt="<%- nick %>"/>
+		</a>
+	</aside>
+	<div class="media-body">
+		<p class="message"><q><%= text_message %></q></p>
+		<h6><a href="<%- url_user %>" title="<%- translate('Profil użytkownika') %> <%- nick %>"><%- nick %></a> | <%- created_date %>
+			<button <% if (!editable) print('style="display:none"') %> class="cnr-comment-edit user-signed-in btn btn-mini" data-user-id="<%- user_id %>" title="<%- translate('Edytuj komentarz') %>" data-id="<%- comment_id %>"><i class="icon-blue icon icon-edit">&nbsp;</i></button>
+			<button <% if (!removeable) print('style="display:none"') %> class="cnr-comment-remove user-signed-in btn btn-mini" data-user-id="<%- user_id %>" title="<%- translate('Usuń komentarz') %>" data-id="<%- comment_id %>"><i class="icon-blue icon icon-remove">&nbsp;</i></button>
+		</h6>
+	</div>
+</article>
