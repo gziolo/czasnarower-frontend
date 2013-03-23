@@ -183,7 +183,7 @@
     return this
   }
   
-  $(window).on('load', function () {
+  $(function () {
     $('[data-provide="tag"]').each(function () {
       var that = $(this)
       if (that.data('tag')) return

@@ -307,19 +307,6 @@ function bindLoadEvents() {
       selector : "a[rel=tooltip]"
     });
   });
-
-  $(document).ajaxStart(function() {
-    var oCss = {
-      'height' : document.body.offsetHeight + "px",
-      'width' : document.body.offsetWidth + "px"
-    };
-    $(document.body).find('#preloader_content').show().css(oCss).end().find('#preloader_bg').show().css(oCss);
-    $('#preloader_bg').css("opacity", 0.6);
-  });
-  $(document).ajaxStop(function() {
-    $(document.body).find('#preloader_content').hide().end().find('#preloader_bg').hide();
-  });
-
 }
 
 /*
