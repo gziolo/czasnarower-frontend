@@ -1,14 +1,13 @@
 {
   "name": "czasnarower-frontend",
-  "version": "0.1.0",
-  "main": "lib/main.js",
+  "version": "0.2.0",
+  "main": "js/main.js",
   "dependencies": {
-    "aura" : "latest",
     "backbone" : "0.9.10",
     "bootstrap" : "2.3.1",
     "jquery": "1.9.1",
     "json2" : "latest",
-    "requirejs": "2.1.4",
+    "requirejs": "2.1.5",
     "requirejs-text": "2.0.5",
     "underscore": "1.4.4"
   }

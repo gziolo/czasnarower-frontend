@@ -289,8 +289,17 @@ define(function() {
       },
       photoRemoved : function(messageInfo) {
         var data = messageInfo.data;
-        $("#photo_" + data.id).fadeOut(500);
-        // if(data.result.sRedirectURL && $('')){}
+        var elem = $("#photo_" + data.id);
+        if (elem.find('.cnr-photo-remove').attr('data-redirect-url')) {
+          elem.parent('.photo-content').css({
+            position : 'relative'
+          });
+          elem
+              .append('<div style="position: absolute; top: 0;left:0; right:0; bottom: 0; background-color: rgba(255,255,255, 0.7)"><div  class="alert alert-success alert-block"><h4>Zdjęcie zostało usunięte.</h4> <p>Za chwilę nastąpi przekierowanie do albumu.</p></div></div>');
+          window.location.href = elem.find('.cnr-photo-remove').attr('data-redirect-url');
+        } else {
+          elem.fadeOut(500).remove();
+        }
       },
       avatarRemoved : function(messageInfo) {
         var data = messageInfo.data;

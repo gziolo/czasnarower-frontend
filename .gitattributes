@@ -1,1 +1,10 @@
 * text=auto
+
+*.html text eol=lf
+*.js text eol=lf
+*.less text eol=lf
+*.ini text eol=lf
+
+*.png binary
+*.jpg binary
+*.gif binary
