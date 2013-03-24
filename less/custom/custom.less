@@ -994,6 +994,21 @@ h1.special {
 		color: lighten(@black, 10%);
 		&:before, &:after { content: '"'; color: @blueLight; font-size: 1.5em; line-height: 20px; }
 	}
+	p:not(.tags) a {
+		font-weight: bold;
+		padding-right: 20px;
+		position: relative;
+		&:after {
+			background: url("@{iconSpritePathCustom}") 0 -70px no-repeat;
+			height: 20px;
+			position: absolute;
+			content: ' ';
+			right: 0;
+			top: 50%;
+			margin-top: -10px;
+			width: 20px;
+		}
+	}
 	.items {
 		margin-left: 20px;
 		li {
