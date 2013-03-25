@@ -9,7 +9,9 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg : grunt.file.readJSON('package.json'),
     clean : {
-      all : [ 'dist/frontend' ]
+      css : [ 'dist/frontend/css' ],
+      img : [ 'dist/frontend/img' ],
+      js : [ 'dist/frontend/js' ]
     },
     connect : {
       server : {
@@ -132,12 +134,12 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('spec', [ 'jshint', 'connect', 'mocha' ]);
-  grunt.registerTask('css-development', [ 'less:development', 'imagemin', 'copy:img' ]);
-  grunt.registerTask('css-production', [ 'less:production', 'imagemin', 'copy:img' ]);
-  grunt.registerTask('js-development', [ 'requirejs:require', 'requirejs:main', 'requirejs:app_development', 'copy:js_development' ]);
-  grunt.registerTask('js-production', [ 'requirejs:require', 'requirejs:main', 'requirejs:app' ]);
-  grunt.registerTask('run', [ 'connect', 'watch' ]);
-  grunt.registerTask('build-development', [ 'clean', 'spec', 'js-development', 'css-development' ]);
-  grunt.registerTask('build', [ 'clean', 'spec', 'js-production', 'css-production' ]);
+  grunt.registerTask('css-development', [ 'clean:css', 'clean:img', 'less:development', 'imagemin', 'copy:img' ]);
+  grunt.registerTask('css-production', [ 'clean:css', 'clean:img', 'less:production', 'imagemin', 'copy:img' ]);
+  grunt.registerTask('js-development', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app_development', 'copy:js_development' ]);
+  grunt.registerTask('js-production', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app' ]);
+  grunt.registerTask('server', [ 'connect', 'watch' ]);
+  grunt.registerTask('build-development', [ 'spec', 'js-development', 'css-development' ]);
+  grunt.registerTask('build', [ 'spec', 'js-production', 'css-production' ]);
   grunt.registerTask('default', [ 'spec', 'watch' ]);
 };

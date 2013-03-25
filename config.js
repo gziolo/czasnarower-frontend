@@ -16,7 +16,7 @@ define(function() {
       moment : 'js/vendor/moment/moment',
       moment_pl : 'js/vendor/moment/moment-pl',
       text : 'components/requirejs-text/text',
-      underscore : 'components/underscore/underscore',
+      underscore : 'components/lodash/dist/lodash.underscore',
 
       legacy : 'js/widgets/legacy'
     },
