@@ -166,18 +166,19 @@ function validateNews() {
   var titleValue = $("input[name='title']").val();
   var descriptionValue = $("textarea[name='description']").val();
   var urlValue = $("input[name='url']").val();
-
-  if (descriptionValue.length < 60) {
-    setErrorCommunique('description_communique', 'Opis nie został poprawnie wypełniony: wpisz tekst o długości minimum 60 znaków');
-    errors += 1;
-  }
+  var bDraft = ($("input[name='draft']").val() === '1');
 
   if (titleValue.length < 3 || titleValue.length > 80) {
     setErrorCommunique('title_communique', 'Tytuł nie został poprawnie wypełniony: wpisz tekst o długości 3-80 znaków');
     errors += 1;
   }
 
-  if (urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
+  if (!bDraft && descriptionValue.length < 60) {
+    setErrorCommunique('description_communique', 'Opis nie został poprawnie wypełniony: wpisz tekst o długości minimum 60 znaków');
+    errors += 1;
+  }
+
+  if (!bDraft && urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
     setErrorCommunique('url_communique', 'Adres strony musi zaczynać się od http:// lub https://');
     errors += 1;
   }
