@@ -9,6 +9,7 @@ define(function() {
       bootstrap_lightbox : 'js/vendor/bootstrap/plugins/lightbox',
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
       eventemitter : 'components/eventemitter2/lib/eventemitter2',
+      fuelux_datagrid : 'components/fuelux/dist/datagrid',
       jquery : 'components/jquery/jquery',
       jquery_migrate : 'components/jquery/jquery-migrate',
       json2 : 'components/json2/json2',
@@ -38,6 +39,9 @@ define(function() {
       bootstrap_tag : {
         deps : [ 'bootstrap' ],
         exports : '$.fn.tag'
+      },
+      fuelux_datagrid : {
+        deps : [ 'bootstrap' ]
       },
       jquery : {
         deps : [ 'json2' ]
