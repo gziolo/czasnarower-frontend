@@ -167,12 +167,16 @@ function validateNews() {
   var descriptionValue = $("textarea[name='description']").val();
   var urlValue = $("input[name='url']").val();
   var bDraft = ($("input[name='draft']").val() === '1');
-
+  var category = +$("select[name='category']").val();
+	  
   if (titleValue.length < 3 || titleValue.length > 80) {
     setErrorCommunique('title_communique', 'Tytuł nie został poprawnie wypełniony: wpisz tekst o długości 3-80 znaków');
     errors += 1;
   }
-
+  if(!category) {
+    setErrorCommunique('news_category_communique', 'Kategoria nie została wybrana');
+    errors += 1;
+  }
   if (!bDraft && descriptionValue.length < 60) {
     setErrorCommunique('description_communique', 'Opis nie został poprawnie wypełniony: wpisz tekst o długości minimum 60 znaków');
     errors += 1;
