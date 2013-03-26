@@ -166,24 +166,22 @@ function validateNews() {
   var titleValue = $("input[name='title']").val();
   var descriptionValue = $("textarea[name='description']").val();
   var urlValue = $("input[name='url']").val();
-  var bDraft = $("input[name='draft']").val();
-  
+
   if (descriptionValue.length < 60) {
     setErrorCommunique('description_communique', 'Opis nie został poprawnie wypełniony: wpisz tekst o długości minimum 60 znaków');
     errors += 1;
   }
-  if(bDraft == 0) {
-	  if (titleValue.length < 3 || titleValue.length > 80) {
-	    setErrorCommunique('title_communique', 'Tytuł nie został poprawnie wypełniony: wpisz tekst o długości 3-80 znaków');
-	    errors += 1;
-	  }
-	
-	  if (urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
-	    setErrorCommunique('url_communique', 'Adres strony musi zaczynać się od http:// lub https://');
-	    errors += 1;
-	  }
+
+  if (titleValue.length < 3 || titleValue.length > 80) {
+    setErrorCommunique('title_communique', 'Tytuł nie został poprawnie wypełniony: wpisz tekst o długości 3-80 znaków');
+    errors += 1;
   }
-  
+
+  if (urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
+    setErrorCommunique('url_communique', 'Adres strony musi zaczynać się od http:// lub https://');
+    errors += 1;
+  }
+
   if (errors > 0) {
     setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
     return false;
