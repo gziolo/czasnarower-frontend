@@ -1,12 +1,12 @@
-/*global describe, it, sinon */
+/*global describe, it, before */
 
-define(function() {
+define([ 'jquery', 'js/app' ], function($, app) {
   'use strict';
 
-  describe('Main', function() {
-    describe('Main init', function() {
+  describe('Application', function() {
+    describe('Application start', function() {
       it('should be main equal Test', function() {
-        ({}).should.be.a('object');
+        app.should.be.a('object');
       });
     });
   });

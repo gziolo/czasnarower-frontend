@@ -1,4 +1,15 @@
-define([ 'jquery_migrate', 'text', 'bootstrap', 'bootstrap_datepicker', 'bootstrap_lightbox', 'bootstrap_tag', 'fuelux_datagrid', 'backbone', 'moment_pl' ], function() {
-  require([ 'legacy/common'], function() {});
-  return {};
+define([ 'aura/aura' ], function(Aura) {
+  var app = new Aura({
+    widgets : {
+      sources : {
+        'default' : 'js/widgets'
+      }
+    }
+  });
+  app.use('extensions/backbone').use('extensions/bootstrap').start({
+    widgets : 'body'
+  }).then(function() {
+    require([ 'legacy/main' ], function() {});
+  });
+  return app;
 });

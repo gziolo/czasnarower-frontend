@@ -44,6 +44,7 @@ module.exports = function(grunt) {
           mainConfigFile : 'config.js',
           optimize : 'none',
           name : 'js/app',
+          include : [ 'extensions/backbone', 'extensions/bootstrap', 'moment_pl', 'jquery_migrate' ],
           out : 'dist/frontend/js/app.js'
         }
       },
@@ -53,8 +54,18 @@ module.exports = function(grunt) {
           mainConfigFile : 'config.js',
           optimize : 'uglify',
           name : 'js/app',
-          include : [ 'legacy/common' ],
+          include : [ 'extensions/backbone', 'extensions/bootstrap', 'moment_pl', 'jquery_migrate' ],
           out : 'dist/frontend/js/app.js'
+        }
+      },
+      legacy : {
+        options : {
+          baseUrl : './',
+          mainConfigFile : 'config.js',
+          optimize : 'uglify',
+          name : 'legacy/main',
+          exclude : [ 'js/app', 'moment_pl' ],
+          out : 'dist/frontend/js/widgets/legacy/main.js'
         }
       }
     },
@@ -107,9 +118,9 @@ module.exports = function(grunt) {
       js_development : {
         files : [ {
           expand : true,
-          cwd : 'js/widgets/',
-          src : [ '**/*.js', '**/*.html' ],
-          dest : 'dist/frontend/js/widgets'
+          cwd : 'js/',
+          src : [ 'widgets/**/*.js', 'widgets/**/*.html' ],
+          dest : 'dist/frontend/js/'
         } ]
       },
       img : {
@@ -137,7 +148,7 @@ module.exports = function(grunt) {
   grunt.registerTask('css-development', [ 'clean:css', 'clean:img', 'less:development', 'imagemin', 'copy:img' ]);
   grunt.registerTask('css-production', [ 'clean:css', 'clean:img', 'less:production', 'imagemin', 'copy:img' ]);
   grunt.registerTask('js-development', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app_development', 'copy:js_development' ]);
-  grunt.registerTask('js-production', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app' ]);
+  grunt.registerTask('js-production', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app', 'requirejs:legacy' ]);
   grunt.registerTask('server', [ 'connect', 'watch' ]);
   grunt.registerTask('build-development', [ 'spec', 'js-development', 'css-development' ]);
   grunt.registerTask('build', [ 'spec', 'js-production', 'css-production' ]);

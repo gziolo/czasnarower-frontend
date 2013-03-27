@@ -1,0 +1,3 @@
+define([ 'backbone' ], {
+  initialize : function() {}
+});

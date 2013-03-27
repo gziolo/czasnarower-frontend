@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "main": "js/main.js",
   "dependencies": {
+    "aura" : "latest",
     "backbone" : "1.0.0",
     "bootstrap" : "2.3.1",
     "fuelux" : "2.3.0",
