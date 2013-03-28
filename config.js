@@ -1,6 +1,13 @@
 define(function() {
   require.config({
     enforceDefine : true,
+    config: {
+      text: {
+          useXhr: function (url, protocol, hostname, port) {
+            return true;
+          }
+      }
+    },
     paths : {
       aura : 'components/aura/lib',
       backbone : 'components/backbone/backbone',
