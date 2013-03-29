@@ -44,7 +44,6 @@ module.exports = function(grunt) {
           mainConfigFile : 'config.js',
           optimize : 'none',
           name : 'js/app',
-          include : [ 'extensions/backbone', 'extensions/bootstrap', 'moment_pl', 'jquery_migrate' ],
           out : 'dist/frontend/js/app.js'
         }
       },
@@ -54,7 +53,6 @@ module.exports = function(grunt) {
           mainConfigFile : 'config.js',
           optimize : 'uglify',
           name : 'js/app',
-          include : [ 'extensions/backbone', 'extensions/bootstrap', 'moment_pl', 'jquery_migrate' ],
           out : 'dist/frontend/js/app.js'
         }
       },
@@ -64,7 +62,7 @@ module.exports = function(grunt) {
           mainConfigFile : 'config.js',
           optimize : 'uglify',
           name : 'legacy/main',
-          exclude : [ 'js/app', 'moment_pl' ],
+          exclude : [ 'js/app' ],
           out : 'dist/frontend/js/widgets/legacy/main.js'
         }
       }
