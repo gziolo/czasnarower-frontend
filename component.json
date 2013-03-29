@@ -1,16 +1,17 @@
 {
   "name": "czasnarower-frontend",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "js/main.js",
   "dependencies": {
-    "aura" : "latest",
     "backbone" : "1.0.0",
     "bootstrap" : "2.3.1",
+    "es5-shim" : "2.0.8",
+    "flight" : "1.0.0",
     "fuelux" : "2.3.0",
     "jquery": "1.9.1",
     "json2" : "latest",
+    "lodash": "1.1.1",
     "requirejs": "2.1.5",
-    "requirejs-text": "2.0.5",
-    "lodash": "1.0.1"
+    "requirejs-text": "2.0.5"
   }
 }

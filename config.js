@@ -9,13 +9,14 @@ define(function() {
       }
     },
     paths : {
-      aura : 'components/aura/lib',
       backbone : 'components/backbone/backbone',
       bootstrap : 'components/bootstrap/docs/assets/js/bootstrap',
       bootstrap_datepicker : 'js/vendor/bootstrap/plugins/datepicker',
       bootstrap_lightbox : 'js/vendor/bootstrap/plugins/lightbox',
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
-      eventemitter : 'components/eventemitter2/lib/eventemitter2',
+      'es5-shim' : 'components/es5-shim/es5-shim',
+      'es5-sham' : 'components/es5-shim/es5-sham',
+      flight : 'components/flight/flight',
       fuelux_datagrid : 'components/fuelux/dist/datagrid',
       jquery : 'components/jquery/jquery',
       jquery_migrate : 'components/jquery/jquery-migrate',
@@ -31,11 +32,8 @@ define(function() {
       legacy : 'js/widgets/legacy'
     },
     shim : {
-      'aura/aura' : {
-        deps : [ 'jquery', 'underscore', 'text', 'aura/ext/debug', 'aura/ext/mediator', 'aura/ext/widgets' ]
-      },
       backbone : {
-        deps : [ 'jquery', 'underscore' ],
+        deps : [ 'jquery', 'underscore', 'text' ],
         exports : 'Backbone'
       },
       bootstrap : {
