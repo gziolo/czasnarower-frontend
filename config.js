@@ -1,11 +1,11 @@
 define(function() {
   require.config({
     enforceDefine : true,
-    config: {
-      text: {
-          useXhr: function (url, protocol, hostname, port) {
-            return true;
-          }
+    config : {
+      text : {
+        useXhr : function(url, protocol, hostname, port) {
+          return true;
+        }
       }
     },
     paths : {
@@ -13,10 +13,10 @@ define(function() {
       bootstrap : 'components/bootstrap/docs/assets/js/bootstrap',
       bootstrap_datepicker : 'js/vendor/bootstrap/plugins/datepicker',
       bootstrap_lightbox : 'js/vendor/bootstrap/plugins/lightbox',
+      bootstrap_plugins : 'js/vendor/bootstrap/plugins',
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
-      'es5-shim' : 'components/es5-shim/es5-shim',
-      'es5-sham' : 'components/es5-shim/es5-sham',
-      flight : 'components/flight/flight',
+      es5shim : 'components/es5-shim/es5-shim',
+      es5sham : 'components/es5-shim/es5-sham',
       fuelux_datagrid : 'components/fuelux/dist/datagrid',
       jquery : 'components/jquery/jquery',
       jquery_migrate : 'components/jquery/jquery-migrate',
@@ -27,13 +27,17 @@ define(function() {
       text : 'components/requirejs-text/text',
       underscore : 'components/lodash/dist/lodash.underscore',
 
-      extensions : 'js/extensions',
-
-      legacy : 'js/widgets/legacy'
+      cookies_alert : 'js/components/cookies_alert',
+      legacy : 'js/components/legacy'
+    },
+    map : {
+      '*' : {
+        flight : 'components/flight/lib/index'
+      }
     },
     shim : {
       backbone : {
-        deps : [ 'jquery', 'underscore', 'text' ],
+        deps : [ 'jquery', 'underscore' ],
         exports : 'Backbone'
       },
       bootstrap : {
@@ -46,6 +50,9 @@ define(function() {
       bootstrap_tag : {
         deps : [ 'bootstrap' ],
         exports : '$.fn.tag'
+      },
+      'components/flight/lib/index' : {
+        deps : [ 'jquery_migrate', 'es5shim', 'es5sham' ]
       },
       fuelux_datagrid : {
         deps : [ 'bootstrap' ]

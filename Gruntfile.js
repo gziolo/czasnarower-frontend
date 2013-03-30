@@ -53,6 +53,7 @@ module.exports = function(grunt) {
           mainConfigFile : 'config.js',
           optimize : 'uglify',
           name : 'js/app',
+          include : [ 'cookies_alert/component' ],
           out : 'dist/frontend/js/app.js'
         }
       },
@@ -61,9 +62,9 @@ module.exports = function(grunt) {
           baseUrl : './',
           mainConfigFile : 'config.js',
           optimize : 'uglify',
-          name : 'legacy/main',
+          name : 'legacy/component',
           exclude : [ 'js/app' ],
-          out : 'dist/frontend/js/widgets/legacy/main.js'
+          out : 'dist/frontend/js/components/legacy/component.js'
         }
       }
     },
@@ -73,7 +74,7 @@ module.exports = function(grunt) {
           jshintrc : '.jshintrc'
         },
         files : {
-          src : [ 'js/*.js', 'js/widgets/**/*.js', 'spec/js/**/*.js' ]
+          src : [ 'js/*.js', 'js/components/**/*.js', 'spec/js/**/*.js' ]
         }
       }
     },
@@ -117,7 +118,7 @@ module.exports = function(grunt) {
         files : [ {
           expand : true,
           cwd : 'js/',
-          src : [ 'widgets/**/*.js', 'widgets/**/*.html' ],
+          src : [ 'components/**/*.js', 'components/**/*.html' ],
           dest : 'dist/frontend/js/'
         } ]
       },

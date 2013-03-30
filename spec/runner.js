@@ -12,7 +12,7 @@ define([ 'chai', 'sinonChai' ], function(chai, sinonChai) {
   chai.use(sinonChai);
   mocha.setup('bdd');
 
-  require([ 'spec/js/app_spec' ], function() {
+  require([ 'backbone', 'bootstrap_plugins', 'flight', 'text', 'moment_pl', 'spec/js/app_spec' ], function() {
     mocha.run();
   });
 });
