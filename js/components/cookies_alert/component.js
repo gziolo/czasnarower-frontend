@@ -28,7 +28,9 @@ define([ 'underscore', 'flight', 'text!cookies_alert/templates/alert.html' ], fu
       if (this.isAlertDisabled()) {
         return;
       }
-      this.$node.html(template());
+      this.$node.html(template({
+        url_policy : 'polityka-prywatnosci'
+      }));
 
       this.on('click', {
         disableSelector : this.disableAlert
