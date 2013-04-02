@@ -13,7 +13,7 @@ define(function() {
       bootstrap : 'components/bootstrap/docs/assets/js/bootstrap',
       bootstrap_datepicker : 'js/vendor/bootstrap/plugins/datepicker',
       bootstrap_lightbox : 'js/vendor/bootstrap/plugins/lightbox',
-      bootstrap_plugins : 'js/vendor/bootstrap/plugins',
+      bootstrap_plugins : 'js/vendor/bootstrap/index',
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
       es5shim : 'components/es5-shim/es5-shim',
       es5sham : 'components/es5-shim/es5-sham',
