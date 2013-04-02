@@ -5,8 +5,9 @@ define(function() {
     var plotSizes = {};
     var plotCanvas = null;
     var showUserResults = function(target, stats, ticks, races) {
-      if (plotCanvas)
+      if (plotCanvas) {
         plotCanvas.destroy();
+      }
       plotCanvas = $.jqplot(target, stats, {
         grid : {
           drawGridlines : true,
@@ -181,6 +182,8 @@ define(function() {
         facade.listen('plot-show-track-profile', this.showTrackProfile, this);
       },
       showUserResults : function(messageInfo) {
+        var radio;
+
         if (!messageInfo.data.stats || !messageInfo.data.stats.length || !messageInfo.data.ticks) {
           return;
         }
@@ -193,20 +196,22 @@ define(function() {
         });
 
         if (unique.length > 1) {
-          var radio = $('<label class="radio inline"><input checked type="radio" name="category" value="0"/>wszystkie<label>');
+          radio = $('<label class="radio inline"><input checked type="radio" name="category" value="0"/>wszystkie<label>');
           $('#results_stats').before(radio);
 
           for ( var cat in unique) {
-            var radio = $('<label class="radio inline"><input type="radio" name="category" value="' + unique[cat] + '"/>kategoria ' + unique[cat] + ' <label>');
+            radio = $('<label class="radio inline"><input type="radio" name="category" value="' + unique[cat] + '"/>kategoria ' + unique[cat] + ' <label>');
             $('#results_stats').before(radio);
           }
 
           $('input[name=category]').on('change', function() {
+            var stats, ticks, races;
+
             var cat = $(this).val();
             if (cat > 0) {
-              var stats = [ [], [] ];
-              var ticks = [];
-              var races = [];
+              stats = [ [], [] ];
+              ticks = [];
+              races = [];
 
               for ( var i = 0; i < messageInfo.data.categories.length; i++) {
                 if (messageInfo.data.categories[i] === cat) {

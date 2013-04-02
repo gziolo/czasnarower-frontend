@@ -5,52 +5,49 @@ define([ 'cookies_alert/component' ], function(CookiesAlert) {
 
   describe('Cookies alert', function() {
 
-    describe('Block disbled', function() {
-      var instance;
-      var storage;
+    describe('Alert block disbled', function() {
 
       before(function() {
-        storage = CookiesAlert.prototype.storage.localStorage;
+        this.storage = CookiesAlert.prototype.storage.localStorage;
         CookiesAlert.prototype.storage.localStorage = undefined;
         CookiesAlert.prototype.storage.setItem('cnr_cookiesAlertDisabled', true);
         $('body').append('<div id="cookies-alert"></div>');
-        instance = new CookiesAlert('#cookies-alert');
+        this.instance = new CookiesAlert('#cookies-alert');
       });
 
       it('should be empty', function() {
-        instance.$node.html().should.be.empty;
+        this.instance.$node.html().should.be.empty;
       });
 
       after(function() {
-        instance.teardown();
+        this.instance.teardown();
         $('#cookies-alert').remove();
         CookiesAlert.prototype.storage.clear();
-        CookiesAlert.prototype.storage.localStorage = storage;
+        CookiesAlert.prototype.storage.localStorage = this.storage;
       });
     });
 
-    describe('Block enabled', function() {
-      var instance;
+    describe('Alert block enabled', function() {
 
       before(function() {
         $('body').append('<div id="cookies-alert"></div>');
-        instance = new CookiesAlert('#cookies-alert');
+        this.instance = new CookiesAlert('#cookies-alert');
       });
 
       it('should have text', function() {
-        instance.$node.find('p').text().should.not.be.empty;
+        this.instance.$node.find('p').text().should.not.be.empty;
       });
 
       it('should have privacy link', function() {
-        instance.$node.find('p a').should.have.length(1);
+        this.instance.$node.find('p a').should.have.length(1);
       });
 
       it('should have close button', function() {
-        instance.$node.find('button').should.have.length(1);
+        this.instance.$node.find('button').should.have.length(1);
       });
 
       after(function() {
-        instance.teardown();
+        this.instance.teardown();
         $('#cookies-alert').remove();
       });
     });
