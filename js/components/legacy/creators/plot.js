@@ -5,9 +5,10 @@ define(function() {
     var plotSizes = {};
     var plotCanvas = null;
     var showUserResults = function(target, stats, ticks, races) {
-    	if(plotCanvas)plotCanvas.destroy();
-		plotCanvas = $.jqplot(target, stats, {
-		grid : {
+      if (plotCanvas)
+        plotCanvas.destroy();
+      plotCanvas = $.jqplot(target, stats, {
+        grid : {
           drawGridlines : true,
           background : '#ffffff',
           borderWidth : 0,
@@ -75,7 +76,7 @@ define(function() {
         }
 
       });
-		
+
       $('#' + target).bind('jqplotDataHighlight', function(ev, seriesIndex, pointIndex, data) {
         $('#highlightedResult').html('<big><strong>' + data[1] + ' % ' + '</strong></big> ' + ' (' + ticks[pointIndex] + ') ' + races[pointIndex]);
       }).bind('jqplotDataUnhighlight', function(ev) {
@@ -183,48 +184,52 @@ define(function() {
         if (!messageInfo.data.stats || !messageInfo.data.stats.length || !messageInfo.data.ticks) {
           return;
         }
-        
-        var categories = messageInfo.data.categories;
-        var unique = categories.filter( function(value, index, self){ return self.indexOf(value) === index; } );
 
-        if(unique.length > 1) {
-        	var radio = $('<label class="radio inline"><input checked type="radio" name="category" value="0"/>wszystkie<label>');
-        	$('#results_stats').before(radio);
-        
-        	for (var cat in unique) {
-	        	var radio = $('<label class="radio inline"><input type="radio" name="category" value="' + unique[cat] + '"/>kategoria ' + unique[cat] + ' <label>');
-	        	$('#results_stats').before(radio);
-	        }
-	        
-	        $('input[name=category]').on('change', function(){
-	        	var cat = $(this).val();
-	        	if (cat > 0) {
-		        	var stats = [[],[]];
-		        	var ticks = [];
-		        	var races = [];
-		        	
-		        	for (var i=0; i < messageInfo.data.categories.length; i++) {
-		        		if (messageInfo.data.categories[i] == cat) {
-		        			stats[0].push(messageInfo.data.stats[0][i]);
-		        			stats[1].push(messageInfo.data.stats[1][i]);
-		        			ticks.push(messageInfo.data.ticks[i]);
-		        			races.push(messageInfo.data.races[i]);
-		        			
-		        		}
-		        	}
-		        	showUserResults('results_stats', stats, ticks, races);
-	        	} else {
-	        		showUserResults('results_stats', messageInfo.data.stats, messageInfo.data.ticks, messageInfo.data.races);
-	        	}
-    			
-	    	});
-        }        
-        
+        // Check if user has more than 1 sort of shedule-results
+        // if yes add radiobuttons to filter by race-sort
+        var categories = messageInfo.data.categories;
+        var unique = categories.filter(function(value, index, self) {
+          return self.indexOf(value) === index;
+        });
+
+        if (unique.length > 1) {
+          var radio = $('<label class="radio inline"><input checked type="radio" name="category" value="0"/>wszystkie<label>');
+          $('#results_stats').before(radio);
+
+          for ( var cat in unique) {
+            var radio = $('<label class="radio inline"><input type="radio" name="category" value="' + unique[cat] + '"/>kategoria ' + unique[cat] + ' <label>');
+            $('#results_stats').before(radio);
+          }
+
+          $('input[name=category]').on('change', function() {
+            var cat = $(this).val();
+            if (cat > 0) {
+              var stats = [ [], [] ];
+              var ticks = [];
+              var races = [];
+
+              for ( var i = 0; i < messageInfo.data.categories.length; i++) {
+                if (messageInfo.data.categories[i] === cat) {
+                  stats[0].push(messageInfo.data.stats[0][i]);
+                  stats[1].push(messageInfo.data.stats[1][i]);
+                  ticks.push(messageInfo.data.ticks[i]);
+                  races.push(messageInfo.data.races[i]);
+
+                }
+              }
+              showUserResults('results_stats', stats, ticks, races);
+            } else {
+              showUserResults('results_stats', messageInfo.data.stats, messageInfo.data.ticks, messageInfo.data.races);
+            }
+
+          });
+        }
+
         var requiredScripts = [ 'js/jqplot/excanvas.min.js', 'js/jqplot/jquery.jqplot.min.js', 'js/jqplot/plugins/jqplot.barRenderer.min.js', 'js/jqplot/plugins/jqplot.canvasTextRenderer.min.js',
             'js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js', 'js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js', 'js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
             'js/jqplot/plugins/jqplot.pointLabels.min.js', 'js/jqplot/plugins/jqplot.highlighter.min.js' ];
         facade.requireScripts(requiredScripts, function() {
-        	showUserResults('results_stats', messageInfo.data.stats, messageInfo.data.ticks, messageInfo.data.races);
+          showUserResults('results_stats', messageInfo.data.stats, messageInfo.data.ticks, messageInfo.data.races);
         });
       },
       showTrackProfile : function(messageInfo) {
