@@ -1,0 +1,1 @@
+define(['js/mixins/with_storage']);
