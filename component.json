@@ -5,8 +5,8 @@
   "dependencies": {
     "backbone" : "1.0.0",
     "bootstrap" : "2.3.1",
-    "es5-shim" : "2.0.8",
-    "flight" : "1.0.6",
+    "es5-shim" : "2.0.0",
+    "flight" : "1.0.5",
     "fuelux" : "2.3.0",
     "jquery": "1.9.1",
     "json2" : "latest",
