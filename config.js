@@ -62,7 +62,10 @@ define(function() {
       },
       jquery_migrate : {
         deps : [ 'jquery' ],
-        exports : 'jQuery.migrateWarnings'
+        exports : 'jQuery.migrateWarnings',
+        init : function($) {
+          $.migrateMute = true;
+        }
       },
       json2 : {
         exports : 'JSON'

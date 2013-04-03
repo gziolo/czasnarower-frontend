@@ -69,12 +69,30 @@ module.exports = function(grunt) {
       }
     },
     jshint : {
-      all : {
+      js : {
         options : {
           jshintrc : '.jshintrc'
         },
         files : {
-          src : [ 'js/*.js', 'js/mixins/**/*.js', 'js/components/**/*.js', 'spec/js/**/*.js' ]
+          src : [ 'js/*.js', 'js/mixins/**/*.js', 'js/components/**/*.js' ]
+        }
+      },
+      spec : {
+        options : grunt.util._.merge({
+          globals : {
+            mocha : true,
+            sinon : true,
+            should : true,
+            describe : true,
+            it : true,
+            before : true,
+            beforeEach : true,
+            after : true,
+            afterEach : true
+          }
+        }, grunt.file.readJSON('.jshintrc')),
+        files : {
+          src : [ 'spec/**/*.js' ]
         }
       }
     },

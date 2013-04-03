@@ -14,8 +14,6 @@
   "globals": {
     "console": true,
     "require": true,
-    "define": true,
-    "_": true,
-    "$": true
+    "define": true
   }
 }

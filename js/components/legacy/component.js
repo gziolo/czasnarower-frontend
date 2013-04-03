@@ -1,4 +1,4 @@
-/*global wrapSelection */
+/*global $, wrapSelection */
 function setErrorCommunique(fieldName, textMsg) {
   $('#' + fieldName).closest('.control-group').addClass('error alert alert-error');
   $('#' + fieldName).html(textMsg);

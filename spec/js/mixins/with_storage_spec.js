@@ -1,10 +1,8 @@
-/*global describe, it, before, after, should */
-
-define([ 'flight', 'js/mixins/with_storage' ], function(flight, withStorage) {
+define([ 'jquery', 'flight', 'js/mixins/with_storage' ], function($, flight, withStorage) {
   'use strict';
 
   describe('Storage mixin', function() {
-    
+
     before(function() {
       var TestComponent = flight.component(function test() {}, withStorage);
       var Test2Component = flight.component(function test() {}, withStorage);
@@ -48,7 +46,7 @@ define([ 'flight', 'js/mixins/with_storage' ], function(flight, withStorage) {
     });
 
     describe('Local storage is off', function() {
-      
+
       before(function() {
         this.storage = this.instance.storage.localStorage;
         this.instance.storage.localStorage = this.instance2.storage.localStorage = undefined;

@@ -1,4 +1,3 @@
-/*global define mocha */
 var should;
 
 define([ 'chai', 'sinonChai' ], function(chai, sinonChai) {

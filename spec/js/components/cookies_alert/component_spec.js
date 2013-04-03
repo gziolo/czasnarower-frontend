@@ -1,6 +1,4 @@
-/*global describe, it, before, after */
-
-define([ 'cookies_alert/component' ], function(CookiesAlert) {
+define([ 'jquery', 'cookies_alert/component' ], function($, CookiesAlert) {
   'use strict';
 
   describe('Cookies alert', function() {
@@ -8,30 +6,34 @@ define([ 'cookies_alert/component' ], function(CookiesAlert) {
     describe('Alert block disbled', function() {
 
       before(function() {
-        this.storage = CookiesAlert.prototype.storage.localStorage;
-        CookiesAlert.prototype.storage.localStorage = undefined;
-        CookiesAlert.prototype.storage.setItem('cnr_cookiesAlertDisabled', true);
+        this.storageGetItemStub = sinon.stub(CookiesAlert.prototype.storage, 'getItem').returns(true);
         $('body').append('<div id="cookies-alert"></div>');
         this.instance = new CookiesAlert('#cookies-alert');
-      });
-
-      it('should be empty', function() {
-        this.instance.$node.html().should.be.empty;
       });
 
       after(function() {
         this.instance.teardown();
         $('#cookies-alert').remove();
-        CookiesAlert.prototype.storage.clear();
-        CookiesAlert.prototype.storage.localStorage = this.storage;
+        this.storageGetItemStub.restore();
+      });
+
+      it('should be empty', function() {
+        this.instance.$node.html().should.be.empty;
       });
     });
 
     describe('Alert block enabled', function() {
 
-      before(function() {
+      beforeEach(function() {
+        this.storageGetItemStub = sinon.stub(CookiesAlert.prototype.storage, 'getItem').returns(false);
         $('body').append('<div id="cookies-alert"></div>');
         this.instance = new CookiesAlert('#cookies-alert');
+      });
+
+      afterEach(function() {
+        CookiesAlert.teardownAll();
+        $('#cookies-alert').remove();
+        this.storageGetItemStub.restore();
       });
 
       it('should have text', function() {
@@ -46,9 +48,14 @@ define([ 'cookies_alert/component' ], function(CookiesAlert) {
         this.instance.$node.find('button').should.have.length(1);
       });
 
-      after(function() {
-        this.instance.teardown();
-        $('#cookies-alert').remove();
+      it('should end up with empty node when close button clicked', function() {
+        var storageSetItemSpy = sinon.spy(CookiesAlert.prototype.storage, 'setItem');
+
+        this.instance.$node.find('button').trigger('click');
+        storageSetItemSpy.should.have.been.calledWith('cnr_cookiesAlertDisabled', true);
+        this.instance.$node.html().should.be.empty;
+
+        storageSetItemSpy.restore();
       });
     });
   });
