@@ -1,4 +1,4 @@
-define([ 'flight', 'mixins', 'users_stats/data/races_stats_data_source', 'text!users_stats/templates/data_grid.html' ], function(flight, mixins, RacesStatsDataSource, dataGridTemplate) {
+define([ 'underscore', 'flight', 'mixins', 'users_stats/data/races_stats_data_source', 'text!users_stats/templates/data_grid.html' ], function(_, flight, mixins, RacesStatsDataSource, dataGridTemplate) {
   'use strict';
 
   function UserStats() {
@@ -13,18 +13,31 @@ define([ 'flight', 'mixins', 'users_stats/data/races_stats_data_source', 'text!u
       this.$node.datagrid({
         dataSource : new RacesStatsDataSource({
           columns : [ {
+            property : 'user',
+            label : 'Użytkownik',
+            sortable : false
+          }, {
             property : 'x',
-            label : 'X',
+            label : 'Liczba wyścigów',
             sortable : true
           }, {
             property : 'y',
-            label : 'Y',
-            sortable : false
+            label : 'Całkowity czas',
+            sortable : true
           }, {
             property : 'z',
-            label : 'Z',
+            label : 'Całkowity dystans (km)',
             sortable : true
-          } ]
+          }, {
+            property : 'z',
+            label : 'Średnia prędkość (km/h)',
+            sortable : true
+          } ],
+          formatter: function (items) {
+            _.each(items, function (item, index) {
+              item.user = 'Użytkownik ' + item.x;
+            });
+          }
         }),
         dataOptions : {
           sortDirection : 'asc',

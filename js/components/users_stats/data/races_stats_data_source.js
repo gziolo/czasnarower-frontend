@@ -3,6 +3,7 @@ define([ 'jquery', 'underscore' ], function($, _) {
 
   function RacesStatsDataSource(options) {
     this._columns = options.columns;
+    this._formatter = options.formatter;
   }
 
   RacesStatsDataSource.prototype = {
@@ -118,9 +119,11 @@ define([ 'jquery', 'underscore' ], function($, _) {
         y : 'b 231',
         z : 'c 231'
       } ];
-      var start = options.pageIndex * options.pageSize;
       var count = data.length;
-      var end = count < (start + options.pageSize) ? count : (start + options.pageSize);
+      var startIndex = options.pageIndex * options.pageSize;
+      var start = startIndex + 1;
+      var endIndex = start + options.pageSize;
+      var end = count < endIndex ? count : endIndex;
       var pages = Math.ceil(count / options.pageSize);
       var page = options.pageIndex + 1;
 
@@ -164,7 +167,11 @@ define([ 'jquery', 'underscore' ], function($, _) {
         }
       }
 
-      data = data.slice(start, end);
+      data = data.slice(startIndex, end);
+
+      if (this._formatter !== undefined) {
+        this._formatter(data);
+      }
 
       callback({
         data : data,
