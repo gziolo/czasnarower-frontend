@@ -34,36 +34,9 @@ define([ 'jquery', 'underscore' ], function($, _) {
       var page = options.pageIndex + 1;
 
       if (options.search) {
-        data = _.filter(data, function(item) {
-          for ( var prop in item) {
-            if (!item.hasOwnProperty(prop)) {
-              continue;
-            }
-            if (item[prop].toString().toLowerCase().indexOf(options.search.toLowerCase())) {
-              return true;
-            }
-          }
-          return false;
-        });
       }
 
       if (options.filter) {
-        data = _.filter(data, function(item) {
-          switch (options.filter.value) {
-            case 'lt5m':
-              if (item.population < 5000000) {
-                return true;
-              }
-              break;
-            case 'gte5m':
-              if (item.population >= 5000000) {
-                return true;
-              }
-              break;
-            default:
-              return true;
-          }
-        });
       }
 
       if (options.sortProperty && this.comparators[options.sortProperty] !== undefined) {
