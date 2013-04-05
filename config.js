@@ -28,11 +28,13 @@ define(function() {
       underscore : 'components/lodash/dist/lodash.underscore',
 
       cookies_alert : 'js/components/cookies_alert',
+      users_stats : 'js/components/users_stats',
       legacy : 'js/components/legacy'
     },
     map : {
       '*' : {
-        flight : 'components/flight/lib/index'
+        flight : 'components/flight/lib/index',
+        mixins : 'js/mixins/index'
       }
     },
     shim : {

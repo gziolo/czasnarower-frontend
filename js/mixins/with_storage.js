@@ -1,8 +1,9 @@
 define(function() {
+  'use strict';
 
   var data = {};
 
-  function withStorage() {
+  function WithStorage() {
 
     this.storage = {
 
@@ -42,5 +43,5 @@ define(function() {
     };
   }
 
-  return withStorage;
+  return WithStorage;
 });

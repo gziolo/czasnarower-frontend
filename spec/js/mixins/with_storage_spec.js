@@ -1,11 +1,11 @@
-define([ 'jquery', 'flight', 'js/mixins/with_storage' ], function($, flight, withStorage) {
+define([ 'jquery', 'flight', 'js/mixins/with_storage' ], function($, flight, WithStorage) {
   'use strict';
 
   describe('Storage mixin', function() {
 
     before(function() {
-      var TestComponent = flight.component(function test() {}, withStorage);
-      var Test2Component = flight.component(function test() {}, withStorage);
+      var TestComponent = flight.component(function test() {}, WithStorage);
+      var Test2Component = flight.component(function test() {}, WithStorage);
 
       $('body').append('<div id="test1"></div><div id="test2"></div>');
       this.instance = new TestComponent('#test1');

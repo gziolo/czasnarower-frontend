@@ -1,7 +1,7 @@
 /*global FB */
 define(function() {
   return function(facade, $) {
-    "use strict";
+    'use strict';
 
     var bEnabled = false;
     var sPerms = 'publish_stream,email,user_hometown';

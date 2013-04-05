@@ -1,0 +1,65 @@
+<table id="<%- tableId %>" class="table table-bordered datagrid">
+  <thead>
+    <tr>
+      <th>
+        <span class="datagrid-header-title"><%- translate(tableName) %></span>
+        <div class="datagrid-header-left">
+          <% if (searchEnabled) { %>
+            <div class="input-append search datagrid-search">
+              <input type="text" class="input-medium" placeholder="<%- translate('Szukaj') %>">
+              <button class="btn">
+                <i class="icon-search"></i>
+              </button>
+            </div>
+          <% } %>
+        </div>
+        <div class="datagrid-header-right">
+          <% if (!_.isEmpty(filterOptions)) { %>
+            <div class="select filter" data-resize="auto">
+              <button data-toggle="dropdown" class="btn dropdown-toggle">
+                <span class="dropdown-label"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <% _.each(filterOptions, function(label, value) { %>
+                  <li data-value="all" data-selected="true"><a href="#"><%- value %></a></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+        </div>
+      </th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>
+        <div class="datagrid-footer-left" style="display: none;">
+          <div class="grid-controls">
+            <span>
+              <span class="grid-start"></span> - <span class="grid-end"></span>
+              <%- translate('z') %> <span class="grid-count"></span>
+            </span>
+            <select class="grid-pagesize">
+              <option>25</option>
+              <option>50</option>
+              <option>100</option>
+            </select>
+            <span><%- translate('na stronę') %></span>
+          </div>
+        </div>
+        <div class="datagrid-footer-right" style="display: none;">
+          <div class="grid-pager">
+              <button class="btn grid-prevpage"><i class="icon-chevron-left"></i></button>
+              <span><%- translate('Strona') %></span>
+              <div class="input-append dropdown combobox">
+                  <input class="span1" type="text" />
+              </div>
+              <span><%- translate('z') %> <span class="grid-pages"></span></span>
+              <button class="btn grid-nextpage"><i class="icon-chevron-right"></i></button>
+          </div>
+        </div>
+      </th>
+    </tr>
+  </tfoot>
+</table>

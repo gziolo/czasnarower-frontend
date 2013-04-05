@@ -1,11 +1,9 @@
-define([ 'underscore', 'flight', 'js/mixins/with_storage', 'text!cookies_alert/templates/alert.html' ], function(_, flight, withStorage, alertTemplate) {
-  "use strict";
+define([ 'flight', 'mixins', 'text!cookies_alert/templates/alert.html' ], function(flight, mixins, alertTemplate) {
+  'use strict';
 
   var FLAG_NAME = 'cnr_cookiesAlertDisabled';
 
   function CookiesAlert() {
-
-    var template = _.template(alertTemplate);
 
     this.defaultAttrs({
       disableSelector : 'button.close'
@@ -21,7 +19,7 @@ define([ 'underscore', 'flight', 'js/mixins/with_storage', 'text!cookies_alert/t
     };
 
     this.render = function() {
-      this.$node.html(template({
+      this.$node.html(this.alertTemplate({
         url_policy : 'polityka-prywatnosci'
       }));
     };
@@ -31,6 +29,8 @@ define([ 'underscore', 'flight', 'js/mixins/with_storage', 'text!cookies_alert/t
         return;
       }
 
+      this.alertTemplate = this.templateFactory(alertTemplate);
+
       this.on('click', {
         disableSelector : this.disableAlert
       });
@@ -39,5 +39,5 @@ define([ 'underscore', 'flight', 'js/mixins/with_storage', 'text!cookies_alert/t
     });
   }
 
-  return flight.component(CookiesAlert, withStorage);
+  return flight.component(CookiesAlert, mixins.WithStorage, mixins.WithTemplate);
 });

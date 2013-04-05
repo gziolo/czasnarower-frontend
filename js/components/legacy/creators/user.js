@@ -1,7 +1,7 @@
 /*global bindFormElements */
 define(function() {
   return function(facade, $) {
-    "use strict";
+    'use strict';
 
     var timeVal = 500;
     var infoLoaded = false;

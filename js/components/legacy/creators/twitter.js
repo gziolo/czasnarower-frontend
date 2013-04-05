@@ -1,6 +1,6 @@
 define(function() {
   return function(facade, $) {
-    "use strict";
+    'use strict';
 
     return {
       init : function(data) {

@@ -2,7 +2,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
     'text!legacy/templates/event/attendingMember.html', 'text!legacy/templates/message/group.html', 'text!legacy/templates/message/row.html', 'text!legacy/templates/photo/editForm.html',
     'text!legacy/templates/team/attendingMember.html', 'text!legacy/templates/user/info.html' ], function($, _, commentAddFormTemplate, commentRowTemplate, entryDraftItemTemplate,
     eventAttendingMemberTemplate, messageGroupTemplate, messageRowTemplate, photoEditFormTemplate, teamAttendingMemberTemplate, userInfoTemplate) {
-  "use strict";
+  'use strict';
 
   // TODO: move this global to require.config
   var config = {

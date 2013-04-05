@@ -1,6 +1,6 @@
 define(function() {
   return function(facade, $) {
-    "use strict";
+    'use strict';
 
     function _addActivity(id, data) {
       var options = {

@@ -326,7 +326,7 @@ define([ 'jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/co
     'legacy/creators/user', 'legacy/creators/usersDataView' ], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback,
     mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, plusoneCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback,
     trackViewCallback, twitterCallback, userCallback, usersDataViewCallback) {
-  "use strict";
+  'use strict';
 
   window.Core = core;
   core.creator.register('comment', commentCallback);

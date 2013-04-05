@@ -9,7 +9,7 @@ function mapInitialisedCallback() {
 
 define(function() {
   return function(facade, $) {
-    "use strict";
+    'use strict';
 
     var googleMapsInitalised = false;
 
