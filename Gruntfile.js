@@ -53,7 +53,7 @@ module.exports = function(grunt) {
           mainConfigFile : 'config.js',
           optimize : 'uglify',
           name : 'js/app',
-          include : [ 'js/mixins/index', 'cookies_alert/component', 'users_stats/component' ],
+          include : [ 'js/mixins/index', 'cookies_alert/component', 'user_race_stats/component' ],
           out : 'dist/frontend/js/app.js'
         }
       },

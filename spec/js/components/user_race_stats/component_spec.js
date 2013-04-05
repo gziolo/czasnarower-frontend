@@ -1,7 +1,7 @@
-define([ 'jquery', 'users_stats/component' ], function($, UsersStats) {
+define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
   'use strict';
 
-  describe('Users stats', function() {
+  describe('User race stats', function() {
 
     it('should work :)', function() {
       //$('body').append('<div id="test"></div>');

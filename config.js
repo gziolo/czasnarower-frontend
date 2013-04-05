@@ -28,7 +28,7 @@ define(function() {
       underscore : 'components/lodash/dist/lodash.underscore',
 
       cookies_alert : 'js/components/cookies_alert',
-      users_stats : 'js/components/users_stats',
+      user_race_stats : 'js/components/user_race_stats',
       legacy : 'js/components/legacy'
     },
     map : {
