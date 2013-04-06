@@ -1,11 +1,13 @@
-define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 'user_race_stats/model/data_source', 'text!user_race_stats/templates/data_grid.html' ], function(_, flight, mixins,
-    UserRaceStatsCollection, DataSource, dataGridTemplate) {
+define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 'user_race_stats/model/data_source', 'text!user_race_stats/templates/data_grid.html',
+    'text!user_race_stats/templates/user_column.html' ], function(_, flight, mixins, UserRaceStatsCollection, DataSource, dataGridTemplate, userColumnTemplate) {
   'use strict';
 
   function UserRaceStats() {
 
     this.render = function() {
+      var self = this;
       var statsCollection = new UserRaceStatsCollection();
+
       statsCollection.reset(this.$node.data('stats'));
       this.$node.html(this.dataGridTemplate({
         tableId : 'cnr-races-stats',
@@ -21,10 +23,6 @@ define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 
             label : 'Użytkownik',
             sortable : false
           }, {
-            property : 'races',
-            label : 'Liczba wyścigów',
-            sortable : true
-          }, {
             property : 'total_time',
             label : 'Całkowity czas',
             sortable : true
@@ -33,14 +31,41 @@ define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 
             label : 'Całkowity dystans (km)',
             sortable : true
           }, {
+            property : 'races',
+            label : 'Liczba wyścigów',
+            sortable : true
+          }, {
             property : 'avg_speed',
             label : 'Średnia prędkość (km/h)',
             sortable : true
-          } ]
+          } ],
+          comparators : {
+            'total_time' : function(model) {
+              var timeParts = model.get('total_time').split(':');
+              if (timeParts.length !== 3) {
+                return 0;
+              }
+              return 3600 * parseInt(timeParts[0], 10) + 60 * parseInt(timeParts[1], 10) + parseInt(timeParts[2], 10);
+            },
+            'total_odo' : function(model) {
+              return parseFloat(model.get('total_odo'));
+            },
+            'races' : function(model) {
+              return parseInt(model.get('races'), 10);
+            },
+            'avg_speed' : function(model) {
+              return parseFloat(model.get('avg_speed'));
+            }
+          },
+          formatter : function(model) {
+            var data = model.toJSON();
+            data.user = self.userColumnTemplate(data);
+            return data;
+          }
         }),
         dataOptions : {
-          sortDirection : 'asc',
-          sortProperty : 'x'
+          sortProperty : 'total_time',
+          sortDirection : 'desc'
         },
         itemsText : 'wierszy',
         itemText : 'wiersz'
@@ -49,6 +74,7 @@ define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 
 
     this.after('initialize', function() {
       this.dataGridTemplate = this.templateFactory(dataGridTemplate);
+      this.userColumnTemplate = this.templateFactory(userColumnTemplate);
       this.render();
     });
   }

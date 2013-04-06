@@ -1,20 +1,15 @@
-define([ 'jquery', 'underscore' ], function($, _) {
+define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
   'use strict';
 
   function DataSource(options) {
+
+    if (!(options.collection instanceof Backbone.Collection)) {
+      throw new Error('Backbone collection must be passed to data source.');
+    }
     this.collection = options.collection;
-    this.columnsData = options.columns;
-    this.comparators = {
-      'races' : function(model) {
-        return parseInt(model.get('races'), 10);
-      },
-      'total_odo' : function(model) {
-        return parseFloat(model.get('total_odo'));
-      },
-      'avg_speed' : function(model) {
-        return parseFloat(model.get('avg_speed'));
-      }
-    };
+    this.columnsData = options.columns || [];
+    this.comparators = options.comparators || {};
+    this.formatter = options.formatter;
   }
 
   DataSource.prototype = {
@@ -24,7 +19,7 @@ define([ 'jquery', 'underscore' ], function($, _) {
     },
 
     data : function(options, callback) {
-      var data = this.collection.toJSON();
+      var data;
       var count = this.collection.size();
       var startIndex = options.pageIndex * options.pageSize;
       var start = startIndex + 1;
@@ -41,13 +36,16 @@ define([ 'jquery', 'underscore' ], function($, _) {
 
       if (options.sortProperty && this.comparators[options.sortProperty] !== undefined) {
         this.collection.comparator = this.comparators[options.sortProperty];
-        this.collection.sort();
+        this.collection.sort({
+          order : options.sortDirection
+        });
       }
-      data = this.collection.toJSON();
-      if (options.sortDirection === 'desc') {
-        data.reverse();
+      this.collection.slice(startIndex, end);
+      if (this.formatter !== undefined) {
+        data = this.collection.map(this.formatter);
+      } else {
+        data = this.collection.toJSON();
       }
-      data = data.slice(startIndex, end);
       callback({
         data : data,
         start : start,
