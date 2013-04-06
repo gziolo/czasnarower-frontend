@@ -9,7 +9,9 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     this.collection = options.collection;
     this.columnsData = options.columns || [];
     this.comparators = options.comparators || {};
-    this.formatter = options.formatter;
+    this.formatter = options.formatter || function(model) {
+      return model.toJSON();
+    };
   }
 
   DataSource.prototype = {
@@ -40,12 +42,11 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
           order : options.sortDirection
         });
       }
-      this.collection.slice(startIndex, end);
-      if (this.formatter !== undefined) {
-        data = this.collection.map(this.formatter);
-      } else {
-        data = this.collection.toJSON();
-      }
+      
+      data = this.collection.slice(startIndex, end);
+      
+      data = _.map(data, this.formatter);
+      
       callback({
         data : data,
         start : start,
