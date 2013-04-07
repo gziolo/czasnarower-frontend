@@ -1,3 +1,4 @@
+/*jshint unused:false */
 /*global google */
 function mapInitialisedCallback() {
   require([ 'legacy/core' ], function(core) {

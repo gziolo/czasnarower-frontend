@@ -1,3 +1,4 @@
+/*jshint unused:false */
 define(function() {
   return function(facade, $) {
     'use strict';

@@ -1,3 +1,4 @@
+/*jshint maxstatements:50, unused:false */
 /*global google */
 define(function() {
   return function(facade, $) {

@@ -1,3 +1,4 @@
+/*jshint unused:false */
 define(
     [ 'moment_pl' ],
     function(moment) {
@@ -274,9 +275,8 @@ define(
           if (messagesLoaded) {
             var chat = message.chat;
             chat.last_msg = message;
-            var partner_id = chat.partner.id;
             var itemEl = createChat(chat);
-            $('#user_menu .messages_list .message[data-partner="' + partner_id + '"]').remove();
+            $('#user_menu .messages_list .message[data-partner="' + chat.partner.id + '"]').remove();
             if ($('#user_menu .messages_list .message').length === 4) {
               $('#user_menu .messages_list .message:last').remove();
             }
@@ -291,8 +291,7 @@ define(
             var currSender = +firstMsg.attr('data-sender') || 0;
             var el = $(facade.template('messageRow', message));
             if (message.sender.id === currSender) {
-              var elCnt = el.find('.message-content');
-              firstMsg.find('.message-content:first').before(elCnt);
+              firstMsg.find('.message-content:first').before(el.find('.message-content'));
             } else {
               $('#chat_list article:first').after(el);
             }

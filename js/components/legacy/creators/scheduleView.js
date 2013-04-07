@@ -1,3 +1,4 @@
+/*jshint unused:false */
 /*global google, InfoBox */
 define(function() {
   return function(facade, $) {
@@ -57,9 +58,9 @@ define(function() {
     };
 
     var _createSchedules = function(map, data) {
-      var schedule = {};
-      var latitude = 52.066667;
-      var longitude = 19.483333;
+      var schedule = {}, latitude = 52.066667, longitude = 19.483333, zoom = 7,
+        minZoomLevel = 6, area;
+      
       if (data.selected) {
         schedule = data.schedules[Number(data.selected)];
         latitude = schedule.latitude;
@@ -68,20 +69,17 @@ define(function() {
       var centerLatLng = new google.maps.LatLng(latitude, longitude);
       map.setCenter(centerLatLng);
 
-      var zoom = 7;
       if (data.zoom) {
         zoom = data.zoom;
       }
       map.setZoom(zoom);
 
-      var area;
       if (data.radius) {
         var circle = new google.maps.Circle({
           center : centerLatLng,
           radius : data.radius
         });
         area = circle.getBounds();
-        var minZoomLevel = 6;
 
         google.maps.event.addListener(map, 'zoom_changed', function() {
           if (map.getZoom() < minZoomLevel) {

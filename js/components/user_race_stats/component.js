@@ -1,3 +1,4 @@
+/*jshint maxparams:10 */
 define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 'user_race_stats/model/data_source', 'text!user_race_stats/templates/data_grid.html',
     'text!user_race_stats/templates/user_column.html' ], function(_, flight, mixins, UserRaceStatsCollection, DataSource, dataGridTemplate, userColumnTemplate) {
   'use strict';
@@ -7,8 +8,9 @@ define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 
     this.render = function() {
       var self = this;
       var statsCollection = new UserRaceStatsCollection();
+      var data = this.$node.data('stats') || [];
 
-      statsCollection.reset(this.$node.data('stats'));
+      statsCollection.reset(data);
       this.$node.html(this.dataGridTemplate({
         tableId : 'cnr-races-stats',
         tableName : 'Statystyki uczestników wyścigów',

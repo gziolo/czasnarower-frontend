@@ -1,3 +1,4 @@
+/*jshint unused:false */
 /*global google, MarkerClusterer, InfoBox */
 define(function() {
   return function(facade, $) {

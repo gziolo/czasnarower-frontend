@@ -1,3 +1,4 @@
+/*jshint maxparams:25, unused:false */
 /*global $, wrapSelection */
 function setErrorCommunique(fieldName, textMsg) {
   $('#' + fieldName).closest('.control-group').addClass('error alert alert-error');

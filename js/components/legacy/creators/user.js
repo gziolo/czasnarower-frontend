@@ -1,3 +1,4 @@
+/*jshint unused:false */
 /*global bindFormElements */
 define(function() {
   return function(facade, $) {

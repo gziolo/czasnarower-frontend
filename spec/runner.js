@@ -1,13 +1,14 @@
-var should;
+var expect, assert, should;
 
 define([ 'chai', 'sinonChai' ], function(chai, sinonChai) {
   window.chai = chai;
-  window.expect = chai.expect;
-  window.assert = chai.assert;
-  window.should = chai.should();
   window.sinonChai = sinonChai;
   window.notrack = true;
 
+  expect = chai.expect;
+  assert = chai.assert;
+  should = chai.should();
+  
   chai.use(sinonChai);
   mocha.setup('bdd');
 

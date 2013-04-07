@@ -1,3 +1,4 @@
+/*jshint unused:false */
 /*global FB */
 define(function() {
   return function(facade, $) {

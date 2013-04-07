@@ -1,3 +1,4 @@
+/*jshint unused:false */
 /*global google, InfoBox */
 define(function() {
   return function(facade, $) {

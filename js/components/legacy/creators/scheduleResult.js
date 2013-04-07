@@ -1,3 +1,4 @@
+/*jshint unused:false */
 /*global bindFormElements, setErrorCommunique */
 define(function() {
   return function(facade, $) {
@@ -43,23 +44,20 @@ define(function() {
       });
     }
     function validateData() {
+      var errors = 0,
+        category_val = $.trim($('#category_name').val()),
+        category_sel_val = $.trim($('#categories option:selected').val()),
+        distance_val = $.trim($('#distance_name').val()),
+        distance_sel_val = $.trim($('#distances option:selected').val()),
+        resultHour = $.trim($('#result_hours').val()),
+        resultMinute = $.trim($('#result_minutes').val()),
+        resultSecond = $.trim($('#result_seconds').val()),
+        position_val = $.trim($('#position').val()),
+        bestResultHour = $.trim($('#best_result_hours').val()),
+        bestResultMinute = $.trim($('#best_result_minutes').val()),
+        bestResultSecond = $.trim($('#best_result_seconds').val());
 
       $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-      var errors = 0;
-      var category_val = $.trim($('#category_name').val());
-      var category_sel_val = $.trim($('#categories option:selected').val());
-      var distance_val = $.trim($('#distance_name').val());
-      var distance_sel_val = $.trim($('#distances option:selected').val());
-      var distance_length_val = $.trim($('#distance_length').val());
-      var gender_val = $('#gender').val();
-      var resultHour = $.trim($('#result_hours').val());
-      var resultMinute = $.trim($('#result_minutes').val());
-      var resultSecond = $.trim($('#result_seconds').val());
-      var position_val = $.trim($('#position').val());
-      var category_position_val = $.trim($('#category_position').val());
-      var bestResultHour = $.trim($('#best_result_hours').val());
-      var bestResultMinute = $.trim($('#best_result_minutes').val());
-      var bestResultSecond = $.trim($('#best_result_seconds').val());
 
       if (category_val === '') {
         if (category_sel_val === '-') {
@@ -69,7 +67,6 @@ define(function() {
           $('#category_name').val(category_sel_val);
         }
       }
-
       if (distance_val === '') {
         if (distance_sel_val === '-') {
           setErrorCommunique('distance_communique', 'Musisz zdefiniować dystans');
@@ -79,37 +76,13 @@ define(function() {
         }
       }
 
-      if (0 > resultHour || resultHour >= 24) {
-        errors += 1;
-        setErrorCommunique('result_communique', 'Niepoprawny czas');
-      }
-      if (0 > resultMinute || resultMinute >= 60) {
-        errors += 1;
-        setErrorCommunique('result_communique', 'Niepoprawny czas');
-      }
-      if (0 > resultSecond || resultSecond >= 60) {
-        errors += 1;
-        setErrorCommunique('result_communique', 'Niepoprawny czas');
-      }
-
-      if (0 > bestResultHour || bestResultHour >= 24) {
-        errors += 1;
-        setErrorCommunique('best_result_communique', 'Niepoprawny czas zwycięzcy');
-      }
-      if (0 > bestResultMinute || bestResultMinute >= 60) {
-        errors += 1;
-        setErrorCommunique('best_result_communique', 'Niepoprawny czas zwycięzcy');
-      }
-      if (0 > bestResultSecond || bestResultSecond >= 60) {
-        errors += 1;
-        setErrorCommunique('best_result_communique', 'Niepoprawny czas zwycięzcy');
-      }
+      errors += validateUserTime(resultHour, resultMinute, resultSecond);
+      errors += validateBestUserTime(bestResultHour, bestResultMinute, bestResultSecond);
 
       if (!resultHour && !resultMinute && !resultSecond && !position_val) {
         errors += 1;
         setErrorCommunique('result_communique', 'Musisz podać czas lub miejsce');
       }
-
       if (bestResultHour &&
           bestResultMinute &&
           bestResultSecond &&
@@ -118,11 +91,46 @@ define(function() {
         setErrorCommunique('result_communique', 'Czas zwycięzcy nie może być gorszy od Twojego');
         errors += 1;
       }
-
-      if (errors) {
+      if (errors > 0) {
         return false;
       }
       return true;
+    }
+
+    function validateUserTime(resultHour, resultMinute, resultSecond) {
+      var errors = 0;
+
+      if (0 > resultHour || resultHour >= 24) {
+        errors += 1;
+      }
+      if (0 > resultMinute || resultMinute >= 60) {
+        errors += 1;
+      }
+      if (0 > resultSecond || resultSecond >= 60) {
+        errors += 1;
+      }
+      if (errors > 0) {
+        setErrorCommunique('result_communique', 'Niepoprawny czas');
+      }
+      return errors;
+    }
+
+    function validateBestUserTime(bestResultHour, bestResultMinute, bestResultSecond) {
+      var errors = 0;
+
+      if (0 > bestResultHour || bestResultHour >= 24) {
+        errors += 1;
+      }
+      if (0 > bestResultMinute || bestResultMinute >= 60) {
+        errors += 1;
+      }
+      if (0 > bestResultSecond || bestResultSecond >= 60) {
+        errors += 1;
+      }
+      if (errors > 0) {
+        setErrorCommunique('best_result_communique', 'Niepoprawny czas zwycięzcy');
+      }
+      return errors;
     }
 
     function bindResultElements() {
@@ -316,7 +324,6 @@ define(function() {
     function _removeResult(params) {
       var iId = params.id;
       var iScheduleId = params.schedule_id || 0;
-      var oResult = $('#result_' + iId);
       var urlData = {
         dao : 11,
         action : 5,

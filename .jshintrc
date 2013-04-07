@@ -1,4 +1,8 @@
 {
+  "maxparams": 5,
+  "maxdepth": 5,
+  "maxstatements": 25,
+  "maxcomplexity": 10,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
@@ -7,6 +11,7 @@
   "noarg": true,
   "sub": true,
   "undef": true,
+  "unused" : true,
   "eqnull": true,
   "browser": true,
   "nomen": false,
