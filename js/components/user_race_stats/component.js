@@ -67,6 +67,7 @@ define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 
           sortProperty : 'total_time',
           sortDirection : 'desc'
         },
+        loadingHTML : '<div class="progress progress-striped active" style="width:50%;margin:auto;"><div class="bar" style="width:100%;"></div></div>',
         itemsText : 'wierszy',
         itemText : 'wiersz'
       });
