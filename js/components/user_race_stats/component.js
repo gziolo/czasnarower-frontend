@@ -9,12 +9,15 @@ define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 
       var self = this;
       var statsCollection = new UserRaceStatsCollection();
       var data = this.$node.data('stats') || [];
+      var filterOptions = this.$node.data('filterOptions') || {};
+      var defaultFilter = filterOptions[this.$node.data('defaultFilter')] || '';
 
       statsCollection.reset(data);
       this.$node.html(this.dataGridTemplate({
         tableId : 'cnr-races-stats',
         tableName : 'Statystyki uczestników wyścigów',
-        filterOptions : {},
+        filterOptions : filterOptions,
+        defaultFilter : defaultFilter,
         searchEnabled : false
       }));
       this.$node.datagrid({

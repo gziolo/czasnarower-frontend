@@ -17,7 +17,6 @@ define(function() {
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
       es5shim : 'components/es5-shim/es5-shim',
       es5sham : 'components/es5-shim/es5-sham',
-      fuelux_datagrid : 'components/fuelux/dist/datagrid',
       jquery : 'components/jquery/jquery',
       jquery_migrate : 'components/jquery/jquery-migrate',
       json2 : 'components/json2/json2',
@@ -34,6 +33,8 @@ define(function() {
     map : {
       '*' : {
         flight : 'components/flight/lib/index',
+        fuelux_datagrid : 'components/fuelux/dist/datagrid',
+        fuelux_select : 'components/fuelux/dist/select',
         mixins : 'js/mixins/index'
       }
     },
@@ -56,7 +57,10 @@ define(function() {
       'components/flight/lib/index' : {
         deps : [ 'jquery_migrate', 'es5shim', 'es5sham' ]
       },
-      fuelux_datagrid : {
+      'components/fuelux/dist/datagrid' : {
+        deps : [ 'bootstrap' ]
+      },
+      'components/fuelux/dist/select' : {
         deps : [ 'bootstrap' ]
       },
       jquery : {

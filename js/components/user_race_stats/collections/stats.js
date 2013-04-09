@@ -4,6 +4,10 @@ define([ 'underscore', 'backbone' ], function(_, Backbone) {
   return Backbone.Collection.extend({
 
     url : 'rest/user-race-stats',
+    
+    parse : function(response) {
+      return response.data;
+    },
 
     sort : function(options) {
       if (!this.comparator) {

@@ -17,12 +17,12 @@
           <% if (!_.isEmpty(filterOptions)) { %>
             <div class="select filter" data-resize="auto">
               <button data-toggle="dropdown" class="btn dropdown-toggle">
-                <span class="dropdown-label"></span>
+                <span class="dropdown-label"><%- defaultFilter %></span>
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
                 <% _.each(filterOptions, function(label, value) { %>
-                  <li data-value="all" data-selected="true"><a href="#"><%- value %></a></li>
+                  <li data-value="<%- value %>"><a href="#"><%- label %></a></li>
                 <% }) %>
               </ul>
             </div>

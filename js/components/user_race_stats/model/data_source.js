@@ -21,6 +21,25 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
     },
 
     data : function(options, callback) {
+      var success = function() {
+        options.filter = undefined;
+        this.renderDataGrid(options, callback);
+      };
+      
+      if (options.filter !== undefined) {
+        this.collection.fetch({
+          success : success.bind(this),
+          data : {
+            category_id : options.filter.value
+          }
+        });
+        return;
+      }
+      
+      this.renderDataGrid(options, callback);
+    },
+
+    renderDataGrid : function(options, callback) {
       var data;
       var count = this.collection.size();
       var startIndex = options.pageIndex * options.pageSize;
@@ -33,20 +52,17 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
       if (options.search) {
       }
 
-      if (options.filter) {
-      }
-
       if (options.sortProperty && this.comparators[options.sortProperty] !== undefined) {
         this.collection.comparator = this.comparators[options.sortProperty];
         this.collection.sort({
           order : options.sortDirection
         });
       }
-      
+
       data = this.collection.slice(startIndex, end);
-      
+
       data = _.map(data, this.formatter);
-      
+
       callback({
         data : data,
         start : start,
