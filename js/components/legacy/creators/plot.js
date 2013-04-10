@@ -192,6 +192,7 @@ define(function() {
         // Check if user has more than 1 sort of shedule-results
         // if yes add radiobuttons to filter by race-sort
         var categories = messageInfo.data.categories;
+        var categories_labels = messageInfo.data.categories_labels;
         var unique = categories.filter(function(value, index, self) {
           return self.indexOf(value) === index;
         });
@@ -201,14 +202,14 @@ define(function() {
           $('#results_stats').before(radio);
 
           for ( var cat in unique) {
-            radio = $('<label class="radio inline"><input type="radio" name="category" value="' + unique[cat] + '"/>kategoria ' + unique[cat] + ' <label>');
+            radio = $('<label class="radio inline"><input type="radio" name="category" value="' + unique[cat] + '"/>' + (categories_labels[unique[cat]] ? categories_labels[unique[cat]] : 'kategoria '+unique[cat])  + ' <label>');
             $('#results_stats').before(radio);
           }
 
           $('input[name=category]').on('change', function() {
             var stats, ticks, races;
 
-            var cat = $(this).val();
+            var cat = +$(this).val();
             if (cat > 0) {
               stats = [ [], [] ];
               ticks = [];
