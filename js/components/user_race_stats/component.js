@@ -10,7 +10,7 @@ define([ 'underscore', 'flight', 'mixins', 'user_race_stats/collections/stats', 
       var statsCollection = new UserRaceStatsCollection();
       var data = this.$node.data('stats') || [];
       var filterOptions = this.$node.data('filterOptions') || {};
-      var defaultFilter = filterOptions[this.$node.data('defaultFilter')] || '';
+      var defaultFilter = filterOptions[this.$node.data('defaultFilter')] ? this.$node.data('defaultFilter') : '';
 
       statsCollection.reset(data);
       this.$node.html(this.dataGridTemplate({

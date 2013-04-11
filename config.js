@@ -33,6 +33,7 @@ define(function() {
     map : {
       '*' : {
         flight : 'components/flight/lib/index',
+        fuelux_combobox : 'components/fuelux/dist/combobox',
         fuelux_datagrid : 'components/fuelux/dist/datagrid',
         fuelux_select : 'components/fuelux/dist/select',
         mixins : 'js/mixins/index'
@@ -56,6 +57,9 @@ define(function() {
       },
       'components/flight/lib/index' : {
         deps : [ 'jquery_migrate', 'es5shim', 'es5sham' ]
+      },
+      'components/fuelux/dist/combobox' : {
+        deps : [ 'bootstrap' ]
       },
       'components/fuelux/dist/datagrid' : {
         deps : [ 'bootstrap' ]

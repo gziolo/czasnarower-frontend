@@ -17,12 +17,12 @@
           <% if (!_.isEmpty(filterOptions)) { %>
             <div class="select filter" data-resize="auto">
               <button data-toggle="dropdown" class="btn dropdown-toggle">
-                <span class="dropdown-label"><%- defaultFilter %></span>
+                <span class="dropdown-label"></span>
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
                 <% _.each(filterOptions, function(label, value) { %>
-                  <li data-value="<%- value %>"><a href="#"><%- label %></a></li>
+                  <li data-value="<%- value %>" <% if (defaultFilter.toString() === value.toString()) { %> data-selected="true"<% } %>><a href="#"><%- label %></a></li>
                 <% }) %>
               </ul>
             </div>
@@ -40,11 +40,17 @@
               <span class="grid-start"></span> - <span class="grid-end"></span>
               <%- translate('z') %> <span class="grid-count"></span>
             </span>
-            <select class="grid-pagesize">
-              <option>25</option>
-              <option>50</option>
-              <option>100</option>
-            </select>
+            <div class="select grid-pagesize" data-resize="auto">
+              <button data-toggle="dropdown" class="btn dropdown-toggle">
+                <span class="dropdown-label"></span>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li data-value="25" data-selected="true"><a href="#">25</a></li>
+                <li data-value="50"><a href="#">50</a></li>
+                <li data-value="100"><a href="#">100</a></li>
+              </ul>
+            </div>
             <span><%- translate('na stronę') %></span>
           </div>
         </div>
@@ -54,6 +60,8 @@
               <span><%- translate('Strona') %></span>
               <div class="input-append dropdown combobox">
                   <input class="span1" type="text" />
+                  <button class="btn" data-toggle="dropdown"><i class="caret"></i></button>
+                  <ul class="dropdown-menu"></ul>
               </div>
               <span><%- translate('z') %> <span class="grid-pages"></span></span>
               <button class="btn grid-nextpage"><i class="icon-chevron-right"></i></button>

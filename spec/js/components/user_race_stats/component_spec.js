@@ -74,10 +74,6 @@ define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
         this.instance.$node.find('thead .filter ul.dropdown-menu li').length.should.equal(3);
       });
 
-      it('has filtering dropdown with default label', function() {
-        this.instance.$node.find('thead .filter .dropdown-label').text().should.equal('All');
-      });
-
       it('has filtering dropdown with first option value equal 0', function() {
         this.instance.$node.find('thead .filter ul.dropdown-menu li:first').data('value').should.equal(0);
       });
