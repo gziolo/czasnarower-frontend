@@ -22,7 +22,7 @@
               </button>
               <ul class="dropdown-menu">
                 <% _.each(filterOptions, function(label, value) { %>
-                  <li data-value="<%- value %>" <% if (defaultFilter.toString() === value.toString()) { %> data-selected="true"<% } %>><a href="#"><%- label %></a></li>
+                  <li data-value="<%- value %>"><a href="#"><%- label %></a></li>
                 <% }) %>
               </ul>
             </div>

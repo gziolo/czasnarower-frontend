@@ -62,7 +62,6 @@ define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
           1 : 'MTB marathon',
           2 : 'Cross-country'
         });
-        $('#test').data('defaultFilter', 0);
         this.instance = new UserRaceStats('#test');
       });
 
