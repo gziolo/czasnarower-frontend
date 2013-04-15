@@ -11,7 +11,8 @@ module.exports = function(grunt) {
     clean : {
       css : [ 'dist/frontend/css' ],
       img : [ 'dist/frontend/img' ],
-      js : [ 'dist/frontend/js' ]
+      js : [ 'dist/frontend/js' ],
+      font : [ 'dist/frontend/font' ]
     },
     connect : {
       server : {
@@ -147,6 +148,14 @@ module.exports = function(grunt) {
           src : '**/*.gif',
           dest : 'dist/frontend/img/'
         } ]
+      },
+      font : {
+        files : [ {
+          expand : true,
+          cwd : 'font/',
+          src : '**/*',
+          dest : 'dist/frontend/font/'
+        } ]
       }
     },
     watch : {
@@ -162,8 +171,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('spec', [ 'jshint', 'connect', 'mocha' ]);
-  grunt.registerTask('css-development', [ 'clean:css', 'clean:img', 'less:development', 'imagemin', 'copy:img' ]);
-  grunt.registerTask('css-production', [ 'clean:css', 'clean:img', 'less:production', 'imagemin', 'copy:img' ]);
+  grunt.registerTask('css-development', [ 'clean:css', 'clean:img', 'clean:font', 'less:development', 'imagemin', 'copy:img', 'copy:font' ]);
+  grunt.registerTask('css-production', [ 'clean:css', 'clean:img', 'clean:font', 'less:production', 'imagemin', 'copy:img', 'copy:font' ]);
   grunt.registerTask('js-development', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app_development', 'copy:js_development' ]);
   grunt.registerTask('js-production', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app', 'requirejs:legacy' ]);
   grunt.registerTask('server', [ 'connect', 'watch' ]);
