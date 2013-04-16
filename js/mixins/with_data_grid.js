@@ -1,4 +1,5 @@
-define([ 'flight', 'js/mixins/with_template', 'js/mixins/data_grid/data_source', 'text!js/mixins/data_grid/templates/data_grid.html' ], function(flight, WithTemplate, DataSource, dataGridTemplate) {
+define([ 'underscore', 'flight', 'js/mixins/with_template', 'js/mixins/data_grid/data_source', 'text!js/mixins/data_grid/templates/data_grid.html' ], function(_, flight, WithTemplate, DataSource,
+    dataGridTemplate) {
   'use strict';
 
   function WithDataGrid() {
@@ -10,21 +11,27 @@ define([ 'flight', 'js/mixins/with_template', 'js/mixins/data_grid/data_source',
         return new DataSource(options);
       },
       render : function(data) {
-        data.$node.html(this.template({
-          tableId : data.tableId,
-          tableName : data.tableName,
-          filterOptions : data.filterOptions,
+        var $node = data && data.$node;
+
+        if ($node === undefined) {
+          throw new Error('Data grid needs DOM element to render.');
+        }
+
+        $node.html(this.template({
+          tableId : data.tableId || _.uniqueId('dataGrid'),
+          tableName : data.tableName || '',
+          filterOptions : data.filterOptions || {},
           searchEnabled : false
         }));
-        data.$node.find('thead .select').select('resize');
-        data.$node.datagrid({
+        $node.find('thead .select').select('resize');
+        $node.datagrid({
           dataSource : this.dataSourceFactory({
             collection : data.collection,
-            columns : data.columns,
-            comparators : data.comparators,
-            formatter : data.formatter
+            columns : data.columns || [],
+            comparators : data.comparators || {},
+            formatter : data.formatter || function() {}
           }),
-          dataOptions : data.dataOptions,
+          dataOptions : data.dataOptions || {},
           loadingHTML : '<div class="progress progress-striped active" style="width:50%;margin:auto;"><div class="bar" style="width:100%;"></div></div>',
           itemsText : 'wierszy',
           itemText : 'wiersz'

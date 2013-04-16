@@ -2,11 +2,12 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
   'use strict';
 
   function DataSource(options) {
+    var collection = options && options.collection;
 
-    if (!(options.collection instanceof Backbone.Collection)) {
+    if (!(collection instanceof Backbone.Collection)) {
       throw new Error('Backbone collection must be passed to data source.');
     }
-    this.collection = options.collection;
+    this.collection = collection;
     this.columnsData = options.columns || [];
     this.comparators = options.comparators || {};
     this.formatter = options.formatter || function(model) {
@@ -25,7 +26,7 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
         options.filter = undefined;
         this.renderDataGrid(options, callback);
       };
-      
+
       if (options.filter !== undefined) {
         this.collection.fetch({
           success : success.bind(this),
@@ -35,7 +36,7 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
         });
         return;
       }
-      
+
       this.renderDataGrid(options, callback);
     },
 
