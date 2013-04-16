@@ -4,10 +4,15 @@ define([ 'jquery', 'flight', 'js/mixins/with_template' ], function($, flight, Wi
   describe('Template mixin', function() {
 
     before(function() {
-      var TestComponent = flight.component(function test() {}, WithTemplate);
+      var TestComponent = flight.component(function Test() {}, WithTemplate);
 
       $('body').append('<div id="test1"></div>');
       this.instance = new TestComponent('#test1');
+    });
+
+    after(function() {
+      this.instance.teardown();
+      $('#test1').remove();
     });
 
     it('should have template factory property', function() {
@@ -32,11 +37,6 @@ define([ 'jquery', 'flight', 'js/mixins/with_template' ], function($, flight, Wi
       var template = this.instance.templateFactory("<h1><%- translate('test') %></h1>");
       var output = template({});
       output.should.equal('<h1>test</h1>');
-    });
-
-    after(function() {
-      this.instance.teardown();
-      $('#test1').remove();
     });
 
   });

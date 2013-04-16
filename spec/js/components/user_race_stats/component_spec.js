@@ -10,6 +10,11 @@ define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
         this.instance = new UserRaceStats('#test');
       });
 
+      after(function() {
+        this.instance.teardown();
+        $('#test').remove();
+      });
+
       it('has datagrid table', function() {
         this.instance.$node.find('table.datagrid').length.should.equal(1);
       });
@@ -28,11 +33,6 @@ define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
 
       it('has datagrid table body with proper message', function() {
         this.instance.$node.find('table.datagrid tbody').text().should.equal('0 wierszy');
-      });
-
-      after(function() {
-        this.instance.teardown();
-        $('#test').remove();
       });
     });
 
@@ -63,6 +63,11 @@ define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
           2 : 'Cross-country'
         });
         this.instance = new UserRaceStats('#test');
+      });
+
+      after(function() {
+        this.instance.teardown();
+        $('#test').remove();
       });
 
       it('has filtering dropdown', function() {
@@ -99,11 +104,6 @@ define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
 
       it('has datagrid with link to user profile in first column', function() {
         this.instance.$node.find('tbody tr:first > td:nth-child(1) a').attr('href').should.equal('http://www.czasnarower/uzytkownik/323');
-      });
-
-      after(function() {
-        this.instance.teardown();
-        $('#test').remove();
       });
     });
 

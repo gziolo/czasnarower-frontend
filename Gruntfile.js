@@ -137,7 +137,7 @@ module.exports = function(grunt) {
         files : [ {
           expand : true,
           cwd : 'js/',
-          src : [ 'mixins/**/*.js', 'components/**/*.js', 'components/**/*.html' ],
+          src : [ 'mixins/**/*.js', 'mixins/**/*.html', 'components/**/*.js', 'components/**/*.html' ],
           dest : 'dist/frontend/js/'
         } ]
       },
