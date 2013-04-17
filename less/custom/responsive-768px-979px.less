@@ -2,34 +2,25 @@
 // Responsive: Tablet to desktop
 // --------------------------------------------------
 
-
 @media (min-width: 768px) and (max-width: 979px) {
-   #main {
-		padding: 0 @gridGutterWidth768 @gridGutterWidth768;
-   }
-  // Fixed grid
-  #grid > .core(@gridColumnWidth768, @gridGutterWidth768);
 
-  // Fluid grid
-  #grid > .fluid(@fluidGridColumnWidth768, @fluidGridGutterWidth768);
+  #main {
+    padding: 0 @gridGutterWidth768 @gridGutterWidth768;
+  }
 
-  // Input grid
-  #grid > .input(@gridColumnWidth768, @gridGutterWidth768);
+  // Set the container width, and override it for fixed navbars in media queries
+  .container,
+  .navbar-static-top .container,
+  .navbar-fixed-top .container,
+  .navbar-fixed-bottom .container {
+    width: (@gridColumnWidth768 * @gridColumns) + (@gridGutterWidth768 * (@gridColumns - 1)) + 2*@gridGutterWidth768;
+  }
 
-	// Set the container width, and override it for fixed navbars in media queries
-	.container,
-    .navbar-static-top .container,
-    .navbar-fixed-top .container,
-    .navbar-fixed-bottom .container { 
-		
-	 width: (@gridColumnWidth768 * @gridColumns) + (@gridGutterWidth768 * (@gridColumns - 1)) + 2*@gridGutterWidth768;
-	}
+  .navbar #user_panel {
+    right: 5px;
+    top: 5px;
+    position: absolute;
+  }
 
-  	.navbar #user_panel {
-  		right: 5px;
-  		top: 5px;
-  		position: absolute;
-  	}
-  	
-  	.thumbnails {margin-left: -(@gridGutterWidth768);}
+  .thumbnails {margin-left: -(@gridGutterWidth768);}
 }

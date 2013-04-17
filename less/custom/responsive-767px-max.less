@@ -1,63 +1,3 @@
-@media (max-width: 979px) {
-	#main {
-	  	margin-top: 0;
-	  }
-    //NAVBAR
-    .navbar-wrapper {
-        background: url('../img/header-bg-pattern.gif') top left repeat;
-        border: 3px solid @orange;
-        border-width: 1px 0;
-        height: auto;
-        min-height: 45px;
-        margin-bottom: 2px;
-        .container, .container.image-1, .container.image-2,  .container.image-3,  .container.image-4 {
-            background-image: none;
-        }
-        .navbar {
-        	
-            &.navbar-inverse .nav-collapse .nav > .active {
-                background: @black;
-                border-color: @black;
-                a, a:active, a:focus {
-                    background: #3A3A3A;
-                    color: @white;
-                }
-            }
-            height: auto;
-            position: relative;
-            .nav, .special {
-                .utility-buttons {
-                    float: none;
-                }
-                li {
-                    
-                }
-            }
-            .btn.btn-navbar {
-            	float: left;
-            }
-            .brand {
-            	float: none;
-            	position: absolute;
-            	left: 90px;
-            	padding: 3px 10px 0;
-            	height: auto;
-                .logo {
-                    background: url(@logoPathSmall) left top no-repeat;
-                    height: 40px;
-                    width: 48px;
-                    margin: 0px;
-                    padding: 0;
-                }
-                small {
-                	display: none;
-                    margin-left: 55px;
-                }
-            }
-            
-        }
-    }
-}
 //
 // Responsive: Landscape phone to desktop/tablet
 // --------------------------------------------------
@@ -65,112 +5,6 @@
 
 @media (max-width: 767px) {
 
-  // Padding to set content in a bit
-  body {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  // Negative indent the now static "fixed" navbar
-  .navbar-fixed-top,
-  .navbar-fixed-bottom,
-  .navbar-static-top {
-    margin-left: -20px;
-    margin-right: -20px;
-  }
-  // Remove padding on container given explicit padding set on body
-  .container-fluid {
-    padding: 0;
-  }
-
-  // TYPOGRAPHY
-  // ----------
-  // Reset horizontal dl
-  .dl-horizontal {
-    dt {
-      float: none;
-      clear: none;
-      width: auto;
-      text-align: left;
-    }
-    dd {
-      margin-left: 0;
-    }
-  }
-
-  // GRID & CONTAINERS
-  // -----------------
-  // Remove width from containers
-  .container {
-    width: auto;
-  }
-  // Fluid rows
-  .row-fluid {
-    width: 100%;
-  }
-  // Undo negative margin on rows and thumbnails
-  .row,
-  .thumbnails {
-    margin-left: 0;
-  }
-  .thumbnails > li {
-    float: none;
-    margin-left: 0; // Reset the default margin for all li elements when no .span* classes are present
-  }
-  // Make all grid-sized elements block level again
-  [class*="span"],
-  .uneditable-input[class*="span"], // Makes uneditable inputs full-width when using grid sizing
-  .row-fluid [class*="span"] {
-    float: none;
-    display: block;
-    width: 100%;
-    margin-left: 0;
-    .box-sizing(border-box);
-  }
-  .span12,
-  .row-fluid .span12 {
-    width: 100%;
-    .box-sizing(border-box);
-  }
-  .row-fluid [class*="offset"]:first-child {
-		margin-left: 0;
-	}
-
-  // FORM FIELDS
-  // -----------
-  // Make span* classes full width
-  .input-large,
-  .input-xlarge,
-  .input-xxlarge,
-  input[class*="span"],
-  select[class*="span"],
-  textarea[class*="span"],
-  .uneditable-input {
-    .input-block-level();
-  }
-  // But don't let it screw up prepend/append inputs
-  .input-prepend input,
-  .input-append input,
-  .input-prepend input[class*="span"],
-  .input-append input[class*="span"] {
-    display: inline-block; // redeclare so they don't wrap to new lines
-    width: auto;
-  }
-  .controls-row [class*="span"] + [class*="span"] {
-    margin-left: 0;
-  }
-
-  // Modals
-  .modal {
-    position: fixed;
-    top:   20px;
-    left:  20px;
-    right: 20px;
-    width: auto;
-    margin: 0;
-    &.fade  { top: -100px; }
-    &.fade.in { top: 20px; }
-  }
-  
   .navbar #user_panel {
 	right: 5px;
 	width: auto;
@@ -179,17 +13,17 @@
 	}
 	#login_menu .btn {
 		font-size: .8em;
-    	padding: 0 6px;	
+    	padding: 0 6px;
     }
    }
-    
+
     table {
         table-layout:fixed;
         word-wrap:break-word;
         tr.visible-phone { display: table-row !important; }
         td.visible-phone { display: table-cell !important; }
     }
-    
+
     .media .photos-list.pull-right,
     .photos-list.pull-right {
 		float: right;
@@ -225,7 +59,7 @@
 			display: inline-block;
 			float: left;
 			width: auto;
-			.thumbnail { 
+			.thumbnail {
 				margin: 1px 3px;
 				img { max-width: 100%; }
 			}
@@ -269,7 +103,7 @@
         }
         .title, .author {
             background: transparent;
-            position: static; 
+            position: static;
             color: @black;
             a { color: @linkColor;}
         }
@@ -302,7 +136,7 @@
 		}
 	}
 	#user_thumbs { clear: both; }
-	
+
 	.entry {
 		&.list {
 	       .news-content {
@@ -311,7 +145,7 @@
 		  }
 	  	}
 	}
-	
+
 }
 
 // UP TO LANDSCAPE PHONE
@@ -319,86 +153,16 @@
 
 @media (max-width: 480px) {
 
-  // Smooth out the collapsing/expanding nav
-  .nav-collapse {
-    -webkit-transform: translate3d(0, 0, 0); // activate the GPU
-  }
-
-  // Block level the page header small tag for readability
-  .page-header h1 small {
-    display: block;
-    line-height: @baseLineHeight;
-  }
-
-  // Update checkboxes for iOS
-  input[type="checkbox"],
-  input[type="radio"] {
-    border: 1px solid #ccc;
-  }
-
-  // Remove the horizontal form styles
-  .form-horizontal {
-    .control-label {
-      float: none;
-      width: auto;
-      padding-top: 0;
-      text-align: left;
-    }
-    // Move over all input controls and content
-    .controls {
-      margin-left: 0;
-    }
-    // Move the options list down to align with labels
-    .control-list {
-      padding-top: 0; // has to be padding because margin collaspes
-    }
-    // Move over buttons in .form-actions to align with .controls
-    .form-actions {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-  }
-
-  // Medias
-  // Reset float and spacing to stack
-  .media .pull-left,
-  .media .pull-right  {
-    float: none;
-    display: block;
-    margin-bottom: 10px;
-  }
-  // Remove side margins since we stack instead of indent
-  .media-object {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  // Modals
-  .modal {
-    top:   10px;
-    left:  10px;
-    right: 10px;
-  }
-  .modal-header .close {
-    padding: 10px;
-    margin: -10px;
-  }
-
-  	// Carousel
-  	.carousel-caption {
-    	position: static;
-	}
-
 	#map.big, .mapCanvas.big { height: 400px; }
 
-	
-	.carousel { 
+
+	.carousel {
 		min-height: 251px;
 		.carousel-caption {position: absolute;}
 		.title { .text-overflow();}
 	}
 	.carousel-inner {max-width: 100%;}
-	
+
 	.entry {
 		.pull-left {
 			float: left;
@@ -433,12 +197,12 @@
 		       &.active > a, &.active > a:hover {
 		          background-color: @grayLighter;
 		          border: 1px solid #ddd;
-		       }  
+		       }
 		  }
 		}
 		.tab-content {
 			overflow: hidden;
-			
+
 		}
 		.entry.big.shedule {
 			.title {
@@ -454,7 +218,7 @@
 			}
 		}
 	}
-	
+
 	.photo.thumb {
 		float: left;
 		img { max-width: 115px;}
@@ -476,7 +240,7 @@
 			float: none;
 		}
 	}
-	
+
 	.thumbnails {
 		.span3 { width: 50%; }
 		.span4 { width: 33%; }
@@ -484,7 +248,7 @@
 			max-width: 100%;
 		}
 	}
-	
+
 }
 
 
@@ -496,13 +260,13 @@
                 display: table;
                 margin: 0 auto;
                 .thumbnail {
-                   
+
                     img {
                         max-width: 100%;
                     }
                 }
-                
-            } 
+
+            }
         }
     }
     .navbar-wrapper .navbar {
@@ -521,7 +285,7 @@
 		.span3 { width: 100%;  }
 		.span4 { width: 100%; }
 		.photo.thumb {
-			max-width: 100%; 
+			max-width: 100%;
 			float: none;
 			display: table;
 			margin: 1px auto;

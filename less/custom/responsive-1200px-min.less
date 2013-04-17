@@ -5,67 +5,55 @@
 
 @media (min-width: 1200px) {
 
-	
-	.navbar-wrapper {
-		.container {
-	  		background: url('../img/header/01_b.jpg') top center no-repeat;
-	  		&.image-2 { background-image: url('../img/header/02_b.jpg');}
-			&.image-3 { background-image: url('../img/header/03_b.jpg');}
-			&.image-4 { background-image: url('../img/header/04_b.jpg');}
-	  	}
-  	}
-  // Fixed grid
-  #grid > .core(@gridColumnWidth1200, @gridGutterWidth1200);
-
-  // Fluid grid
-  #grid > .fluid(@fluidGridColumnWidth1200, @fluidGridGutterWidth1200);
-
-  // Input grid
-  #grid > .input(@gridColumnWidth1200, @gridGutterWidth1200);
-
-  // Thumbnails
-  .thumbnails {
-    margin-left: -@gridGutterWidth1200;
+  .navbar-wrapper {
+    .container {
+      background: url('../img/header/01_b.jpg') top center no-repeat;
+      &.image-2 {
+        background-image: url('../img/header/02_b.jpg');
+      }
+      &.image-3 {
+        background-image: url('../img/header/03_b.jpg');
+      }
+      &.image-4 {
+        background-image: url('../img/header/04_b.jpg');
+      }
+    }
   }
-  .thumbnails > li {
-    margin-left: @gridGutterWidth1200;
-  }
-  .row-fluid .thumbnails {
-    margin-left: 0;
-  }
-	
+
   .entry {
   	&.special {
   	  &.shedule {
-  	  	.media-body {
-  	  		margin-bottom: 6px;
-  	  	}
-  	  	h6 {
-        	margin-top: 10px;
-    	}
-  	  	.shedule-participants {
-  	  		height: 35px;
-  	  		margin-top: 3px;
-  	  		.avatar img {
-  	  			width: 30px;
-  	  			height: 30px;
-  	  		}
-  	  	}
-  	  }
-  	}
-  }
-  .users-list {
-        height: 36px;
-        line-height: 36px;
-        .list {
-            height: 36px;
+        .media-body {
+          margin-bottom: 6px;
         }
-        .header {
-        	line-height: 36px;
+        h6 {
+          margin-top: 10px;
         }
-        .cnr-join-us .btn {
-        	#font .special(18px, normal, 25px);
-    	}
-        .avatar img{ height: 30px; width: 30px; }
+        .shedule-participants {
+          height: 35px;
+          margin-top: 3px;
+          .avatar img {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
     }
+  }
+
+  .users-list {
+    height: 36px;
+    line-height: 36px;
+
+    .list {
+      height: 36px;
+    }
+    .header {
+      line-height: 36px;
+    }
+    .cnr-join-us .btn {
+      #font .special(18px, normal, 25px);
+    }
+    .avatar img{ height: 30px; width: 30px; }
+  }
 }

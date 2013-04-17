@@ -1,0 +1,62 @@
+@media (max-width: 979px) {
+
+    #main {
+        margin-top: 0;
+    }
+
+    //NAVBAR
+    .navbar-wrapper {
+        background: url('../img/header-bg-pattern.gif') top left repeat;
+        border: 3px solid @orange;
+        border-width: 1px 0;
+        height: auto;
+        min-height: 45px;
+        margin-bottom: 2px;
+        .container, .container.image-1, .container.image-2,  .container.image-3,  .container.image-4 {
+            background-image: none;
+        }
+        .navbar {
+
+            &.navbar-inverse .nav-collapse .nav > .active {
+                background: @black;
+                border-color: @black;
+                a, a:active, a:focus {
+                    background: #3A3A3A;
+                    color: @white;
+                }
+            }
+            height: auto;
+            position: relative;
+            .nav, .special {
+                .utility-buttons {
+                    float: none;
+                }
+                li {
+
+                }
+            }
+            .btn.btn-navbar {
+                float: left;
+            }
+            .brand {
+                float: none;
+                position: absolute;
+                left: 90px;
+                padding: 3px 10px 0;
+                height: auto;
+                .logo {
+                    background: url(@logoPathSmall) left top no-repeat;
+                    height: 40px;
+                    width: 48px;
+                    margin: 0px;
+                    padding: 0;
+                }
+                small {
+                    display: none;
+                    margin-left: 55px;
+                }
+            }
+
+        }
+    }
+}
