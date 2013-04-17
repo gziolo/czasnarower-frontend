@@ -31,7 +31,7 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
         this.collection.fetch({
           success : success.bind(this),
           data : {
-            category_id : options.filter.value
+            filter : options.filter.value
           }
         });
         return;

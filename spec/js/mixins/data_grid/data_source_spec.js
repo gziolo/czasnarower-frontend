@@ -124,10 +124,10 @@ define([ 'backbone', 'js/mixins/data_grid/data_source' ], function(Backbone, Dat
       });
 
       it('should fetch data from web service when filter param provided', function() {
-        var filterId = 1;
+        var filterValue = 1;
         var callback = sinon.spy();
 
-        this.server.respondWith('GET', restUrl + '?category_id=' + filterId, [ 200, {
+        this.server.respondWith('GET', restUrl + '?filter=' + filterValue, [ 200, {
           'Content-Type' : 'application/json'
         }, JSON.stringify(rows) ]);
 
@@ -135,7 +135,7 @@ define([ 'backbone', 'js/mixins/data_grid/data_source' ], function(Backbone, Dat
           pageIndex : 0,
           pageSize : 20,
           filter : {
-            value : filterId
+            value : filterValue
           }
         }, callback);
 
