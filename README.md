@@ -50,13 +50,16 @@ Development dependencies:
 * [Bower](http://twitter.github.com/bower/)
 * [Mocha](http://visionmedia.github.com/mocha/)
 * [Chai](http://chaijs.com/)
+* [Sinon](http://sinonjs.org/)
 
-Code dependencies: 
+Code base dependencies: 
 * [jQuery](http://jquery.com/)
 * [Bootstrap](http://twitter.github.com/bootstrap/)
 * [json2](https://github.com/douglascrockford/JSON-js)
 * [RequireJS](http://requirejs.org/)
 * [LoDash](http://lodash.com/)
+* [Backbone](http://backbonejs.org/)
+* [Flight](http://twitter.github.io/flight/)
 
 ## Copyright and license
 
