@@ -101,7 +101,7 @@ define([ 'jquery', 'backbone', 'flight', 'js/mixins/with_data_grid', 'js/mixins/
       });
 
       it('should have datagrid with proper id', function() {
-        this.instance.$node.find('table.datagrid').attr('id').should.equal('dataGrid2');
+        this.instance.$node.find('table.datagrid').attr('id').should.match(/^cnr-data-grid/);
       });
 
       it('should have datagrid table head with proper label', function() {

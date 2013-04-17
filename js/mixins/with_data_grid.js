@@ -18,7 +18,7 @@ define([ 'underscore', 'flight', 'js/mixins/with_template', 'js/mixins/data_grid
         }
 
         $node.html(this.template({
-          tableId : data.tableId || _.uniqueId('dataGrid'),
+          tableId : data.tableId || _.uniqueId('cnr-data-grid'),
           tableName : data.tableName || '',
           filterOptions : data.filterOptions || {},
           searchEnabled : false

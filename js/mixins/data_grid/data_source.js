@@ -42,13 +42,15 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
 
     renderDataGrid : function(options, callback) {
       var data;
+      var pageIndex = options.pageIndex || 0;
+      var pageSize = options.pageSize || 25;
       var count = this.collection.size();
-      var startIndex = options.pageIndex * options.pageSize;
+      var startIndex = pageIndex * pageSize;
       var start = startIndex + 1;
-      var endIndex = startIndex + options.pageSize;
+      var endIndex = startIndex + pageSize;
       var end = count < endIndex ? count : endIndex;
-      var pages = Math.ceil(count / options.pageSize);
-      var page = options.pageIndex + 1;
+      var pages = Math.ceil(count / pageSize);
+      var page = pageIndex + 1;
 
       if (options.search) {
       }
