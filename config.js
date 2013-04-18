@@ -81,6 +81,7 @@ define(function() {
         exports : 'JSON'
       },
       underscore : {
+        deps : [ 'es5shim', 'es5sham' ],
         exports : '_'
       }
     }

@@ -1,4 +1,4 @@
-define([ 'backbone', 'bootstrap_plugins', 'flight', 'text', 'moment_pl', 'jquery_migrate' ], function() {
+define([ 'backbone', 'bootstrap_plugins', 'flight', 'text', 'moment_pl', 'es5shim', 'es5sham', 'jquery_migrate' ], function() {
   'use strict';
 
   require([ 'legacy/component', 'cookies_alert/component', 'user_race_stats/component' ], function(legacy, CookiesAlert, UserRaceStats) {

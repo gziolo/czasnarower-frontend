@@ -1,4 +1,4 @@
-define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
+define([ 'jquery', 'backbone' ], function($, Backbone) {
   'use strict';
 
   function DataSource(options) {
@@ -57,14 +57,15 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
 
       if (options.sortProperty && this.comparators[options.sortProperty] !== undefined) {
         this.collection.comparator = this.comparators[options.sortProperty];
-        this.collection.sort({
-          order : options.sortDirection
-        });
+        this.collection.sort();
+        if (options.sortDirection === 'desc') {
+          this.collection.models = this.collection.models.reverse();
+        }
       }
 
       data = this.collection.slice(startIndex, end);
 
-      data = _.map(data, this.formatter);
+      data = data.map(this.formatter);
 
       callback({
         data : data,

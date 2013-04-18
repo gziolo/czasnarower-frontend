@@ -65,7 +65,12 @@ define([ 'backbone', 'js/mixins/data_grid/data_source' ], function(Backbone, Dat
         this.collection = new Collection();
         this.fixture = new DataSource({
           collection : this.collection,
-          columns : columns
+          columns : columns,
+          comparators : {
+            id : function(model) {
+              return model.get('id');
+            }
+          }
         });
         this.server = sinon.fakeServer.create();
       });
@@ -76,7 +81,7 @@ define([ 'backbone', 'js/mixins/data_grid/data_source' ], function(Backbone, Dat
         this.collection = undefined;
       });
 
-      it('should execute callback properly when no rows provided', function() {
+      it('should execute callback properly when no data rows provided', function() {
         var callback = sinon.spy();
 
         this.fixture.data({}, callback);
@@ -90,7 +95,7 @@ define([ 'backbone', 'js/mixins/data_grid/data_source' ], function(Backbone, Dat
         });
       });
 
-      it('should execute callback properly when rows provided', function() {
+      it('should execute callback properly when data rows provided', function() {
         var callback = sinon.spy();
 
         this.collection.add(rows);
@@ -105,7 +110,7 @@ define([ 'backbone', 'js/mixins/data_grid/data_source' ], function(Backbone, Dat
         });
       });
 
-      it('should execute callback properly when pagination and rows provided', function() {
+      it('should execute callback properly when pagination and data rows provided', function() {
         var callback = sinon.spy();
 
         this.collection.add(rows);
@@ -150,6 +155,70 @@ define([ 'backbone', 'js/mixins/data_grid/data_source' ], function(Backbone, Dat
           page : 1
         });
 
+      });
+
+      it('should execute callback with data sorted when sort param is provided', function() {
+        var callback = sinon.spy();
+
+        this.collection.add(rows);
+        this.fixture.data({
+          sortProperty : 'id'
+        }, callback);
+        callback.should.have.been.calledWith({
+          data : rows,
+          start : 1,
+          end : 2,
+          count : 2,
+          pages : 1,
+          page : 1
+        });
+      });
+
+      it('should execute callback with data sorted in descending order when sort direction is provided', function() {
+        var callback = sinon.spy();
+
+        this.collection.add(rows);
+        this.fixture.data({
+          sortProperty : 'id',
+          sortDirection : 'desc'
+        }, callback);
+        callback.should.have.been.calledWith({
+          data : rows.slice(0).reverse(),
+          start : 1,
+          end : 2,
+          count : 2,
+          pages : 1,
+          page : 1
+        });
+      });
+
+      it('should execute callback with formatted output data when formatter is provided', function() {
+        var callback = sinon.spy();
+
+        this.fixture = new DataSource({
+          collection : this.collection,
+          columns : columns,
+          formatter : function(model) {
+            var data = model.toJSON();
+            data.test = 'test' + data.id;
+            return data;
+          }
+        });
+        this.collection.add([ {
+          id : 1
+        } ]);
+        this.fixture.data({}, callback);
+        callback.should.have.been.calledWith({
+          data : [ {
+            id : 1,
+            test : 'test1'
+          } ],
+          start : 1,
+          end : 1,
+          count : 1,
+          pages : 1,
+          page : 1
+        });
       });
     });
   });
