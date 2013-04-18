@@ -53,13 +53,14 @@ Development dependencies:
 * [Sinon](http://sinonjs.org/)
 
 Code base dependencies: 
+* [RequireJS](http://requirejs.org/)
+* [json2](https://github.com/douglascrockford/JSON-js)
+* [ES5-shim](https://github.com/kriskowal/es5-shim)
 * [jQuery](http://jquery.com/)
 * [Bootstrap](http://twitter.github.com/bootstrap/)
-* [json2](https://github.com/douglascrockford/JSON-js)
-* [RequireJS](http://requirejs.org/)
+* [Flight](http://twitter.github.io/flight/)
 * [LoDash](http://lodash.com/)
 * [Backbone](http://backbonejs.org/)
-* [Flight](http://twitter.github.io/flight/)
 
 ## Copyright and license
 
