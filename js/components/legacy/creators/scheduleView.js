@@ -112,7 +112,7 @@ define(function() {
       $.each(data.schedules, function(i, schedule) {
         var latLng = new google.maps.LatLng(schedule.latitude, schedule.longitude);
         if (!area || area.contains(latLng)) {
-          var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.png', anchor = {
+          var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.1.png', anchor = {
             x : 60,
             y : 32
           };
@@ -235,7 +235,7 @@ define(function() {
           y : (size ? 32 : 0)
         },
         6 : {
-          x : (size ? 60 : 96),
+          x : (size ? 802 : 849),
           y : (size ? 32 : 0)
         },
         7 : {
@@ -255,43 +255,59 @@ define(function() {
           y : (size ? 32 : 0)
         },
         11 : {
+          x : (size ? 723 : 723),
+          y : (size ? 32 : 0)
+        },
+        100 : {
+          x : (size ? 762 : 785),
+          y : (size ? 32 : 0)
+        },
+        101 : {
           x : (size ? 360 : 576),
           y : (size ? 32 : 0)
         },
-        12 : {
+        102 : {
           x : (size ? 320 : 512),
           y : (size ? 32 : 0)
         },
-        13 : {
+        103 : {
           x : (size ? 280 : 448),
           y : (size ? 32 : 0)
         },
-        14 : {
+        104 : {
           x : (size ? 240 : 384),
           y : (size ? 32 : 0)
         },
-        15 : {
+        105 : {
           x : (size ? 80 : 128),
           y : (size ? 32 : 0)
         },
-        16 : {
-          x : (size ? 80 : 128),
+        106 : {
+          x : (size ? 822 : 881),
           y : (size ? 32 : 0)
         },
-        17 : {
+        107 : {
           x : (size ? 160 : 256),
           y : (size ? 32 : 0)
         },
-        18 : {
+        108 : {
           x : (size ? 120 : 192),
           y : (size ? 32 : 0)
         },
-        19 : {
+        109 : {
           x : (size ? 80 : 128),
+          y : (size ? 32 : 0)
+        },
+        110 : {
+          x : (size ? 782 : 817),
+          y : (size ? 32 : 0)
+        },
+        111 : {
+          x : (size ? 742 : 753),
           y : (size ? 32 : 0)
         }
       };
-      var index = Number(cat) + (past ? 10 : 0);
+      var index = Number(cat) + (past ? 100 : 0);
 
       return aAnchors[index];
     };
