@@ -38,7 +38,8 @@ var Forum = {
 
       var titleValue = $("input[name='title']").val();
       var descriptionValue = $("textarea[name='message']").val();
-
+      var category = +$("select[name='category']").val();
+      
       if (descriptionValue && descriptionValue.length < 1) {
         setErrorCommunique('description_communique', 'Wpisz treść wiadomości');
         errors += 1;
@@ -49,6 +50,11 @@ var Forum = {
         errors += 1;
       }
 
+      if (!category) {
+        setErrorCommunique('forum_thread_category_communique', 'Kategoria nie została wybrana');
+        errors += 1;
+      }
+      
       if (errors > 0) {
         setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
         return false;
