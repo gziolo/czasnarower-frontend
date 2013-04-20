@@ -40,7 +40,7 @@ var Forum = {
       var descriptionValue = $("textarea[name='message']").val();
       var category = +$("select[name='category']").val();
       
-      if (descriptionValue && descriptionValue.length < 1) {
+      if (!descriptionValue || (descriptionValue && descriptionValue.length < 1)) {
         setErrorCommunique('description_communique', 'Wpisz treść wiadomości');
         errors += 1;
       }
