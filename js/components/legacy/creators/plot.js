@@ -5,8 +5,19 @@ define(function() {
 
     var plotSizes = {};
     var plotCanvas = null;
+    
     var showUserResults = function(target, stats, ticks, races) {
-      if (plotCanvas) {
+        $.jqplot.postDrawHooks.push(function() {
+            $('#plot_loader').hide();
+            console.log('after draw');
+        });
+        
+        $.jqplot.preDrawHooks.push(function() {
+            $('#plot_loader').show();
+            console.log('before draw');
+        });
+        
+        if (plotCanvas) {
         plotCanvas.destroy();
       }
       plotCanvas = $.jqplot(target, stats, {
@@ -183,7 +194,7 @@ define(function() {
         facade.listen('plot-show-track-profile', this.showTrackProfile, this);
       },
       showUserResults : function(messageInfo) {
-        var radio;
+        var radio, options;
 
         if (!messageInfo.data.stats || !messageInfo.data.stats.length || !messageInfo.data.ticks) {
           return;
@@ -198,12 +209,14 @@ define(function() {
         });
 
         if (unique.length > 1) {
+          options = $('<div id="categorySelect">Wybierz kategorię: </div>');
+          $('#results_stats').before(options);
           radio = $('<label class="radio inline"><input checked type="radio" name="category" value="0"/>wszystkie<label>');
-          $('#results_stats').before(radio);
+          options.append(radio);
 
           for ( var cat in unique) {
             radio = $('<label class="radio inline"><input type="radio" name="category" value="' + unique[cat] + '"/>' + (categories_labels[unique[cat]] ? categories_labels[unique[cat]] : 'kategoria '+unique[cat])  + ' <label>');
-            $('#results_stats').before(radio);
+            options.append(radio);
           }
 
           $('input[name=category]').on('change', function() {
