@@ -36,23 +36,26 @@ var Forum = {
       $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
       var errors = 0;
 
-      var titleValue = $("input[name='title']").val();
+      var id = $('input[name="forum_thread_id"]').val();
+      var titleValue = $('input[name="title"]').val();
       var descriptionValue = $("textarea[name='message']").val();
-      var category = +$("select[name='category']").val();
+      var category = +$("select[name='category_id']").val();
 
-      if (!descriptionValue || (descriptionValue && descriptionValue.length < 1)) {
-        setErrorCommunique('description_communique', 'Wpisz treść wiadomości');
-        errors += 1;
-      }
-
-      if (titleValue.length < 3 || titleValue.length > 80) {
-        setErrorCommunique('title_communique', 'Tytuł nie został poprawnie wypełniony: wpisz tekst o długości 3-80 znaków');
+      if (!titleValue || titleValue.length < 3 || titleValue.length > 80) {
+        setErrorCommunique('title_communique', 'Tytuł nie został poprawnie wypełniony: wpisz tekst o długości 3-80 znaków.');
         errors += 1;
       }
 
       if (!category) {
-        setErrorCommunique('forum_thread_category_communique', 'Kategoria nie została wybrana');
+        setErrorCommunique('forum_thread_category_communique', 'Kategoria nie została wybrana.');
         errors += 1;
+      }
+
+      if (id) {
+        if (!descriptionValue || descriptionValue.length < 1) {
+          setErrorCommunique('description_communique', 'Wpisz treść komentarza.');
+          errors += 1;
+        }
       }
 
       if (errors > 0) {
