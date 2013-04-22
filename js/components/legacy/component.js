@@ -39,7 +39,7 @@ var Forum = {
       var titleValue = $("input[name='title']").val();
       var descriptionValue = $("textarea[name='message']").val();
       var category = +$("select[name='category']").val();
-      
+
       if (!descriptionValue || (descriptionValue && descriptionValue.length < 1)) {
         setErrorCommunique('description_communique', 'Wpisz treść wiadomości');
         errors += 1;
@@ -54,7 +54,7 @@ var Forum = {
         setErrorCommunique('forum_thread_category_communique', 'Kategoria nie została wybrana');
         errors += 1;
       }
-      
+
       if (errors > 0) {
         setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
         return false;
@@ -302,7 +302,6 @@ function bindLoadEvents() {
     interval : 5000
   }).bind('slid', function(evt) {
     var id = $("#myCarousel .item.active").attr("data-id");
-    // console.log(id);
     $("#myCarousel .carousel-items article.active").removeClass("active");
     $("#myCarousel .carousel-items article[data-id=" + id + "]").addClass("active");
   });

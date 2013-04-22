@@ -5,18 +5,16 @@ define(function() {
 
     var plotSizes = {};
     var plotCanvas = null;
-    
+
     var showUserResults = function(target, stats, ticks, races) {
         $.jqplot.postDrawHooks.push(function() {
             $('#plot_loader').hide();
-            console.log('after draw');
         });
-        
+
         $.jqplot.preDrawHooks.push(function() {
             $('#plot_loader').show();
-            console.log('before draw');
         });
-        
+
         if (plotCanvas) {
         plotCanvas.destroy();
       }
