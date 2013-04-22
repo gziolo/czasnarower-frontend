@@ -7,17 +7,16 @@ define(function() {
     var plotCanvas = null;
 
     var showUserResults = function(target, stats, ticks, races) {
-        $.jqplot.postDrawHooks.push(function() {
-            $('#plot_loader').hide();
-        });
-
-        $.jqplot.preDrawHooks.push(function() {
-            $('#plot_loader').show();
-        });
-
-        if (plotCanvas) {
+      if (plotCanvas) {
         plotCanvas.destroy();
       }
+      $.jqplot.postDrawHooks.push(function() {
+        $('#results_stats_box .loader-progress').hide();
+      });
+
+      $.jqplot.preDrawHooks.push(function() {
+        $('#results_stats_box .loader-progress').show();
+      });
       plotCanvas = $.jqplot(target, stats, {
         grid : {
           drawGridlines : true,
