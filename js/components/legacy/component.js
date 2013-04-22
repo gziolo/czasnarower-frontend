@@ -213,6 +213,7 @@ function validateSchedule() {
   var startPlaceValue = $("input[name='start_place']").val();
   var startDayValue = $("input[name='start_day']").val();
   var urlValue = $("input[name='url']").val();
+  var sortValue = +$("select[name='race_sort']").val();
 
   if (startDayValue.length < 1) {
     setErrorCommunique('start_day_communique', 'Data wyścigu nie została wybrana');
@@ -224,6 +225,10 @@ function validateSchedule() {
   }
   if (startPlaceValue.length < 1) {
     setErrorCommunique('start_place_communique', 'Miejsce startu jest wymagane');
+    errors += 1;
+  }
+  if (!sortValue) {
+    setErrorCommunique('race_sort_communique', 'Rodzaj wyścigu nie został wybrany');
     errors += 1;
   }
   if (urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
@@ -382,5 +387,4 @@ define([ 'jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/co
       }
     }
   });
-
 });
