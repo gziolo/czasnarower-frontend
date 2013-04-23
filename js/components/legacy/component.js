@@ -206,14 +206,10 @@ function validateNews() {
 
 function validateSchedule() {
 
-  $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+  var errors = 0, raceNameValue = $("input[name='race_name']").val(), startPlaceValue = $("input[name='start_place']").val(), startDayValue = $("input[name='start_day']").val(), urlValue = $(
+      "input[name='url']").val(), sortValue = +$("select[name='race_sort']").val();
 
-  var errors = 0;
-  var raceNameValue = $("input[name='race_name']").val();
-  var startPlaceValue = $("input[name='start_place']").val();
-  var startDayValue = $("input[name='start_day']").val();
-  var urlValue = $("input[name='url']").val();
-  var sortValue = +$("select[name='race_sort']").val();
+  $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
 
   if (startDayValue.length < 1) {
     setErrorCommunique('start_day_communique', 'Data wyścigu nie została wybrana');
