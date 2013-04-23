@@ -24,12 +24,21 @@ define([ 'underscore', 'flight', 'js/mixins/with_template', 'js/mixins/data_grid
           searchEnabled : false
         }));
         $node.find('thead .select').select('resize');
+        $node.one('loaded', function() {
+          if (data.collection.size() === 0) {
+            return;
+          }
+          if (data.dataOptions === undefined || data.dataOptions.sortProperty === undefined) {
+            return;
+          }
+          $node.find('table.datagrid th.sortable[data-property=' + data.dataOptions.sortProperty + ']').addClass('sorted');
+        });
         $node.datagrid({
           dataSource : this.dataSourceFactory({
             collection : data.collection,
-            columns : data.columns || [],
-            comparators : data.comparators || {},
-            formatter : data.formatter || function() {}
+            columns : data.columns,
+            comparators : data.comparators,
+            formatter : data.formatter
           }),
           dataOptions : data.dataOptions || {},
           loadingHTML : '<div class="progress progress-striped active" style="width:50%;margin:auto;"><div class="bar" style="width:100%;"></div></div>',
