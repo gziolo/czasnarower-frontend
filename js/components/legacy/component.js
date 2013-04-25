@@ -127,28 +127,6 @@ function bindFormElements(sTarget) {
 
 }
 
-function bindButtons(sTarget) {
-
-  sTarget = sTarget ? sTarget + " " : "";
-  $("ul[class='popular'] li h5 a").hover(function() {
-    $(this).parents("h5").parents("li").addClass("active");
-  }, function() {
-    $(this).parents("h5").parents("li").removeClass("active");
-  });
-
-  $("#user_menu li a").hover(function() {
-    $(this).parents("li").addClass("active");
-  }, function() {
-    $(this).parents("li").removeClass("active");
-  });
-
-  $("p .edit a, h6 .edit a").hover(function() {
-    $(this).parents("span").addClass("active");
-  }, function() {
-    $(this).parents("span").removeClass("active");
-  });
-}
-
 function validateUserPhoto() {
 
   $(".control-group").removeClass('alert alert-error error');
@@ -240,7 +218,6 @@ function validateSchedule() {
 
 function bindLoadEvents() {
 
-  bindButtons();
   bindNewWindow();
 
   $('html').click(function() {

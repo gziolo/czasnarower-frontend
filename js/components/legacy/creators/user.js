@@ -84,24 +84,29 @@ define(function() {
 
     function bindRegistrationForm() {
 
-      $('#registration_form').bind('submit', function(oEvent) {
+      $('#registration_form input[type=submit]').on('click', function() {
+        var submitButton = $(this);
+        
         $.ajax({
           type : 'post',
           url : 'ajax',
           data : $('#registration_form').serialize(),
           beforeSend : function() {
+            submitButton.button('loading');
             $("#ebilightbox p[class='error']").hide();
-          },
-          success : function(sData) {
-            $('#ebilightbox').html(sData);
-            $("#ebilightbox p[class='error']").fadeIn('slow');
-            $('#registration_communique').css('background-color', '#FDF8D3');
-            $('#registration_communique').css('color', '#333333');
-            bindRegistrationForm();
           }
+        }).done(function(sData) {
+          $('#ebilightbox').html(sData);
+          $("#ebilightbox p[class='error']").fadeIn('slow');
+          $('#registration_communique').css('background-color', '#FDF8D3');
+          $('#registration_communique').css('color', '#333333');
+          bindRegistrationForm();
+        }).always(function() {
+          submitButton.button('reset');
         });
-        oEvent.preventDefault();
+        return false;
       });
+      
       bindFormElements('#ebilightbox');
       $('#registration_form input').focus(function() {
         $(this).next('label.tip').css('display', 'block');
