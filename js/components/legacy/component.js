@@ -103,30 +103,6 @@ function bindNewWindow(sTarget) {
   });
 }
 
-function bindFormElements(sTarget) {
-
-  sTarget = sTarget ? sTarget + " " : "";
-  $(sTarget + "input[class='button']").hover(function() {
-    $(this).parent("fieldset").addClass("active");
-  }, function() {
-    $(this).parent("fieldset").removeClass("active");
-  });
-
-  $(sTarget + ".submit_button").hover(function() {
-    $(this).parent().parent().addClass("active");
-  }, function() {
-    $(this).parent().parent().removeClass("active");
-  });
-
-  $(sTarget + "input" + ", " + sTarget + "textarea").not("[type='submit']").focus(function() {
-    $(this).addClass("focused");
-  });
-  $(sTarget + "input" + ", " + sTarget + "textarea").not("[type='submit']").blur(function() {
-    $(this).removeClass("focused");
-  });
-
-}
-
 function validateUserPhoto() {
 
   $(".control-group").removeClass('alert alert-error error');

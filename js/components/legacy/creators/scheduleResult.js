@@ -1,5 +1,5 @@
 /*jshint unused:false */
-/*global bindFormElements, setErrorCommunique */
+/*global setErrorCommunique */
 define(function() {
   return function(facade, $) {
 
@@ -190,7 +190,6 @@ define(function() {
         });
 
       });
-      bindFormElements('#ebilightbox');
       bindResultElements();
       bindPositions();
       bindSuggestions();

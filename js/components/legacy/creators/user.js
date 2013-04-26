@@ -1,5 +1,4 @@
 /*jshint unused:false */
-/*global bindFormElements */
 define(function() {
   return function(facade, $) {
     'use strict';
@@ -58,39 +57,57 @@ define(function() {
       });
     }
 
-    function bindLoginForm() {
+    function bindSignInForm() {
 
-      $('#log_in_form').bind('submit', function(oEvent) {
+      $('body').on('click', '.cnr-sign-in-form', function(e) {
+        facade.notify({
+          type : 'user-sign-in-form'
+        });
+        return false;
+      });
+
+      $('body').on('submit', '#log_in_form', function() {
+        var form = $(this);
+        var submitButton = form.find('input[type="submit"]');
+
         $.ajax({
           type : 'post',
           url : 'ajax',
-          data : $('#log_in_form').serialize(),
+          data : form.serialize(),
           beforeSend : function() {
+            submitButton.button('loading');
             $("#lightbox p[class='error']").hide();
-          },
-          success : function(sData) {
-            $('#ebilightbox').html(sData);
-            $("#ebilightbox p[class='error']").fadeIn('slow');
-            $('#login_communique').css('backgroundColor', '#FDF8D3');
-            $('#login_communique').css('color', '#333333');
-            bindLoginForm();
           }
+        }).done(function(sData) {
+          $('#ebilightbox').html(sData);
+          $("#ebilightbox p[class='error']").fadeIn('slow');
+          $('#login_communique').css('backgroundColor', '#FDF8D3');
+          $('#login_communique').css('color', '#333333');
+          $('#nickname').trigger('focus');
+        }).always(function() {
+          submitButton.button('reset');
         });
-        oEvent.preventDefault();
+        return false;
       });
-      bindFormElements('#ebilightbox');
-      $('#nickname').trigger('focus');
     }
 
     function bindRegistrationForm() {
 
-      $('#registration_form input[type=submit]').on('click', function() {
-        var submitButton = $(this);
-        
+      $('body').on('click', '.cnr-registration-form', function() {
+        facade.notify({
+          type : 'user-registration-form'
+        });
+        return false;
+      });
+
+      $('body').on('submit', '#registration_form', function() {
+        var form = $(this);
+        var submitButton = form.find('input[type="submit"]');
+
         $.ajax({
           type : 'post',
           url : 'ajax',
-          data : $('#registration_form').serialize(),
+          data : form.serialize(),
           beforeSend : function() {
             submitButton.button('loading');
             $("#ebilightbox p[class='error']").hide();
@@ -100,42 +117,44 @@ define(function() {
           $("#ebilightbox p[class='error']").fadeIn('slow');
           $('#registration_communique').css('background-color', '#FDF8D3');
           $('#registration_communique').css('color', '#333333');
-          bindRegistrationForm();
+          $('#registration_username').trigger('focus');
         }).always(function() {
           submitButton.button('reset');
         });
         return false;
       });
-      
-      bindFormElements('#ebilightbox');
-      $('#registration_form input').focus(function() {
-        $(this).next('label.tip').css('display', 'block');
-      }).blur(function() {
-        $(this).next('label.tip').fadeOut(1000);
-      });
-      $('#registration_username').trigger('focus');
     }
 
     function bindReminderForm() {
 
-      $('#reminder_form').bind('submit', function(oEvent) {
+      $('body').on('click', '.reminder-form', function(e) {
+        facade.notify({
+          type : 'user-reminder-form'
+        });
+        return false;
+      });
+
+      $('body').on('submit', '#reminder_form', function() {
+        var form = $(this);
+        var submitButton = form.find('input[type="submit"]');
+
         $.ajax({
           type : 'post',
           url : 'ajax',
-          data : $('#reminder_form').serialize(),
+          data : form.serialize(),
           beforeSend : function() {
+            submitButton.button('loading');
             $("#ebilightbox p[class='error']").hide();
-          },
-          success : function(sData) {
-            $('#ebilightbox').html(sData);
-            $("#ebilightbox p[class='error']").fadeIn('slow');
-            bindReminderForm();
           }
+        }).done(function(sData) {
+          $('#ebilightbox').html(sData);
+          $("#ebilightbox p[class='error']").fadeIn('slow');
+          $('#reminder_email').trigger('focus');
+        }).always(function() {
+          submitButton.button('reset');
         });
-        oEvent.preventDefault();
+        return false;
       });
-      bindFormElements('#ebilightbox');
-      $('#reminder_email').trigger('focus');
     }
 
     function bindRecommendationForm() {
@@ -158,7 +177,6 @@ define(function() {
         });
         oEvent.preventDefault();
       });
-      bindFormElements('#recommendation_form');
     }
 
     return {
@@ -171,31 +189,15 @@ define(function() {
         facade.listen('user-signed-out', this.signedOut, this);
         facade.listen('user-data-loaded', this.appendUserData, this);
 
-        $('body').on('click', '.cnr-registration-form', function(e) {
-          facade.notify({
-            type : 'user-registration-form'
-          });
-          e.preventDefault();
-        });
-        $('body').on('click', '.cnr-sign-in-form', function(e) {
-          facade.notify({
-            type : 'user-sign-in-form'
-          });
-          e.preventDefault();
-        });
-        $('body').on('click', '.reminder-form', function(e) {
-          facade.notify({
-            type : 'user-reminder-form'
-          });
-          e.preventDefault();
-        });
+        bindRegistrationForm();
+        bindSignInForm();
+        bindReminderForm();
 
         $('body').on('click', '.sign-out', function(e) {
-          e.stopPropagation();
           facade.notify({
             type : 'user-sign-out'
           });
-          e.preventDefault();
+          return false;
         });
 
         bindRecommendationForm();
@@ -209,8 +211,6 @@ define(function() {
           beforeSend : function() {},
           success : function(sData) {
             $("#ebilightbox").html(sData).modal();
-            bindRegistrationForm();
-            bindFormElements('#ebilightbox');
           },
           cache : false
         });
@@ -224,7 +224,6 @@ define(function() {
           beforeSend : function() {},
           success : function(sData) {
             $("#ebilightbox").html(sData).modal();
-            bindLoginForm();
           },
           cache : false
         });
@@ -266,8 +265,6 @@ define(function() {
           beforeSend : function() {},
           success : function(sData) {
             $("#ebilightbox").html(sData);
-            bindReminderForm();
-            bindFormElements('#ebilightbox');
           },
           cache : false
         });
