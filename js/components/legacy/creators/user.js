@@ -9,7 +9,6 @@ define(function() {
 
       infoLoaded = true;
 
-      var oQuickbox = $('.user_quickbox.data .info_panel .activities');
       var urlData = {
         dao : 22,
         action : 12,
@@ -18,26 +17,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {
-          facade.showLoader({
-            elem : oQuickbox,
-            msg : 'Trwa wczytywanie...',
-            overlayCss : {
-              'height' : '0'
-            },
-            loaderCss : {
-              'padding' : '5px',
-              'background-color' : 'white',
-              'left' : '10px',
-              'position' : 'absolute'
-            }
-          });
-        },
-        complete : function() {
-          facade.hideLoader({
-            elem : oQuickbox
-          });
-        },
         success : function(oData) {
           if (oData.data) {
             facade.notify({
@@ -179,13 +158,34 @@ define(function() {
       });
     }
 
+    function signOut(signOutButton) {
+      signOutButton.button('loading');
+      facade.notify({
+        type : 'facebook-logout',
+        data : {
+          callback : function() {
+            facade.ajax({
+              type : "POST",
+              url : "ajax",
+              data : "dao=21&action=3",
+              dataType : 'html',
+              cache : false
+            }).done(function(data) {
+              $('#user_panel').html(data);
+            }).always(function() {
+              signOutButton.button('reset');
+            });
+          }
+        }
+      });
+    }
+
     return {
       init : function(data) {
         facade.listen('user-registration-form', this.showRegistrationForm, this);
         facade.listen('user-sign-in-form', this.showSignInForm, this);
         facade.listen('user-signed-in', this.signedIn, this);
         facade.listen('user-reminder-form', this.showReminderForm, this);
-        facade.listen('user-sign-out', this.signOut, this);
         facade.listen('user-signed-out', this.signedOut, this);
         facade.listen('user-data-loaded', this.appendUserData, this);
 
@@ -193,10 +193,8 @@ define(function() {
         bindSignInForm();
         bindReminderForm();
 
-        $('body').on('click', '.sign-out', function(e) {
-          facade.notify({
-            type : 'user-sign-out'
-          });
+        $('body').on('click', '.cnr-sign-out', function(e) {
+          signOut($(this));
           return false;
         });
 
@@ -267,26 +265,6 @@ define(function() {
             $("#ebilightbox").html(sData);
           },
           cache : false
-        });
-      },
-      signOut : function(messageInfo) {
-        facade.notify({
-          type : 'facebook-logout',
-          data : {
-            callback : function() {
-              facade.ajax({
-                type : "POST",
-                url : "ajax",
-                data : "dao=21&action=3",
-                dataType : 'html',
-                beforeSend : function() {},
-                success : function(sData) {
-                  $('#user_panel').html(sData);
-                },
-                cache : false
-              });
-            }
-          }
         });
       },
       signedOut : function(messageInfo) {

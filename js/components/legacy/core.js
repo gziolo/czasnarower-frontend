@@ -59,7 +59,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
           success : function() {},
           error : function() {}
         }, options);
-        $.ajax(options);
+        return $.ajax(options);
       },
       rest : (function() {
         var statusCode = {
@@ -107,7 +107,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               data : data,
               statusCode : statusCode
             }, options);
-            facade.ajax(options);
+            return facade.ajax(options);
           },
           getOne : function(serviceName, id, options) {
             options = options || {};
@@ -116,7 +116,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               type : 'get',
               statusCode : statusCode
             }, options);
-            facade.ajax(options);
+            return facade.ajax(options);
           },
           create : function(serviceName, data, options) {
             options = options || {};
@@ -127,7 +127,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               cache : false,
               statusCode : statusCode
             }, options);
-            facade.ajax(options);
+            return facade.ajax(options);
           },
           update : function(serviceName, id, data, options) {
             options = options || {};
@@ -138,7 +138,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               cache : false,
               statusCode : statusCode
             }, options);
-            facade.ajax(options);
+            return facade.ajax(options);
           },
           destroy : function(serviceName, id, options) {
             options = options || {};
@@ -151,7 +151,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               cache : false,
               statusCode : statusCode
             }, options);
-            facade.ajax(options);
+            return facade.ajax(options);
           }
         };
       })(),
@@ -235,30 +235,6 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
 
         modalDialog = $("#jQueryDialog");
         modalDialog.modal('show');
-      },
-      showLoader : function(params) {
-        var elem = params.elem;
-        var msg = params.msg || 'Moment...';
-        var overlayCss = {
-          opacity : '0.8',
-          'background-color' : '#333'
-        };
-        var loaderCss = {};
-        if (params.loaderCss) {
-          $.extend(loaderCss, params.loaderCss);
-        }
-        if (params.overlayCss) {
-          $.extend(overlayCss, params.overlayCss);
-        }
-
-        elem.append('<div class="overlay">&nbsp;</div><div class="loader"><p>' + msg + '</p></div>');
-        elem.find('.overlay').css(overlayCss).show();
-        elem.find('.loader').css(loaderCss).show();
-      },
-      hideLoader : function(params) {
-        var elem = params.elem;
-        elem.find('.loader').remove();
-        elem.find('.overlay').remove();
       },
       dialogError : function(options) {
         options = options || {};

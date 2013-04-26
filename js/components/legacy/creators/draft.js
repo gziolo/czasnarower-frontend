@@ -6,7 +6,6 @@ define(function() {
 
       draftsLoaded = true;
 
-      var oQuickbox = $('.user_quickbox.drafts .drafts_list');
       var urlData = {
         dao : 22,
         action : 13,
@@ -15,24 +14,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {
-          facade.showLoader({
-            elem : oQuickbox,
-            msg : 'Trwa wczytywanie...',
-            overlayCss : {
-              'height' : '0'
-            },
-            loaderCss : {
-              'padding' : '5px',
-              'background-color' : 'white'
-            }
-          });
-        },
-        complete : function() {
-          facade.hideLoader({
-            elem : oQuickbox
-          });
-        },
         success : function(oData) {
           if (oData.drafts) {
             facade.notify({

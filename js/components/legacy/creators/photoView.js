@@ -52,13 +52,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {
-        // _showLoader({elem:oPhoto,overlayCss: {'height': 'auto',
-        // 'bottom': 0}, loaderCss:{'height': 'auto', 'bottom': 0} });
-        },
-        complete : function() {
-        // _hideLoader({elem: oComment});
-        },
         success : function(oData) {
           if (!Number(oData['delete'].iStatus)) {
             facade.notify({

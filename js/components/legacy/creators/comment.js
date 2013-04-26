@@ -2,32 +2,6 @@
 define(function() {
   return function(facade, $) {
 
-    function _showLoader(params) {
-      var elem = params.elem;
-      var msg = params.msg || 'Moment...';
-      var overlayCss = {
-        opacity : '0.8',
-        'background-color' : '#333'
-      };
-      var loaderCss = {};
-      if (params.loaderCss) {
-        $.extend(loaderCss, params.loaderCss);
-      }
-      if (params.overlayCss) {
-        $.extend(overlayCss, params.overlayCss);
-      }
-
-      elem.append('<div class="overlay">&nbsp;</div><div class="loader"><p>' + msg + '</p></div>');
-      elem.find('.overlay').css(overlayCss).show();
-      elem.find('.loader').css(loaderCss).show();
-    }
-
-    function _hideLoader(params) {
-      var elem = params.elem;
-      elem.find('.loader').remove();
-      elem.find('.overlay').remove();
-    }
-
     function showAlert(params) {
       var alert;
       var elem = params.elem;
@@ -73,9 +47,6 @@ define(function() {
       });
 
       oComment.find('.btn_cancel').click(function() {
-        _hideLoader({
-          elem : oComment
-        });
         oComment.find('.form').remove();
       });
 
@@ -105,20 +76,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {
-          _showLoader({
-            elem : oForm,
-            loaderCss : {
-              'height' : 'auto',
-              'bottom' : 0
-            }
-          });
-        },
-        complete : function() {
-          _hideLoader({
-            elem : oForm
-          });
-        },
         success : function(oData) {
           if (!Number(oData.add.iStatus)) {
             oForm.append('<div class="communique"><p class="alert alert-success">' + oData.add.sMessage + '</p></div>');
@@ -164,16 +121,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {
-          _showLoader({
-            elem : oComment
-          });
-        },
-        complete : function() {
-          _hideLoader({
-            elem : oComment
-          });
-        },
         success : function(oData) {
           if (!Number(oData.update.iStatus)) {
 
@@ -234,24 +181,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {
-          _showLoader({
-            elem : oComment,
-            overlayCss : {
-              'height' : 'auto',
-              'bottom' : 0
-            },
-            loaderCss : {
-              'height' : 'auto',
-              'bottom' : 0
-            }
-          });
-        },
-        complete : function() {
-          _hideLoader({
-            elem : oComment
-          });
-        },
         success : function(oData) {
           if (!Number(oData.remove.iStatus)) {
             facade.notify({

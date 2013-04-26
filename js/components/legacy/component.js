@@ -94,10 +94,9 @@ var HTMLtextarea = {
   }
 };
 
-function bindNewWindow(sTarget) {
+function bindNewWindow() {
 
-  sTarget = sTarget ? sTarget + " " : "";
-  $(sTarget + ".new_window").click(function() {
+  $('body').on('click', '.new_window, .cnr-new-window', function() {
     window.open(this.href);
     return false;
   });
@@ -113,13 +112,6 @@ function validateUserPhoto() {
     return false;
   }
   return true;
-}
-function sendUserPhoto() {
-  var result = validateUserPhoto();
-  if (result) {
-    $('#photo_form .submit_button').attr('disabled', 'disabled');
-  }
-  return result;
 }
 function validateNews() {
 
@@ -277,6 +269,21 @@ function bindLoadEvents() {
   });
 }
 
+function bindFormEvents() {
+  $('body').on('submit', '#forum_thread_form', function() {
+    return Forum.Thread.validateForm();
+  });
+  $('body').on('submit', '#news_form', function() {
+    return validateNews();
+  });
+  $('body').on('submit', '#photo_form', function() {
+    return validateUserPhoto();
+  });
+  $('body').on('submit', '#schedule_form', function() {
+    return validateSchedule();
+  });
+}
+
 /*
  * Sample usage: var _core = _core || []; _core.push(['register', 'instruction
  * 1', 'instruction', {test: 'test'}]); _core.push(['notify', {type: 'test'}]);
@@ -318,6 +325,7 @@ define([ 'jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/co
     var action;
 
     bindLoadEvents();
+    bindFormEvents();
 
     while (length--) {
       action = _core.shift();

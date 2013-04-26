@@ -111,33 +111,6 @@ define(
           facade.ajax({
             data : urlData,
             url : 'ajax',
-            beforeSend : function() {
-              facade.showLoader({
-                elem : oForm,
-                loaderCss : {
-                  'position' : 'absolute',
-                  'top' : '15px',
-                  'left' : '0',
-                  'right' : '0',
-                  'background-color' : 'transparent',
-                  'text-align' : 'center',
-                  'color' : '#333'
-                },
-                overlayCss : {
-                  'position' : 'absolute',
-                  'left' : '0',
-                  'right' : '0',
-                  'background-color' : 'rgba(255,255,255,.8)',
-                  'top' : '0',
-                  'bottom' : '0'
-                }
-              });
-            },
-            complete : function() {
-              facade.hideLoader({
-                elem : oForm
-              });
-            },
             success : function(oData) {
               if (!Number(oData.add.iStatus)) {
                 var newAdded = oData.message;
@@ -162,7 +135,6 @@ define(
         function _getRecentChats(params) {
           messagesLoaded = true;
 
-          var oQuickbox = $('.user_quickbox.messages .messages_list');
           var urlData = {
             dao : params.dao || 63,
             action : params.action || 3,
@@ -171,25 +143,6 @@ define(
           facade.ajax({
             data : urlData,
             url : 'ajax',
-            beforeSend : function() {
-              oQuickbox.empty();
-              facade.showLoader({
-                elem : oQuickbox,
-                msg : 'Trwa wczytywanie...',
-                overlayCss : {
-                  'height' : '0'
-                },
-                loaderCss : {
-                  'padding' : '5px',
-                  'background-color' : 'white'
-                }
-              });
-            },
-            complete : function() {
-              facade.hideLoader({
-                elem : oQuickbox
-              });
-            },
             success : function(oData) {
               if (oData.mail_group) {
                 if (oData.mail_group.length > 0) {
