@@ -12,7 +12,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
   var moduleData = {};
   var listeners = [];
 
-  var facade = (function($, config) {
+  var sandbox = (function($, config) {
     var loadedScripts = {};
     var modalDialog = null;
     var userData = null;
@@ -54,10 +54,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
         options = options || {};
         options = $.extend({
           type : 'post',
-          dataType : 'json',
-          beforeSend : function() {},
-          success : function() {},
-          error : function() {}
+          dataType : 'json'
         }, options);
         return $.ajax(options);
       },
@@ -69,26 +66,26 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
             if (response.data && response.data.message) {
               options.content = response.data.message;
             }
-            facade.dialogError(options);
+            sandbox.dialogError(options);
           },
           401 : function() {
-            facade.notify({
+            sandbox.notify({
               type : 'user-sign-in-form'
             });
           },
           403 : function() {
-            facade.dialogError({
+            sandbox.dialogError({
               content : 'Nie masz wystarczających uprawnień, aby wykonać tą czynność.'
             });
           },
           404 : function() {
-            facade.dialogError();
+            sandbox.dialogError();
           },
           500 : function() {
-            facade.dialogError();
+            sandbox.dialogError();
           },
           501 : function() {
-            facade.dialogError();
+            sandbox.dialogError();
           }
         };
         var getUrl = function(serviceName, id) {
@@ -107,7 +104,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               data : data,
               statusCode : statusCode
             }, options);
-            return facade.ajax(options);
+            return sandbox.ajax(options);
           },
           getOne : function(serviceName, id, options) {
             options = options || {};
@@ -116,7 +113,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               type : 'get',
               statusCode : statusCode
             }, options);
-            return facade.ajax(options);
+            return sandbox.ajax(options);
           },
           create : function(serviceName, data, options) {
             options = options || {};
@@ -127,7 +124,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               cache : false,
               statusCode : statusCode
             }, options);
-            return facade.ajax(options);
+            return sandbox.ajax(options);
           },
           update : function(serviceName, id, data, options) {
             options = options || {};
@@ -138,7 +135,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               cache : false,
               statusCode : statusCode
             }, options);
-            return facade.ajax(options);
+            return sandbox.ajax(options);
           },
           destroy : function(serviceName, id, options) {
             options = options || {};
@@ -151,7 +148,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
               cache : false,
               statusCode : statusCode
             }, options);
-            return facade.ajax(options);
+            return sandbox.ajax(options);
           }
         };
       })(),
@@ -297,7 +294,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
     },
 
     start : function(moduleId) {
-      moduleData[moduleId].instance = moduleData[moduleId].creatorCallback(facade, $);
+      moduleData[moduleId].instance = moduleData[moduleId].creatorCallback(sandbox, $);
       moduleData[moduleId].instance.init(moduleData[moduleId].data);
     },
 
@@ -328,7 +325,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
     },
 
     notify : function(messageInfo) {
-      facade.notify(messageInfo);
+      sandbox.notify(messageInfo);
     }
   };
 });

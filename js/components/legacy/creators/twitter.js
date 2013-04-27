@@ -1,16 +1,21 @@
 /*jshint unused:false */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
     'use strict';
+
+    function loadWidget() {
+      if (0 < $('.twitter-share-button:visible').length) {
+        window.___gcfg = {
+          lang : 'pl'
+        };
+        sandbox.loadScript('//platform.twitter.com/widgets.js', 'twitterJs');
+      }
+    }
 
     return {
       init : function(data) {
-        if (0 < $('.twitter-share-button').length) {
-          window.___gcfg = {
-            lang : 'pl'
-          };
-          facade.loadScript('//platform.twitter.com/widgets.js', 'twitterJs');
-        }
+        loadWidget();
+        $(window).on('resize', loadWidget);
       },
       destroy : function() {}
     };

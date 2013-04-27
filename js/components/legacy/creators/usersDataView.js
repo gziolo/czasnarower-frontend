@@ -1,7 +1,7 @@
 /*jshint unused:false */
 /*global google, MarkerClusterer, InfoBox */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
 
     /**
      * array Maps data
@@ -81,7 +81,7 @@ define(function() {
       });
       $.each(data.users_data, function(i, user_data) {
         var latLng = new google.maps.LatLng(user_data.latitude, user_data.longitude);
-        var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.png';
+        var src = sandbox.config.staticUrl + 'img-1.3/markers/iconset-1.png';
         var pos = {
           x : 0,
           y : 32
@@ -297,10 +297,10 @@ define(function() {
 
     return {
       init : function(data) {
-        facade.listen('map-initialised', this.mapInitialised, this);
-        facade.listen('users-data-view-register-map', this.registerMap, this);
-        facade.listen('user-signed-out', this.updateMemberSignedOut, this);
-        facade.listen('user-signed-in', this.updateMemberSignedIn, this);
+        sandbox.listen('map-initialised', this.mapInitialised, this);
+        sandbox.listen('users-data-view-register-map', this.registerMap, this);
+        sandbox.listen('user-signed-out', this.updateMemberSignedOut, this);
+        sandbox.listen('user-signed-in', this.updateMemberSignedIn, this);
       },
       mapInitialised : function() {
         geocoder = new google.maps.Geocoder();

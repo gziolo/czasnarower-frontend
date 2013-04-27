@@ -1,13 +1,18 @@
 /*jshint unused:false */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
     'use strict';
+
+    function loadWidget() {
+      if (0 < $('.g-plusone:visible').length) {
+        sandbox.loadScript('//apis.google.com/js/plusone.js', 'plusoneJS');
+      }
+    }
 
     return {
       init : function(data) {
-        if (0 < $('.g-plusone').length) {
-          facade.loadScript('https://apis.google.com/js/plusone.js', 'plusoneJS');
-        }
+        loadWidget();
+        $(window).on('resize', loadWidget);
       },
       destroy : function() {}
     };
