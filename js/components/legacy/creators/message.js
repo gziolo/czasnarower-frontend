@@ -215,8 +215,7 @@ define(
           });
         }
         function addMessage(messageInfo) {
-          var message = messageInfo.data;
-          var form = message.form;
+          var message = messageInfo.data, form = message.form;
 
           form.removeClass('active').find('textarea').val('');
           if (form.hasClass('answer-form')) {
