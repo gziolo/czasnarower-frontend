@@ -14,8 +14,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {},
-        complete : function() {},
         success : function(oData) {
           if (!Number(oData['delete'].iStatus)) {
             facade.notify({
@@ -88,8 +86,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {},
-        complete : function() {},
         success : function(oData) {
           if (!Number(oData['delete'].iStatus)) {
             facade.notify({
@@ -206,8 +202,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {},
-        complete : function() {},
         success : function(oData) {
           if (!Number(oData.update.iStatus)) {
             facade.notify({

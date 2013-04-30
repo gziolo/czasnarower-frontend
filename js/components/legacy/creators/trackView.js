@@ -407,7 +407,7 @@ define(function() {
 
     /**
      * method for creating new google-maps-polyline object and
-     * 
+     *
      */
     var _poly = function(map, opts) {
       var defaults = {
@@ -490,9 +490,6 @@ define(function() {
         data : urlData,
         dataType : 'json',
         url : 'ajax',
-        beforeSend : function() {
-
-        },
         success : function(sData) {
           if (sData.track_locations) {
             polys[id] = sData.track_locations;
@@ -547,7 +544,7 @@ define(function() {
     };
 
     /**
-     * 
+     *
      */
     var _viewLocationSelect = function(map, locations) {
       var txt = '';
@@ -574,7 +571,7 @@ define(function() {
     };
 
     /**
-     * 
+     *
      */
     var _zoomLocation = function(map, location) {
       map.setCenter(location.position);
@@ -582,7 +579,7 @@ define(function() {
     };
 
     /**
-     * 
+     *
      */
     var _updateAttendingButtons = function(val, id) {
       id = id || '';

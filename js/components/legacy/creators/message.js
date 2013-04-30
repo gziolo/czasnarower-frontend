@@ -1,4 +1,3 @@
-/*jshint unused:false */
 define(
     [ 'moment_pl' ],
     function(moment) {
@@ -72,8 +71,6 @@ define(
           facade.ajax({
             data : urlData,
             url : 'ajax',
-            beforeSend : function() {},
-            complete : function() {},
             success : function(oData) {
               if (!Number(oData.remove.iStatus)) {
                 facade.notify({
@@ -185,12 +182,6 @@ define(
           facade.ajax({
             data : urlData,
             url : 'ajax',
-            beforeSend : function() {
-              $('.chat .get_more').addClass('loading').find('.alink').hide();
-            },
-            complete : function() {
-              $('.chat .get_more').removeClass('loading').find('.alink').show();
-            },
             success : function(oData) {
               if (oData.mail_box) {
                 if (oData.mail_box.length > 0) {
@@ -248,7 +239,9 @@ define(
               $('#chat_list article:first').after(el);
             }
           }
-          _bindConfirmRemove({id: message.id});
+          _bindConfirmRemove({
+            id : message.id
+          });
         }
 
         function appendMessages(messageInfo) {
@@ -258,7 +251,9 @@ define(
             var lastMsg = $('#chat_list .message').last();
             var currSender = +lastMsg.attr('data-sender') || 0;
             var el = $(facade.template('messageRow', item));
-            _bindConfirmRemove({id: item.id});
+            _bindConfirmRemove({
+              id : item.id
+            });
             if (item.sender_id === currSender) {
               var elCnt = el.find('.message-content');
               lastMsg.find('.message-content:last').after(elCnt);
@@ -412,11 +407,6 @@ define(
               $(this).removeClass('focused');
             }
           }, '.message-form textarea');
-          /*
-           * $('body').on('click', '.message .remove-message', function() { var
-           * elem = $(this); var params = { id : elem.attr('data-id') };
-           * _confirmRemove(params); });
-           */
           $('.cnr-message-remove').each(function(index) {
             var elem = $(this);
             var params = {

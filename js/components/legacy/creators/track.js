@@ -10,7 +10,7 @@ define(function() {
     var ds1, ds2, ds3,
 
     /**
-     * 
+     *
      */
     polyCoords = [],
 
@@ -41,11 +41,11 @@ define(function() {
     polyId = 0,
 
     /**
-     * 
+     *
      */
     tmpMarker1,
     /**
-     * 
+     *
      */
     tmpMarker2,
 
@@ -60,7 +60,7 @@ define(function() {
     locationInfo,
 
     /**
-     * 
+     *
      */
     last_index = 0,
 
@@ -70,7 +70,7 @@ define(function() {
     map,
 
     /**
-     * 
+     *
      */
     draft,
 
@@ -91,15 +91,11 @@ define(function() {
     MIN_TRACK_LOCATIONS = 10;
 
     /**
-     * 
-     * @param {Object}
-     *          x1
-     * @param {Object}
-     *          y1
-     * @param {Object}
-     *          x2
-     * @param {Object}
-     *          y2
+     *
+     * @param {Object} x1
+     * @param {Object} y1
+     * @param {Object} x2
+     * @param {Object} y2
      */
     function Line(x1, y1, x2, y2) {
 
@@ -603,7 +599,7 @@ define(function() {
       updateDragened(aMarkers[index + 1]);
     }
     /**
-     * 
+     *
      */
     function showIndirectMarkers(marker) {
       if (marker) {
@@ -617,7 +613,7 @@ define(function() {
     }
 
     /**
-     * 
+     *
      */
     function showPolyMiddle(index, m) {
       m.setVisible(false);
@@ -647,7 +643,7 @@ define(function() {
     }
 
     /**
-     * 
+     *
      */
     function getLineMid(p1, p2) {
       var midLat = (p1.lat() + p2.lat()) / 2;
@@ -671,13 +667,11 @@ define(function() {
 
     /**
      * this method squeezes or expands array of Markers
-     * 
-     * @param {Number}
-     *          startIndex - index where to start moving elements
-     * @param {Number}
-     *          shift - how far should be markers moved
-     * @param {Array}
-     *          of markers which should be insert starting from startIndex point
+     *
+     * @param {Number} startIndex - index where to start moving elements
+     * @param {Number} shift - how far should be markers moved
+     * @param {Array} of markers which should be insert starting from startIndex
+     *          point
      */
     function moveMarkers(startIndex, shift, ms) {
       var markers = [];
@@ -708,13 +702,11 @@ define(function() {
 
     /**
      * this method squeezes or expands array of Polys
-     * 
-     * @param {Number}
-     *          startIndex - index where to start moving elements
-     * @param {Number}
-     *          shift - how far should be poly moved
-     * @param {Array}
-     *          of poys which should be insert starting from startIndex point
+     *
+     * @param {Number} startIndex - index where to start moving elements
+     * @param {Number} shift - how far should be poly moved
+     * @param {Array} of poys which should be insert starting from startIndex
+     *          point
      */
     function movePolys(startIndex, shift, ps) {
       var polys = [];
@@ -814,7 +806,7 @@ define(function() {
     }
 
     /**
-     * 
+     *
      */
     function viewLocationSelect(locations) {
       var txt = '';
@@ -843,7 +835,7 @@ define(function() {
     }
 
     /**
-     * 
+     *
      */
     function zoomLocation(location) {
       map.setCenter(location.position);
@@ -941,9 +933,8 @@ define(function() {
 
     /**
      * Optimize path
-     * 
-     * @param array
-     *          with path points in RAW format [0]-latitude, [1]-longitude
+     *
+     * @param array with path points in RAW format [0]-latitude, [1]-longitude
      * @return array - optimized list of points
      */
     function optimizePath(latLngs) {
@@ -974,7 +965,7 @@ define(function() {
     }
 
     /**
-     * 
+     *
      */
     function validateTrack() {
       var aErrors = [];
@@ -1078,7 +1069,7 @@ define(function() {
       };
     }
     /**
-     * 
+     *
      */
     function validateTrackLocations() {
 
@@ -1131,7 +1122,7 @@ define(function() {
     }
 
     /**
-     * 
+     *
      */
     function getCoordinates() {
 
@@ -1247,7 +1238,7 @@ define(function() {
     }
 
     /**
-     * 
+     *
      */
     function saveCoordinates(path) {
 
@@ -1271,9 +1262,6 @@ define(function() {
         data : urlData,
         dataType : 'json',
         url : 'ajax',
-        beforeSend : function() {
-
-        },
         success : function(sData) {
           if (!sData.result.iStatus) {
             $('#track_id').val(sData.result.track.id);
@@ -1340,11 +1328,7 @@ define(function() {
         data : urlData,
         dataType : 'json',
         url : 'ajax',
-        beforeSend : function() {
-
-        },
         success : function(sData) {
-          // alert( JSON.stringify( sData ));
           if (!sData.result.iStatus) {
             // no errors, everything is fine
             if (sData.result.sRedirect) {

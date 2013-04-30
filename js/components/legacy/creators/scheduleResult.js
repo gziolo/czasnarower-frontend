@@ -334,8 +334,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {},
-        complete : function() {},
         success : function(oData) {
           if (!Number(oData['delete'].iStatus)) {
             facade.notify({
@@ -372,7 +370,6 @@ define(function() {
         data : sUrlData,
         dataType : 'html',
         url : 'ajax',
-        beforeSend : function() {},
         success : function(sData) {
           $("#ebilightbox").empty().html(sData).modal('show');
           if ($('#result_form').length) {
@@ -391,7 +388,6 @@ define(function() {
         data : sUrlData,
         dataType : 'html',
         url : 'ajax',
-        beforeSend : function() {},
         success : function(sData) {
           $("#ebilightbox").empty().html(sData).modal('show');
           if ($('#result_form').length) {

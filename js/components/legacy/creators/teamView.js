@@ -14,7 +14,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {},
         success : function(sData) {
           if (sData.add.data) {
             facade.notify({
@@ -40,7 +39,6 @@ define(function() {
       facade.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {},
         success : function(sData) {
           if (sData['delete'].data) {
             facade.notify({

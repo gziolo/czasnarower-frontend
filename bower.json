@@ -10,7 +10,7 @@
     "fuelux" : "2.3.0",
     "jquery": "1.9.1",
     "json2" : "latest",
-    "lodash": "1.2.0",
+    "lodash": "1.2.1",
     "requirejs": "2.1.5",
     "requirejs-text": "2.0.5"
   }
