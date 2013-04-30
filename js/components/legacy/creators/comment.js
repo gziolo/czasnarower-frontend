@@ -1,6 +1,5 @@
-/*jshint unused:false */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
 
     function showAlert(params) {
       var alert;
@@ -38,16 +37,12 @@ define(function() {
         $(this).replaceWith('\n');
       }).end().html();
 
-      $(facade.template('commentAddForm', {
+      $(sandbox.template('commentAddForm', {
         message : sMessage
       })).appendTo("#comment_" + iId).show();
-      oComment.find('.overlay').css({
-        opacity : '0.8',
-        'background-color' : '#333'
-      });
 
       oComment.find('.btn_cancel').click(function() {
-        oComment.find('.form').remove();
+        oComment.find('.overlay, .form').remove();
       });
 
       oComment.find('.btn_send').click(function() {
@@ -55,17 +50,12 @@ define(function() {
           comment_id : iId,
           message : oComment.find('textarea').val()
         };
-        _editComment(params);
+        _editComment($(this), params);
       });
     }
 
-    function _addComment(params) {
-
+    function _addComment(button, params) {
       var oForm = $('#comment_form');
-      if (!_validate(oForm)) {
-        return false;
-      }
-
       var urlData = {
         dao : oForm.attr('data-dao'),
         action : 1,
@@ -73,44 +63,46 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      button.button('loading');
+      if (!_validate(oForm)) {
+        button.button('reset');
+        return false;
+      }
+
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        success : function(oData) {
-          if (!Number(oData.add.iStatus)) {
-            oForm.append('<div class="communique"><p class="alert alert-success">' + oData.add.sMessage + '</p></div>');
-            oForm.find('.communique').show();
-            var newAdded = oData.comment;
-            facade.notify({
-              type : 'comment-added',
-              data : newAdded
-            });
-            oForm.find('.communique').delay(2000).fadeOut(100, function() {
-              $(this).remove();
-            });
-          } else {
-            showAlert({
-              title : 'Błąd',
-              content : oData.add.sMessage,
-              errors : oData.errors,
-              elem : oForm
-            });
-          }
-
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (!Number(data.add.iStatus)) {
+          oForm.append('<div class="communique"><p class="alert alert-success">' + data.add.sMessage + '</p></div>');
+          oForm.find('.communique').show();
+          var newAdded = data.comment;
+          sandbox.notify({
+            type : 'comment-added',
+            data : newAdded
+          });
+          oForm.find('.communique').delay(2000).fadeOut(100, function() {
+            $(this).remove();
+          });
+        } else {
+          showAlert({
+            title : 'Błąd',
+            content : data.add.sMessage,
+            errors : data.errors,
+            elem : oForm
+          });
+        }
+      }).always(function() {
+        button.button('reset');
       });
     }
 
-    function _editComment(params) {
-
+    function _editComment(button, params) {
       var iId = params.comment_id;
       var oComment = $('#comment_' + iId);
       var oForm = oComment.find('.form');
-      if (!_validate(oForm)) {
-        return false;
-      }
       var urlData = {
         dao : 63,
         action : 2,
@@ -118,34 +110,39 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      button.button('loading');
+      if (!_validate(oForm)) {
+        button.button('reset');
+        return false;
+      }
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        success : function(oData) {
-          if (!Number(oData.update.iStatus)) {
-
-            oComment.find('.form').remove();
-            oComment.append('<div class="communique"><p class="text-info">' + oData.update.sMessage + '</p></div>');
-            oComment.find('.communique').show();
-            oComment.find('.communique').delay(2000).fadeOut(100, function() {
-              $(this).remove();
-            });
-            facade.notify({
-              type : 'comment-updated',
-              data : oData.comment
-            });
-          } else {
-            showAlert({
-              title : 'Błąd',
-              content : oData.update.sMessage,
-              errors : oData.errors,
-              elem : oComment
-            });
-          }
-
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (!Number(data.update.iStatus)) {
+          oComment.find('.overlay, .form').remove();
+          oComment.append('<div class="communique"><p class="text-info">' + data.update.sMessage + '</p></div>');
+          oComment.find('.communique').show();
+          oComment.find('.communique').delay(2000).fadeOut(100, function() {
+            $(this).remove();
+          });
+          sandbox.notify({
+            type : 'comment-updated',
+            data : data.comment
+          });
+        } else {
+          showAlert({
+            title : 'Błąd',
+            content : data.update.sMessage,
+            errors : data.errors,
+            elem : oComment
+          });
+        }
+
+      }).always(function() {
+        button.button('reset');
       });
     }
 
@@ -178,22 +175,22 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        success : function(oData) {
-          if (!Number(oData.remove.iStatus)) {
-            facade.notify({
+        success : function(data) {
+          if (!Number(data.remove.iStatus)) {
+            sandbox.notify({
               type : 'comment-removed',
               data : {
-                id : oData.remove.comment_id
+                id : data.remove.comment_id
               }
             });
           } else {
             showAlert({
               title : 'Błąd',
-              content : oData.remove.sMessage,
-              errors : oData.errors,
+              content : data.remove.sMessage,
+              errors : data.errors,
               elem : oComment
             });
           }
@@ -203,7 +200,7 @@ define(function() {
       });
     }
 
-    function _getMoreComments(params) {
+    function _getMoreComments(button, params) {
       var urlData = {
         dao : params.dao ? params.dao : 63,
         action : 5,
@@ -211,36 +208,32 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      button.button('loading');
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        beforeSend : function() {
-          $('.comments .get_more').addClass('loading').find('.alink').hide();
-        },
-        complete : function() {
-          $('.comments .get_more').removeClass('loading').find('.alink').show();
-        },
-        success : function(oData) {
-          if (oData.comments) {
-            if (oData.comments.length > 0) {
-              $('.comments .get_more').attr('data-page', Number($('.comments .get_more').attr('data-page')) + 1);
-              facade.notify({
-                type : 'comment-more-loaded',
-                data : oData.comments
-              });
-            } else {
-              $('.get_more').hide();
-            }
-          } else {
-            showAlert({
-              title : 'Błąd',
-              content : oData.error.sMessage,
-              errors : oData.errors
-            });
-          }
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (data.comments) {
+          if (data.comments.length > 0) {
+            $('.comments .get_more').attr('data-page', Number($('.comments .get_more').attr('data-page')) + 1);
+            sandbox.notify({
+              type : 'comment-more-loaded',
+              data : data.comments
+            });
+          } else {
+            $('.comments .get_more').hide();
+          }
+        } else {
+          showAlert({
+            title : 'Błąd',
+            content : data.error.sMessage,
+            errors : data.errors
+          });
+        }
+      }).always(function() {
+        button.button('reset');
       });
     }
 
@@ -248,7 +241,7 @@ define(function() {
       var comment = messageInfo.data;
       comment.featured = true;
       $('#comment_form').removeClass('active').find('textarea').val('');
-      var newComment = $(facade.template('commentRow', comment));
+      var newComment = $(sandbox.template('commentRow', comment));
       $('#comments_content').prepend(newComment);
       _bindConfirmRemove({
         comment_id : comment.comment_id
@@ -260,7 +253,7 @@ define(function() {
       var commentsData = messageInfo.data;
       $.each(commentsData, function(ob, item) {
         item.featured = false;
-        $('#comments_content').append(facade.template('commentRow', item));
+        $('#comments_content').append(sandbox.template('commentRow', item));
         _bindConfirmRemove({
           comment_id : item.comment_id
         });
@@ -285,23 +278,23 @@ define(function() {
 
     function bindButtons() {
 
-      $('body').on('click', '#add_comment', function(e) {
-        var userSigned = facade.getUserData() != null;
-        if (!userSigned) {
-          facade.notify({
-            type : 'user-sign-in-form'
-          });
-          return;
-        }
+      $('body').on('click', '#add_comment', function() {
+        var userSigned = sandbox.getUserData() != null;
         var elem = $('#comment_form');
         var params = {
           thread_id : elem.attr('data-thread-id'),
           id : elem.attr('data-id'),
           message : $('#comments_message').val()
         };
-        _addComment(params);
-        e.preventDefault();
-        e.stopPropagation();
+
+        if (!userSigned) {
+          sandbox.notify({
+            type : 'user-sign-in-form'
+          });
+          return;
+        }
+        _addComment($(this), params);
+        return false;
       });
 
       $('body').on({
@@ -322,7 +315,7 @@ define(function() {
         _showEditForm(params);
       });
 
-      $('.comments .cnr-comment-remove').each(function(index) {
+      $('.comments .cnr-comment-remove').each(function() {
         var elem = $(this);
         var params = {
           comment_id : elem.attr('data-id')
@@ -330,26 +323,28 @@ define(function() {
         _bindConfirmRemove(params);
       });
 
-      $('.comments .get_more .alink').click(function() {
-        var elem = $('.comments .get_more');
-        if (elem.hasClass('disabled')) {
-          return;
-        }
+      $('.comments').on('click', '.get_more .alink', function() {
+        var button = $(this);
+        var elem = button.parent();
         var params = {
           thread_id : elem.attr('data-thread-id'),
           page : elem.attr('data-page'),
           dao : elem.attr('data-dao')
         };
-        _getMoreComments(params);
+
+        if (elem.hasClass('disabled')) {
+          return;
+        }
+        _getMoreComments(button, params);
       });
     }
 
     return {
-      init : function(data) {
-        facade.listen('comment-added', this.addComment, this);
-        facade.listen('comment-updated', this.updateComment, this);
-        facade.listen('comment-removed', this.removeComment, this);
-        facade.listen('comment-more-loaded', this.appendComments, this);
+      init : function() {
+        sandbox.listen('comment-added', this.addComment, this);
+        sandbox.listen('comment-updated', this.updateComment, this);
+        sandbox.listen('comment-removed', this.removeComment, this);
+        sandbox.listen('comment-more-loaded', this.appendComments, this);
 
         bindButtons();
       },

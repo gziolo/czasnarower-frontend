@@ -1,12 +1,17 @@
-/*jshint unused:false */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
     'use strict';
 
-    function _addActivity(id, data) {
+    function _addActivity(button) {
+      var id = button.attr('data-id');
+      var data = {
+        item_id : +button.attr('data-itemId'),
+        item_dao : +button.attr('data-itemDao'),
+        value : +button.attr('data-value')
+      };
       var options = {
         success : function(response) {
-          facade.notify({
+          sandbox.notify({
             type : 'event-attending-member-added',
             data : {
               id : response.data.id,
@@ -17,67 +22,75 @@ define(function() {
           });
         }
       };
+      var resetButton = function() {
+        button.button('reset');
+      };
+
+      button.button('loading');
       if (id) {
-        facade.rest.update('event-attending', id, data, options);
+        sandbox.rest.update('event-attending', id, data, options).always(resetButton);
       } else {
-        facade.rest.create('event-attending', data, options);
+        sandbox.rest.create('event-attending', data, options).always(resetButton);
       }
     }
 
-    function _removeActivity(id) {
+    function _removeActivity(button) {
+      var id = button.attr('data-id');
 
-      facade.rest.destroy('event-attending', id, {
+      button.button('loading');
+      sandbox.rest.destroy('event-attending', id, {
         success : function() {
-          facade.notify({
+          sandbox.notify({
             type : 'event-attending-member-removed',
             data : {
               id : id
             }
           });
         }
+      }).always(function() {
+        button.button('reset');
       });
     }
 
     function bindButtons() {
 
       $('body').on('click', '.addActivity', function() {
-        var userSigned = facade.getUserData() != null;
+        var userSigned = sandbox.getUserData() != null;
+
         if (!userSigned) {
-          facade.notify({
+          sandbox.notify({
             type : 'user-sign-in-form'
           });
           return;
         }
-        var elem = $(this);
 
-        var params = {
-          item_id : +elem.attr('data-itemId'),
-          item_dao : +elem.attr('data-itemDao'),
-          value : +elem.attr('data-value')
-        };
-        _addActivity(elem.attr('data-id'), params);
-      }).mouseover(function() {
-        $(this).parent().parent().addClass('active');
-      }).mouseout(function() {
-        $(this).parent().parent().removeClass('active');
+        _addActivity($(this));
       });
 
       $('body').on('click', '.removeActivity', function() {
-        var elem = $(this);
-        _removeActivity(elem.attr('data-id'));
+        var userSigned = sandbox.getUserData() != null;
+
+        if (!userSigned) {
+          sandbox.notify({
+            type : 'user-sign-in-form'
+          });
+          return;
+        }
+
+        _removeActivity($(this));
       });
     }
 
     return {
-      init : function(data) {
-        facade.listen('user-signed-in', this.getSignedInSchedules, this);
-        facade.listen('event-attending-member-added', this.updateMemberCount, this);
+      init : function() {
+        sandbox.listen('user-signed-in', this.getSignedInSchedules, this);
+        sandbox.listen('event-attending-member-added', this.updateMemberCount, this);
         bindButtons();
       },
       getSignedInSchedules : function() {
-        facade.rest.getAll('event-attending', {}, {
+        sandbox.rest.getAll('event-attending', {}, {
           success : function(response) {
-            facade.notify({
+            sandbox.notify({
               type : 'schedule-view-mark-user-events',
               data : response.data
             });
@@ -87,6 +100,7 @@ define(function() {
       },
       updateMemberCount : function(messageInfo) {
         var counter = $('.total-attendees[data-id=' + messageInfo.data.id + ']');
+
         counter.text(+counter.first().text() + 1);
       },
       destroy : function() {}
