@@ -40,26 +40,6 @@ define(
           return true;
         }
 
-        function _confirmRemove(params) {
-          facade.dialog({
-            title : 'Potwierdzenie',
-            content : 'Czy na pewno chcesz usunąć wiadomość?',
-            modal : true,
-            buttons : [ {
-              text : 'Usuń',
-              click : function() {
-                _removeMessage(params);
-                $(this).closest('.modal').modal('hide');
-              }
-            }, {
-              text : 'Anuluj',
-              click : function() {
-                $(this).closest('.modal').modal('hide');
-              }
-            } ]
-          });
-
-        }
         function _removeMessage(params) {
           var urlData = {
             dao : 52,
@@ -263,7 +243,6 @@ define(
           });
 
           $('.getMore').attr('data-page', Number($('.getMore').attr('data-page')) + 1);
-
         }
 
         function createChat(item) {
@@ -271,17 +250,18 @@ define(
           var handleToggleMore = function(evt) {
             var el = $(this);
             var txt = el.closest('.msg');
+
+            evt.stopPropagation();
             txt.toggleClass('expanded');
             if (txt.hasClass('expanded')) {
               el.text('\xAB zwiń');
             } else {
               el.text('więcej \xBB');
             }
-            evt.stopPropagation();
           };
           var handleAnswerBtn = function(evt) {
             evt.stopPropagation();
-            var el = $(this), btn = el.closest('.answer-btn'), cnt = el.closest('.content'), partner_id = el.attr('data-receiver-id'), form = $('<div data-receiver-id="' +
+            var el = $(this), btn = el.closest('.answer-btn'), partner_id = el.attr('data-receiver-id'), form = $('<div data-receiver-id="' +
                 partner_id +
                 '" class="answer-form"><textarea class="message-content" name="content" rows="4"></textarea><div class="form_btn"><span class="btn btn-small btn-primary send-message">Wyślij</span><span class="btn btn-small cancel-message">Anuluj</span></div></div>');
 
@@ -290,7 +270,7 @@ define(
               form.replaceWith(btn);
               btn.click(handleAnswerBtn);
             });
-            form.find('.send-message').click(function(e) {
+            form.find('.send-message').click(function() {
               var userSigned = facade.getUserData() != null;
               if (!userSigned) {
                 facade.notify({
@@ -407,7 +387,7 @@ define(
               $(this).removeClass('focused');
             }
           }, '.message-form textarea');
-          $('.cnr-message-remove').each(function(index) {
+          $('.cnr-message-remove').each(function() {
             var elem = $(this);
             var params = {
               id : elem.attr('data-id')
@@ -436,7 +416,7 @@ define(
           $('.message-form textarea').focus();
 
           var formatTime = function() {
-            $('.message time').each(function(i) {
+            $('.message time').each(function() {
               var dt = $(this).attr('datetime');
               var timeFormatted = moment(dt, "YYYY-MM-DD HH:mm:ss").fromNow();
               $(this).text(timeFormatted);
@@ -460,7 +440,7 @@ define(
             messagesLoaded = false;
           },
           bindUserPanel : function() {
-            $('#user_menu .messages.button').click(function(e) {
+            $('#user_menu .messages.button').click(function() {
               $('.user_quickbox').not('.messages').addClass('hidden');
               $('.user_quickbox.messages').toggleClass('hidden');
               if (!messagesLoaded) {
@@ -470,8 +450,8 @@ define(
                 };
                 _getRecentChats(params);
               }
+              return false;
             });
-
           },
           addMessage : addMessage,
           removeMessage : removeMessage,
