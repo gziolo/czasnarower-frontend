@@ -1,7 +1,6 @@
-/*jshint unused:false */
 /*global FB */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
     'use strict';
 
     var bEnabled = false;
@@ -12,25 +11,18 @@ define(function() {
     }
 
     function showConnecting() {
-      var cHeight = $('#loading_fb').parent('.content').height();
-      $('#loading_fb').css({
-        'opacity' : 0.6,
-        'height' : (cHeight - 30) + 'px'
-      }).show();
-      $('#loading_fb_txt').css({
-        'top' : (cHeight / 2) + 'px'
-      }).show();
+      $('.cnr-facebook-connect').button('loading');
     }
 
     function hideConnecting() {
-      $('#loading_fb, #loading_fb_txt').hide();
+      $('.cnr-facebook-connect').button('reset');
     }
 
     return {
       init : function(data) {
-        facade.listen('facebook-initialised', this.initialised, this);
-        facade.listen('facebook-login', this.login, this);
-        facade.listen('facebook-logout', this.logout, this);
+        sandbox.listen('facebook-initialised', this.initialised, this);
+        sandbox.listen('facebook-login', this.login, this);
+        sandbox.listen('facebook-logout', this.logout, this);
 
         if (!data.appId) {
           return;
@@ -44,7 +36,7 @@ define(function() {
             oauth : true,
             channelUrl : '//' + document.location.host + '/facebook/channel.php'
           });
-          facade.notify({
+          sandbox.notify({
             type : 'facebook-initialised'
           });
         };
@@ -56,10 +48,10 @@ define(function() {
         }
         $('#fb-root').append(e);
       },
-      initialised : function(messageInfo) {
+      initialised : function() {
         bEnabled = true;
-        $('body').on('click', '.facebook-login', function() {
-          facade.notify({
+        $('body').on('click', '.cnr-facebook-connect', function() {
+          sandbox.notify({
             type : 'facebook-login'
           });
         });
@@ -70,22 +62,23 @@ define(function() {
           $('.facebook-connected').show();
         });
       },
-      login : function(messageInfo) {
+      login : function() {
         if (!isEnabled()) {
           return;
         }
         showConnecting();
         FB.login(function(response) {
           if (response.authResponse) {
-            facade.rest.create('user-session', {
+            sandbox.rest.create('user-session', {
               facebook_id : response.authResponse.userID
             }, {
               success : function() {
                 window.location.reload();
               }
             });
+          } else {
+            hideConnecting();
           }
-          hideConnecting();
         }, {
           scope : sPerms
         });
@@ -103,7 +96,7 @@ define(function() {
             sCallback();
             return;
           }
-          FB.logout(function(response) {
+          FB.logout(function() {
             sCallback();
           });
           $('.facebook-connected').hide();

@@ -1,4 +1,3 @@
-/*jshint unused:false */
 define(function() {
   return function(sandbox, $) {
     'use strict';
@@ -13,7 +12,7 @@ define(function() {
     }
 
     return {
-      init : function(data) {
+      init : function() {
         loadWidget();
         $(window).on('resize', loadWidget);
       },
