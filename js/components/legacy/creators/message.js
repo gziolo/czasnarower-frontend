@@ -1,12 +1,12 @@
 define(
     [ 'moment_pl' ],
     function(moment) {
-      return function(facade, $) {
+      return function(sandbox, $) {
 
         var messagesLoaded = false;
 
         function showError(params) {
-          facade.dialog({
+          sandbox.dialog({
             title : params.title,
             content : params.content,
             buttons : [ {
@@ -29,7 +29,6 @@ define(
         }
 
         function _validate(form) {
-
           if (!form.find("textarea[name='content']").val()) {
             showError({
               'title' : 'Formularz zawiera błędy.',
@@ -48,22 +47,22 @@ define(
             params : JSON.stringify(params)
           };
 
-          facade.ajax({
+          sandbox.ajax({
             data : urlData,
             url : 'ajax',
-            success : function(oData) {
-              if (!Number(oData.remove.iStatus)) {
-                facade.notify({
+            success : function(data) {
+              if (!Number(data.remove.iStatus)) {
+                sandbox.notify({
                   type : 'message-removed',
                   data : {
-                    id : oData.remove.message_id
+                    id : data.remove.message_id
                   }
                 });
               } else {
                 showError({
                   title : 'Błąd',
-                  content : oData.remove.sMessage,
-                  errors : oData.errors
+                  content : data.remove.sMessage,
+                  errors : data.errors
                 });
               }
             },
@@ -71,13 +70,8 @@ define(
             global : false
           });
         }
-        function _addMessage(params, form) {
 
-          var oForm = form;
-          if (!_validate(oForm)) {
-            return false;
-          }
-
+        function _addMessage(button, form, params) {
           var urlData = {
             dao : params.dao || 51,
             action : 2,
@@ -85,73 +79,79 @@ define(
             params : JSON.stringify(params)
           };
 
-          facade.ajax({
+          button.button('loading');
+          if (!_validate(form)) {
+            button.button('reset');
+            return false;
+          }
+          sandbox.ajax({
             data : urlData,
             url : 'ajax',
-            success : function(oData) {
-              if (!Number(oData.add.iStatus)) {
-                var newAdded = oData.message;
-                newAdded.form = oForm;
-                facade.notify({
-                  type : 'message-added',
-                  data : newAdded
-                });
-              } else {
-                showError({
-                  title : 'Błąd',
-                  content : oData.add.sMessage,
-                  errors : oData.errors
-                });
-              }
-
-            },
             cache : false,
             global : false
+          }).done(function(data) {
+            if (!Number(data.add.iStatus)) {
+              var newAdded = data.message;
+              newAdded.form = form;
+              sandbox.notify({
+                type : 'message-added',
+                data : newAdded
+              });
+            } else {
+              showError({
+                title : 'Błąd',
+                content : data.add.sMessage,
+                errors : data.errors
+              });
+            }
+
+          }).always(function() {
+            button.button('reset');
           });
         }
-        function _getRecentChats(params) {
-          messagesLoaded = true;
 
+        function _getRecentChats(params) {
           var urlData = {
             dao : params.dao || 63,
             action : params.action || 3,
             dataType : 'json'
           };
-          facade.ajax({
+
+          messagesLoaded = true;
+          sandbox.ajax({
             data : urlData,
             url : 'ajax',
-            success : function(oData) {
-              if (oData.mail_group) {
-                if (oData.mail_group.length > 0) {
-                  facade.notify({
-                    type : 'message-chats-loaded',
-                    data : oData.mail_group
-                  });
-                }
-              } else if (oData.error) {
-                facade.notify({
-                  type : 'message-chats-loaded',
-                  data : {
-                    error : 'Brak wiadomości'
-                  }
-                });
-                messagesLoaded = false;
-              } else {
-                facade.notify({
-                  type : 'message-chats-loaded',
-                  data : {
-                    error : 'Brak wiadomości'
-                  }
-                });
-                messagesLoaded = false;
-              }
-            },
             cache : false,
             global : false
+          }).done(function(data) {
+            if (data.mail_group) {
+              if (data.mail_group.length > 0) {
+                sandbox.notify({
+                  type : 'message-chats-loaded',
+                  data : data.mail_group
+                });
+              }
+            } else if (data.error) {
+              sandbox.notify({
+                type : 'message-chats-loaded',
+                data : {
+                  error : 'Brak wiadomości'
+                }
+              });
+              messagesLoaded = false;
+            } else {
+              sandbox.notify({
+                type : 'message-chats-loaded',
+                data : {
+                  error : 'Brak wiadomości'
+                }
+              });
+              messagesLoaded = false;
+            }
           });
         }
-        function _getMoreMessages(params) {
 
+        function _getMoreMessages(button, params) {
           var urlData = {
             dao : params.dao ? params.dao : 63,
             action : 2,
@@ -159,32 +159,35 @@ define(
             params : JSON.stringify(params)
           };
 
-          facade.ajax({
+          button.button('loading');
+          sandbox.ajax({
             data : urlData,
             url : 'ajax',
-            success : function(oData) {
-              if (oData.mail_box) {
-                if (oData.mail_box.length > 0) {
-                  $('.chat .get_more').attr('data-page', Number($('.chat .get_more').attr('data-page')) + 1);
-                  facade.notify({
-                    type : 'message-more-loaded',
-                    data : oData.mail_box
-                  });
-                } else {
-                  $('.get_more').hide();
-                }
-              } else {
-                showError({
-                  title : 'Błąd',
-                  content : oData.error.sMessage,
-                  errors : oData.errors
-                });
-              }
-            },
             cache : false,
             global : false
+          }).done(function(data) {
+            if (data.mail_box) {
+              if (data.mail_box.length > 0) {
+                $('.chat .get_more').attr('data-page', Number($('.chat .get_more').attr('data-page')) + 1);
+                sandbox.notify({
+                  type : 'message-more-loaded',
+                  data : data.mail_box
+                });
+              } else {
+                $('.get_more').hide();
+              }
+            } else {
+              showError({
+                title : 'Błąd',
+                content : data.error.sMessage,
+                errors : data.errors
+              });
+            }
+          }).always(function() {
+            button.button('reset');
           });
         }
+
         function addMessage(messageInfo) {
           var message = messageInfo.data, form = message.form;
 
@@ -212,7 +215,7 @@ define(
           if ($('#chat_list').length) {
             var firstMsg = $('#chat_list .message').not('.form').first();
             var currSender = +firstMsg.attr('data-sender') || 0;
-            var el = $(facade.template('messageRow', message));
+            var el = $(sandbox.template('messageRow', message));
             if (message.sender.id === currSender) {
               firstMsg.find('.message-content:first').before(el.find('.message-content'));
             } else {
@@ -230,7 +233,7 @@ define(
           $.each(messagesData, function(ob, item) {
             var lastMsg = $('#chat_list .message').last();
             var currSender = +lastMsg.attr('data-sender') || 0;
-            var el = $(facade.template('messageRow', item));
+            var el = $(sandbox.template('messageRow', item));
             _bindConfirmRemove({
               id : item.id
             });
@@ -271,9 +274,9 @@ define(
               btn.click(handleAnswerBtn);
             });
             form.find('.send-message').click(function() {
-              var userSigned = facade.getUserData() != null;
+              var userSigned = sandbox.getUserData() != null;
               if (!userSigned) {
-                facade.notify({
+                sandbox.notify({
                   type : 'user-sign-in-form'
                 });
                 return;
@@ -295,7 +298,7 @@ define(
               window.location = href;
             }
           };
-          itemEl = $(facade.template('messageGroup', item));
+          itemEl = $(sandbox.template('messageGroup', item));
           itemEl.find('.toggleMore').click(handleToggleMore);
           itemEl.find('.answer-btn').click(handleAnswerBtn);
           itemEl.find('.content').click(handleMsgClick);
@@ -357,22 +360,23 @@ define(
         }
         function bindButtons() {
 
-          $('body').on('click', '.message-form .send-message', function(e) {
-            var userSigned = facade.getUserData() != null;
-            if (!userSigned) {
-              facade.notify({
-                type : 'user-sign-in-form'
-              });
-              return;
-            }
-            var elem = $(this).closest('.message-form');
+          $('body').on('click', '.message-form .send-message', function() {
+            var userSigned = sandbox.getUserData() != null;
+            var button = $(this);
+            var elem = button.closest('.message-form');
             var params = {
               receiver : elem.attr('data-receiver-id'),
               content : elem.find('.message-content').val()
             };
-            _addMessage(params, elem);
-            e.preventDefault();
-            e.stopPropagation();
+
+            if (!userSigned) {
+              sandbox.notify({
+                type : 'user-sign-in-form'
+              });
+              return;
+            }
+            _addMessage(button, elem, params);
+            return false;
           }).on('click', '.message-form .cancel-message', function() {
             var elem = $(this).closest('.message-form');
             elem.find('textarea').val('');
@@ -411,7 +415,8 @@ define(
               page : elem.attr('data-page'),
               dao : elem.attr('data-dao')
             };
-            _getMoreMessages(params);
+            _getMoreMessages($(this), params);
+            return false;
           });
           $('.message-form textarea').focus();
 
@@ -429,12 +434,12 @@ define(
         return {
           init : function() {
             bindButtons();
-            facade.listen('message-added', this.addMessage, this);
-            facade.listen('message-more-loaded', this.appendMessages, this);
-            facade.listen('message-removed', this.removeMessage, this);
-            facade.listen('message-chats-loaded', this.appendChats, this);
-            facade.listen('user-signed-in', this.bindUserPanel, this);
-            facade.listen('user-signed-out', this.unbindUserPanel, this);
+            sandbox.listen('message-added', this.addMessage, this);
+            sandbox.listen('message-more-loaded', this.appendMessages, this);
+            sandbox.listen('message-removed', this.removeMessage, this);
+            sandbox.listen('message-chats-loaded', this.appendChats, this);
+            sandbox.listen('user-signed-in', this.bindUserPanel, this);
+            sandbox.listen('user-signed-out', this.unbindUserPanel, this);
           },
           unbindUserPanel : function() {
             messagesLoaded = false;
