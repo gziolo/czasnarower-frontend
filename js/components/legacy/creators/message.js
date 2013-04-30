@@ -289,7 +289,7 @@ define(
             btn.replaceWith(form);
             form.find('textarea').focus();
           };
-          var handleMsgClick = function(evt) {
+          var handleMsgClick = function() {
             var el = $(this), msg = el.closest('.message'), href = msg.attr('data-href');
             if (href) {
               window.location = href;
@@ -427,7 +427,7 @@ define(
 
         }
         return {
-          init : function(data) {
+          init : function() {
             bindButtons();
             facade.listen('message-added', this.addMessage, this);
             facade.listen('message-more-loaded', this.appendMessages, this);
