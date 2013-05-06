@@ -1,12 +1,11 @@
-/*jshint unused:false */
 /*global setErrorCommunique */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
 
     var oWinners = {};
 
     function bindSuggestions() {
-      $('.suggest span').click(function(oEvent) {
+      $('.suggest span').click(function() {
         var val = $(this).text();
         $(this).parent().children().removeClass('selected');
         $(this).addClass('selected');
@@ -24,7 +23,7 @@ define(function() {
     }
 
     function bindPositions() {
-      $('#position').change(function(oEvent) {
+      $('#position').change(function() {
         if ($(this).val() === '1') {
           $('#best_result_hours').val($('#result_hours').val());
           $('#best_result_minutes').val($('#result_minutes').val());
@@ -33,7 +32,7 @@ define(function() {
 
         }
       });
-      $('#category_position').change(function(oEvent) {
+      $('#category_position').change(function() {
         if ($(this).val() === '1') {
           $('#best_category_result_hours').val($('#result_hours').val());
           $('#best_category_result_minutes').val($('#result_minutes').val());
@@ -44,18 +43,10 @@ define(function() {
       });
     }
     function validateData() {
-      var errors = 0,
-        category_val = $.trim($('#category_name').val()),
-        category_sel_val = $.trim($('#categories option:selected').val()),
-        distance_val = $.trim($('#distance_name').val()),
-        distance_sel_val = $.trim($('#distances option:selected').val()),
-        resultHour = $.trim($('#result_hours').val()),
-        resultMinute = $.trim($('#result_minutes').val()),
-        resultSecond = $.trim($('#result_seconds').val()),
-        position_val = $.trim($('#position').val()),
-        bestResultHour = $.trim($('#best_result_hours').val()),
-        bestResultMinute = $.trim($('#best_result_minutes').val()),
-        bestResultSecond = $.trim($('#best_result_seconds').val());
+      var errors = 0, category_val = $.trim($('#category_name').val()), category_sel_val = $.trim($('#categories option:selected').val()), distance_val = $.trim($('#distance_name').val()), distance_sel_val = $
+          .trim($('#distances option:selected').val()), resultHour = $.trim($('#result_hours').val()), resultMinute = $.trim($('#result_minutes').val()), resultSecond = $.trim($('#result_seconds')
+          .val()), position_val = $.trim($('#position').val()), bestResultHour = $.trim($('#best_result_hours').val()), bestResultMinute = $.trim($('#best_result_minutes').val()), bestResultSecond = $
+          .trim($('#best_result_seconds').val());
 
       $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
 
@@ -138,7 +129,7 @@ define(function() {
         var val = $.trim($(this).val().toLowerCase());
         $(this).val(val);
         $('#categories option[value="-"]').attr('selected', true);
-        $('#categories option').each(function(index, elem) {
+        $('#categories option').each(function() {
           if (val === $(this).text()) {
             $(this).attr('selected', true);
           }
@@ -167,28 +158,33 @@ define(function() {
     function bindResultForm() {
 
       $('#result_form').bind('submit', function(oEvent) {
+        var button = $(this).find(':input[type=submit]');
+
+        button.button('loading');
         oEvent.preventDefault();
         if (!validateData()) {
+          button.button('reset');
           return false;
         }
-        facade.ajax({
+
+        sandbox.ajax({
           type : 'post',
           url : 'ajax',
           data : $('#result_form').serialize(),
           dataType : 'html',
           beforeSend : function() {
             $("#lightbox p[class='error']").hide();
-          },
-          success : function(sData) {
-            $('#ebilightbox').html(sData);
-            $('#ebilightbox').html(sData);
-            if ($('#ebilightbox form').length > 0) {
-              createDistanceSelect();
-              bindResultForm();
-            }
           }
+        }).done(function(data) {
+          $('#ebilightbox').html(data);
+          $('#ebilightbox').html(data);
+          if ($('#ebilightbox form').length > 0) {
+            createDistanceSelect();
+            bindResultForm();
+          }
+        }).always(function() {
+          button.button('reset');
         });
-
       });
       bindResultElements();
       bindPositions();
@@ -331,71 +327,69 @@ define(function() {
           id : iId
         })
       };
-      facade.ajax({
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        success : function(oData) {
-          if (!Number(oData['delete'].iStatus)) {
-            facade.notify({
-              type : 'result-removed',
-              data : {
-                id : oData['delete'].result_id
-              }
-            });
-            if (iScheduleId) {
-              facade.notify({
-                type : 'event-attending-member-removed',
-                data : {
-                  id : "8_" + iScheduleId
-                }
-              });
-            }
-          } else {
-            facade.dialogError({
-              title : 'Błąd',
-              content : oData['delete'].sMessage,
-              errors : oData.errors
-            });
-          }
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (!Number(data['delete'].iStatus)) {
+          sandbox.notify({
+            type : 'result-removed',
+            data : {
+              id : data['delete'].result_id
+            }
+          });
+          if (iScheduleId) {
+            sandbox.notify({
+              type : 'event-attending-member-removed',
+              data : {
+                id : "8_" + iScheduleId
+              }
+            });
+          }
+        } else {
+          sandbox.dialogError({
+            title : 'Błąd',
+            content : data['delete'].sMessage,
+            errors : data.errors
+          });
+        }
       });
     }
 
     function showAddForm(iScheduleId) {
       var sUrlData = "dao=11&action=1&schedule_id=" + iScheduleId;
-      facade.ajax({
+      sandbox.ajax({
         type : 'POST',
         data : sUrlData,
         dataType : 'html',
         url : 'ajax',
-        success : function(sData) {
-          $("#ebilightbox").empty().html(sData).modal('show');
-          if ($('#result_form').length) {
-            createDistanceSelect();
-            bindResultForm();
-          }
-          bindDatepicker();
-        },
         cache : false
+      }).done(function(data) {
+        $("#ebilightbox").empty().html(data).modal('show');
+        if ($('#result_form').length) {
+          createDistanceSelect();
+          bindResultForm();
+        }
+        bindDatepicker();
       });
     }
     function showEditForm(iId) {
       var sUrlData = "dao=11&action=3&id=" + iId;
-      facade.ajax({
+
+      sandbox.ajax({
         type : 'POST',
         data : sUrlData,
         dataType : 'html',
         url : 'ajax',
-        success : function(sData) {
-          $("#ebilightbox").empty().html(sData).modal('show');
-          if ($('#result_form').length) {
-            createDistanceSelect();
-            bindResultForm();
-          }
-        },
         cache : false
+      }).done(function(data) {
+        $("#ebilightbox").empty().html(data).modal('show');
+        if ($('#result_form').length) {
+          createDistanceSelect();
+          bindResultForm();
+        }
       });
     }
 
@@ -403,7 +397,7 @@ define(function() {
       $('#datepicker').datepicker({
         format : 'yyyy-mm-dd',
         language : 'pl'
-      }).on('changeDate', function(ev) {
+      }).on('changeDate', function() {
         var date = $('#add_race_day').val();
         getRaces4SelectedDate(date);
       });
@@ -414,42 +408,40 @@ define(function() {
 
       var sUrlData = "dao=8&action=12&start_day=" + dateTxt + "&dataType=json";
 
-      facade.ajax({
+      sandbox.ajax({
         type : 'POST',
         data : sUrlData,
         url : 'ajax',
         beforeSend : function() {
           $('#races').html('<h6 class="loading">szukam wyścigów...</h6>');
         },
-        success : function(data) {
-
-          if (data.error) {
-            $('#races').html('<h6>' + data.error.s_message + '</h6>');
-          } else {
-            var foundItems = data.schedule.length;
-            var items = data.schedule;
-
-            $('#races').html('<h4>Wybierz wyścig</h4>').append(
-                '<p>W dniu <span class="label label-info">' + dateTxt + '</span> odbyły się wyścigi (' + foundItems + '). Wybierz do którego chcesz dodać wynik.</p>').append(
-                '<ul id="races_list" class="unstyled"></ul');
-            if (foundItems) {
-              $.each(items, function(index, race) {
-                $('#races_list').height($('#datepicker').height());
-                $('#races_list').append('<li class="race-item addResult" id="schedule_' + race.id + '"><b>' + race.race_name + '</b> - ' + race.start_place + ' (' + race.race_sort + ')</li>');
-              });
-            }
-          }
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (data.error) {
+          $('#races').html('<h6>' + data.error.s_message + '</h6>');
+        } else {
+          var foundItems = data.schedule.length;
+          var items = data.schedule;
+
+          $('#races').html('<h4>Wybierz wyścig</h4>').append(
+              '<p>W dniu <span class="label label-info">' + dateTxt + '</span> odbyły się wyścigi (' + foundItems + '). Wybierz do którego chcesz dodać wynik.</p>').append(
+              '<ul id="races_list" class="unstyled"></ul');
+          if (foundItems) {
+            $.each(items, function(index, race) {
+              $('#races_list').height($('#datepicker').height());
+              $('#races_list').append('<li class="race-item addResult" id="schedule_' + race.id + '"><b>' + race.race_name + '</b> - ' + race.start_place + ' (' + race.race_sort + ')</li>');
+            });
+          }
+        }
       });
     }
 
     function bindButtons() {
       $('body').on('click', '.addResult', function(e) {
-        var userSigned = facade.getUserData() != null;
+        var userSigned = sandbox.getUserData() != null;
         if (!userSigned) {
-          facade.notify({
+          sandbox.notify({
             type : 'user-sign-in-form'
           });
           e.stopPropagation();
@@ -463,10 +455,11 @@ define(function() {
       });
       $('body').on('click', '.editResult', function() {
         var id = ($(this).attr('id') || '').split('_')[1];
+
         showEditForm(id);
       });
 
-      $('.cnr-result-remove').each(function(index) {
+      $('.cnr-result-remove').each(function() {
         var elem = $(this);
         var params = {
           id : elem.attr('data-id'),
@@ -476,9 +469,9 @@ define(function() {
       });
     }
     return {
-      init : function(data) {
-        facade.listen('result-set-winners', this.initResult, this);
-        facade.listen('result-removed', this.resultRemoved, this);
+      init : function() {
+        sandbox.listen('result-set-winners', this.initResult, this);
+        sandbox.listen('result-removed', this.resultRemoved, this);
         bindButtons();
       },
 

@@ -1,9 +1,7 @@
-/*jshint unused:false */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
 
     function _removePhoto(params) {
-
       var urlData = {
         dao : 9,
         action : 5,
@@ -11,33 +9,31 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        success : function(oData) {
-          if (!Number(oData['delete'].iStatus)) {
-            facade.notify({
-              type : 'photo-removed',
-              data : {
-                id : oData['delete'].photo_id,
-                result : oData['delete']
-              }
-            });
-          } else {
-            facade.dialogError({
-              title : 'Błąd',
-              content : oData['delete'].sMessage,
-              errors : oData.errors
-            });
-          }
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (!Number(data['delete'].iStatus)) {
+          sandbox.notify({
+            type : 'photo-removed',
+            data : {
+              id : data['delete'].photo_id,
+              result : data['delete']
+            }
+          });
+        } else {
+          sandbox.dialogError({
+            title : 'Błąd',
+            content : data['delete'].sMessage,
+            errors : data.errors
+          });
+        }
       });
     }
 
     function _removeAvatar(params) {
-
       var urlData = {
         dao : 9,
         action : 5,
@@ -47,33 +43,31 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        success : function(oData) {
-          if (!Number(oData['delete'].iStatus)) {
-            facade.notify({
-              type : 'avatar-removed',
-              data : {
-                user_id : oData.userId,
-                id : oData['delete'].photo_id
-              }
-            });
-          } else {
-            facade.dialogError({
-              title : 'Błąd',
-              content : oData['delete'].sMessage,
-              errors : oData.errors
-            });
-          }
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (!Number(data['delete'].iStatus)) {
+          sandbox.notify({
+            type : 'avatar-removed',
+            data : {
+              user_id : data.userId,
+              id : data['delete'].photo_id
+            }
+          });
+        } else {
+          sandbox.dialogError({
+            title : 'Błąd',
+            content : data['delete'].sMessage,
+            errors : data.errors
+          });
+        }
       });
     }
 
     function _removeLogo(params) {
-
       var urlData = {
         dao : 9,
         action : 5,
@@ -83,35 +77,35 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        success : function(oData) {
-          if (!Number(oData['delete'].iStatus)) {
-            facade.notify({
-              type : 'logo-removed',
-              data : {
-                team_id : params.id,
-                user_id : oData.userId,
-                id : oData['delete'].photo_id
-              }
-            });
-          } else {
-            facade.dialogError({
-              title : 'Błąd',
-              content : oData['delete'].sMessage,
-              errors : oData.errors
-            });
-          }
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (!Number(data['delete'].iStatus)) {
+          sandbox.notify({
+            type : 'logo-removed',
+            data : {
+              team_id : params.id,
+              user_id : data.userId,
+              id : data['delete'].photo_id
+            }
+          });
+        } else {
+          sandbox.dialogError({
+            title : 'Błąd',
+            content : data['delete'].sMessage,
+            errors : data.errors
+          });
+        }
       });
     }
 
     function _bindConfirmRemove(params) {
       var elem = $('#photo_' + params.photo_id + ' .cnr-photo-remove');
       var html = "<p>Czy na pewno chcesz usunąć zdjęcie?</p><button class='btn btn-small btn-danger confirm-remove'>Usuń</button><button class='btn btn-small cancel-remove'>Anuluj</button>";
+
       elem.popover({
         html : true,
         content : html,
@@ -131,6 +125,7 @@ define(function() {
     function _bindConfirmRemoveAvatar(params) {
       var elem = $('.cnr-avatar-manage .cnr-avatar-remove');
       var html = "<p>Czy na pewno chcesz usunąć avatar?</p><button class='btn btn-small btn-danger confirm-remove'>Usuń</button><button class='btn btn-small cancel-remove'>Anuluj</button>";
+
       elem.popover({
         html : true,
         content : html,
@@ -150,6 +145,7 @@ define(function() {
     function _bindConfirmRemoveLogo(params) {
       var elem = $('.cnr-logo-manage .cnr-logo-remove');
       var html = "<p>Czy na pewno chcesz usunąć logo?</p><button class='btn btn-small btn-danger confirm-remove'>Usuń</button><button class='btn btn-small cancel-remove'>Anuluj</button>";
+
       elem.popover({
         html : true,
         content : html,
@@ -171,7 +167,7 @@ define(function() {
       var sDescription = params.description;
       var oPhoto = $('#photo_' + iId);
 
-      $(facade.template('photoEditForm', {
+      $(sandbox.template('photoEditForm', {
         description : sDescription
       })).appendTo("#photo_" + iId).show();
 
@@ -184,12 +180,12 @@ define(function() {
           photo_id : iId,
           photo_description : oPhoto.find('textarea').val()
         };
-        _editPhoto(params);
+
+        _editPhoto($(this), params);
       });
 
     }
-    function _editPhoto(params) {
-
+    function _editPhoto(button, params) {
       var iId = params.photo_id;
       var oPhoto = $('#photo_' + iId);
       var urlData = {
@@ -199,38 +195,40 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      button.button('loading');
+      sandbox.ajax({
         data : urlData,
         url : 'ajax',
-        success : function(oData) {
-          if (!Number(oData.update.iStatus)) {
-            facade.notify({
-              type : 'photo-updated',
-              data : oData.update
-            });
-          } else {
-            facade.dialogError({
-              title : 'Błąd',
-              content : oData.update.sMessage,
-              errors : oData.errors
-            });
-          }
-          oPhoto.find('.form').remove();
-        },
         cache : false,
         global : false
+      }).done(function(data) {
+        if (!Number(data.update.iStatus)) {
+          sandbox.notify({
+            type : 'photo-updated',
+            data : data.update
+          });
+        } else {
+          sandbox.dialogError({
+            title : 'Błąd',
+            content : data.update.sMessage,
+            errors : data.errors
+          });
+        }
+        oPhoto.find('.form').remove();
+      }).always(function() {
+        button.button('reset');
       });
     }
     function bindButtons() {
 
-      $('.photo .cnr-photo-remove').each(function(index) {
+      $('.photo .cnr-photo-remove').each(function() {
         var elem = $(this);
         var params = {
           photo_id : elem.attr('data-id')
         };
         _bindConfirmRemove(params);
       });
-      $('.cnr-avatar-remove').each(function(index) {
+      $('.cnr-avatar-remove').each(function() {
         var elem = $(this);
         var params = {
           id : elem.attr('data-id'),
@@ -240,7 +238,7 @@ define(function() {
         _bindConfirmRemoveAvatar(params);
       });
 
-      $('.cnr-logo-remove').each(function(index) {
+      $('.cnr-logo-remove').each(function() {
         var elem = $(this);
         var params = {
           id : elem.attr('data-id'),
@@ -262,11 +260,11 @@ define(function() {
     }
 
     return {
-      init : function(data) {
-        facade.listen('photo-removed', this.photoRemoved, this);
-        facade.listen('photo-updated', this.photoUpdated, this);
-        facade.listen('avatar-removed', this.avatarRemoved, this);
-        facade.listen('logo-removed', this.logoRemoved, this);
+      init : function() {
+        sandbox.listen('photo-removed', this.photoRemoved, this);
+        sandbox.listen('photo-updated', this.photoUpdated, this);
+        sandbox.listen('avatar-removed', this.avatarRemoved, this);
+        sandbox.listen('logo-removed', this.logoRemoved, this);
         bindButtons();
       },
       photoUpdated : function(messageInfo) {

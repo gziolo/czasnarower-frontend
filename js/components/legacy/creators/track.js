@@ -1,7 +1,7 @@
 /*jshint maxstatements:50, unused:false */
 /*global google */
 define(function() {
-  return function(facade, $) {
+  return function(sandbox, $) {
 
     /**
      * directions services for handling autoRoute parts of track, first one for
@@ -199,7 +199,7 @@ define(function() {
         map : map,
         visible : false,
         draggable : true,
-        icon : new google.maps.MarkerImage(facade.config.staticUrl + 'img-1.3/markers/iconset-1.png', new google.maps.Size(17, 22), new google.maps.Point(667, 0), new google.maps.Point(3, 20)),
+        icon : new google.maps.MarkerImage(sandbox.config.staticUrl + 'img-1.3/markers/iconset-1.png', new google.maps.Size(17, 22), new google.maps.Point(667, 0), new google.maps.Point(3, 20)),
         title : 'Przeciągnij, aby dostawić punkt'
       };
 
@@ -233,18 +233,18 @@ define(function() {
     }
 
     function initializeForm() {
-      $('#track_submit').click(function() {
+      $('#track_submit').on('click', function() {
         $("#success_communique").remove();
         $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
         draft = false;
-        saveTrack();
+        saveTrack($(this));
       });
 
-      $('#track_draft_submit').click(function() {
+      $('#track_draft_submit').on('click', function() {
         $("#success_communique").remove();
         $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
         draft = true;
-        saveTrack();
+        saveTrack($(this));
       });
 
     }
@@ -289,21 +289,21 @@ define(function() {
         $('#autoRoute').attr('checked', !checked);
       });
 
-      $('#track_location_submit').click(function() {
+      $('#track_location_submit').on('click', function() {
         $("#success_communique").remove();
         $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
         draft = false;
         if (validateTrackLocations()) {
-          getCoordinates();
+          getCoordinates($(this));
         }
       });
 
-      $('#track_location_draft_submit').click(function() {
+      $('#track_location_draft_submit').on('click', function() {
         $("#success_communique").remove();
         $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
         draft = true;
         if (validateTrackLocations()) {
-          getCoordinates();
+          getCoordinates($(this));
         }
       });
 
@@ -388,7 +388,7 @@ define(function() {
      */
     function _marker(opts) {
       // TODO: select proper ICON
-      var img = new google.maps.MarkerImage(facade.config.staticUrl + 'img-1.3/markers/iconset-1.png', new google.maps.Size(17, 22), new google.maps.Point(684, 0), new google.maps.Point(3, 20));
+      var img = new google.maps.MarkerImage(sandbox.config.staticUrl + 'img-1.3/markers/iconset-1.png', new google.maps.Size(17, 22), new google.maps.Point(684, 0), new google.maps.Point(3, 20));
       var defaults = {
         map : map,
         draggable : true,
@@ -1124,7 +1124,7 @@ define(function() {
     /**
      *
      */
-    function getCoordinates() {
+    function getCoordinates(button) {
 
       var path = [];
 
@@ -1200,7 +1200,7 @@ define(function() {
           }
         }
         if (numGeocoded === limitGeocoded && startGeocoded) {
-          saveCoordinates(params);
+          saveCoordinates(button, params);
         }
       });
 
@@ -1222,7 +1222,7 @@ define(function() {
           }
         }
         if (numGeocoded === limitGeocoded && startGeocoded) {
-          saveCoordinates(params);
+          saveCoordinates(button, params);
         }
       };
 
@@ -1240,8 +1240,7 @@ define(function() {
     /**
      *
      */
-    function saveCoordinates(path) {
-
+    function saveCoordinates(button, path) {
       var params = {
         track : path,
         draft : draft,
@@ -1257,111 +1256,119 @@ define(function() {
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      button.button('loading');
+      sandbox.ajax({
         type : 'POST',
         data : urlData,
         dataType : 'json',
         url : 'ajax',
-        success : function(sData) {
-          if (!sData.result.iStatus) {
-            $('#track_id').val(sData.result.track.id);
-            $('#track_location_id').val(sData.result.track_location.id);
-
-            // no errors, everything is fine
-            if (sData.result.sRedirect) {
-              window.location = sData.result.sRedirect;
-            } else {
-              // display alert with proper info
-              $('<div id="success_communique" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>' + sData.result.sMessage + '</div>').insertBefore(
-                  '.form-actions');
-              modified = false;
-              fileSrc = '';
-            }
-          } else {
-            var aErrors = [];
-            if (sData.errors) {
-              $.each(sData.errors, function(key, err) {
-                var id = key.split('_')[1];
-                aErrors.push({
-                  id : id + "_communique",
-                  msg : err
-                });
-              });
-              aErrors.push({
-                id : "validation_communique",
-                msg : "Formularz zawiera błędy. Popraw je aby zapisać ślad trasy."
-              });
-            }
-            showError({
-              noDialog : true,
-              title : 'Błąd',
-              content : sData.result.sMessage,
-              errors : aErrors
-            });
-          }
-        },
         cache : false
+      }).done(
+          function(data) {
+            if (!data.result.iStatus) {
+              $('#track_id').val(data.result.track.id);
+              $('#track_location_id').val(data.result.track_location.id);
+
+              // no errors, everything is fine
+              if (data.result.sRedirect) {
+                window.location = data.result.sRedirect;
+              } else {
+                // display alert with proper info
+                $('<div id="success_communique" class="alert alert-success">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + data.result.sMessage + '</div>')
+                    .insertBefore('.form-actions');
+                modified = false;
+                fileSrc = '';
+              }
+            } else {
+              var aErrors = [];
+              if (data.errors) {
+                $.each(data.errors, function(key, err) {
+                  var id = key.split('_')[1];
+                  aErrors.push({
+                    id : id + "_communique",
+                    msg : err
+                  });
+                });
+                aErrors.push({
+                  id : "validation_communique",
+                  msg : "Formularz zawiera błędy. Popraw je aby zapisać ślad trasy."
+                });
+              }
+              showError({
+                noDialog : true,
+                title : 'Błąd',
+                content : data.result.sMessage,
+                errors : aErrors
+              });
+            }
+          }).always(function() {
+        button.button('reset');
       });
     }
 
     /**
      * save track
      */
-    function saveTrack() {
+    function saveTrack(button) {
+      var params, urlData;
 
-      var params = validateTrack();
+      button.button('loading');
+      params = validateTrack();
       if (!params) {
+        button.button('reset');
         return false;
       }
       params['track_id'] = $('#track_id').val();
       params['draft'] = draft;
 
-      var urlData = {
+      urlData = {
         dao : 13,
         action : 2,
         dataType : 'json',
         params : JSON.stringify(params)
       };
 
-      facade.ajax({
+      sandbox.ajax({
         type : 'POST',
         data : urlData,
         dataType : 'json',
         url : 'ajax',
-        success : function(sData) {
-          if (!sData.result.iStatus) {
-            // no errors, everything is fine
-            if (sData.result.sRedirect) {
-              window.location = sData.result.sRedirect;
-            } else {
-              $('<div id="success_communique" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>' + sData.result.sMessage + '</div>').insertBefore(
-                  '.form-actions');
-            }
-          } else {
-
-            var aErrors = [];
-            if (sData.errors) {
-              $.each(sData.errors, function(key, err) {
-                var id = key.split('_')[1];
-                aErrors.push({
-                  id : id + "_communique",
-                  msg : err
-                });
-              });
-              aErrors.push({
-                id : "validation_communique",
-                msg : "Formularz zawiera błędy. Popraw je aby zapisać trasę."
-              });
-            }
-            showError({
-              noDialog : true,
-              title : 'Błąd',
-              content : sData.result.sMessage,
-              errors : aErrors
-            });
-          }
-        },
         cache : false
+      }).done(
+          function(data) {
+            var aErrors = [];
+
+            if (!data.result.iStatus) {
+              // no errors, everything is fine
+              if (data.result.sRedirect) {
+                window.location = data.result.sRedirect;
+              } else {
+                $('<div id="success_communique" class="alert alert-success">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + data.result.sMessage + '</div>')
+                    .insertBefore('.form-actions');
+              }
+            } else {
+              if (data.errors) {
+                $.each(data.errors, function(key, err) {
+                  var id = key.split('_')[1];
+                  aErrors.push({
+                    id : id + "_communique",
+                    msg : err
+                  });
+                });
+                aErrors.push({
+                  id : "validation_communique",
+                  msg : "Formularz zawiera błędy. Popraw je aby zapisać trasę."
+                });
+              }
+              showError({
+                noDialog : true,
+                title : 'Błąd',
+                content : data.result.sMessage,
+                errors : aErrors
+              });
+            }
+          }).always(function() {
+        button.button('reset');
       });
     }
 
@@ -1403,7 +1410,7 @@ define(function() {
 
     function showError(params) {
       if (!params.noDialog) {
-        facade.dialog({
+        sandbox.dialog({
           title : params.title,
           content : params.content,
           buttons : [ {
@@ -1426,12 +1433,12 @@ define(function() {
     }
     return {
       init : function(data) {
-        facade.listen('map-initialised', this.mapInitialised, this);
-        facade.listen('init-track-form', this.initForm, this);
-        facade.listen('set-poly-cords', this.setPolyCoords, this);
-        facade.listen('set-file-src', this.setFileSrc, this);
-        facade.listen('display-poly', this.displayPoly, this);
-        facade.listen('track-creator-error', this.showError, this);
+        sandbox.listen('map-initialised', this.mapInitialised, this);
+        sandbox.listen('init-track-form', this.initForm, this);
+        sandbox.listen('set-poly-cords', this.setPolyCoords, this);
+        sandbox.listen('set-file-src', this.setFileSrc, this);
+        sandbox.listen('display-poly', this.displayPoly, this);
+        sandbox.listen('track-creator-error', this.showError, this);
       },
       mapInitialised : function() {
         initialize();
