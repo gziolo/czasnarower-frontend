@@ -32,10 +32,7 @@ var Forum = {
   Thread : {
 
     validateForm : function() {
-
-      $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
       var errors = 0;
-
       var id = $('input[name="forum_thread_id"]').val();
       var titleValue = $('input[name="title"]').val();
       var descriptionValue = $("textarea[name='message']").val();
@@ -104,8 +101,6 @@ function bindNewWindow() {
 
 function validateUserPhoto() {
 
-  $(".control-group").removeClass('alert alert-error error');
-
   var photoValue = $("input[name='photo']").val();
   if (!photoValue) {
     setErrorCommunique('photo_error_communique', 'Prosimy o dodanie zdjęcia');
@@ -114,11 +109,7 @@ function validateUserPhoto() {
   return true;
 }
 function validateNews() {
-
-  $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-
   var errors = 0;
-
   var titleValue = $("input[name='title']").val();
   var descriptionValue = $("textarea[name='description']").val();
   var urlValue = $("input[name='url']").val();
@@ -154,8 +145,6 @@ function validateSchedule() {
 
   var errors = 0, raceNameValue = $("input[name='race_name']").val(), startPlaceValue = $("input[name='start_place']").val(), startDayValue = $("input[name='start_day']").val(), urlValue = $(
       "input[name='url']").val(), sortValue = +$("select[name='race_sort']").val();
-
-  $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
 
   if (startDayValue.length < 1) {
     setErrorCommunique('start_day_communique', 'Data wyścigu nie została wybrana');
@@ -271,16 +260,64 @@ function bindLoadEvents() {
 
 function bindFormEvents() {
   $('body').on('submit', '#forum_thread_form', function() {
-    return Forum.Thread.validateForm();
+    var valid;
+    var form = $(this);
+    var button = form.find(':input[type=submit]');
+
+    button.button('loading');
+    form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+    valid = Forum.Thread.validateForm();
+    if (valid === false) {
+      button.button('reset');
+    }
+    return valid;
+  });
+  $('#news_form').on('click', ':input[type=submit]', function() {
+    $(this).button('loading');
   });
   $('body').on('submit', '#news_form', function() {
-    return validateNews();
+    var valid;
+    var form = $(this);
+    var button = form.find(':input[type=submit]');
+
+    form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+    valid = validateNews();
+    if (valid === false) {
+      button.button('reset');
+    }
+    return valid;
   });
   $('body').on('submit', '#photo_form', function() {
-    return validateUserPhoto();
+    var valid;
+    var form = $(this);
+    var button = form.find(':input[type=submit]');
+
+    button.button('loading');
+    form.find(".control-group").removeClass('alert alert-error error');
+    valid = validateUserPhoto();
+    if (valid === false) {
+      button.button('reset');
+    }
+    return valid;
   });
   $('body').on('submit', '#schedule_form', function() {
-    return validateSchedule();
+    var valid;
+    var form = $(this);
+    var button = form.find(':input[type=submit]');
+
+    button.button('loading');
+    form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+    valid = validateSchedule();
+    if (valid === false) {
+      button.button('reset');
+    }
+    return valid;
+  });
+  $('body').on('submit', '#user_data_form, #team_form, #password_change_form', function() {
+    var button = $(this).find(':input[type=submit]');
+
+    button.button('loading');
+    return true;
   });
 }
 

@@ -253,6 +253,9 @@ define(function() {
      * binding events with form elements
      */
     function bindForm() {
+      $('#track_file_submit').on('click', function() {
+        $(this).button('loading');
+      });
       $('#btnGeocode').click(function() {
         codeAddress();
       });

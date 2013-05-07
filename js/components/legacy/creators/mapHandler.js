@@ -166,7 +166,7 @@ define(function() {
     };
 
     /**
-     * 
+     *
      */
     var _viewLocationSelect = function(map, locations) {
       var txt = '';
@@ -191,7 +191,7 @@ define(function() {
       outDiv.show();
     };
     /**
-     * 
+     *
      */
     var _zoomLocation = function(map, location) {
       map.setCenter(location.position);
@@ -212,7 +212,7 @@ define(function() {
       locationInfo.open(map, marker);
     };
     /**
-     * 
+     *
      */
     var _addLocation = function(data) {
       var pos;
@@ -240,16 +240,23 @@ define(function() {
 
     var bindButtons = function() {
       $('.btn.save-location').click(function(e) {
-        var serviceName = $(this).data('serviceName');
-        var id = +$(this).data('id');
+        var button = $(this);
+        var serviceName = button.data('serviceName');
+        var id = +button.data('id');
+        var resetButton = function() {
+          button.button('reset');
+        };
+
+        button.button('loading');
         if ('' === $('#longitude').val() || '' === $('#latitude').val()) {
+          resetButton();
           facade.dialogError({
             content : 'Lokalizacja nie została zaznaczona na mapie.'
           });
           return;
         }
         var data = {
-          item_id : +$(this).data('itemId'),
+          item_id : +button.data('itemId'),
           longitude : $('#longitude').val(),
           latitude : $('#latitude').val()
         };
@@ -261,11 +268,10 @@ define(function() {
           }
         };
         if (id) {
-          facade.rest.update(serviceName, id, data, options);
+          facade.rest.update(serviceName, id, data, options).always(resetButton);
         } else {
-          facade.rest.create(serviceName, data, options);
+          facade.rest.create(serviceName, data, options).always(resetButton);
         }
-        e.preventDefault();
         return false;
       });
     };
