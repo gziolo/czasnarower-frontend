@@ -227,7 +227,14 @@ define(function() {
       },
       signedIn : function(messageInfo) {
         var user = messageInfo.data;
+
         sandbox.setUserData(user);
+        if ($('body.cnr-user-loading').length > 0) {
+          $('body').removeClass('cnr-user-loading');
+          $('.signed-out, .user-signed-in, .team_member, .user-signed-in-exclude').hide();
+        } else {
+          $(".signed-out").fadeOut(timeVal);
+        }
         if ($("#member_" + user.nick).length > 0) {
           $("#join_team_button").fadeOut(timeVal);
           $("#leave_team_button, .team_member").fadeIn(timeVal);
@@ -242,7 +249,6 @@ define(function() {
           }
         });
         $(selectorSignIn).fadeIn(timeVal);
-        $(".signed-out").fadeOut(timeVal);
         $('#comment_form .avatar').attr('src', user.avatar);
 
         $('#user_menu .welcome').click(function() {
@@ -266,7 +272,12 @@ define(function() {
       },
       signedOut : function(messageInfo) {
         sandbox.setUserData(null);
-        $('.signed-in, .user-signed-in, .team_member, .user-signed-in-exclude').fadeOut(timeVal);
+        if ($('body.cnr-user-loading').length > 0) {
+          $('body').removeClass('cnr-user-loading');
+          $('.signed-in, .user-signed-in, .team_member, .user-signed-in-exclude').hide();
+        } else {
+          $('.signed-in, .user-signed-in, .team_member, .user-signed-in-exclude').fadeOut(timeVal);
+        }
         $(".signed-out").fadeIn(timeVal);
         infoLoaded = false;
       },
