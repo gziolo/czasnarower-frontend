@@ -177,8 +177,62 @@ define(function() {
         gridSize : 50,
         zoomOnClick : true
       });
+      
+      $('.track-category').change(function() {
+          _updateTracksView(map);
+        });
     };
 
+    var _selectTrackCategory = function(cat, map) {
+        var categories = $('.track-category');
+        categories.each(function(i) {
+
+          var category = $(this).val();
+
+          if (category === cat) {
+            $(this).attr('checked', true);
+          } else {
+            $(this).attr('checked', false);
+          }
+        });
+        _updateTracksView(map);
+    };
+    
+    var _updateTraksView = function(map) {
+
+        var categories = $('.track-category');
+        markersBounds = new google.maps.LatLngBounds();
+
+        categories.each(function(i) {
+          var category = $(this).val();
+          var isChecked = $(this).prop('checked');
+
+          if (groups[category]) {
+
+            if (groups[category][0]) {
+              $.each(groups[category][0], function(i, elem) {
+                markers[elem].setMap(isChecked ? map : null);
+                if (isChecked) {
+                  markersBounds.extend(markers[elem].getPosition());
+                }
+              });
+            }
+
+            if (groups[category][1]) {
+              $.each(groups[category][1], function(i, elem) {
+                markers[elem].setMap((past && isChecked) ? map : null);
+                if (past && isChecked) {
+                  markersBounds.extend(markers[elem].getPosition());
+                }
+              });
+            }
+
+          }
+        });
+
+        map.fitBounds(markersBounds);
+    };
+    
     var _createTrack = function(map, data) {
       var track = data.track;
       var latLngs = data.track.latLngs;
@@ -358,7 +412,8 @@ define(function() {
 
       $.extend(defaults, opts);
       var marker = new google.maps.Marker(defaults);
-
+      marker.categories = track.categories;
+      //console.log(marker.categories);
       if (opts.title) {
         return;
       }
