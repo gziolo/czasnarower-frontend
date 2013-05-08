@@ -1,4 +1,3 @@
-/*jshint unused:false */
 define(function() {
   return function(sandbox, $) {
     'use strict';
@@ -37,7 +36,7 @@ define(function() {
 
     function bindSignInForm() {
 
-      $('body').on('click', '.cnr-sign-in-form', function(e) {
+      $('body').on('click', '.cnr-sign-in-form', function() {
         sandbox.notify({
           type : 'user-sign-in-form'
         });
@@ -103,7 +102,7 @@ define(function() {
 
     function bindReminderForm() {
 
-      $('body').on('click', '.reminder-form', function(e) {
+      $('body').on('click', '.reminder-form', function() {
         sandbox.notify({
           type : 'user-reminder-form'
         });
@@ -162,7 +161,7 @@ define(function() {
     }
 
     function bindSignOutButton() {
-      $('body').on('click', '.cnr-sign-out', function(e) {
+      $('body').on('click', '.cnr-sign-out', function() {
         var signOutButton = $(this);
 
         signOutButton.button('loading');
@@ -189,7 +188,7 @@ define(function() {
     }
 
     return {
-      init : function(data) {
+      init : function() {
         sandbox.listen('user-registration-form', this.showRegistrationForm, this);
         sandbox.listen('user-sign-in-form', this.showSignInForm, this);
         sandbox.listen('user-signed-in', this.signedIn, this);
@@ -203,7 +202,7 @@ define(function() {
         bindSignOutButton();
         bindRecommendationForm();
       },
-      showRegistrationForm : function(messageInfo) {
+      showRegistrationForm : function() {
         sandbox.ajax({
           type : 'POST',
           url : 'ajax',
@@ -214,7 +213,7 @@ define(function() {
           $("#ebilightbox").html(data).modal();
         });
       },
-      showSignInForm : function(messageInfo) {
+      showSignInForm : function() {
         sandbox.ajax({
           type : 'POST',
           url : 'ajax',
@@ -258,8 +257,9 @@ define(function() {
             _getUserPanel();
           }
         });
+        $('.cnr-add-dropdown').off('click.signed-out');
       },
-      showReminderForm : function(messageInfo) {
+      showReminderForm : function() {
         sandbox.ajax({
           type : 'POST',
           url : 'ajax',
@@ -270,7 +270,7 @@ define(function() {
           $("#ebilightbox").html(data);
         });
       },
-      signedOut : function(messageInfo) {
+      signedOut : function() {
         sandbox.setUserData(null);
         if ($('body.cnr-user-loading').length > 0) {
           $('body').removeClass('cnr-user-loading');
@@ -279,6 +279,12 @@ define(function() {
           $('.signed-in, .user-signed-in, .team_member, .user-signed-in-exclude').fadeOut(timeVal);
         }
         $(".signed-out").fadeIn(timeVal);
+        $('.cnr-add-dropdown').on('click.signed-out', function() {
+          sandbox.notify({
+            type : 'user-sign-in-form'
+          });
+          return false;
+        });
         infoLoaded = false;
       },
       appendUserData : function(messageInfo) {
