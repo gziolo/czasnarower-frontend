@@ -175,7 +175,7 @@ define([ 'underscore' ], function(_) {
         gridSize : 50,
         zoomOnClick : true
       });
-
+      
       $('.track-category').change(function() {
         updateTracksView(map);
       });
@@ -209,17 +209,20 @@ define([ 'underscore' ], function(_) {
           categories.push(category);
         }
       });
-
+      markerCluster.clearMarkers();
       _.each(markers, function(marker) {
         // add check if categories for marker are in selected categories list
-        if (marker.categories) {
+        //console.log(_.intersection(marker.categories, categories));
+        if (_.intersection(marker.categories, categories).length) {
           marker.setMap(map);
           markersBounds.extend(marker.getPosition());
+          markerCluster.addMarker(marker);
         } else {
           marker.setMap(null);
         }
       });
       map.fitBounds(markersBounds);
+      markerCluster.repaint();
     };
 
     var _createTrack = function(map, data) {
