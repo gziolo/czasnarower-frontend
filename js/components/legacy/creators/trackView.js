@@ -1,6 +1,6 @@
 /*jshint unused:false */
 /*global google, InfoBox, MarkerClusterer */
-define(function() {
+define([ 'underscore' ], function(_) {
   return function(facade, $) {
 
     /**
@@ -24,9 +24,7 @@ define(function() {
      */
     geocoder,
 
-    mousemarker, info,
-
-    _googleMapsLoaded = false;
+    mousemarker, info, _googleMapsLoaded = false, markers = [];
 
     var _initializeMap = function(data) {
 
@@ -159,7 +157,7 @@ define(function() {
           map.setCenter(new google.maps.LatLng(y, x));
         });
       }
-      var markers = [];
+      markers = [];
       $.each(data.tracks, function(i, track) {
         var latLng = track.start_latlng;
         latLng = new google.maps.LatLng(latLng.latitude, latLng.longitude);
@@ -177,62 +175,53 @@ define(function() {
         gridSize : 50,
         zoomOnClick : true
       });
-      
+
       $('.track-category').change(function() {
-          _updateTracksView(map);
-        });
+        updateTracksView(map);
+      });
     };
 
     var _selectTrackCategory = function(cat, map) {
-        var categories = $('.track-category');
-        categories.each(function(i) {
+      var categories = $('.track-category');
+      categories.each(function(i) {
 
-          var category = $(this).val();
+        var category = $(this).val();
 
-          if (category === cat) {
-            $(this).attr('checked', true);
-          } else {
-            $(this).attr('checked', false);
-          }
-        });
-        _updateTracksView(map);
+        if (category === cat) {
+          $(this).attr('checked', true);
+        } else {
+          $(this).attr('checked', false);
+        }
+      });
+      updateTracksView(map);
     };
-    
-    var _updateTraksView = function(map) {
 
-        var categories = $('.track-category');
-        markersBounds = new google.maps.LatLngBounds();
+    var updateTracksView = function(map) {
 
-        categories.each(function(i) {
-          var category = $(this).val();
-          var isChecked = $(this).prop('checked');
+      var categories = [];
+      var markersBounds = new google.maps.LatLngBounds();
 
-          if (groups[category]) {
+      $('.track-category').each(function() {
+        var category = $(this).val();
+        var isChecked = $(this).prop('checked');
 
-            if (groups[category][0]) {
-              $.each(groups[category][0], function(i, elem) {
-                markers[elem].setMap(isChecked ? map : null);
-                if (isChecked) {
-                  markersBounds.extend(markers[elem].getPosition());
-                }
-              });
-            }
+        if (isChecked) {
+          categories.push(category);
+        }
+      });
 
-            if (groups[category][1]) {
-              $.each(groups[category][1], function(i, elem) {
-                markers[elem].setMap((past && isChecked) ? map : null);
-                if (past && isChecked) {
-                  markersBounds.extend(markers[elem].getPosition());
-                }
-              });
-            }
-
-          }
-        });
-
-        map.fitBounds(markersBounds);
+      _.each(markers, function(marker) {
+        // add check if categories for marker are in selected categories list
+        if (marker.categories) {
+          marker.setMap(map);
+          markersBounds.extend(marker.getPosition());
+        } else {
+          marker.setMap(null);
+        }
+      });
+      map.fitBounds(markersBounds);
     };
-    
+
     var _createTrack = function(map, data) {
       var track = data.track;
       var latLngs = data.track.latLngs;
@@ -413,7 +402,7 @@ define(function() {
       $.extend(defaults, opts);
       var marker = new google.maps.Marker(defaults);
       marker.categories = track.categories;
-      //console.log(marker.categories);
+      // console.log(marker.categories);
       if (opts.title) {
         return;
       }
