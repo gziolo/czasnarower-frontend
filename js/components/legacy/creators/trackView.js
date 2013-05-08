@@ -181,21 +181,6 @@ define([ 'underscore' ], function(_) {
       });
     };
 
-    var _selectTrackCategory = function(cat, map) {
-      var categories = $('.track-category');
-      categories.each(function(i) {
-
-        var category = $(this).val();
-
-        if (category === cat) {
-          $(this).attr('checked', true);
-        } else {
-          $(this).attr('checked', false);
-        }
-      });
-      updateTracksView(map);
-    };
-
     var updateTracksView = function(map) {
 
       var categories = [];
@@ -211,9 +196,7 @@ define([ 'underscore' ], function(_) {
       });
       markerCluster.clearMarkers();
       _.each(markers, function(marker) {
-        // add check if categories for marker are in selected categories list
-        //console.log(_.intersection(marker.categories, categories));
-        if (_.intersection(marker.categories, categories).length) {
+        if (_.intersection(marker.categories, categories).length > 0) {
           marker.setMap(map);
           markersBounds.extend(marker.getPosition());
           markerCluster.addMarker(marker);
