@@ -184,7 +184,7 @@ define([ 'underscore' ], function(_) {
     var updateTracksView = function(map) {
 
       var categories = [];
-      var markersBounds = new google.maps.LatLngBounds();
+      //var markersBounds = new google.maps.LatLngBounds();
 
       $('.track-category').each(function() {
         var category = $(this).val();
@@ -198,13 +198,13 @@ define([ 'underscore' ], function(_) {
       _.each(markers, function(marker) {
         if (_.intersection(marker.categories, categories).length > 0) {
           marker.setMap(map);
-          markersBounds.extend(marker.getPosition());
+          //markersBounds.extend(marker.getPosition());
           markerCluster.addMarker(marker);
         } else {
           marker.setMap(null);
         }
       });
-      map.fitBounds(markersBounds);
+      //map.fitBounds(markersBounds);
       markerCluster.repaint();
     };
 
