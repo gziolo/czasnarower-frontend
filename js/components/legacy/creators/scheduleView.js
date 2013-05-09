@@ -180,7 +180,7 @@ define(function() {
 
       var past = $('#cat-past').prop('checked');
       var categories = $('.schedule-category');
-      markersBounds = new google.maps.LatLngBounds();
+      //markersBounds = new google.maps.LatLngBounds();
 
       categories.each(function(i) {
         var category = $(this).val();
@@ -191,25 +191,25 @@ define(function() {
           if (groups[category][0]) {
             $.each(groups[category][0], function(i, elem) {
               markers[elem].setMap(isChecked ? map : null);
-              if (isChecked) {
-                markersBounds.extend(markers[elem].getPosition());
-              }
+              //if (isChecked) {
+              //  markersBounds.extend(markers[elem].getPosition());
+              //}
             });
           }
 
           if (groups[category][1]) {
             $.each(groups[category][1], function(i, elem) {
               markers[elem].setMap((past && isChecked) ? map : null);
-              if (past && isChecked) {
-                markersBounds.extend(markers[elem].getPosition());
-              }
+              //if (past && isChecked) {
+              //  markersBounds.extend(markers[elem].getPosition());
+              //}
             });
           }
 
         }
       });
 
-      map.fitBounds(markersBounds);
+      //map.fitBounds(markersBounds);
     };
 
     var _getScheduleAnchor = function(cat, past, size) {
