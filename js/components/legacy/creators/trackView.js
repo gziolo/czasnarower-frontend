@@ -206,6 +206,7 @@ define([ 'underscore' ], function(_) {
       });
       //map.fitBounds(markersBounds);
       markerCluster.repaint();
+      if(trackPreview){trackPreview.setMap(null);}
     };
 
     var _createTrack = function(map, data) {
