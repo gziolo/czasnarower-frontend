@@ -11,11 +11,11 @@ define(function() {
         plotCanvas.destroy();
       }
       $.jqplot.postDrawHooks.push(function() {
-        $('#results_stats_box .loader-progress').hide();
+        $('#' + target + ' .loader-progress').hide();
       });
 
       $.jqplot.preDrawHooks.push(function() {
-        $('#results_stats_box .loader-progress').show();
+        $('#' + target + ' .loader-progress').show();
       });
       plotCanvas = $.jqplot(target, stats, {
         grid : {
@@ -96,6 +96,9 @@ define(function() {
 
     var showTrackProfile = function(target, elevations) {
 
+      $.jqplot.postDrawHooks.push(function() {
+        $('#' + target + ' .loader-progress').hide();
+      });
       var plot1 = $.jqplot(target, [ elevations, elevations ], {
         grid : {
           gridLineColor : '#cccccc'
