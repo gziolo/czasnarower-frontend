@@ -20,7 +20,7 @@ define([ 'flight', 'mixins', 'text!cookies_alert/templates/alert.html' ], functi
       this.teardown();
     };
 
-    this.serve = function() {
+    this.initializeAlert = function() {
       if (this.isAlertDisabled()) {
         return;
       }
@@ -37,10 +37,9 @@ define([ 'flight', 'mixins', 'text!cookies_alert/templates/alert.html' ], functi
       this.on('click', {
         disableSelector : this.disableAlert
       });
-      this.on('uiCookiesAlertRequested', this.serve);
       this.on('uiCookiesAlertServed', this.render);
 
-      this.trigger('uiCookiesAlertRequested');
+      this.initializeAlert();
     });
   }
 

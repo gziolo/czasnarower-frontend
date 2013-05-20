@@ -27,6 +27,8 @@ define(function() {
       underscore : 'components/lodash/dist/lodash.underscore',
 
       cookies_alert : 'js/components/cookies_alert',
+      google_plus : 'js/components/google_plus',
+      twitter : 'js/components/twitter',
       user_race_stats : 'js/components/user_race_stats',
       legacy : 'js/components/legacy'
     },
@@ -83,6 +85,12 @@ define(function() {
       underscore : {
         deps : [ 'es5shim', 'es5sham' ],
         exports : '_'
+      },
+      '//apis.google.com/js/plusone.js' : {
+        exports : 'gapi'
+      },
+      '//platform.twitter.com/widgets.js' : {
+        exports : '__twttrlr'
       }
     }
   });

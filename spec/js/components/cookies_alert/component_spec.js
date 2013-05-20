@@ -1,4 +1,4 @@
-define([ 'jquery', 'cookies_alert/component' ], function($, CookiesAlert) {
+define([ 'jquery', 'cookies_alert/component' ], function($, CookiesAlertComponent) {
   'use strict';
 
   describe('Cookies alert', function() {
@@ -6,9 +6,9 @@ define([ 'jquery', 'cookies_alert/component' ], function($, CookiesAlert) {
     describe('Alert block disbled', function() {
 
       before(function() {
-        this.storageGetItemStub = sinon.stub(CookiesAlert.prototype.storage, 'getItem').returns(true);
+        this.storageGetItemStub = sinon.stub(CookiesAlertComponent.prototype.storage, 'getItem').returns(true);
         $('body').append('<div id="cookies-alert"></div>');
-        this.instance = new CookiesAlert('#cookies-alert');
+        this.instance = new CookiesAlertComponent('#cookies-alert');
       });
 
       after(function() {
@@ -25,13 +25,13 @@ define([ 'jquery', 'cookies_alert/component' ], function($, CookiesAlert) {
     describe('Alert block enabled', function() {
 
       beforeEach(function() {
-        this.storageGetItemStub = sinon.stub(CookiesAlert.prototype.storage, 'getItem').returns(false);
+        this.storageGetItemStub = sinon.stub(CookiesAlertComponent.prototype.storage, 'getItem').returns(false);
         $('body').append('<div id="cookies-alert"></div>');
-        this.instance = new CookiesAlert('#cookies-alert');
+        this.instance = new CookiesAlertComponent('#cookies-alert');
       });
 
       afterEach(function() {
-        CookiesAlert.teardownAll();
+        CookiesAlertComponent.teardownAll();
         $('#cookies-alert').remove();
         this.storageGetItemStub.restore();
       });
@@ -49,7 +49,7 @@ define([ 'jquery', 'cookies_alert/component' ], function($, CookiesAlert) {
       });
 
       it('should end up with empty node when close button clicked', function() {
-        var storageSetItemSpy = sinon.spy(CookiesAlert.prototype.storage, 'setItem');
+        var storageSetItemSpy = sinon.spy(CookiesAlertComponent.prototype.storage, 'setItem');
 
         this.instance.$node.find('button').trigger('click');
         storageSetItemSpy.should.have.been.calledWith('cnr_cookiesAlertDisabled', true);

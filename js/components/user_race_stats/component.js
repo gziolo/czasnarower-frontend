@@ -75,10 +75,9 @@ define([ 'flight', 'mixins', 'user_race_stats/collections/stats', 'text!user_rac
     };
 
     this.after('initialize', function() {
-      this.on('uiUserRaceStatsRequested', this.setupDataGrid);
       this.on('uiUserRaceStatsServed', this.render);
 
-      this.trigger('uiUserRaceStatsRequested');
+      this.setupDataGrid();
     });
   }
 

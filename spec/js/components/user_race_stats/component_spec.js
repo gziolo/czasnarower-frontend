@@ -1,4 +1,4 @@
-define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
+define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStatsComponent) {
   'use strict';
 
   describe('User race stats', function() {
@@ -7,7 +7,7 @@ define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
 
       before(function() {
         $('body').append('<div id="test"></div>');
-        this.instance = new UserRaceStats('#test');
+        this.instance = new UserRaceStatsComponent('#test');
       });
 
       after(function() {
@@ -62,7 +62,7 @@ define([ 'jquery', 'user_race_stats/component' ], function($, UserRaceStats) {
           1 : 'MTB marathon',
           2 : 'Cross-country'
         });
-        this.instance = new UserRaceStats('#test');
+        this.instance = new UserRaceStatsComponent('#test');
       });
 
       after(function() {
