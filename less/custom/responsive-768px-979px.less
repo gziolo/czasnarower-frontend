@@ -7,7 +7,20 @@
   #main {
     padding: 0 @gridGutterWidth768 @gridGutterWidth768;
   }
-
+  #sidepanel {
+  	clear: both;
+  	float: none;
+  	width: auto;
+  	margin-left: @gridGutterWidth768;
+  	margin-top: 10px;
+  	&:before {
+  		content: ' ';
+  		display: block;
+  		clear: both;
+  		width: 100%;
+  		height: 1px;
+  	}
+  }
   // Set the container width, and override it for fixed navbars in media queries
   .container,
   .navbar-static-top .container,

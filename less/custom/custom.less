@@ -5,10 +5,14 @@ body {
 	background: url('../img/main-bg.gif') top left repeat;
 }
 #main {
-	background: #fff;
+	background: @white;
 	margin-top: -5px;
 	.box-shadow(0 0 3px rgba(0,0,0,.5));
 	padding: 0 10px 10px;
+}
+#sidepanel {
+	float: right;
+	width: 300px;
 }
 #footer {
    	background: url('../img/pattern.gif') repeat;
@@ -874,6 +878,7 @@ big.distance-length {
 .component {
     margin-top: 10px;
     position: relative;
+    background-color: @white;
     .content {
         border: 1px solid lighten(@blueLight, 10%);
         padding: 5px;
@@ -890,23 +895,23 @@ big.distance-length {
     	#gradient > .vertical-three-colors(lighten(#FF7600, 15%), lighten(#FF7600, 10%), 50%, #FF7600);
         border: 1px solid @orange;
         border-bottom-width: 0;
-        padding: 3px 5px 0;
-    	height: 30px;
+        padding: 5px 5px 0;
+    	height: 22px;
         .text-overflow();
         h4 {
             line-height: 30px;
             border-bottom-width: 0;
             padding: 2px 5px 2px;
             color: @white;
-            #font .special(18px,normal,30px);
-            margin: 0 1px 0 5px;
+            #font .special(18px, normal, 22px);
+            margin: 0 1px;
             display: inline;
             &.active {
                 #gradient > .vertical-three-colors(lighten(@orange, 25%), @white, 20%, @white);
                 box-shadow: 0 0 2px @white;
                 border: 1px solid @white;
                 color: @black;
-                padding: 2px 10px 3px;
+                padding: 2px 10px 0px;
             }
             &.clickable {
                 cursor: pointer;
@@ -936,35 +941,25 @@ big.distance-length {
     }
 }
 
-
 .box-header {
-   	color: #ff7600;
-   	font-size: 20px;
-   	font-family: @specialFontFamily;
-   	font-weight: normal;
-   	margin-top: 20px;
-   	overflow: hidden;
-   	.text-overflow();
-   	position: relative;
-    text-transform: uppercase;
-    span  {
-   		background: #fff;
-   		padding: 1px 10px 1px 5px;
-   	}
-   	span:after  {
-	   	background-color: #ff7600;
-	   	content: ' ';
-	   	margin-left: 5px;
-	   	position: absolute;
-	   	bottom: 3px;
-	   	height: 5px;
-	   	display: inline;
-	   	width: 100%;
-	}
+	#gradient > .vertical-three-colors(lighten(#FF7600, 15%), lighten(#FF7600, 10%), 50%, #FF7600);
+    border: 1px solid @orange;
+    border-bottom-width: 0;
+    .text-overflow();
+    #font .special(18px, normal, 22px);
+    padding: 5px 5px 0;
+    margin-bottom: 5px;
+    span {
+		margin: 0 1px;
+        #gradient > .vertical-three-colors(lighten(@orange, 25%), @white, 20%, @white);
+        box-shadow: 0 0 2px @white;
+        border: 1px solid @white;
+        color: @black;
+        padding: 2px 10px 0;
+    }
 	small {
 		font-family: @baseFontFamily;
 		text-transform: none;
-
 	}
 }
 h1.box-header {font-size: 24px; line-height: 30px; margin-top: 15px;}
@@ -1029,20 +1024,19 @@ h1.special {
 	}
 }
 .header-subcontent {
-	border-bottom: 2px solid darken(@blueLight, 50%);
-	font-family: 'Bebas';
+	border-bottom: 2px solid @blueLight;
+	background-color: darken(@blueLight, 50%);
+	#gradient > .vertical(darken(@blueLight, 50%), darken(@blueLight, 60%));
+	#font .special(18px, normal, 24px);
 	margin-top: 20px;
 	padding-bottom: 1px;
 	.text-overflow();
     span {
 	    margin-left: 2px;
-	    text-shadow: 0 0 1px rgba(0,0,0,.2);
 	    font-weight: normal;
-	    padding: 4px 10px 0;
-	    background-color: darken(@blueLight, 60%);
+	    padding: 0 10px;
 	    color: #fff;
-	    box-shadow: 0 0 2px #DDECF6;
-	    line-height: 22px;
+	    line-height: 24px;
 	}
 }
 .social {
@@ -1188,19 +1182,22 @@ h1.special {
    	}
    	img { max-width: none;}
    	.box-header {
-   	    position: absolute;
+   		border-width: 0;
+   		border-top: 3px solid @orange;
+   		background: transparent none;
+   		position: absolute;
    	    z-index:1;
-   	    margin-top: -6px;
+   	    margin-top: -4px;
+   	    padding: 0;
    	    width: 100%;
    	    span {
    	      color: @white;
-   	      background-color: #ff7600;
+   	      background: #ff7600 none;
+   	      display: inline;
    	      line-height: 30px;
    	      padding: 5px 10px;
-   	    }
-   	    span:after {
-   	        top: 0;
-   	        bottom: auto;
+   	      border: none;
+   	      margin: 0;
    	    }
    	}
 }
@@ -1229,10 +1226,16 @@ h1.special {
 	   	position: relative;
 	   	&.active {
 		   	box-shadow: 2px 0 2px rgba(0,0,0,0.2);
+		   	background-color: fadeout(@black, 20%);
+		   	border-color: transparent;
 		   	margin-left: -15px;
 		   	margin-right: 15px;
 		   	margin-top: 2px;
 		   	margin-bottom: 3px;
+		   	padding-left: 15px;
+		   	a {
+		   		color: @white;
+		   	}
 	   	}
 		p {
 		   	height: 48px;
