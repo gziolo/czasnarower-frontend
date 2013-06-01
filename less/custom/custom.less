@@ -5,6 +5,7 @@ body {
 	background: url('../img/main-bg.gif') top left repeat;
 }
 #main {
+	background: #f8f8f8;
 	background: @white;
 	margin-top: -5px;
 	.box-shadow(0 0 3px rgba(0,0,0,.5));
@@ -338,6 +339,7 @@ body {
 	&:hover {
 		background-color: fadeout(@blueLight, 75%);
 	}
+	background-color: @white;
 	border: 1px solid #ddecf6;
     border-width: 1px 1px 2px 1px;
     border-bottom-color: #bbd9ee;
@@ -467,6 +469,15 @@ body {
             }
         }
         &.shedule {
+        	&.no-date {
+        		border-top-color: transparent;
+        		position: relative;
+        		.edition {
+        			left: 10px;
+        		}
+        	}
+        	border-top: 2px solid #bbd9ee;
+			border-bottom-width: 0;
         	.title {
 	        	background: transparent;
 	        	color: @black;
@@ -492,17 +503,20 @@ body {
         }
         .news-content {
             padding: 5px 5px 0;
+            .media {
+            	border-top-width: 0;
+            }
         }
         .edition {
           position: absolute;
           left: 8px;
-          top: 37px;
+          top: 27px;
         }
         .shedule-participants {
 	 		margin-left: 0px;
 	 		height: 29px;
 	 		position: relative;
-      overflow: hidden;
+      		overflow: hidden;
 	 		margin-top: 8px;
 	 		.avatar {
 		    	float: left;
@@ -672,8 +686,12 @@ body {
 	position: relative;
 	margin-top: 15px;
 	.box-header {
+		border-width: 0 0 2px 0;
 		border-bottom: 2px solid @blueLight;
+		background: transparent none;
+		color: #ff7600;
 		margin: 0;
+		position: relative;
 	}
 	.thumbnail {
 	}
@@ -963,11 +981,27 @@ big.distance-length {
 	}
 }
 h1.box-header {
+	color: #ff7600;
 	font-size: 24px; 
 	line-height: 30px; 
 	margin-top: 15px;
 	background: transparent none;
 	border: none;
+	border-bottom: 2px solid @blueLight;
+	&.main-header {
+		position: relative;
+		.cnr-btn-add {
+			position: absolute;
+			right: 0;
+			bottom: 5px;
+			font-size: 12px;
+			font-family: @baseFontFamily;
+			text-transform: none;
+		}
+		small {
+			font-size: .6em;
+		}
+	}
 }
 .entry-header {
 	border-bottom: 2px solid @blueLight;
@@ -1031,8 +1065,11 @@ h1.special {
 }
 .header-subcontent {
 	border-bottom: 2px solid @blueLight;
+	/*
 	background-color: darken(@blueLight, 50%);
 	#gradient > .vertical(darken(@blueLight, 50%), darken(@blueLight, 60%));
+	*/
+	#gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
 	#font .special(18px, normal, 24px);
 	margin-top: 20px;
 	padding-bottom: 1px;
@@ -1090,9 +1127,11 @@ h1.special {
 
 .users-list {
     margin: 10px 0 ;
+    /*
     background: #bbd9ee;
     background: #18425F;
-
+	*/
+	#gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
     line-height: 31px;
     height: 31px;
     position: relative;
@@ -1105,9 +1144,10 @@ h1.special {
         }
     }
     .header {
+        /*
         background: #bbd9ee;
         background: #18425F;
-
+		*/
         position: absolute;
         left: 0;
         top: 0;
