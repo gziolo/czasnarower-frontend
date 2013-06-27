@@ -1,5 +1,4 @@
 czasnarower-frontend 0.3.0 [![Build Status](https://travis-ci.org/gziolo/czasnarower-frontend.png?branch=master)](https://travis-ci.org/gziolo/czasnarower-frontend)
-
 ====================
 
 Frontend for [Czas na rower!](http://www.czasnarower.pl)
