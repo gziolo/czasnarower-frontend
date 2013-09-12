@@ -443,10 +443,22 @@ body {
     		&:before, &:after {content: '"'}
     	}
     }
-
     &.special {
-    	padding: 0;
-    	aside {
+        padding: 0;
+        &.sponsored {
+            h2.title a:after {
+                content: "REKLAMA";
+                position: absolute;
+                font-size: 9px;
+                right: 5px;
+                bottom: 5px;
+                background-color: #636363;
+                color: #cdcdcd;
+                padding: 0 2px;
+                line-height: 11px;
+            }
+        }
+        aside {
     		position: relative;
     	}
     	.thumbnail {
