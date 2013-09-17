@@ -59,7 +59,7 @@ Code base dependencies:
 * [jQuery](http://jquery.com/)
 * [Bootstrap](http://twitter.github.com/bootstrap/)
 * [Flight](http://twitter.github.io/flight/)
-* [LoDash](http://lodash.com/)
+* [Lo-Dash](http://lodash.com/)
 * [Backbone](http://backbonejs.org/)
 
 ## Copyright and license
