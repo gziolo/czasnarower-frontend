@@ -7,7 +7,7 @@ Frontend for [Czas na rower!](http://www.czasnarower.pl)
 
 ### Requirements
 
-1. [Node 0.8.22](http://blog.nodejs.org/2013/03/06/node-v0-8-22-stable/).
+1. [Node 0.10.x](http://nodejs.org/).
 2. [grunt-cli](https://github.com/gruntjs/grunt-cli): run `npm install -g grunt-cli` if needed.
 3. [bower](http://twitter.github.com/bower/): run `npm install -g bower` if needed.
 
