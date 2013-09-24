@@ -1,4 +1,4 @@
-define([ 'flight', 'mixins', 'user_race_stats/collections/stats', 'text!user_race_stats/templates/user_column.html' ], function(flight, mixins, UserRaceStatsCollection, userColumnTemplate) {
+define([ 'flight_index', 'mixins', 'user_race_stats/collections/stats', 'text!user_race_stats/templates/user_column.html' ], function(flight, mixins, UserRaceStatsCollection, userColumnTemplate) {
   'use strict';
 
   function UserRaceStats() {

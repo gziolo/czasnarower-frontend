@@ -1,4 +1,4 @@
-define([ 'underscore', 'flight', 'js/mixins/with_translator' ], function(_, flight, WithTranslator) {
+define([ 'underscore', 'flight_index', 'js/mixins/with_translator' ], function(_, flight, WithTranslator) {
   'use strict';
 
   function WithTemplate() {

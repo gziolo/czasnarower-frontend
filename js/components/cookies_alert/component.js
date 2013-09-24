@@ -1,4 +1,4 @@
-define([ 'flight', 'mixins', 'text!cookies_alert/templates/alert.html' ], function(flight, mixins, alertTemplate) {
+define([ 'flight_index', 'mixins', 'text!cookies_alert/templates/alert.html' ], function(flight, mixins, alertTemplate) {
   'use strict';
 
   var FLAG_NAME = 'cnr_cookiesAlertDisabled';

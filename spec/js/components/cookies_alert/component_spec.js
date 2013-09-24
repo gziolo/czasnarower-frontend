@@ -1,61 +1,58 @@
-define([ 'jquery', 'cookies_alert/component' ], function($, CookiesAlertComponent) {
+define(function () {
   'use strict';
 
-  describe('Cookies alert', function() {
+  describeComponent('cookies_alert/component', function () {
 
-    describe('Alert block disbled', function() {
+    describe('Cookies alert', function () {
 
-      before(function() {
-        this.storageGetItemStub = sinon.stub(CookiesAlertComponent.prototype.storage, 'getItem').returns(true);
-        $('body').append('<div id="cookies-alert"></div>');
-        this.instance = new CookiesAlertComponent('#cookies-alert');
+      describe('Alert block disbled', function () {
+
+        beforeEach(function () {
+          this.storageGetItemStub = sinon.stub(this.Component.prototype.storage, 'getItem').returns(true);
+          setupComponent('<div id="cookies-alert"></div>');
+        });
+
+        afterEach(function () {
+          this.storageGetItemStub.restore();
+        });
+
+        it('should be empty', function () {
+          this.component.$node.html().should.be.empty;
+        });
       });
 
-      after(function() {
-        this.instance.teardown();
-        $('#cookies-alert').remove();
-        this.storageGetItemStub.restore();
-      });
+      describe('Alert block enabled', function () {
 
-      it('should be empty', function() {
-        this.instance.$node.html().should.be.empty;
-      });
-    });
+        beforeEach(function () {
+          this.storageGetItemStub = sinon.stub(this.Component.prototype.storage, 'getItem').returns(false);
+          setupComponent('<div id="cookies-alert"></div>');
+        });
 
-    describe('Alert block enabled', function() {
+        afterEach(function () {
+          this.storageGetItemStub.restore();
+        });
 
-      beforeEach(function() {
-        this.storageGetItemStub = sinon.stub(CookiesAlertComponent.prototype.storage, 'getItem').returns(false);
-        $('body').append('<div id="cookies-alert"></div>');
-        this.instance = new CookiesAlertComponent('#cookies-alert');
-      });
+        it('should have text', function () {
+          this.component.$node.find('p').text().should.not.be.empty;
+        });
 
-      afterEach(function() {
-        CookiesAlertComponent.teardownAll();
-        $('#cookies-alert').remove();
-        this.storageGetItemStub.restore();
-      });
+        it('should have privacy link', function () {
+          this.component.$node.find('p a').should.have.length(1);
+        });
 
-      it('should have text', function() {
-        this.instance.$node.find('p').text().should.not.be.empty;
-      });
+        it('should have close button', function () {
+          this.component.$node.find('button').should.have.length(1);
+        });
 
-      it('should have privacy link', function() {
-        this.instance.$node.find('p a').should.have.length(1);
-      });
+        it('should end up with empty node when close button clicked', function () {
+          var storageSetItemSpy = sinon.spy(this.Component.prototype.storage, 'setItem');
 
-      it('should have close button', function() {
-        this.instance.$node.find('button').should.have.length(1);
-      });
+          this.component.$node.find('button').trigger('click');
+          storageSetItemSpy.should.have.been.calledWith('cnr_cookiesAlertDisabled', true);
+          this.component.$node.html().should.be.empty;
 
-      it('should end up with empty node when close button clicked', function() {
-        var storageSetItemSpy = sinon.spy(CookiesAlertComponent.prototype.storage, 'setItem');
-
-        this.instance.$node.find('button').trigger('click');
-        storageSetItemSpy.should.have.been.calledWith('cnr_cookiesAlertDisabled', true);
-        this.instance.$node.html().should.be.empty;
-
-        storageSetItemSpy.restore();
+          storageSetItemSpy.restore();
+        });
       });
     });
   });

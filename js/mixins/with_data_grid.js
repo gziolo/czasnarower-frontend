@@ -1,4 +1,4 @@
-define([ 'underscore', 'flight', 'js/mixins/with_template', 'js/mixins/data_grid/data_source', 'text!js/mixins/data_grid/templates/data_grid.html' ], function(_, flight, WithTemplate, DataSource,
+define([ 'underscore', 'flight_index', 'js/mixins/with_template', 'js/mixins/data_grid/data_source', 'text!js/mixins/data_grid/templates/data_grid.html' ], function(_, flight, WithTemplate, DataSource,
     dataGridTemplate) {
   'use strict';
 

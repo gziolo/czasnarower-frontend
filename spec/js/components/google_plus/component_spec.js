@@ -1,67 +1,52 @@
-define([ 'jquery', 'google_plus/component' ], function($, GooglePlusComponent) {
+define([ 'jquery' ], function ($) {
   'use strict';
 
-  describe('Google plus', function() {
+  describeComponent('google_plus/component', function () {
 
-    beforeEach(function() {
-      this.loadScriptStub = sinon.stub(GooglePlusComponent.prototype, 'loadScript');
-    });
+    describe('Google plus', function () {
 
-    afterEach(function() {
-      this.loadScriptStub.restore();
-    });
+      beforeEach(function () {
+        this.loadScriptStub = sinon.stub(this.Component.prototype, 'loadScript');
+      });
 
-    it('should not load google plus library when no plus one widget found.', function() {
-      var instance;
+      afterEach(function () {
+        this.loadScriptStub.restore();
+      });
 
-      instance = new GooglePlusComponent('body');
+      it('should not load google plus library when no plus one widget found.', function () {
 
-      this.loadScriptStub.should.not.have.been.called;
+        setupComponent();
 
-      instance.teardown();
-    });
+        this.loadScriptStub.should.not.have.been.called;
+      });
 
-    it('should not load twitter library when twitter widget found but not visible.', function() {
-      var instance;
+      it('should not load twitter library when twitter widget found but not visible.', function () {
+        var $fixture = $('<div id="google-component" style="display: none"><div class="g-plusone"></div></div>');
 
-      $('body').append('<div id="google-component" style="display: none"><div class="g-plusone"></div></div>');
+        setupComponent($fixture);
 
-      instance = new GooglePlusComponent('body');
+        this.loadScriptStub.should.not.have.been.called;
+      });
 
-      this.loadScriptStub.should.not.have.been.called;
+      it('should load google plus library when visible plus one widget found after window resize.', function () {
+        var $fixture = $('<div id="google-component" style="display: none"><div class="g-plusone"></div></div>');
 
-      instance.teardown();
-      $('#google-component').remove();
-    });
+        setupComponent($fixture);
+        $fixture.show();
+        $(window).resize();
 
-    it('should load google plus library when visible plus one widget found after window resize.', function() {
-      var instance;
+        this.loadScriptStub.should.have.been.calledOnce;
+      });
 
-      $('body').append('<div id="google-component" style="display: none"><div class="g-plusone"></div></div>');
+      it('should load google plus library exactly once when plus one widget found.', function () {
+        var $fixture = $('<div id="google-component"><div class="g-plusone"></div></div>');
 
-      instance = new GooglePlusComponent('body');
-      $('#google-component').show();
-      $(window).resize();
+        setupComponent($fixture);
+        $(window).resize();
+        $(window).resize();
 
-      this.loadScriptStub.should.have.been.calledOnce;
-
-      instance.teardown();
-      $('#google-component').remove();
-    });
-
-    it('should load google plus library exactly once when plus one widget found.', function() {
-      var instance;
-
-      $('body').append('<div id="google-component"><div class="g-plusone"></div></div>');
-
-      instance = new GooglePlusComponent('body');
-      $(window).resize();
-      $(window).resize();
-
-      this.loadScriptStub.should.have.been.calledOnce;
-
-      instance.teardown();
-      $('#google-component').remove();
+        this.loadScriptStub.should.have.been.calledOnce;
+      });
     });
   });
 });

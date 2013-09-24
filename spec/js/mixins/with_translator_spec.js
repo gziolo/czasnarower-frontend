@@ -1,24 +1,19 @@
-define([ 'jquery', 'flight', 'js/mixins/with_translator' ], function($, flight, WithTranslator) {
+define(function () {
   'use strict';
 
-  describe('Translation mixin', function() {
+  describeMixin('js/mixins/with_translator', function () {
 
-    before(function() {
-      var TestComponent = flight.component(function Test() {}, WithTranslator);
+    describe('Translator mixin', function () {
 
-      $('body').append('<div id="test1"></div>');
-      this.instance = new TestComponent('#test1');
-    });
+      beforeEach(function () {
+        setupComponent();
+      });
 
-    after(function() {
-      this.instance.teardown();
-      $('#test1').remove();
-    });
+      it('should translate expression', function () {
+        var expression = 'test';
 
-    it('should translate expression', function() {
-      var expression = 'test';
-
-      this.instance.translate(expression).should.equal(expression);
+        this.component.translate(expression).should.equal(expression);
+      });
     });
   });
 });

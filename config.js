@@ -17,6 +17,7 @@ define(function() {
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
       es5shim : 'bower_components/es5-shim/es5-shim',
       es5sham : 'bower_components/es5-shim/es5-sham',
+      flight : 'bower_components/flight',
       jquery : 'bower_components/jquery/jquery',
       jquery_migrate : 'bower_components/jquery/jquery-migrate',
       json2 : 'bower_components/json2/json2',
@@ -34,7 +35,7 @@ define(function() {
     },
     map : {
       '*' : {
-        flight : 'bower_components/flight/lib/index',
+        flight_index : 'flight/lib/index',
         fuelux_combobox : 'bower_components/fuelux/dist/combobox',
         fuelux_datagrid : 'bower_components/fuelux/dist/datagrid',
         fuelux_select : 'bower_components/fuelux/dist/select',

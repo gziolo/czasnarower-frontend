@@ -1,67 +1,55 @@
-define([ 'jquery', 'twitter/component' ], function($, TwitterComponent) {
+define([ 'jquery' ], function ($) {
   'use strict';
 
-  describe('Twitter', function() {
+  describeComponent('twitter/component', function () {
 
-    beforeEach(function() {
-      this.loadScriptStub = sinon.stub(TwitterComponent.prototype, 'loadScript');
-    });
+    describe('Twitter', function () {
 
-    afterEach(function() {
-      this.loadScriptStub.restore();
-    });
+      beforeEach(function () {
+        this.loadScriptStub = sinon.stub(this.Component.prototype, 'loadScript');
+      });
 
-    it('should not load twitter library when no twitter widget found.', function() {
-      var instance;
+      afterEach(function () {
+        this.loadScriptStub.restore();
+      });
 
-      instance = new TwitterComponent('body');
+      it('should not load twitter library when no twitter widget found.', function () {
 
-      this.loadScriptStub.should.not.have.been.called;
+        setupComponent();
 
-      instance.teardown();
-    });
+        this.loadScriptStub.should.not.have.been.called;
+      });
 
-    it('should not load twitter library when twitter widget found but not visible.', function() {
-      var instance;
+      it('should not load twitter library when twitter widget found but not visible.', function () {
 
-      $('body').append('<div id="twitter-component"><div class="twitter-share-button" style="display: none"></div></div>');
+        var $fixture = $('<div id="twitter-component"><div class="twitter-share-button" style="display: none"></div></div>');
 
-      instance = new TwitterComponent('body');
+        setupComponent($fixture);
 
-      this.loadScriptStub.should.not.have.been.called;
+        this.loadScriptStub.should.not.have.been.called;
+      });
 
-      instance.teardown();
-      $('#twitter-component').remove();
-    });
+      it('should load twitter library when visible twitter widget found after window resize.', function () {
 
-    it('should load twitter library when visible twitter widget found after window resize.', function() {
-      var instance;
+        var $fixture = $('<div id="twitter-component" style="display: none"><div class="twitter-share-button"></div></div>');
 
-      $('body').append('<div id="twitter-component" style="display: none"><div class="twitter-share-button"></div></div>');
+        setupComponent($fixture);
+        $fixture.show();
+        $(window).resize();
 
-      instance = new TwitterComponent('body');
-      $('#twitter-component').show();
-      $(window).resize();
+        this.loadScriptStub.should.have.been.calledOnce;
+      });
 
-      this.loadScriptStub.should.have.been.calledOnce;
+      it('should load twitter library exactly once when twitter widget found.', function () {
 
-      instance.teardown();
-      $('#twitter-component').remove();
-    });
+        var $fixture = $('<div id="twitter-component"><div class="twitter-share-button"></div></div>');
 
-    it('should load twitter library exactly once when twitter widget found.', function() {
-      var instance;
+        setupComponent($fixture);
+        $(window).resize();
+        $(window).resize();
 
-      $('body').append('<div id="twitter-component"><div class="twitter-share-button"></div></div>');
-
-      instance = new TwitterComponent('body');
-      $(window).resize();
-      $(window).resize();
-
-      this.loadScriptStub.should.have.been.calledOnce;
-
-      instance.teardown();
-      $('#twitter-component').remove();
+        this.loadScriptStub.should.have.been.calledOnce;
+      });
     });
   });
 });

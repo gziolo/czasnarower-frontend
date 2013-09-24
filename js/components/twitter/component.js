@@ -1,4 +1,4 @@
-define([ 'flight' ], function(flight) {
+define([ 'flight_index' ], function(flight) {
   'use strict';
 
   function Twitter() {

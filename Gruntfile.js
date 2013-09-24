@@ -85,19 +85,7 @@ module.exports = function(grunt) {
         }
       },
       spec : {
-        options : grunt.util._.merge({
-          globals : {
-            mocha : true,
-            sinon : true,
-            should : true,
-            describe : true,
-            it : true,
-            before : true,
-            beforeEach : true,
-            after : true,
-            afterEach : true
-          }
-        }, grunt.file.readJSON('.jshintrc')),
+        options : grunt.util._.merge(grunt.file.readJSON('spec/.jshintrc'), grunt.file.readJSON('.jshintrc')),
         files : {
           src : [ 'spec/**/*.js' ]
         }
