@@ -47,8 +47,8 @@ Run `npm test`.
 
 Development dependencies:
 * [Grunt](http://gruntjs.com/)
-* [Bower](http://twitter.github.com/bower/)
-* [Mocha](http://visionmedia.github.com/mocha/)
+* [Bower](http://bower.io/)
+* [Mocha](http://visionmedia.github.io/mocha/)
 * [Chai](http://chaijs.com/)
 * [Sinon](http://sinonjs.org/)
 
@@ -57,8 +57,8 @@ Code base dependencies:
 * [json2](https://github.com/douglascrockford/JSON-js)
 * [ES5-shim](https://github.com/kriskowal/es5-shim)
 * [jQuery](http://jquery.com/)
-* [Bootstrap](http://twitter.github.com/bootstrap/)
-* [Flight](http://twitter.github.io/flight/)
+* [Bootstrap](http://getbootstrap.com/2.3.2/)
+* [Flight](http://flightjs.github.io/)
 * [Lo-Dash](http://lodash.com/)
 * [Backbone](http://backbonejs.org/)
 
