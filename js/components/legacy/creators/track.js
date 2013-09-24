@@ -1,4 +1,4 @@
-/*jshint maxstatements:50, unused:false */
+/*jshint maxstatements:50, maxcomplexity:15, unused:false */
 /*global google */
 define(function() {
   return function(sandbox, $) {

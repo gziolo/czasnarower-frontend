@@ -1,4 +1,4 @@
-/*jshint unused:false */
+/*jshint unused:false, maxcomplexity:50 */
 /*global google, InfoBox */
 define(function() {
   return function(facade, $) {

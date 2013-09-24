@@ -1,7 +1,13 @@
 module.exports = function(grunt) {
   'use strict';
 
-  grunt.loadNpmTasks('grunt-contrib');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-less');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-mocha');
 
   var PORT = 8899;
@@ -27,7 +33,7 @@ module.exports = function(grunt) {
         options : {
           baseUrl : './',
           optimize : 'uglify',
-          name : 'components/requirejs/require',
+          name : 'bower_components/requirejs/require',
           out : 'dist/frontend/js/require.js'
         }
       },
@@ -122,16 +128,6 @@ module.exports = function(grunt) {
         } ]
       }
     },
-    imagemin : {
-      all : {
-        files : [ {
-          expand : true,
-          cwd : 'img/',
-          src : '**/*',
-          dest : 'dist/frontend/img/'
-        } ]
-      }
-    },
     copy : {
       js_development : {
         files : [ {
@@ -145,7 +141,7 @@ module.exports = function(grunt) {
         files : [ {
           expand : true,
           cwd : 'img/',
-          src : '**/*.gif',
+          src : [ '**/*.gif', '**/*.jpg', '**/*.png' ],
           dest : 'dist/frontend/img/'
         } ]
       },
@@ -171,8 +167,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('spec', [ 'jshint', 'connect', 'mocha' ]);
-  grunt.registerTask('css-development', [ 'clean:css', 'clean:img', 'clean:font', 'less:development', 'imagemin', 'copy:img', 'copy:font' ]);
-  grunt.registerTask('css-production', [ 'clean:css', 'clean:img', 'clean:font', 'less:production', 'imagemin', 'copy:img', 'copy:font' ]);
+  grunt.registerTask('css-development', [ 'clean:css', 'clean:img', 'clean:font', 'less:development', 'copy:img', 'copy:font' ]);
+  grunt.registerTask('css-production', [ 'clean:css', 'clean:img', 'clean:font', 'less:production', 'copy:img', 'copy:font' ]);
   grunt.registerTask('js-development', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app_development', 'copy:js_development' ]);
   grunt.registerTask('js-production', [ 'clean:js', 'requirejs:require', 'requirejs:main', 'requirejs:app', 'requirejs:legacy' ]);
   grunt.registerTask('server', [ 'connect', 'watch' ]);
