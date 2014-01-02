@@ -134,7 +134,19 @@ body {
 		font-size: 10px;
 	}
 }
-
+.navbar #search_panel {
+	position: absolute;
+	top: 10px;
+	left: 295px;
+	.input-search {
+		border: 2px solid fadeout(@white, 50%);
+		margin: 0;
+		&:hover {
+			border-color: fadeout(@white, 10%);
+			.box-shadow(0 1px 4px rgba(0,105,214,.25));
+		}
+	}
+}
 .navbar #social_panel {
 	position: absolute;
 	right: 295px;
