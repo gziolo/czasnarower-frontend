@@ -30,6 +30,10 @@ define([ 'underscore' ], function(_) {
 
       if (data.boxId) {
         $('#' + data.boxId).show();
+        if($('.cnr-expand-map').hasClass('loading')){
+            $('.cnr-expand-map').removeClass('loading');
+            $('.cnr-expand-map').addClass('loaded');
+        }
       }
       var mapElem = document.getElementById(data.id);
       var map = new google.maps.Map(mapElem, {
@@ -84,6 +88,22 @@ define([ 'underscore' ], function(_) {
         if (e.which === 13) {
           _codeAddress(map);
         }
+      });
+      
+      $('.cnr-expand-map').click(function(){
+          if($(this).hasClass('loading')) {
+           return;   
+          }
+          else {
+             var data = JSON.parse($(this).attr('data-params'));
+             console.log(data);
+             facade.notify({
+                 type : 'track-view-load-map',
+                 data : data
+             });
+             $(this).text('Wczytywanie...');
+             $(this).addClass('loading');
+          }
       });
     };
 

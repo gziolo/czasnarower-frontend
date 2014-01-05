@@ -1162,14 +1162,40 @@ h1.special {
 	margin: 10px auto 0;
 	text-align: center;
 }
-
-.users-list {
+.map-preview {
+	.content {
+		background-image: url('../img/bg_maps_track.jpg');
+		background-repeat: no-repeat;
+		background-position: center center;
+	} 
+	.header {
+		#gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
+    	z-index: 2;
+    }
+    .btn {
+    	left: 50%;
+    	margin-left: -75px;
+    	bottom: 0;
+    	margin-bottom: -15px;
+    	position: absolute;
+    }
+    .caption {
+    	#gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
+    	z-index: 2;
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin: 0;
+        bottom: 0;
+        color: #fff;
+        #font .special(18px,normal,31px);
+        padding: 0 10px;
+        text-shadow: 0 0 1px rgba(0,0,0,.5);
+    }
+}
+.users-list, .map-preview {
     margin: 10px 0 ;
-    /*
-    background: #bbd9ee;
-    background: #18425F;
-	*/
-	#gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
+    #gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
     line-height: 31px;
     height: 31px;
     position: relative;
@@ -1181,11 +1207,14 @@ h1.special {
             float: left;
         }
     }
+    .content {
+    	position: absolute;
+    	top: 2px;
+    	left: 0;
+    	right: 0;
+    	bottom: 2px;
+    }
     .header {
-        /*
-        background: #bbd9ee;
-        background: #18425F;
-		*/
         position: absolute;
         left: 0;
         top: 0;
