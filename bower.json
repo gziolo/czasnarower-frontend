@@ -3,22 +3,21 @@
   "version": "0.3.1",
   "main": "js/main.js",
   "dependencies": {
-    "backbone" : "1.0.0",
-    "bootstrap" : "2.3.2",
-    "es5-shim" : "2.1.0",
-    "flight" : "1.1.0",
-    "fuelux" : "2.3.1",
+    "backbone": "1.0.0",
+    "bootstrap": "2.3.2",
+    "es5-shim": "2.1.0",
+    "flight": "1.1.0",
+    "fuelux": "2.3.1",
     "jquery": "1.10.2",
-    "json2" : "latest",
+    "json2": "latest",
     "lodash": "2.1.0",
     "requirejs": "2.1.8",
     "requirejs-text": "2.0.10"
   },
-  "devDependencies" : {
-    "mocha-flight" : "0.3.0"
+  "devDependencies": {
+    "mocha-flight": "0.3.0"
   },
   "resolutions": {
-    "es5-shim" : "2.1.0",
-    "jquery": "1.10.2"
+    "es5-shim": "2.1.0"
   }
 }

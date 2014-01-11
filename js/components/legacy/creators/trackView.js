@@ -28,16 +28,15 @@ define([ 'underscore' ], function(_) {
 
     var _initializeMap = function(data) {
 
-      if (data.boxId) {
-        $('#' + data.boxId).show();
-      }
-      var mapElem = document.getElementById(data.id);
-      var map = new google.maps.Map(mapElem, {
+      var mapElem, map, cyclemapRenderer;
+
+      mapElem = document.getElementById(data.id);
+      map = new google.maps.Map(mapElem, {
         streetViewControl : false,
         mapTypeId : google.maps.MapTypeId.ROADMAP,
         scrollwheel : false
       });
-      var cyclemapRenderer = new google.maps.ImageMapType({
+      cyclemapRenderer = new google.maps.ImageMapType({
         getTileUrl : function(ll, z) {
           var X = ll.x % (1 << z);
           return "http://a.tile.opencyclemap.org/cycle/" + z + "/" + X + "/" + ll.y + ".png";
@@ -85,21 +84,11 @@ define([ 'underscore' ], function(_) {
           _codeAddress(map);
         }
       });
-      
-      $('.cnr-expand-map').click(function(){
-          if($(this).hasClass('loading')) {
-           return;   
-          }
-          else {
-             var data = JSON.parse($(this).attr('data-params'));
-             $(this).text('Wczytywanie...');
-             $(this).parents('.cnr-map-global').addClass('loading');
-             facade.notify({
-                 type : 'track-view-load-map',
-                 data : data
-             });
-          }
-      });
+
+      if (data.mapBox) {
+        data.mapBox.find('.cnr-expand-map').hide().button('reset');
+        data.mapBox.find('.cnr-collapse-map').show();
+      }
     };
 
     // Define the overlay, derived from google.maps.OverlayView
@@ -675,6 +664,31 @@ define([ 'underscore' ], function(_) {
         facade.listen('event-attending-member-removed', this.removeMemberFromTrack, this);
         facade.listen('user-signed-out', this.updateMemberSignedOut, this);
         facade.listen('user-signed-in', this.updateMemberSignedIn, this);
+
+
+        $('body').on('click', '.cnr-expand-map', function () {
+          var data = JSON.parse($(this).attr('data-params')),
+            button = $(this),
+            mapBox = button.parents('.cnr-map-global');
+
+          data.mapBox = mapBox;
+
+          button.button('loading');
+          mapBox.addClass('loading');
+
+          facade.notify({
+            type: 'track-view-load-map',
+            data: data
+          });
+        });
+
+        $('body').on('click', '.cnr-collapse-map', function () {
+          var button = $(this),
+            mapBox = button.parents('.cnr-map-global');
+
+          button.hide();
+          mapBox.find('.cnr-expand-map').show();
+        });
       },
       mapInitialised : function() {
         geocoder = new google.maps.Geocoder();
