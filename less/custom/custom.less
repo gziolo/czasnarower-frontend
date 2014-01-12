@@ -1185,10 +1185,16 @@ h1.special {
     }
 	.component {
 		clear: both;
+        display: none;
 		margin-top: 2px;
 		margin-bottom: 1px;
-	} 
-    
+	}
+    .cnr-expand-map {
+        display: block;
+    }
+    .cnr-collapse-map {
+        display: none;
+    }
     .btn {
     	left: 50%;
     	margin-left: -75px;
@@ -1215,12 +1221,21 @@ h1.special {
     .caption {
     	right: 0;
     }
-    &.loading, &.loaded {
+    &.cnr-expanded {
     	.map-global-header {
     		.bg {
 				background-image: none;
 			}
 		}
+        .component {
+            display: block;
+        }
+        .cnr-expand-map {
+            display: none;
+        }
+        .cnr-collapse-map {
+            display: block;
+        }
 	}
 }
 .users-list {

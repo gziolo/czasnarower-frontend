@@ -84,11 +84,6 @@ define([ 'underscore' ], function(_) {
           _codeAddress(map);
         }
       });
-
-      if (data.mapBox) {
-        data.mapBox.find('.cnr-expand-map').hide().button('reset');
-        data.mapBox.find('.cnr-collapse-map').show();
-      }
     };
 
     // Define the overlay, derived from google.maps.OverlayView
@@ -667,15 +662,23 @@ define([ 'underscore' ], function(_) {
 
 
         $('body').on('click', '.cnr-expand-map', function () {
-          var data = JSON.parse($(this).attr('data-params')),
-            button = $(this),
+          var button = $(this),
+            data = button.data('params'),
             mapBox = button.parents('.cnr-map-global');
 
-          data.mapBox = mapBox;
+          mapBox.addClass('cnr-expanded');
+
+          if (!data) {
+            return;
+          }
 
           button.button('loading');
-          mapBox.addClass('loading');
-
+          data.completeCallback = function() {
+            button.button('reset');
+          };
+          data.successCallback = function() {
+            button.data('params', null);
+          };
           facade.notify({
             type: 'track-view-load-map',
             data: data
@@ -686,8 +689,7 @@ define([ 'underscore' ], function(_) {
           var button = $(this),
             mapBox = button.parents('.cnr-map-global');
 
-          button.hide();
-          mapBox.find('.cnr-expand-map').show();
+          mapBox.removeClass('cnr-expanded');
         });
       },
       mapInitialised : function() {
@@ -748,11 +750,19 @@ define([ 'underscore' ], function(_) {
         }, {
           success : function(response) {
             if (response.data) {
+              if (options.successCallback) {
+                options.successCallback();
+              }
               options.tracks = response.data;
               facade.notify({
                 type : 'track-view-register-map',
                 data : options
               });
+            }
+          },
+          complete: function() {
+            if (options.completeCallback) {
+              options.completeCallback();
             }
           }
         });
