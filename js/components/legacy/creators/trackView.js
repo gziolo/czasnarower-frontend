@@ -745,7 +745,7 @@ define([ 'underscore' ], function(_) {
         if (!options.selected || !$('#' + options.id).length) {
           return;
         }
-        facade.rest.getAll('track-map', {
+        facade.rest.getAll('track-location', {
           track_id : options.selected
         }, {
           success : function(response) {
