@@ -493,6 +493,33 @@ define(function() {
         facade.listen('user-signed-out', this.updateMemberSignedOut, this);
         facade.listen('user-signed-in', this.updateMemberSignedIn, this);
         facade.listen('schedule-view-mark-user-events', this.markUserEvents, this);
+      
+        $('body').on('click', '.cnr-expand-map', function () {
+            var button = $(this),
+              data = button.data('params'),
+              mapBox = button.parents('.cnr-map-global');
+
+            mapBox.addClass('cnr-expanded');
+
+            if (!data) {
+              return;
+            }
+
+            button.button('loading');
+            data.completeCallback = function() {
+              button.button('reset');
+            };
+            data.successCallback = function() {
+              button.data('params', null);
+            };
+          });
+
+          $('body').on('click', '.cnr-collapse-map', function () {
+            var button = $(this),
+              mapBox = button.parents('.cnr-map-global');
+
+            mapBox.removeClass('cnr-expanded');
+          }); 
       },
       mapInitialised : function() {
         geocoder = new google.maps.Geocoder();
