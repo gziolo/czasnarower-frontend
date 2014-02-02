@@ -42,7 +42,7 @@ define(function() {
         mapTypeId : google.maps.MapTypeId.ROADMAP,
         scrollwheel : false
       });
-      if (data.schedules) {
+      if (data.races) {
         _createSchedules(map, data);
       }
 
@@ -62,7 +62,7 @@ define(function() {
         minZoomLevel = 6, area;
       
       if (data.selected) {
-        schedule = data.schedules[Number(data.selected)];
+        schedule = data.races[Number(data.selected)];
         latitude = schedule.latitude;
         longitude = schedule.longitude;
       }
@@ -109,7 +109,7 @@ define(function() {
 
       var mode = data.mode || 0;
 
-      $.each(data.schedules, function(i, schedule) {
+      $.each(data.races.races, function(i, schedule) {
         var latLng = new google.maps.LatLng(schedule.latitude, schedule.longitude);
         if (!area || area.contains(latLng)) {
           var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.1.png', anchor = {
@@ -148,8 +148,8 @@ define(function() {
         _zoomSchedule(map, markers[data.selected]);
       }
 
-      if (data.groups) {
-        groups = data.groups;
+      if (data.races.groups) {
+        groups = data.races.groups;
 
         $('.schedule-category,.schedule-past').change(function() {
           _updateSchedulesView(map);
@@ -488,6 +488,7 @@ define(function() {
       init : function(data) {
         facade.listen('map-initialised', this.mapInitialised, this);
         facade.listen('schedule-view-register-map', this.registerMap, this);
+        facade.listen('schedule-view-load-map', this.loadMap, this);
         facade.listen('event-attending-member-added', this.addMemberToSchedule, this);
         facade.listen('event-attending-member-removed', this.removeMemberFromSchedule, this);
         facade.listen('user-signed-out', this.updateMemberSignedOut, this);
@@ -512,6 +513,10 @@ define(function() {
             data.successCallback = function() {
               button.data('params', null);
             };
+            facade.notify({
+                type: 'schedule-view-load-map',
+                data: data
+            });
           });
 
           $('body').on('click', '.cnr-collapse-map', function () {
@@ -557,7 +562,7 @@ define(function() {
         _googleMapsLoaded = true;
       },
       registerMap : function(messageInfo) {
-        if (!messageInfo.data.id || (!messageInfo.data.schedules)) {
+        if (!messageInfo.data.id || (!messageInfo.data.races)) {
           return;
         }
         _data.push(messageInfo.data);
@@ -565,6 +570,33 @@ define(function() {
           _initializeMap(messageInfo.data);
         }
       },
+      loadMap : function(messageInfo) {
+          var options = messageInfo.data;
+          if (!(options.id || options.year) || !$('#' + options.id).length) {
+            return;
+          }
+          facade.rest.getAll('race-location', {
+            year : options.year
+          }, {
+            success : function(response) {
+              if (response.data) {
+                if (options.successCallback) {
+                  options.successCallback();
+                }
+                options.races = response.data;
+                facade.notify({
+                  type : 'schedule-view-register-map',
+                  data : options
+                });
+              }
+            },
+            complete: function() {
+              if (options.completeCallback) {
+                options.completeCallback();
+              }
+            }
+          });
+        },
       addMemberToSchedule : function(messageInfo) {
         var dao = +messageInfo.data.item_dao;
         if (dao !== 8) {
