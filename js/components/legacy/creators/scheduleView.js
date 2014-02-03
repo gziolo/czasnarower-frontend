@@ -154,6 +154,15 @@ define(function() {
         $('.schedule-category,.schedule-past').change(function() {
           _updateSchedulesView(map);
         });
+        
+        var categories = $('.schedule-category');
+        categories.each(function(i) {
+
+          var category = $(this).val();
+          if (groups[category]) {
+              $(this).attr('disabled', false);
+          }
+        });  
       }
 
       if (data.category) {
@@ -166,7 +175,7 @@ define(function() {
       categories.each(function(i) {
 
         var category = $(this).val();
-
+        
         if (category === cat) {
           $(this).attr('checked', true);
         } else {
