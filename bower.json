@@ -11,7 +11,7 @@
     "jquery": "1.10.2",
     "json2": "latest",
     "lodash": "2.1.0",
-    "requirejs": "2.1.8",
+    "requirejs": "2.1.10",
     "requirejs-text": "2.0.10"
   },
   "devDependencies": {
