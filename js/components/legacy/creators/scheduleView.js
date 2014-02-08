@@ -1,5 +1,5 @@
 /*jshint unused:false, maxcomplexity:50, maxstatements:30 */
-/*global google, InfoBox */
+/*global google, InfoBox, MarkerClusterer */
 define(function() {
   return function(facade, $) {
 
@@ -11,12 +11,12 @@ define(function() {
     /**
      * object InfoWindow for displaying found location
      */
-    locationInfo, locationLabel,
+    locationInfo, locationLabel, markerCluster,
 
     /**
      * object which keeps info about all markers
      */
-    markers = {},
+    markers = {}, visibleMarkers = [],
 
     groups = {},
 
@@ -62,7 +62,7 @@ define(function() {
         minZoomLevel = 6, area;
       
       if (data.selected) {
-        schedule = data.races[Number(data.selected)];
+        schedule = data.races.races[Number(data.selected)];
         latitude = schedule.latitude;
         longitude = schedule.longitude;
       }
@@ -135,18 +135,19 @@ define(function() {
             position : latLng,
             id : Number(i),
             icon : img,
-            map : (mode || !schedule.past) ? map : null
+            map: null
+            //map : (mode || !schedule.past) ? map : null
           });
-          markersBounds.extend(latLng);
+          //markersBounds.extend(latLng);
           markers[Number(i)] = marker;
         }
       });
-
-      if (!data.selected || mode) {
-        map.fitBounds(markersBounds);
-      } else {
-        _zoomSchedule(map, markers[data.selected]);
-      }
+      
+      markerCluster = new MarkerClusterer(map, {
+          maxZoom : 11,
+          gridSize : 50,
+          zoomOnClick : true
+      });
 
       if (data.races.groups) {
         groups = data.races.groups;
@@ -165,32 +166,40 @@ define(function() {
         });  
       }
 
-      if (data.category) {
-        _selectScheduleCategory(data.category, map);
+      //if (data.category) {
+      _selectScheduleCategory(data.category, map);
+      //}
+      if (data.selected) {
+          _zoomSchedule(map, markers[data.selected]);
       }
     };
+    
 
     var _selectScheduleCategory = function(cat, map) {
       var categories = $('.schedule-category');
-      categories.each(function(i) {
-
-        var category = $(this).val();
-        
-        if (category === cat) {
-          $(this).attr('checked', true);
-        } else {
-          $(this).attr('checked', false);
-        }
-      });
+      if (cat) {
+          categories.each(function(i) {
+    
+            var category = $(this).val();
+            
+            if (category === cat) {
+              $(this).attr('checked', true);
+            } else {
+              $(this).attr('checked', false);
+            }
+          });
+      }
       _updateSchedulesView(map);
     };
 
     var _updateSchedulesView = function(map) {
-
+      markerCluster.clearMarkers();
       var past = $('#cat-past').prop('checked');
       var categories = $('.schedule-category');
       //markersBounds = new google.maps.LatLngBounds();
-
+      
+      visibleMarkers = [];
+      
       categories.each(function(i) {
         var category = $(this).val();
         var isChecked = $(this).prop('checked');
@@ -199,7 +208,10 @@ define(function() {
 
           if (groups[category][0]) {
             $.each(groups[category][0], function(i, elem) {
-              markers[elem].setMap(isChecked ? map : null);
+                if(isChecked) {
+                    visibleMarkers.push(markers[elem]);
+                }
+              //markers[elem].setMap(isChecked ? map : null);
               //if (isChecked) {
               //  markersBounds.extend(markers[elem].getPosition());
               //}
@@ -208,7 +220,10 @@ define(function() {
 
           if (groups[category][1]) {
             $.each(groups[category][1], function(i, elem) {
-              markers[elem].setMap((past && isChecked) ? map : null);
+                if(isChecked) {
+                    visibleMarkers.push(markers[elem]);
+                }
+                //markers[elem].setMap((past && isChecked) ? map : null);
               //if (past && isChecked) {
               //  markersBounds.extend(markers[elem].getPosition());
               //}
@@ -217,7 +232,9 @@ define(function() {
 
         }
       });
-
+      
+      markerCluster.addMarkers(visibleMarkers);
+      
       //map.fitBounds(markersBounds);
     };
 
@@ -534,6 +551,10 @@ define(function() {
 
             mapBox.removeClass('cnr-expanded');
           }); 
+          $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
+              $('#map_legend .cnr-change-options').toggleClass('hidden');
+              $('#map_legend .cnr-selected-options').toggleClass('hidden');
+          });
       },
       mapInitialised : function() {
         geocoder = new google.maps.Geocoder();
@@ -581,7 +602,7 @@ define(function() {
       },
       loadMap : function(messageInfo) {
           var options = messageInfo.data;
-          if (!(options.id || options.year) || !$('#' + options.id).length) {
+          if (!options.year || !$('#' + options.id).length) {
             return;
           }
           facade.rest.getAll('race-location', {
