@@ -1,0 +1,44 @@
+spec:
+  - 'jshint'
+  - 'connect'
+  - 'mocha'
+css-development:
+  - 'clean:css'
+  - 'clean:img'
+  - 'clean:font'
+  - 'less:development'
+  - 'copy:img'
+  - 'copy:font'
+css-production:
+  - 'clean:css'
+  - 'clean:img'
+  - 'clean:font'
+  - 'less:production'
+  - 'copy:img'
+  - 'copy:font'
+js-development:
+  - 'clean:js'
+  - 'requirejs:require'
+  - 'requirejs:main'
+  - 'requirejs:app_development'
+  - 'copy:js_development'
+js-production:
+  - 'clean:js'
+  - 'requirejs:require'
+  - 'requirejs:main'
+  - 'requirejs:app'
+  - 'requirejs:legacy'
+server:
+  - 'connect'
+  - 'watch'
+build-development:
+  - 'spec'
+  - 'js-development'
+  - 'css-development'
+build:
+  - 'spec'
+  - 'js-production'
+  - 'css-production'
+default:
+  - 'spec'
+  - 'watch'
