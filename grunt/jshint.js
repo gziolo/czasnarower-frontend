@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         jshintrc: '.jshintrc'
       },
       files: {
-        src: [ 'js/*.js', 'js/mixins/**/*.js', 'js/components/**/*.js' ]
+        src: [ 'config.js', 'js/*.js', 'js/mixins/**/*.js', 'js/components/**/*.js' ]
       }
     },
     spec: {

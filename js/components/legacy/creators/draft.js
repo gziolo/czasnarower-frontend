@@ -1,4 +1,4 @@
-/*jshint unused:false */
+/*jshint unused:false, strict:false */
 define(function() {
   return function(facade, $) {
     var draftsLoaded = false;

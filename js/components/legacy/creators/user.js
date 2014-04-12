@@ -1,3 +1,4 @@
+/*jshint strict:false */
 define(function() {
   return function(sandbox, $) {
     'use strict';

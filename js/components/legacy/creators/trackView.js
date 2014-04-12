@@ -1,4 +1,4 @@
-/*jshint unused:false */
+/*jshint unused:false, strict:false */
 /*global google, InfoBox, MarkerClusterer */
 define([ 'underscore' ], function(_) {
   return function(facade, $) {

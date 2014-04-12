@@ -1,4 +1,4 @@
-/*jshint unused:false */
+/*jshint unused:false, strict:false */
 /*global google, MarkerClusterer, InfoBox */
 define(function() {
   return function(sandbox, $) {

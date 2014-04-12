@@ -1,3 +1,4 @@
+/*jshint strict:false */
 /*global setErrorCommunique */
 define(function() {
   return function(sandbox, $) {

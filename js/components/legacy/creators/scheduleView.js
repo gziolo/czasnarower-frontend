@@ -1,4 +1,4 @@
-/*jshint unused:false, maxcomplexity:50, maxstatements:30 */
+/*jshint unused:false, maxcomplexity:50, maxstatements:30, strict:false */
 /*global google, InfoBox, MarkerClusterer */
 define(function() {
   return function(facade, $) {
@@ -142,52 +142,51 @@ define(function() {
           markers[Number(i)] = marker;
         }
       });
-      
+
       markerCluster = new MarkerClusterer(map, {
-          maxZoom : 11,
-          gridSize : 50,
-          zoomOnClick : true
+        maxZoom: 11,
+        gridSize: 50,
+        zoomOnClick: true
       });
 
       if (data.races.groups) {
         groups = data.races.groups;
 
-        $('.schedule-category,.schedule-past').change(function() {
+        $('.schedule-category,.schedule-past').change(function () {
           _updateSchedulesView(map);
         });
-        
+
         var categories = $('.schedule-category');
-        categories.each(function(i) {
+        categories.each(function (i) {
 
           var category = $(this).val();
           if (groups[category]) {
-              $(this).attr('disabled', false);
+            $(this).attr('disabled', false);
           }
-        });  
+        });
       }
 
       //if (data.category) {
       _selectScheduleCategory(data.category, map);
       //}
       if (data.selected) {
-          _zoomSchedule(map, markers[data.selected]);
+        _zoomSchedule(map, markers[data.selected]);
       }
     };
-    
 
-    var _selectScheduleCategory = function(cat, map) {
+    var _selectScheduleCategory = function (cat, map) {
       var categories = $('.schedule-category');
       if (cat) {
-          categories.each(function(i) {
-    
-            var category = $(this).val();
-            
-            if (category === cat) {
-              $(this).attr('checked', true);
-            } else {
-              $(this).attr('checked', false);
-            }
-          });
+        categories.each(function (i) {
+
+          var category = $(this).val();
+
+          if (category === cat) {
+            $(this).attr('checked', true);
+          } else {
+            $(this).attr('checked', false);
+          }
+        });
       }
       _updateSchedulesView(map);
     };
@@ -205,31 +204,20 @@ define(function() {
         var isChecked = $(this).prop('checked');
 
         if (groups[category]) {
-
           if (groups[category][0]) {
-            $.each(groups[category][0], function(i, elem) {
-                if(isChecked) {
-                    visibleMarkers.push(markers[elem]);
-                }
-              //markers[elem].setMap(isChecked ? map : null);
-              //if (isChecked) {
-              //  markersBounds.extend(markers[elem].getPosition());
-              //}
+            $.each(groups[category][0], function (i, elem) {
+              if (isChecked) {
+                visibleMarkers.push(markers[elem]);
+              }
             });
           }
-
           if (groups[category][1]) {
-            $.each(groups[category][1], function(i, elem) {
-                if(isChecked) {
-                    visibleMarkers.push(markers[elem]);
-                }
-                //markers[elem].setMap((past && isChecked) ? map : null);
-              //if (past && isChecked) {
-              //  markersBounds.extend(markers[elem].getPosition());
-              //}
+            $.each(groups[category][1], function (i, elem) {
+              if (isChecked) {
+                visibleMarkers.push(markers[elem]);
+              }
             });
           }
-
         }
       });
       
@@ -520,41 +508,41 @@ define(function() {
         facade.listen('user-signed-out', this.updateMemberSignedOut, this);
         facade.listen('user-signed-in', this.updateMemberSignedIn, this);
         facade.listen('schedule-view-mark-user-events', this.markUserEvents, this);
-      
+
         $('body').on('click', '.cnr-expand-map', function () {
-            var button = $(this),
-              data = button.data('params'),
-              mapBox = button.parents('.cnr-map-global');
+          var button = $(this),
+            data = button.data('params'),
+            mapBox = button.parents('.cnr-map-global');
 
-            mapBox.addClass('cnr-expanded');
+          mapBox.addClass('cnr-expanded');
 
-            if (!data) {
-              return;
-            }
+          if (!data) {
+            return;
+          }
 
-            button.button('loading');
-            data.completeCallback = function() {
-              button.button('reset');
-            };
-            data.successCallback = function() {
-              button.data('params', null);
-            };
-            facade.notify({
-                type: 'schedule-view-load-map',
-                data: data
-            });
+          button.button('loading');
+          data.completeCallback = function () {
+            button.button('reset');
+          };
+          data.successCallback = function () {
+            button.data('params', null);
+          };
+          facade.notify({
+            type: 'schedule-view-load-map',
+            data: data
           });
+        });
 
-          $('body').on('click', '.cnr-collapse-map', function () {
-            var button = $(this),
-              mapBox = button.parents('.cnr-map-global');
+        $('body').on('click', '.cnr-collapse-map', function () {
+          var button = $(this),
+            mapBox = button.parents('.cnr-map-global');
 
-            mapBox.removeClass('cnr-expanded');
-          }); 
-          $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
-              $('#map_legend .cnr-change-options').toggleClass('hidden');
-              $('#map_legend .cnr-selected-options').toggleClass('hidden');
-          });
+          mapBox.removeClass('cnr-expanded');
+        });
+        $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
+          $('#map_legend .cnr-change-options').toggleClass('hidden');
+          $('#map_legend .cnr-selected-options').toggleClass('hidden');
+        });
       },
       mapInitialised : function() {
         geocoder = new google.maps.Geocoder();

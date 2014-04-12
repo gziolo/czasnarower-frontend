@@ -1,6 +1,8 @@
 var expect, assert, should;
 
 define([ 'chai', 'sinonChai' ], function (chai, sinonChai) {
+  'use strict';
+
   window.chai = chai;
   window.sinonChai = sinonChai;
   window.notrack = true;

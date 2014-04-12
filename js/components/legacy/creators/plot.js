@@ -1,4 +1,4 @@
-/*jshint unused:false */
+/*jshint unused:false, strict:false */
 define(function() {
   return function(facade, $) {
     'use strict';
@@ -214,6 +214,7 @@ define(function() {
           radio = $('<label class="radio inline"><input checked type="radio" name="category" value="0"/>wszystkie<label>');
           options.append(radio);
 
+          /*jshint forin:false */
           for ( var cat in unique) {
             radio = $('<label class="radio inline"><input type="radio" name="category" value="' + unique[cat] + '"/>' + (categories_labels[unique[cat]] ? categories_labels[unique[cat]] : 'kategoria '+unique[cat])  + ' <label>');
             options.append(radio);

@@ -1,4 +1,4 @@
-/*jshint maxparams:25, unused:false */
+/*jshint maxparams:25, unused:false, strict:false */
 define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', 'text!legacy/templates/comment/row.html', 'text!legacy/templates/entry/draftItem.html',
     'text!legacy/templates/event/attendingMember.html', 'text!legacy/templates/message/group.html', 'text!legacy/templates/message/row.html', 'text!legacy/templates/photo/editForm.html',
     'text!legacy/templates/team/attendingMember.html', 'text!legacy/templates/user/info.html' ], function($, _, commentAddFormTemplate, commentRowTemplate, entryDraftItemTemplate,
@@ -216,7 +216,6 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
           modalDialog.modal('hide');
           modalDialog.remove();
         }
-        // } else {
         var modal = [ '<div class="modal-header">', '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>', '<h3>' + options.title + '</h3>', '</div>',
             '<div class="modal-body' + (options.dialogClass ? ' ' + options.dialogClass : '') + '">', '<p>' + options.content + '</p>', '</div>', '<div class="modal-footer">',
 
@@ -224,6 +223,7 @@ define([ 'jquery', 'underscore', 'text!legacy/templates/comment/addForm.html', '
 
         $('body').append('<div id="jQueryDialog" class="modal">' + modal + '</div>');
 
+        /*jshint forin:false */
         for ( var i in options.buttons) {
           var btn = options.buttons[i];
           var btn_el = $('<button class="btn btn-primary">' + btn.text + '</button>').click(btn.click);

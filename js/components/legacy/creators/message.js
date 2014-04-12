@@ -1,3 +1,4 @@
+/*jshint strict:false */
 define(
     [ 'moment_pl' ],
     function(moment) {

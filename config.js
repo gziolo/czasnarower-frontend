@@ -1,4 +1,6 @@
 define(function() {
+  'use strict';
+
   require.config({
     enforceDefine : true,
     config : {

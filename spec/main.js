@@ -1,4 +1,6 @@
 define([ '../config' ], function() {
+  'use strict';
+
   require.config({
     baseUrl : '../',
     deps : [ 'spec/runner' ],
