@@ -742,7 +742,7 @@ define([ 'underscore' ], function(_) {
       },
       loadMap : function(messageInfo) {
         var options = messageInfo.data;
-        if (!options.selected || !$('#' + options.id).length) {
+        if (/*!options.selected ||*/ !$('#' + options.id).length) {
           return;
         }
         facade.rest.getAll('track-location', {
