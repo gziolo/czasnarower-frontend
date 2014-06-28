@@ -1237,6 +1237,26 @@ h1.special {
             display: block;
         }
 	}
+	&.cnr-loading {
+		position: relative;
+		&:after {
+			position: absolute;
+    		top: 0px;
+    		left: 0;
+    		right: 0;
+    		bottom: 0px;
+    		background: rgba(0, 0, 0,.7);
+    		z-index: 1000;
+    		display: block;
+    		content: "Trwa wczytywanie mapy...";
+    		color: @white;
+    		text-align: center;
+    		padding-top: 100px;
+		}
+	}
+	#geo {
+		.input-append {width: 100%;}
+	}
 }
 .users-list {
     margin: 10px 0 ;
@@ -1478,6 +1498,7 @@ h1.special {
     background-color: @blueLighter;
     margin: 0;
 }
+ 
 #planned_races {
 	h5 {
 		margin: 0 0 5px;

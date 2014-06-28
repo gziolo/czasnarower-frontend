@@ -514,15 +514,17 @@ define(function() {
             data = button.data('params'),
             mapBox = button.parents('.cnr-map-global');
 
-          mapBox.addClass('cnr-expanded');
+          mapBox.addClass('cnr-expanded cnr-loading');
 
           if (!data) {
+            mapBox.removeClass('cnr-loading');
             return;
           }
 
           button.button('loading');
           data.completeCallback = function () {
             button.button('reset');
+            mapBox.removeClass('cnr-loading');
           };
           data.successCallback = function () {
             button.data('params', null);
