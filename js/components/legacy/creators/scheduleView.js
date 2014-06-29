@@ -512,6 +512,12 @@ define(function() {
         facade.listen('user-signed-in', this.updateMemberSignedIn, this);
         facade.listen('schedule-view-mark-user-events', this.markUserEvents, this);
 
+        $('body').on('click', '.cnr-expand-map-link', function () {
+            mapBox = $(this).parents('.cnr-map-global');
+            if(mapBox.hasClass('cnr-expanded')) { return }
+            $('body .cnr-expand-map').click();
+        });
+        
         $('body').on('click', '.cnr-expand-map', function () {
           var button = $(this),
             data = button.data('params'),
