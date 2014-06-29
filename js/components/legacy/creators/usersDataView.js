@@ -65,8 +65,9 @@ define(function() {
       var latitude = 52.066667;
       var longitude = 19.483333;
       var user_data = {};
-
-      if (data.selected) {
+      
+      var isSelected = data.selected && data.users_data[Number(data.selected)];
+      if (isSelected) {
         user_data = data.users_data[Number(data.selected)];
         latitude = user_data.latitude;
         longitude = user_data.longitude;
@@ -75,6 +76,7 @@ define(function() {
       map.setCenter(centerLatLng);
 
       var mode = data.mode || 0;
+      var size = 20; // set small size
       markerCluster = new MarkerClusterer(map, [], {
         gridSize : 50,
         maxZoom : 11
@@ -86,20 +88,19 @@ define(function() {
           x : 0,
           y : 32
         };
-        if (!mode) {
-          pos = {
-            x : 0,
-            y : 0
-          };
-        } else if (Number(i) === Number(data.signed)) {
+        if (Number(i) === Number(data.signed)) {
           pos = {
             x : 20,
             y : 32
           };
         }
 
-        var img = new google.maps.MarkerImage(src, new google.maps.Size((mode ? 20 : 32), (mode ? 20 : 32)), new google.maps.Point(pos.x, pos.y), new google.maps.Point((mode ? 10 : 16), (mode ? 10
-            : 16)));
+        var img = new google.maps.MarkerImage(
+            src, 
+            new google.maps.Size(size, size), 
+            new google.maps.Point(pos.x, pos.y), 
+            new google.maps.Point(10, 10)
+        );
 
         var marker = _marker(map, user_data, {
           position : latLng,
@@ -116,7 +117,7 @@ define(function() {
         gridSize : 50,
         zoomOnClick : true
       });
-      if (data.selected) {
+      if (isSelected) {
         _zoomUserData(map, markers[data.selected]);
       } else {
         map.fitBounds(markersBounds);
@@ -299,8 +300,46 @@ define(function() {
       init : function(data) {
         sandbox.listen('map-initialised', this.mapInitialised, this);
         sandbox.listen('users-data-view-register-map', this.registerMap, this);
+        sandbox.listen('users-data-view-load-map', this.loadMap, this);
         sandbox.listen('user-signed-out', this.updateMemberSignedOut, this);
         sandbox.listen('user-signed-in', this.updateMemberSignedIn, this);
+        
+        $('body').on('click', '.cnr-expand-map', function () {
+            var button = $(this),
+              data = button.data('params'),
+              mapBox = button.parents('.cnr-map-global');
+
+            mapBox.addClass('cnr-expanded cnr-loading');
+
+            if (!data) {
+              mapBox.removeClass('cnr-loading');
+              return;
+            }
+
+            button.button('loading');
+            data.completeCallback = function () {
+              button.button('reset');
+              mapBox.removeClass('cnr-loading');
+            };
+            data.successCallback = function () {
+              button.data('params', null);
+            };
+            sandbox.notify({
+              type: 'users-data-view-load-map',
+              data: data
+            });
+          });
+
+          $('body').on('click', '.cnr-collapse-map', function () {
+            var button = $(this),
+              mapBox = button.parents('.cnr-map-global');
+
+            mapBox.removeClass('cnr-expanded');
+          });
+          $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
+            $('#map_legend .cnr-change-options').toggleClass('hidden');
+            $('#map_legend .cnr-selected-options').toggleClass('hidden');
+          });
       },
       mapInitialised : function() {
         geocoder = new google.maps.Geocoder();
@@ -338,6 +377,7 @@ define(function() {
         _googleMapsLoaded = true;
       },
       registerMap : function(messageInfo) {
+        console.log(messageInfo.data);
         if (!messageInfo.data.id || (!messageInfo.data.users_data)) {
           return;
         }
@@ -346,7 +386,33 @@ define(function() {
           _initializeMap(messageInfo.data);
         }
       },
-
+      loadMap : function(messageInfo) {
+          var options = messageInfo.data;
+          var options = messageInfo.data;
+          if (!$('#' + options.id).length) {
+            return;
+          }
+          sandbox.rest.getAll('user-location', {
+          }, {
+            success : function(response) {
+              if (response.data) {
+                if (options.successCallback) {
+                  options.successCallback();
+                }
+                options.users_data = response.data;
+                sandbox.notify({
+                  type : 'users-data-view-register-map',
+                  data : options
+                });
+              }
+            },
+            complete: function() {
+              if (options.completeCallback) {
+                options.completeCallback();
+              }
+            }
+          });
+        },
       updateMemberSignedIn : function(messageInfo) {
         var user = messageInfo.data, id = 0;
         // check if user is on the member list

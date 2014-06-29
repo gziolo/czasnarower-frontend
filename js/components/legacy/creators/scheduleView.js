@@ -118,7 +118,8 @@ define(function() {
           };
 
           if (!mode) {
-            anchor = _getScheduleAnchor(schedule.category, schedule.past);
+            // use the small icons - 20x20
+            anchor = _getScheduleAnchor(schedule.category, schedule.past, 20);
           } else if (Number(i) === Number(data.selected)) {
             anchor = {
               x : 380,
