@@ -129,8 +129,10 @@ define(function() {
           } else {
             anchor = _getScheduleAnchor(schedule.category, 0, 20);
           }
-          var img = new google.maps.MarkerImage(src, new google.maps.Size((mode ? 20 : 32), (mode ? 20 : 32)), new google.maps.Point(anchor.x, anchor.y), new google.maps.Point((mode ? 10 : 16),
-              (mode ? 10 : 16)));
+          var img = new google.maps.MarkerImage(src, 
+              new google.maps.Size(20, 20), 
+              new google.maps.Point(anchor.x, anchor.y), 
+              new google.maps.Point(10, 10));
 
           var marker = _marker(map, schedule, {
             position : latLng,
