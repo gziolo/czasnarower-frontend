@@ -95,12 +95,7 @@ define(function() {
           };
         }
 
-        var img = new google.maps.MarkerImage(
-            src, 
-            new google.maps.Size(size, size), 
-            new google.maps.Point(pos.x, pos.y), 
-            new google.maps.Point(10, 10)
-        );
+        var img = new google.maps.MarkerImage(src, new google.maps.Size(size, size), new google.maps.Point(pos.x, pos.y), new google.maps.Point(10, 10));
 
         var marker = _marker(map, user_data, {
           position : latLng,
@@ -329,14 +324,15 @@ define(function() {
               data: data
             });
           });
-
-          $('body').on('click', '.cnr-collapse-map', function () {
+        
+        $('body').on('click', '.cnr-collapse-map', function () {
             var button = $(this),
               mapBox = button.parents('.cnr-map-global');
 
             mapBox.removeClass('cnr-expanded');
           });
-          $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
+        
+        $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
             $('#map_legend .cnr-change-options').toggleClass('hidden');
             $('#map_legend .cnr-selected-options').toggleClass('hidden');
           });
@@ -387,7 +383,6 @@ define(function() {
         }
       },
       loadMap : function(messageInfo) {
-          var options = messageInfo.data;
           var options = messageInfo.data;
           if (!$('#' + options.id).length) {
             return;

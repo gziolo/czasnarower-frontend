@@ -129,10 +129,7 @@ define(function() {
           } else {
             anchor = _getScheduleAnchor(schedule.category, 0, 20);
           }
-          var img = new google.maps.MarkerImage(src, 
-              new google.maps.Size(20, 20), 
-              new google.maps.Point(anchor.x, anchor.y), 
-              new google.maps.Point(10, 10));
+          var img = new google.maps.MarkerImage(src, new google.maps.Size(20, 20), new google.maps.Point(anchor.x, anchor.y), new google.maps.Point(10, 10));
 
           var marker = _marker(map, schedule, {
             position : latLng,
@@ -513,10 +510,13 @@ define(function() {
         facade.listen('schedule-view-mark-user-events', this.markUserEvents, this);
 
         $('body').on('click', '.cnr-expand-map-link', function () {
-            mapBox = $(this).parents('.cnr-map-global');
-            if(mapBox.hasClass('cnr-expanded')) { return }
+            var mapBox = $(this).parents('.cnr-map-global');
+            if (mapBox.hasClass('cnr-expanded')) {
+              return;
+            }
             $('body .cnr-expand-map').click();
-        });
+          }
+        );
         
         $('body').on('click', '.cnr-expand-map', function () {
           var button = $(this),
