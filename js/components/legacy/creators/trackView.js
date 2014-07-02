@@ -744,21 +744,20 @@ define([ 'underscore' ], function(_) {
       },
       loadMap : function(messageInfo) {
         var options = messageInfo.data;
-        if (/*!options.selected ||*/ !$('#' + options.id).length) {
+
+        if (!$('#' + options.id).length) {
           return;
         }
-        facade.rest.getAll('track-location', {
-          track_id : options.selected
-        }, {
-          success : function(response) {
+        facade.rest.getAll('track-location', {}, {
+          success: function(response) {
             if (response.data) {
               if (options.successCallback) {
                 options.successCallback();
               }
               options.tracks = response.data;
               facade.notify({
-                type : 'track-view-register-map',
-                data : options
+                type: 'track-view-register-map',
+                data: options
               });
             }
           },
