@@ -1001,6 +1001,7 @@ define(function() {
       var tags = $('#track_tags').val();
       var fb_publish = $('#fb_publish').prop('checked');
       var special_highlighted = $('#special_highlighted').prop('checked');
+      var special_tag_silvini = $('#special_tag_silvini').prop('checked');
 
       if (aTitle.length < 2 || title.length < 5 || title.length > 80) {
         aErrors.push({
@@ -1069,7 +1070,8 @@ define(function() {
         start_place : start_place,
         distance : distance,
         fb_publish : fb_publish,
-        special_highlighted : special_highlighted
+        special_highlighted : special_highlighted,
+        special_tag_silvini : special_tag_silvini
       };
     }
     /**
