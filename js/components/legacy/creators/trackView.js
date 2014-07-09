@@ -178,6 +178,7 @@ define([ 'underscore' ], function(_) {
       $('.track-category').change(function() {
         updateTracksView(map);
       });
+      $('.map-global-header .caption').html("<span style='color: #ff7600'>" + markers.length + '</span> tras');
     };
 
     var updateTracksView = function(map) {

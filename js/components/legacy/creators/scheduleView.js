@@ -172,6 +172,10 @@ define(function() {
       if (data.selected) {
         _zoomSchedule(map, markers[data.selected]);
       }
+      var count = Object.keys(markers).length;
+      if(count) {
+          $('.map-global-header .caption').html("<span style='color: #ff7600'>" + count + '</span> wyścigów');
+      }
     };
 
     var _selectScheduleCategory = function (cat, map) {

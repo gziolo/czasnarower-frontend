@@ -117,8 +117,11 @@ define(function() {
       } else {
         map.fitBounds(markersBounds);
       }
-
-    };
+      var count = Object.keys(markers).length;
+      if(count) {
+          $('.map-global-header .caption').html("<span style='color: #ff7600'>" + count + '</span> użytkowników');
+      }
+  };
 
     /**
      * method for creating new google-maps-marker object and - binds proper
