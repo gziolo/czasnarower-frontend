@@ -173,8 +173,8 @@ define(function() {
         _zoomSchedule(map, markers[data.selected]);
       }
       var count = Object.keys(markers).length;
-      if(count) {
-          $('.map-global-header .caption').html("<span style='color: #ff7600'>" + count + '</span> wyścigów');
+      if (count) {
+        $('.map-global-header .caption').html("<span style='color: #ff7600'>" + count + '</span> wyścigów');
       }
     };
 
