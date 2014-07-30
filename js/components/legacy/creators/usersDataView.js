@@ -376,7 +376,6 @@ define(function() {
         _googleMapsLoaded = true;
       },
       registerMap : function(messageInfo) {
-        console.log(messageInfo.data);
         if (!messageInfo.data.id || (!messageInfo.data.users_data)) {
           return;
         }

@@ -1,6 +1,6 @@
 {
   "name": "czasnarower-frontend",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "main": "js/main.js",
   "dependencies": {
     "backbone": "1.0.0",
