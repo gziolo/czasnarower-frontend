@@ -78,24 +78,25 @@ define(function() {
       });
 
       $('body').on('submit', '#registration_form', function() {
-        var form = $(this);
-        var submitButton = form.find(':input[type="submit"]');
+        var $form = $(this);
+        var $submitButton = $form.find(':input[type="submit"]');
 
-        submitButton.button('loading');
+        $submitButton.button('loading');
         sandbox.ajax({
           type : 'post',
           url : 'ajax',
-          data : form.serialize(),
+          data : $form.serialize(),
           dataType : 'html',
           beforeSend : function() {
             $("#ebilightbox p[class='error']").hide();
           }
         }).done(function(data) {
           $('#ebilightbox').html(data);
-          $("#ebilightbox p[class='error']").fadeIn('slow');
+          $('#registration_form').find('.control-group.password, .control-group.email').find('input:first').hide();
           $('#registration_username').trigger('focus');
+          $("#ebilightbox p[class='error']").fadeIn('slow');
         }).always(function() {
-          submitButton.button('reset');
+          $submitButton.button('reset');
         });
         return false;
       });
@@ -212,6 +213,8 @@ define(function() {
           cache : false
         }).done(function(data) {
           $("#ebilightbox").html(data).modal();
+          $('#registration_form').find('.control-group.password, .control-group.email').find('input:first').hide();
+          $('#registration_username').trigger('focus');
         });
       },
       showSignInForm : function() {
