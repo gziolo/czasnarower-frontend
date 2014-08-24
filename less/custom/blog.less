@@ -1,0 +1,143 @@
+/* CUSTOMIZE THE NAVBAR
+  -------------------------------------------------- */
+.blog.blog-airmisio {
+	.navbar-wrapper {
+		height: 250px;
+		background: url('../img/header-bg-blog.gif') top left repeat-x;
+		.container {
+	  		background-image: url('../img/header/mziolkowska_s.jpg');
+  			background-position: center 5px;
+  		}
+	  	.navbar {
+	   		.nav {
+	   			margin-top: 90px;
+	   		}
+	   		height: 250px;
+	  	}
+	  	.navbar .brand {
+	  		margin-left: 50px;
+	  	}
+	  	#social_panel, 
+	  	#search_panel {
+	  		visibility: hidden;
+	  	}
+	}
+}
+.blog-list {
+	h1 {
+		font-weight: normal;
+		font-size: 30px;
+	}
+}
+.blog-entry {
+	border-top: 3px solid @orange;
+	
+	header {
+		margin-top: 0;
+		position: relative;
+		padding-left: 125px;
+		aside.calendar-date {
+			background-color: @orange;
+			color: @white;
+			height: auto;
+			left: 0;
+			padding: 10px 25px 10px 10px;
+			position: absolute;
+			text-align: left;
+			top: 0;
+			width: auto;
+			.date {
+				color: @white;
+				display: block;
+				#font .special(30px, normal, 40px);
+				font-size: 26px;
+				line-height: 1em;
+			}
+			.dat {
+				font-size: .8em;
+				line-height: 1em;
+			}
+		}
+		h2 {
+			#font .special(30px, normal, 40px);
+			font-size: 28px;
+			line-height: 32px;
+			margin-bottom: 5px;
+			a {
+			}
+		}
+		p.tags {
+			color: @gray;
+			display: inline-block;
+			margin-right: 15px;
+			font-size: .85em;
+		}
+		.clearfix();
+	}
+	.news-content {
+		padding: 0 10px;
+		.photos-box {
+			height: 406px;
+			overflow: hidden;
+			width: auto;
+			.gallery {
+				background: @white;
+				border: 2px solid @blueLight;
+				display: block;
+				height: 402px;
+				padding: 0px;
+				position: relative;
+				width: auto;				
+				.big {
+					bottom: 1px;
+					display: block;
+					height: 400px;
+					left: 1px;
+					overflow: hidden;
+					position: absolute;
+					top: 1px;
+					width: 600px;
+					z-index: 1;
+					border-right: 1px solid @white;
+					img {
+					}
+				}
+				.small-col {
+					display: block;
+					position: absolute;
+					height: 400px;
+					margin-bottom: 1px;
+					overflow: hidden;
+					right: 1px;
+					top: 1px;
+					.small {
+						margin-bottom: 1px;
+						height: 133px;
+						overflow: hidden;
+						display: block;
+						&.last {
+							margin-bottom: 0;
+						}
+					}
+					
+				}
+			}
+			&.vertical {
+			}			
+		}
+		p {
+			font-size: 18px;
+			line-height: 25px;
+			margin-top: 15px;
+		}
+	}
+}
+@media (min-width: 1200px) {
+.blog.blog-airmisio {	
+  	.navbar-wrapper {
+    	.container {
+  			background-image: url('../img/header/mziolkowska_b.jpg');
+		}
+	  }
+  }
+}
