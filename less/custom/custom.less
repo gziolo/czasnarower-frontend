@@ -103,7 +103,6 @@ body {
 			color: @white;
 		}
 		.dropdown-menu {
-			#font .sans-serif();
 			padding: 5px 10px;
 			a {
 			     color: @white;
@@ -571,11 +570,9 @@ body {
 		 		margin-left: 10px;
 		 		list-style: none;
 		 		.number {
-			 		font-family: 'Bebas';
 			 		color: #ff7600;
-			 		font-size: 19px;
+			 		#font .special(19px, normal, 19px);
 			 		height: 19px;
-			 		line-height: 19px;
 			 		display: block;
 			 	}
 			 	span {
@@ -631,7 +628,7 @@ body {
     			margin-bottom: 3px;
     		}
     		big {
-    			font-family: 'Bebas', "Trebuchet MS", Arial, sans-serif;
+    			font-family: @specialFontFamily;
 				color: #ff7600;
     		}
     	}
@@ -894,9 +891,8 @@ body {
 	width: 45px;
 
 	.date, .length, .time {
-		font-family: 'Bebas', "Trebuchet MS", Arial, sans-serif;
 		color: #ff7600;
-		font-size: 23px;
+		#font .special(23px, normal, 23px);
 		white-space: nowrap;
  	}
  	.month, .metric, .seconds {
@@ -916,9 +912,8 @@ body {
  	}
 }
 big.distance-length {
-	font-family: 'Bebas', "Trebuchet MS", Arial, sans-serif;
 	color: #ff7600;
-	font-size: 23px;
+	#font .special(23px, normal, 23px);
 	white-space: nowrap;
 }
 .distance-data, .result-data  {
@@ -1054,7 +1049,7 @@ h1.special {
     margin-bottom: 5px;
 }
 .font-special {
-	font-family: 'Bebas', "Trebuchet MS", Arial, sans-serif;
+	font-family: @specialFontFamily;
 }
 .item_content {
 	padding-left: 5px;
