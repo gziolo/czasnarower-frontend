@@ -17,7 +17,7 @@
 	  	.navbar .brand {
 	  		margin-left: 50px;
 	  	}
-	  	#social_panel, 
+	  	#social_panel,
 	  	#search_panel {
 	  		visibility: hidden;
 	  	}
@@ -31,7 +31,7 @@
 }
 .blog-entry {
 	border-top: 3px solid @orange;
-	
+
 	header {
 		margin-top: 0;
 		position: relative;
@@ -76,54 +76,66 @@
 	}
 	.news-content {
 		padding: 0 10px;
-		.photos-box {
-			height: 406px;
+		.listing-photos {
+			background: @white;
+			border: 2px solid @blueLight;
+			height: 380px;
 			overflow: hidden;
-			width: auto;
-			.gallery {
-				background: @white;
-				border: 2px solid @blueLight;
-				display: block;
-				height: 402px;
-				padding: 0px;
+			padding: 1px;
+			width: 800px;
+			.listing-photo.large {
+				float: left;
+				height: 380px;
+				overflow: hidden;
 				position: relative;
-				width: auto;				
-				.big {
-					bottom: 1px;
-					display: block;
-					height: 400px;
-					left: 1px;
-					overflow: hidden;
-					position: absolute;
-					top: 1px;
-					width: 600px;
-					z-index: 1;
-					border-right: 1px solid @white;
-					img {
-					}
+				width: 600px;
+			}
+			.listing-photo.small {
+				border-top: 1px solid @white;
+				border-left: 1px solid @white;
+				float: right;
+				height: 126px;
+				overflow: hidden;
+				position: relative;
+				width: 199px;
+
+				&.first {
+						border-top-width: 0;
 				}
-				.small-col {
-					display: block;
-					position: absolute;
-					height: 400px;
-					margin-bottom: 1px;
-					overflow: hidden;
-					right: 1px;
-					top: 1px;
-					.small {
-						margin-bottom: 1px;
-						height: 133px;
-						overflow: hidden;
-						display: block;
-						&.last {
-							margin-bottom: 0;
-						}
-					}
-					
+				img {
+					max-height: none;
+					max-width: none;
 				}
 			}
+
 			&.vertical {
-			}			
+				float: left;
+				height: 700px;
+				margin-right: 1em;
+				width: 380px;
+				.listing-photo.large {
+				  float: none;
+					height: 600px;
+					overflow: hidden;
+					position: relative;
+					width: 380px;
+				}
+				.listing-photo.small {
+					border-top: 1px solid @white;
+					border-left: 1px solid @white;
+					float: left;
+					height: 99px;
+					width: 126px;
+					img {
+						display: block;
+						height: auto;
+						width: auto;
+					}
+					&.first {
+						border-left-width: 0;
+					}
+				}
+			}
 		}
 		p {
 			font-size: 18px;
@@ -133,7 +145,7 @@
 	}
 }
 @media (min-width: 1200px) {
-.blog.blog-airmisio {	
+.blog.blog-airmisio {
   	.navbar-wrapper {
     	.container {
   			background-image: url('../img/header/mziolkowska_b.jpg');
