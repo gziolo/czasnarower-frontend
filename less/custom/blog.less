@@ -83,31 +83,31 @@
 			overflow: hidden;
 			padding: 1px;
 			width: 800px;
-			.listing-photo.large {
-				float: left;
-				height: 380px;
-				overflow: hidden;
-				position: relative;
-				width: 600px;
-			}
-			.listing-photo.small {
-				border-top: 1px solid @white;
-				border-left: 1px solid @white;
-				float: right;
-				height: 126px;
-				overflow: hidden;
-				position: relative;
-				width: 199px;
-
-				&.first {
-						border-top-width: 0;
-				}
+			.listing-photo{
 				img {
-					max-height: none;
-					max-width: none;
+						max-height: none;
+						max-width: none;
+				}
+				&.large {
+					float: left;
+					height: 380px;
+					overflow: hidden;
+					position: relative;
+					width: 600px;
+				}
+				&.small {
+					border-top: 1px solid @white;
+					border-left: 1px solid @white;
+					float: right;
+					height: 126px;
+					overflow: hidden;
+					position: relative;
+					width: 199px;
+					&.first {
+							border-top-width: 0;
+					}
 				}
 			}
-
 			&.vertical {
 				float: left;
 				height: 700px;
