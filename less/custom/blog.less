@@ -23,11 +23,13 @@
 	  	}
 	}
 }
-.blog-list {
-	h1 {
-		font-weight: normal;
-		font-size: 30px;
+#sidepanel .user_info_box {
+	.nick {
+		#font .special(24px, 500, 30px);
 	}
+}
+.blog-list {
+	
 }
 .blog-entry {
 	border-top: 3px solid @orange;
@@ -82,7 +84,7 @@
 			height: 380px;
 			overflow: hidden;
 			padding: 1px;
-			width: 800px;
+			width: 630px;
 			.listing-photo{
 				img {
 						max-height: none;
@@ -93,7 +95,11 @@
 					height: 380px;
 					overflow: hidden;
 					position: relative;
-					width: 600px;
+					width: 430px;
+					img {
+						margin-left: -85px;
+					}
+					
 				}
 				&.small {
 					border-top: 1px solid @white;
@@ -119,6 +125,9 @@
 					overflow: hidden;
 					position: relative;
 					width: 380px;
+					img {
+		  				margin-left: 0px;
+	  				}
 				}
 				.listing-photo.small {
 					border-top: 1px solid @white;
@@ -137,10 +146,16 @@
 				}
 			}
 		}
-		p {
+		p, h3, ul {
 			font-size: 18px;
 			line-height: 25px;
 			margin-top: 15px;
+		}
+		h3 {
+			#font .special(20px, normal, 26px);
+		}
+		p {
+			text-align: justify;
 		}
 	}
 }
@@ -151,5 +166,20 @@
   			background-image: url('../img/header/mziolkowska_b.jpg');
 		}
 	  }
+  }
+  .blog-entry {
+  	.news-content {
+  		.listing-photos {
+  			width: 800px;
+  			.listing-photo{
+  				&.large {
+  					width: 600px;
+  					img {
+		  				margin-left: 0px;
+	  				}
+  				}
+  			}
+  		}
+  	}
   }
 }
