@@ -309,7 +309,7 @@ define(
         function appendChats(messageInfo) {
           var itemEl;
           var messagesData = messageInfo.data;
-
+          $('.cnr-user-messages').removeClass('cnr-loading');
           if (messagesData.error) {
             $('.user_quickbox.messages .messages_list').append('<p><i>' + messagesData.error + '</i></p>');
             return;
@@ -454,6 +454,7 @@ define(
                   dao : 52,
                   action : 3
                 };
+                $('.cnr-user-messages').addClass('cnr-loading');
                 _getRecentChats(params);
               }
               return false;

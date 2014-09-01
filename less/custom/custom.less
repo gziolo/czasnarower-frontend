@@ -228,6 +228,17 @@ body {
 	    top: 30px;
 	    width: 340px;
 	    z-index: 50;
+	    .cnr-loading {
+			&:after {
+	    		background: transparent;
+	    		content: "Trwa wczytywanie danych...";
+	    		color: @black;
+	    		font-style: oblique;
+	    		display: block;
+	    		padding: 10px auto;
+	    		text-align: center;
+			}
+		}
 	    .drafts_list {
 	    	&:before {
 	    	    background-color: #FCFDFE;
@@ -741,6 +752,9 @@ body {
 		position: absolute;
 		right: 0;
 		top: -2px;
+	}
+	.nick {
+		#font .special(24px, 500, 30px);
 	}
 }
 

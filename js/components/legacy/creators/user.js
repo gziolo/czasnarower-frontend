@@ -258,6 +258,7 @@ define(function() {
           $('.user_quickbox').not('.data').addClass('hidden');
           $('.user_quickbox.data').toggleClass('hidden');
           if (!infoLoaded) {
+            $('.cnr-user-activities').addClass('cnr-loading');
             _getUserPanel();
           }
         });
@@ -294,6 +295,7 @@ define(function() {
       appendUserData : function(messageInfo) {
         var data = $(sandbox.template('userInfo', messageInfo.data));
         $('#user_menu .user_quickbox.data .info_panel .activities').append(data);
+        $('.cnr-user-activities').removeClass('cnr-loading');
       },
       destroy : function() {}
     };

@@ -44,6 +44,7 @@ define(function() {
     }
     function appendDrafts(messageInfo) {
       var drafts = messageInfo.data, el;
+      $('.cnr-user-drafts').removeClass('cnr-loading');
       if (drafts.error) {
         $('.drafts_list').append($('<p><i>' + drafts.error + '</i></p>'));
         return;
@@ -64,6 +65,7 @@ define(function() {
         $('.user_quickbox').not('.drafts').addClass('hidden');
         $('.user_quickbox.drafts').toggleClass('hidden');
         if (!draftsLoaded) {
+          $('.cnr-user-drafts').addClass('cnr-loading');
           _getDrafts();
         }
       });
