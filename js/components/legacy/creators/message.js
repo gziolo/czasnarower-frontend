@@ -287,7 +287,7 @@ define(
                 receiver : elem.attr('data-receiver-id'),
                 content : elem.find('.message-content').val()
               };
-              _addMessage(params, elem);
+              _addMessage(btn, elem, params);
 
             });
             btn.replaceWith(form);
