@@ -1,85 +1,80 @@
 <% if (info.activities) { %>
   <div class="group">
     <h4><%- translate('Aktywność') %></h4>
-  
+  	<ul>
     <% if (info.activities.schedule_participation) { %>
-      <p class="item"><i class="icon icon-blue icon-minus"></i>
+      <li class="item">
         <a href="<%= info.activities.schedule_participation.url %>">
           <%- translate('Starty w wyścigach:') %> <strong><%= info.activities.schedule_participation[1].races %></strong>
         </a>
-      </p>
-      <p class="item"><i class="icon icon-blue icon-minus"></i>
+      </li>
+      <li class="item">
         <a href="<%= info.activities.schedule_participation.url %>">
           <%- translate('Zaplanowane wyścigi:') %> <strong><%= info.activities.schedule_participation[0].races %></strong>
         </a>
-      </p>
+      </li>
     <% } %>
     
     <% if (info.activities.track_participation && info.activities.track_participation[1]) { %>
-      <p class="item">
-        <i class="icon icon-blue icon-minus"></i>
+      <li class="item">
         <a href="<%= info.activities.track_participation.url %>">
           <%- translate('Przejechane trasy:') %> <strong><%= info.activities.track_participation[1].tracks %></strong>
         </a>
-      </p>
+      </li>
     <% } %>
     
     <% if (info.activities.track_participation && info.activities.track_participation[0]) { %>
-      <p class="item">
-        <i class="icon icon-blue icon-minus"></i>
+      <li class="item">
         <a href="<%= info.activities.track_participation.url %>">
           <%- translate('Zaplanowane trasy:') %> <strong><%= info.activities.track_participation[0].tracks %></strong>
         </a>
-      </p>
+      </li>
     <% } %>
-    
+    </ul>
   </div>
   <div class="group">
     <h4><%- translate('Dodane do serwisu') %></h4>
-
+	<ul>
     <% if (info.activities.news_added) { %>
-      <p class="item"><i class="icon icon-blue icon-minus"></i>
-        <a href="<%= info.activities.news_added.url %>">
+    	<li class="item">
+		  <a href="<%= info.activities.news_added.url %>">
           <%- translate('Artykuły:') %> <strong><%= info.activities.news_added.num %></strong>
         </a>
-      </p>
+      </li>
     <% } %>
       
     <% if (info.activities.tracks_added) { %>
-      <p class="item">
-        <i class="icon icon-blue icon-minus"></i>
+   	<li class="item">
         <a href="<%= info.activities.tracks_added.url %>">
           <%- translate('Trasy rowerowe:') %> <strong><%= info.activities.tracks_added.num %></strong>
         </a>
-      </p>
+      </li>
     <% } %>
       
     <% if (info.activities.races_added) { %>
-      <p class="item">
-        <i class="icon icon-blue icon-minus"></i>
+   	<li class="item">
         <a href="<%= info.activities.races_added.url %>">
           <%- translate('Wyścigi w kalendarzu:') %> <strong><%= info.activities.races_added.num %></strong>
         </a>
-      </p>
+      </li>
     <% } %>
       
     <% if(info.activities.comments_added) { %>
-      <p class="item">
-        <i class="icon icon-blue icon-minus"></i>
+   	<li class="item">
         <a href="<%= info.activities.comments_added.url %>">
           <%- translate('Komentarze:') %> <strong><%= info.activities.comments_added.num %></strong>
         </a>
-      </p>
+      </li>
     <% } %>
       
     <% if (info.activities.photos_added) { %>
-      <p class="item">
-        <i class="icon icon-blue icon-minus"></i>
+   	<li class="item">
         <a href="<%= info.activities.photos_added.url %>">
           <%- translate('Zdjęcia:') %> <strong><%= info.activities.photos_added.num %></strong>
         </a>
-      </p>
+      </li>
     <% } %>
+	</ul>
   </div>
 <% } else { %>
   <div class="group">
