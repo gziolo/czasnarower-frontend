@@ -735,12 +735,17 @@ body {
 		margin: 0;
 		position: relative;
 	}
-	.thumbnail {
+	.profile-avatar {
+		left: 0;
+		position: absolute;
+		top: 0;
+		&.pull-left {
+			position: static;
+			margin-left: 10px;
+		}
 	}
 	.nav {
-		#gradient > .vertical-three-colors(@blueLighter, @blueLighter, 20%, @blueLight);
-		margin-top: -30px;
-		padding-left: 70px;
+		padding-left: 65px;
 		padding-top: 10px;
 		margin-bottom: 0;
 		border-bottom: 2px solid @linkColor;
@@ -754,10 +759,13 @@ body {
 		top: -2px;
 	}
 	.nick {
-		#font .special(24px, 500, 30px);
+		color: #ff7600;
+		#font .special(20px, 500, 26px);
 	}
 }
-
+#sidepanel .profile-one {
+	margin-top: 5px;
+}
 .photo {
     &.thumb {
         position: relative;
@@ -1049,6 +1057,11 @@ h1.box-header {
 		small {	
 			font-size: .6em;
 		}
+	}
+	&.user-header {
+		border-bottom-width: 0;
+		margin-bottom: 15px;
+		margin-top: 20px;		
 	}
 }
 .entry-header {
