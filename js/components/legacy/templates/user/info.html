@@ -5,12 +5,14 @@
     <% if (info.activities.schedule_participation) { %>
       <li class="item">
         <a href="<%= info.activities.schedule_participation.url %>">
-          <%- translate('Starty w wyścigach:') %> <strong><%= info.activities.schedule_participation[1].races %></strong>
+          <small><%- translate('Starty w wyścigach:') %> </small>
+          <strong><%= info.activities.schedule_participation[1].races %></strong>
         </a>
       </li>
       <li class="item">
         <a href="<%= info.activities.schedule_participation.url %>">
-          <%- translate('Zaplanowane wyścigi:') %> <strong><%= info.activities.schedule_participation[0].races %></strong>
+          <small><%- translate('Zaplanowane wyścigi:') %> </small>
+          <strong><%= info.activities.schedule_participation[0].races %></strong>
         </a>
       </li>
     <% } %>
@@ -18,7 +20,8 @@
     <% if (info.activities.track_participation && info.activities.track_participation[1]) { %>
       <li class="item">
         <a href="<%= info.activities.track_participation.url %>">
-          <%- translate('Przejechane trasy:') %> <strong><%= info.activities.track_participation[1].tracks %></strong>
+          <small><%- translate('Przejechane trasy:') %> </small>
+          <strong><%= info.activities.track_participation[1].tracks %></strong>
         </a>
       </li>
     <% } %>
@@ -26,7 +29,8 @@
     <% if (info.activities.track_participation && info.activities.track_participation[0]) { %>
       <li class="item">
         <a href="<%= info.activities.track_participation.url %>">
-          <%- translate('Zaplanowane trasy:') %> <strong><%= info.activities.track_participation[0].tracks %></strong>
+          <small><%- translate('Zaplanowane trasy:') %> </small>
+          <strong><%= info.activities.track_participation[0].tracks %></strong>
         </a>
       </li>
     <% } %>
@@ -38,7 +42,8 @@
     <% if (info.activities.news_added) { %>
     	<li class="item">
 		  <a href="<%= info.activities.news_added.url %>">
-          <%- translate('Artykuły:') %> <strong><%= info.activities.news_added.num %></strong>
+          <small><%- translate('Artykuły:') %> </small>
+          <strong><%= info.activities.news_added.num %></strong>
         </a>
       </li>
     <% } %>
@@ -46,7 +51,8 @@
     <% if (info.activities.tracks_added) { %>
    	<li class="item">
         <a href="<%= info.activities.tracks_added.url %>">
-          <%- translate('Trasy rowerowe:') %> <strong><%= info.activities.tracks_added.num %></strong>
+          <small><%- translate('Trasy rowerowe:') %> </small>
+          <strong><%= info.activities.tracks_added.num %></strong>
         </a>
       </li>
     <% } %>
@@ -54,7 +60,8 @@
     <% if (info.activities.races_added) { %>
    	<li class="item">
         <a href="<%= info.activities.races_added.url %>">
-          <%- translate('Wyścigi w kalendarzu:') %> <strong><%= info.activities.races_added.num %></strong>
+          <small><%- translate('Wyścigi w kalendarzu:') %> </small>
+          <strong><%= info.activities.races_added.num %></strong>
         </a>
       </li>
     <% } %>
@@ -62,7 +69,8 @@
     <% if(info.activities.comments_added) { %>
    	<li class="item">
         <a href="<%= info.activities.comments_added.url %>">
-          <%- translate('Komentarze:') %> <strong><%= info.activities.comments_added.num %></strong>
+          <small><%- translate('Komentarze:') %> </small>
+          <strong><%= info.activities.comments_added.num %></strong>
         </a>
       </li>
     <% } %>
@@ -70,7 +78,8 @@
     <% if (info.activities.photos_added) { %>
    	<li class="item">
         <a href="<%= info.activities.photos_added.url %>">
-          <%- translate('Zdjęcia:') %> <strong><%= info.activities.photos_added.num %></strong>
+          <small><%- translate('Zdjęcia:') %> </small>
+          <strong><%= info.activities.photos_added.num %></strong>
         </a>
       </li>
     <% } %>

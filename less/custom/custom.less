@@ -320,6 +320,9 @@ body {
 	    	h4 {
 	    		border-bottom: 1px solid @blueLighter;
 	    		font-size: 1.1em;
+	    		#font .special(1.2em, normal, 1.2em);
+	    		margin-left: 5px;
+	    		text-transform: none;
 	    	}
 	    	h4, p {
 	    		margin: 0;
@@ -762,6 +765,7 @@ body {
 		color: #ff7600;
 		#font .special(20px, 500, 26px);
 	}
+	
 }
 #sidepanel .profile-one {
 	margin-top: 5px;
@@ -1155,6 +1159,21 @@ h1.special {
 		margin: 0 10px;
 	}
 }
+#personal_data .content,
+.user_quickbox .activities,
+.user_info_box .content {
+	li small {
+		color: @gray;
+	}
+	p a, li a {
+		font-weight: bold;
+		border-bottom: 1px solid #bbd9ee;
+		small {
+			font-weight: normal;
+		}
+	}
+}
+
 .social {
     position: relative;
     .social-container {
