@@ -5,7 +5,7 @@
 @media (min-width: 768px) and (max-width: 979px) {
 
   #main {
-    padding: 0 @gridGutterWidth768 @gridGutterWidth768;
+    padding: 1px @gridGutterWidth768 1px @gridGutterWidth768;
   }
   #sidepanel {
   	clear: both;
@@ -36,4 +36,16 @@
   }
   
   .thumbnails {margin-left: -(@gridGutterWidth768);}
+  
+  .profile-one {
+  	.nav {
+  		li {
+  			a {
+  				font-size: 1em;
+  				padding-left: gridGutterWidth768;
+				padding-right: gridGutterWidth768;
+			}
+  		}
+  	}
+  }
 }
