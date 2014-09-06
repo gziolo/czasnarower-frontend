@@ -48,7 +48,11 @@
 		.listing-photos {
 			background: @white;
 			border: 2px solid @blueLight;
+			float: left;
+			height: auto;
+			margin-right: 15px;
 			margin-top: 10px;
+			margin-bottom: 10px;
 			overflow: hidden;
 			padding: 1px;
 			.listing-photo{
@@ -65,9 +69,6 @@
 				}
 			}
 			&.vertical {
-				float: left;
-				height: auto;
-				margin-right: 15px;
 				width: 351px;
 				.large {
 					height: 525px;
@@ -85,9 +86,6 @@
 				}
 			}
 			&.horizontal {
-				float: left;
-				margin-right: 15px;
-				height: auto;
 				width: 527px;
 				.large {
 					height: 350px;
@@ -102,6 +100,13 @@
 					&.index-2 {
 						margin-right: 0;
 					}
+				}
+			}
+			&.onephoto {
+				width: auto;
+				.large {
+					height: 100%;
+					width: 100%;
 				}
 			}
 		}
@@ -164,7 +169,16 @@
 	.blog-entry {
 	  	.news-content {
 	  		.listing-photos {
-	  			
+	  			&.horizontal {
+		  			width: 452px;
+					.large {
+						height: 325px;
+					}
+					.small {
+						height: 100px;
+						width: 150px;
+					}
+	  			}
 	  		}
 	  	}
 	}
@@ -174,6 +188,58 @@
 	  	.news-content {
 	  		.listing-photos {
 	  			
+	  		}
+	  	}
+	}
+}
+@media (max-width: 767px) {
+	.blog-entry {
+	  	.news-content {
+	  		&.media-body {
+		  		.listing-photos {
+		  			display: table;
+		  			float: none;
+		  			margin: 10px auto;
+		  			text-align: center;
+		  			max-width: 100%;
+					height: auto;
+					&.horizontal {
+						max-width: 550px;
+						width: auto;
+						.listing-photo {
+							height: auto;
+							&.small {
+								width: 33%;
+								&.index-0 {
+								}
+								&.index-2 {
+								}
+							}
+							
+						}	
+					}
+					&.vertical {
+						.listing-photo {
+							&.small {
+								margin-right: 0;
+								width: 50%;
+							}
+						}	
+					}
+		  			.listing-photo {
+		  				max-width: 100%;
+		  				&.small {
+			  				height: auto;
+			  				width: auto;
+		  				}
+		  				&.large, &.horizontal {
+		  					height: auto;
+			  				img {
+			  					max-width: 100%;
+		  					}
+		  				}
+		  			}
+	  			}
 	  		}
 	  	}
 	}
@@ -188,11 +254,14 @@
 		  			height: auto;
 		  			margin-right: 0;
 		  			.listing-photo {
-		  				&.horizontal {
-							
-		  				} 
-		  				&.vertical {
-			  				
+		  				&.small {
+			  				display: none;
+		  				}
+		  				&.large, &.horizontal {
+		  					height: auto;
+			  				img {
+			  					max-width: 100%;
+		  					}
 		  				}
 		  			}
 	  			}
