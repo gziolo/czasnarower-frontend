@@ -124,18 +124,27 @@
 	}
 }
 @media (min-width: 980px) {
-	.blog.blog-airmisio {
-		.navbar-wrapper {
-			background: url('../img/header-bg-blog.gif') top left repeat-x;
-			.container {
-		  		background-image: url('../img/header/mziolkowska_1200less.jpg');
-	  			background-position: center top;
+	.blog {
+		&.blog-airmisio {
+			.navbar-wrapper {
+				.container {
+			  		background-image: url('../img/header/mziolkowska_1200less.jpg');
+		  			background-position: center top;
+		  		}
 	  		}
-		  	#social_panel,
-		  	#search_panel {
-		  		visibility: hidden;
-		  	}
-		}
+  		}
+  		&.blog-ptacho {
+  			.navbar-wrapper {
+				.container {
+			  		background-image: url('../img/header/tptak_1200less.jpg');
+		  			background-position: center top;
+		  		}
+	  		}
+  		}
+	  	#social_panel,
+	  	#search_panel {
+	  		visibility: hidden;
+	  	}
 	}
 }
 @media (min-width: 1200px) {
@@ -143,6 +152,13 @@
 	  	.navbar-wrapper {
 	    	.container {
 	  			background-image: url('../img/header/mziolkowska_1200more.jpg');
+			}
+		  }
+	  }
+	  .blog.blog-ptacho {
+	  	.navbar-wrapper {
+	    	.container {
+	  			background-image: url('../img/header/tptak_1200more.jpg');
 			}
 		  }
 	  }
