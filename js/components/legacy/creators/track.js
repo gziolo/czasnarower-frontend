@@ -150,19 +150,20 @@ define(function() {
         center : new google.maps.LatLng(52.066667, 19.483333)
       });
 
-      var cyclemapRenderer = new google.maps.ImageMapType({
+      // Replace cyclemapRenderer by Sigma Cycle (TOPO)
+      var sigmamapRenderer = new google.maps.ImageMapType({
         getTileUrl : function(ll, z) {
           var X = ll.x % (1 << z);
-          return "http://a.tile.opencyclemap.org/cycle/" + z + "/" + X + "/" + ll.y + ".png";
+          return "http://tiles1.sigma-dc-control.com/layer8/" + z + "/" + X + "/" + ll.y + ".png";
         },
         tileSize : new google.maps.Size(256, 256),
         isPng : true,
-        maxZoom : 18,
-        name : "OSM Cycle",
-        alt : "Open Streetmap CycleMap"
+        maxZoom : 17,
+        name : "Sigma Cycle",
+        alt : "Sigma Cycle (TOPO)"
       });
 
-      map.mapTypes.set('cyclemap', cyclemapRenderer);
+      map.mapTypes.set('sigma', sigmamapRenderer);
 
       var osmmapRenderer = new google.maps.ImageMapType({
         getTileUrl : function(ll, z) {
@@ -179,7 +180,7 @@ define(function() {
       map.mapTypes.set('osm', osmmapRenderer);
       var optionsUpdate = {
         mapTypeControlOptions : {
-          mapTypeIds : [ google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN, 'cyclemap', 'osm' ],
+          mapTypeIds : [ google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN, 'sigma', 'osm' ],
           style : google.maps.MapTypeControlStyle.DEFAULT
         }
       };
