@@ -92,7 +92,6 @@ define(function() {
           }
         }).done(function(data) {
           $('#ebilightbox').html(data);
-          $('#registration_form').find('.control-group.password, .control-group.email').find('input:first').hide();
           $('#registration_username').trigger('focus');
           $("#ebilightbox p[class='error']").fadeIn('slow');
         }).always(function() {
@@ -213,7 +212,6 @@ define(function() {
           cache : false
         }).done(function(data) {
           $("#ebilightbox").html(data).modal();
-          $('#registration_form').find('.control-group.password, .control-group.email').find('input:first').hide();
           $('#registration_username').trigger('focus');
         });
       },
