@@ -15,7 +15,7 @@
     "requirejs-text": "2.0.10"
   },
   "devDependencies": {
-    "mocha-flight": "0.3.0"
+    "mocha-flight": "0.4.0"
   },
   "resolutions": {
     "es5-shim": "2.1.0"
