@@ -347,6 +347,9 @@ function bindFormEvents() {
       var userNameValue = $("input[name='username']").val();
       User.checkUsername(userNameValue);
   });
+  $('body').on('click', '#refresh-captcha', function(){
+      $('#captcha_img').attr("src","newCaptcha.php?rnd=" + Math.random());
+  });
   $('body').on('submit', '#activation_form', function() {
       var valid;
       var form = $(this);
