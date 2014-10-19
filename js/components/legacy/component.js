@@ -26,7 +26,37 @@ var Schedule = {
     });
   }
 };
-
+var User = {
+    
+    checkUsername: function(sUsername) {
+        if (!sUsername.length) return;
+        var urlData = {
+            dao : 21,
+            action : 10,
+            dataType : 'json',
+            username: sUsername
+        } 
+        $.ajax({
+          type : 'POST',
+          data : urlData,
+          dataType : 'json',
+          url : 'ajax',
+          beforeSend : function() {
+            $(".control-group").first().removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+            
+          },
+          success : function(aData) {
+              if(0 == aData.i_status) {
+                  if(aData.b_nicknameUsed){
+                      setErrorCommunique('username_communique', 'Podana nazwa użytkownika jest już zajęta.');
+                  }
+              }
+          },
+          cache : false,
+          global : false
+        });
+    }
+}
 var Forum = {
 
   Thread : {
@@ -313,6 +343,43 @@ function bindFormEvents() {
     }
     return valid;
   });
+  $('body').on('change', "#registration_username", function(){
+      var userNameValue = $("input[name='username']").val();
+      User.checkUsername(userNameValue);
+  });
+  $('body').on('submit', '#activation_form', function() {
+      var valid;
+      var form = $(this);
+      var button = form.find(':input[type=submit]');
+
+      button.button('loading');
+      form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+      valid = (function(){
+          var errors = 0, 
+              userNameValue = $("input[name='username']").val(), 
+              password1Value = $("input[type='password'].first:eq(0)").val(), 
+              password2Value = $("input[type='password'].first:eq(1)").val();
+          
+          // TODO, check if usernamefield is free
+          if (password1Value.length <= 3 || password1Value.length > 25 ) {
+              setErrorCommunique('password_communique', 'Prosimy o podanie hasła zawierającego od 3 do 25 znaków.');
+              errors += 1;
+          }
+          if (password1Value != password2Value) {
+              setErrorCommunique('password_communique', 'Podane hasła nie są identyczne.');
+              errors += 1;
+          }
+          if (errors > 0) {
+              setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
+              return false;
+          }
+          return true;
+      })();
+      if (valid === false) {
+        button.button('reset');
+      }
+      return valid;
+    });
   $('body').on('submit', '#user_data_form, #team_form, #password_change_form', function() {
     var button = $(this).find(':input[type=submit]');
 
