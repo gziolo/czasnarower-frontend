@@ -348,7 +348,8 @@ function bindFormEvents() {
       User.checkUsername(userNameValue);
   });
   $('body').on('click', '#refresh-captcha', function(){
-      $('#captcha_img').attr("src","newCaptcha.php?rnd=" + Math.random());
+      var src = $('#captcha_img').attr("data-url");
+      $('#captcha_img').attr("src", src+"?rnd=" + Math.random());
   });
   $('body').on('submit', '#activation_form', function() {
       var valid;
