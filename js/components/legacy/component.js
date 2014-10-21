@@ -43,13 +43,16 @@ var User = {
           dataType : 'json',
           url : 'ajax',
           beforeSend : function() {
-            $(".control-group").first().removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+            $(".control-group").first().removeClass('alert alert-error error').find('span[id$="communique"]').text('Sprawdzam dostępność...');
 
           },
           success : function(aData) {
+              $(".control-group").first().find('span[id$="communique"]').text('');
               if(0 == aData.i_status) {
                   if(aData.b_nicknameUsed){
-                      setErrorCommunique('username_communique', 'Podana nazwa użytkownika jest już zajęta.');
+                    setErrorCommunique('username_communique', 'Podana nazwa użytkownika jest już zajęta.');
+                  } else {
+                    $(".control-group").first().find('span[id$="communique"]').text('Nazwa użytkownika jest dostępna.');
                   }
               }
           },
