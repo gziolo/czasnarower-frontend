@@ -27,15 +27,16 @@ var Schedule = {
   }
 };
 var User = {
-    
-    checkUsername: function(sUsername) {
+
+    checkUsername: function(sUsername, iUserId) {
         if (!sUsername.length) return;
         var urlData = {
             dao : 21,
             action : 10,
             dataType : 'json',
-            username: sUsername
-        } 
+            username: sUsername,
+            user_id: iUserId
+        }
         $.ajax({
           type : 'POST',
           data : urlData,
@@ -43,7 +44,7 @@ var User = {
           url : 'ajax',
           beforeSend : function() {
             $(".control-group").first().removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-            
+
           },
           success : function(aData) {
               if(0 == aData.i_status) {
@@ -345,7 +346,8 @@ function bindFormEvents() {
   });
   $('body').on('change', "#registration_username", function(){
       var userNameValue = $("input[name='username']").val();
-      User.checkUsername(userNameValue);
+      var userId = $("input[name='user_id']").val();
+      User.checkUsername(userNameValue, userId);
   });
   $('body').on('click', '#refresh-captcha', function(){
       var src = $('#captcha_img').attr("data-url");
@@ -359,11 +361,11 @@ function bindFormEvents() {
       button.button('loading');
       form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
       valid = (function(){
-          var errors = 0, 
-              userNameValue = $("input[name='username']").val(), 
-              password1Value = $("input[type='password'].first:eq(0)").val(), 
+          var errors = 0,
+              userNameValue = $("input[name='username']").val(),
+              password1Value = $("input[type='password'].first:eq(0)").val(),
               password2Value = $("input[type='password'].first:eq(1)").val();
-          
+
           // TODO, check if usernamefield is free
           if (password1Value.length <= 3 || password1Value.length > 25 ) {
               setErrorCommunique('password_communique', 'Prosimy o podanie hasła zawierającego od 3 do 25 znaków.');
