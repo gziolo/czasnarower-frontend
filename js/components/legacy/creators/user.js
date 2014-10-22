@@ -134,6 +134,32 @@ define(function() {
       });
     }
 
+    function bindUpdateNickForm() {
+
+      $('body').on('submit', '#nick_update_form', function() {
+        var form = $(this);
+        var submitButton = form.find(':input[type="submit"]');
+
+        submitButton.button('loading');
+        sandbox.ajax({
+          type : 'post',
+          url : 'ajax',
+          data : form.serialize(),
+          dataType : 'html',
+          beforeSend : function() {
+            $("#ebilightbox p[class='error']").hide();
+          }
+        }).done(function(data) {
+          $('#ebilightbox').html(data);
+          $("#ebilightbox p[class='error']").fadeIn('slow');
+          $('#registration_username').trigger('focus');
+        }).always(function() {
+          submitButton.button('reset');
+        });
+        return false;
+      });
+    }
+
     function bindRecommendationForm() {
 
       $('body').on('submit', '#recommendation_form', function() {
@@ -192,6 +218,8 @@ define(function() {
       init : function() {
         sandbox.listen('user-registration-form', this.showRegistrationForm, this);
         sandbox.listen('user-sign-in-form', this.showSignInForm, this);
+        sandbox.listen('user-nick-update-form', this.showNickForm, this);
+        sandbox.listen('user-nick-updated', this.updateNick, this);
         sandbox.listen('user-signed-in', this.signedIn, this);
         sandbox.listen('user-reminder-form', this.showReminderForm, this);
         sandbox.listen('user-signed-out', this.signedOut, this);
@@ -202,6 +230,7 @@ define(function() {
         bindReminderForm();
         bindSignOutButton();
         bindRecommendationForm();
+        bindUpdateNickForm();
       },
       showRegistrationForm : function() {
         sandbox.ajax({
@@ -226,9 +255,19 @@ define(function() {
           $("#ebilightbox").html(data).modal();
         });
       },
+      showNickForm : function() {
+        sandbox.ajax({
+          type : 'POST',
+          url : 'ajax',
+          data : "dao=21&action=11",
+          dataType : 'html',
+          cache : false
+        }).done(function(data) {
+          $("#ebilightbox").html(data).modal();
+        });
+      },
       signedIn : function(messageInfo) {
         var user = messageInfo.data;
-
         sandbox.setUserData(user);
         if ($('body.cnr-user-loading').length > 0) {
           $('body').removeClass('cnr-user-loading');
@@ -261,6 +300,11 @@ define(function() {
           }
         });
         $('.cnr-add-dropdown').off('click.signed-out');
+        if ((/^fb_(\d)+/g).test(user.nick)) {
+          sandbox.notify({
+            type : 'user-nick-update-form'
+          });
+        }
       },
       showReminderForm : function() {
         sandbox.ajax({
@@ -294,6 +338,9 @@ define(function() {
         var data = $(sandbox.template('userInfo', messageInfo.data));
         $('#user_menu .user_quickbox.data .info_panel .activities').append(data);
         $('.cnr-user-activities').removeClass('cnr-loading');
+      },
+      updateNick : function(messageInfo) {
+        user.nick = messageInfo.data.nick;
       },
       destroy : function() {}
     };
