@@ -219,7 +219,6 @@ define(function() {
         sandbox.listen('user-registration-form', this.showRegistrationForm, this);
         sandbox.listen('user-sign-in-form', this.showSignInForm, this);
         sandbox.listen('user-nick-update-form', this.showNickForm, this);
-        sandbox.listen('user-nick-updated', this.updateNick, this);
         sandbox.listen('user-signed-in', this.signedIn, this);
         sandbox.listen('user-reminder-form', this.showReminderForm, this);
         sandbox.listen('user-signed-out', this.signedOut, this);
@@ -300,7 +299,7 @@ define(function() {
           }
         });
         $('.cnr-add-dropdown').off('click.signed-out');
-        if ((/^fb_(\d)+/g).test(user.nick)) {
+        if ((user.is_fbid == 1) && (/^fb_(\d)+/g).test(user.nick)) {
           sandbox.notify({
             type : 'user-nick-update-form'
           });
@@ -338,9 +337,6 @@ define(function() {
         var data = $(sandbox.template('userInfo', messageInfo.data));
         $('#user_menu .user_quickbox.data .info_panel .activities').append(data);
         $('.cnr-user-activities').removeClass('cnr-loading');
-      },
-      updateNick : function(messageInfo) {
-        user.nick = messageInfo.data.nick;
       },
       destroy : function() {}
     };
