@@ -367,17 +367,36 @@ function bindFormEvents() {
           var errors = 0,
               userNameValue = $("input[name='username']").val(),
               password1Value = $("input[type='password'].first:eq(0)").val(),
-              password2Value = $("input[type='password'].first:eq(1)").val();
+              password2Value = $("input[type='password'].first:eq(1)").val(),
+              captchaValue = $("input[name='captcha']").val();
 
-          // TODO, check if usernamefield is free
+          var nickControlGroup = $("input[name='username']").parents('.control-group');
+          if (nickControlGroup.hasClass('error')) {
+              errors += 1;
+          }
+          if (userNameValue.length <= 3 || userNameValue.length > 25 ) {
+              setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
+              errors += 1;
+          }
+          if (captchaValue.length == 0) {
+              setErrorCommunique('captcha_communique', 'Prosimy o wpisanie kodu z obrazka.');
+              errors += 1;
+          }
           if (password1Value.length <= 3 || password1Value.length > 25 ) {
               setErrorCommunique('password_communique', 'Prosimy o podanie hasła zawierającego od 3 do 25 znaków.');
               errors += 1;
           }
-          if (password1Value != password2Value) {
-              setErrorCommunique('password_communique', 'Podane hasła nie są identyczne.');
+          if (password2Value.length <= 3 || password2Value.length > 25 ) {
+              setErrorCommunique('password2_communique', 'Prosimy o podanie hasła zawierającego od 3 do 25 znaków.');
               errors += 1;
           }
+
+          if (password1Value != password2Value) {
+              setErrorCommunique('password_communique', 'Podane hasła nie są identyczne.');
+              setErrorCommunique('password2_communique', '');
+              errors += 1;
+          }
+
           if (errors > 0) {
               setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
               return false;
