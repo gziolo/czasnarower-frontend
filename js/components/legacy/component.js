@@ -8,64 +8,66 @@ function setErrorCommunique(fieldName, textMsg) {
 
 var Schedule = {
 
-  getRaces4selectedDay : function(sStartDay) {
+  getRaces4selectedDay: function(sStartDay) {
     var sUrlData = "dao=8&action=12&start_day=" + sStartDay;
 
     $.ajax({
-      type : 'POST',
-      data : sUrlData,
-      url : 'ajax',
-      beforeSend : function() {
+      type: 'POST',
+      data: sUrlData,
+      url: 'ajax',
+      beforeSend: function() {
         $("#planned_races").hide();
       },
-      success : function(sData) {
+      success: function(sData) {
         $("#planned_races").html(sData);
       },
-      cache : false,
-      global : false
+      cache: false,
+      global: false
     });
   }
 };
 var User = {
 
-    checkUsername: function(sUsername, iUserId) {
-        if (!sUsername.length) return;
-        var urlData = {
-            dao : 21,
-            action : 10,
-            dataType : 'json',
-            username: sUsername,
-            user_id: iUserId
-        }
-        $.ajax({
-          type : 'POST',
-          data : urlData,
-          dataType : 'json',
-          url : 'ajax',
-          beforeSend : function() {
-            $(".control-group").first().removeClass('alert alert-error error').find('span[id$="communique"]').text('Sprawdzam dostępność...');
-
-          },
-          success : function(aData) {
-              $(".control-group").first().find('span[id$="communique"]').text('');
-              if(0 == aData.i_status) {
-                  if(aData.b_nicknameUsed){
-                    setErrorCommunique('username_communique', 'Podana nazwa użytkownika jest już zajęta.');
-                  } else {
-                    $(".control-group").first().find('span[id$="communique"]').text('Nazwa użytkownika jest dostępna.');
-                  }
-              }
-          },
-          cache : false,
-          global : false
-        });
+  checkUsername: function(sUsername, iUserId) {
+    if (!sUsername.length) {
+      return;
     }
-}
+    var urlData = {
+      dao: 21,
+      action: 10,
+      dataType: 'json',
+      username: sUsername,
+      user_id: iUserId
+    };
+    $.ajax({
+      type: 'POST',
+      data: urlData,
+      dataType: 'json',
+      url: 'ajax',
+      beforeSend: function() {
+        $(".control-group").first().removeClass('alert alert-error error').find('span[id$="communique"]').text('Sprawdzam dostępność...');
+
+      },
+      success: function(aData) {
+        $(".control-group").first().find('span[id$="communique"]').text('');
+        if (0 === aData.i_status) {
+          if (aData.b_nicknameUsed) {
+            setErrorCommunique('username_communique', 'Podana nazwa użytkownika jest już zajęta.');
+          } else {
+            $(".control-group").first().find('span[id$="communique"]').text('Nazwa użytkownika jest dostępna.');
+          }
+        }
+      },
+      cache: false,
+      global: false
+    });
+  }
+};
 var Forum = {
 
-  Thread : {
+  Thread: {
 
-    validateForm : function() {
+    validateForm: function() {
       var errors = 0;
       var id = $('input[name="forum_thread_id"]').val();
       var titleValue = $('input[name="title"]').val();
@@ -100,23 +102,23 @@ var Forum = {
 };
 
 var HTMLtextarea = {
-  setBold : function() {
+  setBold: function() {
     wrapSelection("'''", "'''", "Pogrubienie");
   },
-  setCite : function() {
+  setCite: function() {
     wrapSelection('"""', '"""', "Cytat");
   },
-  setHeader : function() {
+  setHeader: function() {
     if (document.selection) {
       wrapSelection("\r\n== ", " ==\n", "Nagłówek");
     } else {
       wrapSelection("\n== ", " ==\n", "Nagłówek");
     }
   },
-  setLink : function() {
+  setLink: function() {
     wrapSelection("[", " tytuł linka]", "http://www.example.com");
   },
-  setList : function() {
+  setList: function() {
     if (document.selection) {
       wrapSelection("\r\n* element A\r\n* element B\r\n* element C", "", "");
     } else {
@@ -178,7 +180,7 @@ function validateNews() {
 function validateSchedule() {
 
   var errors = 0, raceNameValue = $("input[name='race_name']").val(), startPlaceValue = $("input[name='start_place']").val(), startDayValue = $("input[name='start_day']").val(), urlValue = $(
-      "input[name='url']").val(), sortValue = +$("select[name='race_sort']").val();
+    "input[name='url']").val(), sortValue = +$("select[name='race_sort']").val();
 
   if (startDayValue.length < 1) {
     setErrorCommunique('start_day_communique', 'Data wyścigu nie została wybrana');
@@ -230,8 +232,8 @@ function bindLoadEvents() {
   $('#comment_form .avatar').attr('src', avatar);
 
   $('#schedule_start_datepicker').datepicker({
-    format : 'yyyy-mm-dd',
-    language : 'pl'
+    format: 'yyyy-mm-dd',
+    language: 'pl'
   }).on('changeDate', function(ev) {
     $('#schedule_start_day').val($('#schedule_start_datepicker').data('date'));
     var date = $('#schedule_start_day').val();
@@ -271,7 +273,7 @@ function bindLoadEvents() {
   });
 
   $('#myCarousel').carousel({
-    interval : 5000
+    interval: 5000
   }).bind('slid', function(evt) {
     var id = $("#myCarousel .item.active").attr("data-id");
     $("#myCarousel .carousel-items article.active").removeClass("active");
@@ -287,7 +289,7 @@ function bindLoadEvents() {
 
   $(function() {
     $("body").tooltip({
-      selector : "a[rel=tooltip]"
+      selector: "a[rel=tooltip]"
     });
   });
 }
@@ -347,14 +349,14 @@ function bindFormEvents() {
     }
     return valid;
   });
-  $('body').on('change', "#registration_username", function(){
-      var userNameValue = $("input[name='username']").val();
-      var userId = $("input[name='user_id']").val();
-      User.checkUsername(userNameValue, userId);
+  $('body').on('change', "#registration_username", function() {
+    var userNameValue = $("input[name='username']").val();
+    var userId = $("input[name='user_id']").val();
+    User.checkUsername(userNameValue, userId);
   });
-  $('body').on('click', '#refresh-captcha', function(){
-      var src = $('#captcha_img').attr("data-url");
-      $('#captcha_img').attr("src", src+"?rnd=" + Math.random());
+  $('body').on('click', '#refresh-captcha', function() {
+    var src = $('#captcha_img').attr("data-url");
+    $('#captcha_img').attr("src", src + "?rnd=" + Math.random());
   });
   $('body').on('submit', '#activation_form', function() {
       var valid;
@@ -406,8 +408,21 @@ function bindFormEvents() {
       if (valid === false) {
         button.button('reset');
       }
-      return valid;
-    });
+      if (password1Value !== password2Value) {
+        setErrorCommunique('password_communique', 'Podane hasła nie są identyczne.');
+        errors += 1;
+      }
+      if (errors > 0) {
+        setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
+        return false;
+      }
+      return true;
+    })();
+    if (valid === false) {
+      button.button('reset');
+    }
+    return valid;
+  });
   $('body').on('submit', '#user_data_form, #team_form, #password_change_form', function() {
     var button = $(this).find(':input[type=submit]');
 
@@ -422,12 +437,12 @@ function bindFormEvents() {
  */
 var _core = _core || [];
 
-define([ 'jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending',
-    'legacy/creators/facebook', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
-    'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView',
-    'legacy/creators/user', 'legacy/creators/usersDataView' ], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback,
-    mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback,
-    trackViewCallback, userCallback, usersDataViewCallback) {
+define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending',
+  'legacy/creators/facebook', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
+  'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView',
+  'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback,
+                                                                     mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback,
+                                                                     trackViewCallback, userCallback, usersDataViewCallback) {
   'use strict';
 
   window.Core = core;
