@@ -29,7 +29,7 @@ var Schedule = {
 var User = {
 
   checkUsername: function(sUsername, iUserId) {
-    if (sUsername.length <= 3 || sUsername.length > 25) {
+    if (sUsername.length < 3 || sUsername.length > 25) {
         setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
         return;
     }
@@ -377,7 +377,7 @@ function bindFormEvents() {
       if (nickControlGroup.hasClass('error')) {
         errors += 1;
       }
-      if (userNameValue.length <= 3 || userNameValue.length > 25) {
+      if (userNameValue.length < 3 || userNameValue.length > 25) {
         setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
         errors += 1;
       }
@@ -385,11 +385,11 @@ function bindFormEvents() {
         setErrorCommunique('captcha_communique', 'Prosimy o wpisanie kodu z obrazka.');
         errors += 1;
       }
-      if (password1Value.length <= 3 || password1Value.length > 25) {
+      if (password1Value.length < 3 || password1Value.length > 25) {
         setErrorCommunique('password_communique', 'Prosimy o podanie hasła zawierającego od 3 do 25 znaków.');
         errors += 1;
       }
-      if (password2Value.length <= 3 || password2Value.length > 25) {
+      if (password2Value.length < 3 || password2Value.length > 25) {
         setErrorCommunique('password2_communique', 'Prosimy o podanie hasła zawierającego od 3 do 25 znaków.');
         errors += 1;
       }
