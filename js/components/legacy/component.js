@@ -404,19 +404,6 @@ function bindFormEvents() {
               return false;
           }
           return true;
-      })();
-      if (valid === false) {
-        button.button('reset');
-      }
-      if (password1Value !== password2Value) {
-        setErrorCommunique('password_communique', 'Podane hasła nie są identyczne.');
-        errors += 1;
-      }
-      if (errors > 0) {
-        setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
-        return false;
-      }
-      return true;
     })();
     if (valid === false) {
       button.button('reset');

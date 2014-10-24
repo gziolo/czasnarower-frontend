@@ -299,7 +299,7 @@ define(function() {
           }
         });
         $('.cnr-add-dropdown').off('click.signed-out');
-        if (user.is_fbid && (/^fb_(\d)+/g).test(user.nick)) {
+        if (user.is_fbid && (/^fb_(\d)+/g).test(user.raw_nick)) {
           sandbox.notify({
             type : 'user-nick-update-form'
           });
