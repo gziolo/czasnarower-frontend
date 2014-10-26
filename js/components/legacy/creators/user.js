@@ -1,35 +1,37 @@
 /*jshint strict:false */
+/*global setErrorCommunique */
 define(function() {
   return function(sandbox, $) {
     'use strict';
 
     var timeVal = 500;
     var infoLoaded = false;
+
     function _getUserPanel() {
 
       infoLoaded = true;
 
       var urlData = {
-        dao : 22,
-        action : 12,
-        dataType : 'json'
+        dao: 22,
+        action: 12,
+        dataType: 'json'
       };
       sandbox.ajax({
-        data : urlData,
-        url : 'ajax',
-        cache : false,
-        global : false
+        data: urlData,
+        url: 'ajax',
+        cache: false,
+        global: false
       }).done(function(oData) {
         if (oData.data) {
           sandbox.notify({
-            type : 'user-data-loaded',
-            data : oData.data
+            type: 'user-data-loaded',
+            data: oData.data
           });
         } else {
           sandbox.dialogError({
-            title : 'Błąd',
-            content : oData.error.sMessage,
-            errors : oData.errors
+            title: 'Błąd',
+            content: oData.error.sMessage,
+            errors: oData.errors
           });
         }
       });
@@ -39,7 +41,7 @@ define(function() {
 
       $('body').on('click', '.cnr-sign-in-form', function() {
         sandbox.notify({
-          type : 'user-sign-in-form'
+          type: 'user-sign-in-form'
         });
         return false;
       });
@@ -47,14 +49,14 @@ define(function() {
       $('body').on('submit', '#log_in_form', function() {
         var form = $(this);
         var submitButton = form.find(':input[type="submit"]');
-        
+
         submitButton.button('loading');
         sandbox.ajax({
-          type : 'post',
-          url : 'ajax',
-          data : form.serialize(),
-          dataType : 'html',
-          beforeSend : function() {
+          type: 'post',
+          url: 'ajax',
+          data: form.serialize(),
+          dataType: 'html',
+          beforeSend: function() {
             $("#lightbox p[class='error']").hide();
           }
         }).done(function(data) {
@@ -72,7 +74,7 @@ define(function() {
 
       $('body').on('click', '.cnr-registration-form', function() {
         sandbox.notify({
-          type : 'user-registration-form'
+          type: 'user-registration-form'
         });
         return false;
       });
@@ -81,33 +83,33 @@ define(function() {
         var $form = $(this);
         var $submitButton = $form.find(':input[type="submit"]');
         $form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-        var valid = (function(){
-            // validate email
-            var errors = 0;
-            var emailValue = $("input[type='text'].second:eq(0)").val();
-            if (emailValue.length === 0) {
-                setErrorCommunique('email_communique', 'Prosimy o podanie adresu email.');
-                errors += 1;
-            }
-            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-            if (!regex.test(emailValue)) {
-                setErrorCommunique('email_communique', 'Prosimy o podanie poprawnego adresu email.');
-                errors += 1;
-            }
-            return (errors == 0);
+        var valid = (function() {
+          // validate email
+          var errors = 0;
+          var emailValue = $("input[type='text'].second:eq(0)").val();
+          if (emailValue.length === 0) {
+            setErrorCommunique('email_communique', 'Prosimy o podanie adresu email.');
+            errors += 1;
+          }
+          var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+          if (!regex.test(emailValue)) {
+            setErrorCommunique('email_communique', 'Prosimy o podanie poprawnego adresu email.');
+            errors += 1;
+          }
+          return (errors === 0);
         })();
         if (valid === false) {
-            $submitButton.button('reset');
-            return valid;
+          $submitButton.button('reset');
+          return valid;
         }
-        
+
         $submitButton.button('loading');
         sandbox.ajax({
-          type : 'post',
-          url : 'ajax',
-          data : $form.serialize(),
-          dataType : 'html',
-          beforeSend : function() {
+          type: 'post',
+          url: 'ajax',
+          data: $form.serialize(),
+          dataType: 'html',
+          beforeSend: function() {
             $form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
           }
         }).done(function(data) {
@@ -124,7 +126,7 @@ define(function() {
 
       $('body').on('click', '.reminder-form', function() {
         sandbox.notify({
-          type : 'user-reminder-form'
+          type: 'user-reminder-form'
         });
         return false;
       });
@@ -135,11 +137,11 @@ define(function() {
 
         submitButton.button('loading');
         sandbox.ajax({
-          type : 'post',
-          url : 'ajax',
-          data : form.serialize(),
-          dataType : 'html',
-          beforeSend : function() {
+          type: 'post',
+          url: 'ajax',
+          data: form.serialize(),
+          dataType: 'html',
+          beforeSend: function() {
             $("#ebilightbox p[class='error']").hide();
           }
         }).done(function(data) {
@@ -161,11 +163,11 @@ define(function() {
 
         submitButton.button('loading');
         sandbox.ajax({
-          type : 'post',
-          url : 'ajax',
-          data : form.serialize(),
-          dataType : 'html',
-          beforeSend : function() {
+          type: 'post',
+          url: 'ajax',
+          data: form.serialize(),
+          dataType: 'html',
+          beforeSend: function() {
             $("#ebilightbox p[class='error']").hide();
           }
         }).done(function(data) {
@@ -187,11 +189,11 @@ define(function() {
 
         submitButton.button('loading');
         sandbox.ajax({
-          type : 'post',
-          url : 'ajax',
-          data : form.serialize(),
-          dataType : 'html',
-          beforeSend : function() {
+          type: 'post',
+          url: 'ajax',
+          data: form.serialize(),
+          dataType: 'html',
+          beforeSend: function() {
             $("#recommendation_box p[class='error']").hide();
           }
         }).done(function(data) {
@@ -212,15 +214,15 @@ define(function() {
 
         signOutButton.button('loading');
         sandbox.notify({
-          type : 'facebook-logout',
-          data : {
-            callback : function() {
+          type: 'facebook-logout',
+          data: {
+            callback: function() {
               sandbox.ajax({
-                type : "POST",
-                url : "ajax",
-                data : "dao=21&action=3",
-                dataType : 'html',
-                cache : false
+                type: "POST",
+                url: "ajax",
+                data: "dao=21&action=3",
+                dataType: 'html',
+                cache: false
               }).done(function(data) {
                 $('#user_panel').html(data);
               }).always(function() {
@@ -234,7 +236,7 @@ define(function() {
     }
 
     return {
-      init : function() {
+      init: function() {
         sandbox.listen('user-registration-form', this.showRegistrationForm, this);
         sandbox.listen('user-sign-in-form', this.showSignInForm, this);
         sandbox.listen('user-nick-update-form', this.showNickForm, this);
@@ -251,41 +253,41 @@ define(function() {
         bindRecommendationForm();
         bindUpdateNickForm();
       },
-      showRegistrationForm : function() {
+      showRegistrationForm: function() {
         sandbox.ajax({
-          type : 'POST',
-          url : 'ajax',
-          data : "dao=21&action=4",
-          dataType : 'html',
-          cache : false
+          type: 'POST',
+          url: 'ajax',
+          data: "dao=21&action=4",
+          dataType: 'html',
+          cache: false
         }).done(function(data) {
           $("#ebilightbox").html(data).modal();
           $('#registration_username').trigger('focus');
         });
       },
-      showSignInForm : function() {
+      showSignInForm: function() {
         sandbox.ajax({
-          type : 'POST',
-          url : 'ajax',
-          data : "dao=21&action=1",
-          dataType : 'html',
-          cache : false
+          type: 'POST',
+          url: 'ajax',
+          data: "dao=21&action=1",
+          dataType: 'html',
+          cache: false
         }).done(function(data) {
           $("#ebilightbox").html(data).modal();
         });
       },
-      showNickForm : function() {
+      showNickForm: function() {
         sandbox.ajax({
-          type : 'POST',
-          url : 'ajax',
-          data : "dao=21&action=11",
-          dataType : 'html',
-          cache : false
+          type: 'POST',
+          url: 'ajax',
+          data: "dao=21&action=11",
+          dataType: 'html',
+          cache: false
         }).done(function(data) {
           $("#ebilightbox").html(data).modal();
         });
       },
-      signedIn : function(messageInfo) {
+      signedIn: function(messageInfo) {
         var user = messageInfo.data;
         sandbox.setUserData(user);
         if ($('body.cnr-user-loading').length > 0) {
@@ -321,26 +323,26 @@ define(function() {
         $('.cnr-add-dropdown').off('click.signed-out');
         if (user.is_fbid && (/^fb_(\d)+/g).test(user.raw_nick)) {
           sandbox.notify({
-            type : 'user-nick-update-form'
+            type: 'user-nick-update-form'
           });
         }
       },
-      nickUpdated : function(messageInfo) {
-          var user = messageInfo.data;
-          sandbox.setUserData(user);
-      }
-      showReminderForm : function() {
+      nickUpdated: function(messageInfo) {
+        var user = messageInfo.data;
+        sandbox.setUserData(user);
+      },
+      showReminderForm: function() {
         sandbox.ajax({
-          type : 'POST',
-          url : 'ajax',
-          data : "dao=21&action=6",
-          dataType : 'html',
-          cache : false
+          type: 'POST',
+          url: 'ajax',
+          data: "dao=21&action=6",
+          dataType: 'html',
+          cache: false
         }).done(function(data) {
           $("#ebilightbox").html(data);
         });
       },
-      signedOut : function() {
+      signedOut: function() {
         sandbox.setUserData(null);
         if ($('body.cnr-user-loading').length > 0) {
           $('body').removeClass('cnr-user-loading');
@@ -351,18 +353,19 @@ define(function() {
         $(".signed-out").fadeIn(timeVal);
         $('.cnr-add-dropdown').on('click.signed-out', function() {
           sandbox.notify({
-            type : 'user-sign-in-form'
+            type: 'user-sign-in-form'
           });
           return false;
         });
         infoLoaded = false;
       },
-      appendUserData : function(messageInfo) {
+      appendUserData: function(messageInfo) {
         var data = $(sandbox.template('userInfo', messageInfo.data));
         $('#user_menu .user_quickbox.data .info_panel .activities').append(data);
         $('.cnr-user-activities').removeClass('cnr-loading');
       },
-      destroy : function() {}
+      destroy: function() {
+      }
     };
 
   };
