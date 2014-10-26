@@ -89,7 +89,6 @@ define(function() {
                 setErrorCommunique('email_communique', 'Prosimy o podanie adresu email.');
                 errors += 1;
             }
-            //var regex = "/^([a-z0-9][a-z0-9\._\-+]*)@([a-z0-9_-]+[\.]{1})+([a-z]{1,4})$/i";
             var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
             if (!regex.test(emailValue)) {
                 setErrorCommunique('email_communique', 'Prosimy o podanie poprawnego adresu email.');
@@ -109,12 +108,11 @@ define(function() {
           data : $form.serialize(),
           dataType : 'html',
           beforeSend : function() {
-            $("#ebilightbox p[class='error']").hide();
+            $form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
           }
         }).done(function(data) {
           $('#ebilightbox').html(data);
-          $('#registration_username').trigger('focus');
-          $("#ebilightbox p[class='error']").fadeIn('slow');
+          $("input[type='text'].second:eq(0)").trigger('focus');
         }).always(function() {
           $submitButton.button('reset');
         });
@@ -240,6 +238,7 @@ define(function() {
         sandbox.listen('user-registration-form', this.showRegistrationForm, this);
         sandbox.listen('user-sign-in-form', this.showSignInForm, this);
         sandbox.listen('user-nick-update-form', this.showNickForm, this);
+        sandbox.listen('user-nick-updated', this.nickUpdated, this);
         sandbox.listen('user-signed-in', this.signedIn, this);
         sandbox.listen('user-reminder-form', this.showReminderForm, this);
         sandbox.listen('user-signed-out', this.signedOut, this);
@@ -326,6 +325,10 @@ define(function() {
           });
         }
       },
+      nickUpdated : function(messageInfo) {
+          var user = messageInfo.data;
+          sandbox.setUserData(user);
+      }
       showReminderForm : function() {
         sandbox.ajax({
           type : 'POST',
