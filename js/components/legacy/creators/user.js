@@ -36,7 +36,7 @@ define(function() {
         }
       });
     }
-
+    
     function bindSignInForm() {
 
       $('body').on('click', '.cnr-sign-in-form', function() {
@@ -82,19 +82,22 @@ define(function() {
       $('body').on('submit', '#registration_form', function() {
         var $form = $(this);
         var $submitButton = $form.find(':input[type="submit"]');
+        $submitButton.button('loading');
         $form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+        // validate email
         var valid = (function() {
-          // validate email
           var errors = 0;
-          var emailValue = $("input[type='text'].second:eq(0)").val();
+          var emailValue = $.trim($form.find("input[type='text'].second:eq(0)").val());
           if (emailValue.length === 0) {
             setErrorCommunique('email_communique', 'Prosimy o podanie adresu email.');
             errors += 1;
           }
-          var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-          if (!regex.test(emailValue)) {
-            setErrorCommunique('email_communique', 'Prosimy o podanie poprawnego adresu email.');
-            errors += 1;
+          else {
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!regex.test(emailValue)) {
+              setErrorCommunique('email_communique', 'Prosimy o podanie poprawnego adresu email.');
+              errors += 1;
+            }              
           }
           return (errors === 0);
         })();
@@ -102,16 +105,12 @@ define(function() {
           $submitButton.button('reset');
           return valid;
         }
-
-        $submitButton.button('loading');
         sandbox.ajax({
           type: 'post',
           url: 'ajax',
           data: $form.serialize(),
           dataType: 'html',
-          beforeSend: function() {
-            $form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-          }
+          beforeSend: function() {}
         }).done(function(data) {
           $('#ebilightbox').html(data);
           $("input[type='text'].second:eq(0)").trigger('focus');
@@ -134,8 +133,29 @@ define(function() {
       $('body').on('submit', '#reminder_form', function() {
         var form = $(this);
         var submitButton = form.find(':input[type="submit"]');
-
         submitButton.button('loading');
+        form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+        // validate email
+        var valid = (function() {
+          var errors = 0;
+          var emailValue = $.trim(form.find("input[name='email']").val());
+          if (emailValue.length === 0) {
+            setErrorCommunique('email_communique', 'Prosimy o podanie adresu email.');
+            errors += 1;
+          }
+          else {
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            if (!regex.test(emailValue)) {
+              setErrorCommunique('email_communique', 'Prosimy o podanie poprawnego adresu email.');
+              errors += 1;
+            }              
+          }
+          return (errors === 0);
+        })();
+        if (valid === false) {
+          submitButton.button('reset');
+          return valid;
+        }     
         sandbox.ajax({
           type: 'post',
           url: 'ajax',
@@ -154,14 +174,108 @@ define(function() {
         return false;
       });
     }
-
+    
+    function bindActivationForm() {
+      $('body').on('change', "#registration_username", function() {
+        var userNameValue = $.trim($("input[name='username']").val());
+        var userId = $("input[name='user_id']").val();
+        sandbox.notify({
+          type: 'user-nick-availability',
+          data: {'username': userNameValue, 'userId': userId}
+        });
+      });
+    
+      $('body').on('submit', '#activation_form', function() {
+        var valid;
+        var form = $(this);
+        var button = form.find(':input[type=submit]');
+        button.button('loading');
+        form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+        valid = (function() {
+          var errors = 0,
+            userNameValue = $.trim($("input[name='username']").val()),
+            password1Value = $("input[type='password'].first:eq(0)").val(),
+            password2Value = $("input[type='password'].first:eq(1)").val(),
+            captchaValue = $("input[name='captcha']").val();
+  
+          var nickControlGroup = $("input[name='username']").parents('.control-group');
+          if (nickControlGroup.hasClass('error')) {
+            errors += 1;
+          }
+          if (userNameValue.length < 3 || userNameValue.length > 25) {
+            setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
+            errors += 1;
+          }
+          if (captchaValue.length === 0) {
+            setErrorCommunique('captcha_communique', 'Prosimy o wpisanie kodu z obrazka.');
+            errors += 1;
+          }
+          if (password1Value.length < 3 || password1Value.length > 25) {
+            setErrorCommunique('password_communique', 'Prosimy o podanie hasła zawierającego od 3 do 25 znaków.');
+            errors += 1;
+          }
+          if (password2Value.length < 3 || password2Value.length > 25) {
+            setErrorCommunique('password2_communique', 'Prosimy o podanie hasła zawierającego od 3 do 25 znaków.');
+            errors += 1;
+          }
+          if (password1Value !== password2Value) {
+            setErrorCommunique('password_communique', 'Podane hasła nie są identyczne.');
+            setErrorCommunique('password2_communique', '');
+            errors += 1;
+          }
+          if (errors > 0) {
+            setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
+            return false;
+          }
+          return true;
+        })();
+        if (valid === false) {
+          button.button('reset');
+        }
+        return valid;
+      });
+    }
+    
     function bindUpdateNickForm() {
-
+      $('body').on('change', "#registration_username", function() {
+        var userNameValue = $.trim($("input[name='username']").val());
+        var userId = $("input[name='user_id']").val();
+        sandbox.notify({
+          type: 'user-nick-availability',
+          data: {'username': userNameValue, 'userId': userId}
+        });
+      });
+      
+      $('body').on('click', '#refresh-captcha', function() {
+        var src = $('#captcha_img').attr("data-url");
+        $('#captcha_img').attr("src", src + "?rnd=" + Math.random());
+      });
+      
       $('body').on('submit', '#nick_update_form', function() {
         var form = $(this);
         var submitButton = form.find(':input[type="submit"]');
-
         submitButton.button('loading');
+        
+        var valid = (function() {
+          var errors = 0,
+              userNameValue = $.trim($("input[name='username']").val()),
+              nickControlGroup = $("input[name='username']").parents('.control-group');
+          if (nickControlGroup.hasClass('error')) {
+            errors += 1;
+          }
+          if (userNameValue.length < 3 || userNameValue.length > 25) {
+            setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
+            errors += 1;
+          }
+          if (errors > 0) {
+            return false;
+          }
+          return true;
+        })();
+        if (valid === false) {
+          button.button('reset');
+          return valid;
+        }        
         sandbox.ajax({
           type: 'post',
           url: 'ajax',
@@ -245,6 +359,7 @@ define(function() {
         sandbox.listen('user-reminder-form', this.showReminderForm, this);
         sandbox.listen('user-signed-out', this.signedOut, this);
         sandbox.listen('user-data-loaded', this.appendUserData, this);
+        sandbox.listen('user-nick-availability', this.checkNickAvailability, this);
 
         bindRegistrationForm();
         bindSignInForm();
@@ -252,6 +367,7 @@ define(function() {
         bindSignOutButton();
         bindRecommendationForm();
         bindUpdateNickForm();
+        bindActivationForm();
       },
       showRegistrationForm: function() {
         sandbox.ajax({
@@ -363,6 +479,41 @@ define(function() {
         var data = $(sandbox.template('userInfo', messageInfo.data));
         $('#user_menu .user_quickbox.data .info_panel .activities').append(data);
         $('.cnr-user-activities').removeClass('cnr-loading');
+      },
+      checkNickAvailability: function(messageInfo) {
+        var params = messageInfo.data;
+        if (params.username.length < 3 || params.username.length > 25) {
+          setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
+          return;
+        }
+        var urlData = {
+          dao: 21,
+          action: 10,
+          dataType: 'json',
+          username: params.username,
+          user_id: params.userId || 0
+        };
+        $.ajax({
+          type: 'POST',
+          data: urlData,
+          dataType: 'json',
+          url: 'ajax',
+          beforeSend: function() {
+            $(".control-group").first().removeClass('alert alert-error error').find('span[id$="communique"]').text('Sprawdzam dostępność...');
+          },
+          success: function(aData) {
+            $(".control-group").first().find('span[id$="communique"]').text('');
+            if (0 === aData.i_status) {
+              if (aData.b_nicknameUsed) {
+                setErrorCommunique('username_communique', 'Podana nazwa użytkownika jest już zajęta.');
+              } else {
+                $(".control-group").first().find('span[id$="communique"]').text('Nazwa użytkownika jest dostępna.');
+              }
+            }
+          },
+          cache: false,
+          global: false
+        });
       },
       destroy: function() {
       }
