@@ -30,8 +30,8 @@ var User = {
 
   checkUsername: function(sUsername, iUserId) {
     if (sUsername.length < 3 || sUsername.length > 25) {
-        setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
-        return;
+      setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
+      return;
     }
     var urlData = {
       dao: 21,
