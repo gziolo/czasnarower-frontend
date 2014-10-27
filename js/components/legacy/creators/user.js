@@ -1,4 +1,4 @@
-/*jshint strict:false */
+/*jshint strict:false, maxcomplexity:15 */
 /*global setErrorCommunique */
 define(function() {
   return function(sandbox, $) {
@@ -36,7 +36,7 @@ define(function() {
         }
       });
     }
-    
+
     function bindSignInForm() {
 
       $('body').on('click', '.cnr-sign-in-form', function() {
@@ -97,7 +97,7 @@ define(function() {
             if (!regex.test(emailValue)) {
               setErrorCommunique('email_communique', 'Prosimy o podanie poprawnego adresu email.');
               errors += 1;
-            }              
+            }
           }
           return (errors === 0);
         })();
@@ -110,7 +110,8 @@ define(function() {
           url: 'ajax',
           data: $form.serialize(),
           dataType: 'html',
-          beforeSend: function() {}
+          beforeSend: function() {
+          }
         }).done(function(data) {
           $('#ebilightbox').html(data);
           $("input[type='text'].second:eq(0)").trigger('focus');
@@ -148,14 +149,14 @@ define(function() {
             if (!regex.test(emailValue)) {
               setErrorCommunique('email_communique', 'Prosimy o podanie poprawnego adresu email.');
               errors += 1;
-            }              
+            }
           }
           return (errors === 0);
         })();
         if (valid === false) {
           submitButton.button('reset');
           return valid;
-        }     
+        }
         sandbox.ajax({
           type: 'post',
           url: 'ajax',
@@ -174,7 +175,7 @@ define(function() {
         return false;
       });
     }
-    
+
     function bindActivationForm() {
       $('body').on('change', "#registration_username", function() {
         var userNameValue = $.trim($("input[name='username']").val());
@@ -184,7 +185,7 @@ define(function() {
           data: {'username': userNameValue, 'userId': userId}
         });
       });
-    
+
       $('body').on('submit', '#activation_form', function() {
         var valid;
         var form = $(this);
@@ -197,7 +198,7 @@ define(function() {
             password1Value = $("input[type='password'].first:eq(0)").val(),
             password2Value = $("input[type='password'].first:eq(1)").val(),
             captchaValue = $("input[name='captcha']").val();
-  
+
           var nickControlGroup = $("input[name='username']").parents('.control-group');
           if (nickControlGroup.hasClass('error')) {
             errors += 1;
@@ -235,7 +236,7 @@ define(function() {
         return valid;
       });
     }
-    
+
     function bindUpdateNickForm() {
       $('body').on('change', "#registration_username", function() {
         var userNameValue = $.trim($("input[name='username']").val());
@@ -245,21 +246,21 @@ define(function() {
           data: {'username': userNameValue, 'userId': userId}
         });
       });
-      
+
       $('body').on('click', '#refresh-captcha', function() {
         var src = $('#captcha_img').attr("data-url");
         $('#captcha_img').attr("src", src + "?rnd=" + Math.random());
       });
-      
+
       $('body').on('submit', '#nick_update_form', function() {
         var form = $(this);
         var submitButton = form.find(':input[type="submit"]');
         submitButton.button('loading');
-        
+
         var valid = (function() {
           var errors = 0,
-              userNameValue = $.trim($("input[name='username']").val()),
-              nickControlGroup = $("input[name='username']").parents('.control-group');
+            userNameValue = $.trim($("input[name='username']").val()),
+            nickControlGroup = $("input[name='username']").parents('.control-group');
           if (nickControlGroup.hasClass('error')) {
             errors += 1;
           }
@@ -273,9 +274,9 @@ define(function() {
           return true;
         })();
         if (valid === false) {
-          button.button('reset');
+          submitButton.button('reset');
           return valid;
-        }        
+        }
         sandbox.ajax({
           type: 'post',
           url: 'ajax',
