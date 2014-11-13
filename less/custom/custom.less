@@ -366,193 +366,202 @@ body {
 // -- separate style .small for home and sidebar items [avatar or thumbnail file is size of 50x50].
 
 .entry {
-  &:hover {
+  	&:hover {
 		background-color: @white;
 	}
 	background-color: @grayCustom;
-  margin-bottom: 1px;
-  &.media, .media {
-  	margin-top: 0;
-  }
-  .edititem {
+  	margin-bottom: 1px;
+  	&.media, .media {
+  		margin-top: 0;
+  	}
+  	.edititem {
 		margin-top: 2px;
 		margin-right: 0px;
 	}
-  &.shedule {
-  	.calendar-date {
-  		margin-left: 5px;
-  		margin-top: 5px;
-  	}
-  	&.no-date {
+	&.shedule {
+  		.calendar-date {
+  			margin-left: 5px;
+  		}
+  		&.no-date {
  			padding-left: 55px;
  			section {
-		   	border-top: 1px solid @white;
-		   	margin-top: -5px;
-		   	padding-top: 5px;
- 			}
+			   	border-top: 1px solid @white;
+			}
 		}
-    &.big {
-    	border-width: 0;
-    }
-    &.small .author {
-	    margin-bottom: 3px;
-	    padding-bottom: 0px;
-    }
-  }
-  &.small {
-    padding-left: 10px;
-  	.thumbnail {
-      height: 50px;
-      margin: 7px 0 7px 0px;
-      overflow: hidden;
-      position: relative;
-      width: 50px;
-      img {
-        display: block;
-        max-width: none;
-     }
-  	}
-  	.news-content {
-      margin: 4px 0 3px 0px;
-      .title {
-        margin-bottom: 1px;
-      }
-    }
-  }
-  &.comment {
-  	min-height: 62px;
-  	border-width: 1px 0px 1px 0px;
-  	position: relative;
-  	overflow: visible;
-  	&.odd {
-  	   background-color: @blueLighter;
-  	}
-  	.overlay {
-  		display: none;
-	    height: 150px;
-	    left: 0;
-	    position: absolute;
-	    right: 0;
-	    top: 0;
-	    border: 5px solid fadeout(@black, 20%);
-	    z-index: 1;
-  	}
-  	.loader {
-  	    left: 0;
-  	    padding: 10px;
-  	    color: @white;
-  	    font-style: italic;
-  	    text-align: center;
-          position: absolute;
-          right: 0;
-          top: 0;
-          z-index: 1;
-  	}
-  	.form {
- 			background-color: fadeout(@white, 20%);
-	    left: 5px;
-  		right: 5px;
-  		top: 5px;
-  		display: none;
-  		height: 130px;
-  		z-index: 1;
-  		position: absolute;
-  		padding: 10px;
-  		textarea {
-  			display: block;
-  			height: 85px;
-  			width: 90%;
-  			float: right;
+	    &.big {
+	    	border-width: 0;
+	    }
+	    &.small .author {
+		    margin-bottom: 3px;
+		    padding-bottom: 0px;
+	    }
+	}
+  	&.small {
+    	padding-left: 10px;
+	  	.thumbnail {
+	    	height: 50px;
+	    	margin: 7px 0 7px 0px;
+	      	overflow: hidden;
+	      	position: relative;
+	      	width: 50px;
+	      	img {
+	        	display: block;
+	        	max-width: none;
+	     	}
   		}
+  		.news-content {
+      		margin: 4px 0 3px 0px;
+      		.title {
+        		margin-bottom: 1px;
+      		}
+    	}
   	}
-  	q {
-  		font-style: oblique;
-  		&:before, &:after {content: '"'}
+  	&.comment {
+	  	min-height: 62px;
+	  	border-width: 1px 0px 1px 0px;
+	  	position: relative;
+	  	overflow: visible;
+	  	&.odd {
+	  	   background-color: @blueLighter;
+	  	}
+	  	.overlay {
+	  		display: none;
+		    height: 150px;
+		    left: 0;
+		    position: absolute;
+		    right: 0;
+		    top: 0;
+		    border: 5px solid fadeout(@black, 20%);
+		    z-index: 1;
+	  	}
+	  	.loader {
+	  	    left: 0;
+	  	    padding: 10px;
+	  	    color: @white;
+	  	    font-style: italic;
+	  	    text-align: center;
+	          position: absolute;
+	          right: 0;
+	          top: 0;
+	          z-index: 1;
+	  	}
+	  	.form {
+	 			background-color: fadeout(@white, 20%);
+		    left: 5px;
+	  		right: 5px;
+	  		top: 5px;
+	  		display: none;
+	  		height: 130px;
+	  		z-index: 1;
+	  		position: absolute;
+	  		padding: 10px;
+	  		textarea {
+	  			display: block;
+	  			height: 85px;
+	  			width: 90%;
+	  			float: right;
+	  		}
+	  	}
+	  	q {
+	  		font-style: oblique;
+	  		&:before, &:after {content: '"'}
+	  	}
   	}
-  }
-  &.special {
-    padding: 0;
-    &.sponsored {
-      h2.title {
-        position: relative;
-      }
-      h2.title a:after {
-        content: "REKLAMA";
-        position: absolute;
-        font-size: 9px;
-        right: 5px;
-        bottom: 5px;
-        background-color: #636363;
-        color: #cdcdcd;
-        padding: 0 2px;
-        line-height: 11px;
-      }
-    }
-    &.shedule {
-      padding-bottom: 0;
-    	&.no-date {
-    		position: relative;
-    		.edition {
-    			left: 10px;
-    		}
+  	&.special {
+  		padding: 0px;
+  		&.sponsored {
+      		h2.title {
+        		position: relative;
+      		}
+	    	h2.title a:after {
+		        content: "REKLAMA";
+		        position: absolute;
+		        font-size: 9px;
+		        right: 5px;
+		        bottom: 5px;
+		        background-color: #636363;
+		        color: #cdcdcd;
+		        padding: 0 2px;
+		        line-height: 11px;
+	      	}
     	}
-    	.title {
-      	background: transparent;
-      	color: @black;
-      	font-weight: bold;
-      	margin-bottom: 0;
-      	position: relative;
-      	a {
-      		color: @linkColor;
-      		.text-overflow();
-      		display: block;
-      	}
+	    &.shedule {
+	      	padding-bottom: 0;
+	    	.title {
+		      	background: transparent;
+		      	color: @black;
+		      	font-weight: bold;
+		      	margin-bottom: 0;
+		      	position: relative;
+		      	a {
+		      		color: @linkColor;
+		      		.text-overflow();
+		      		display: block;
+		      	}
+	    	}
+	    	.calendar-date {
+	    		margin: 0;
+	    		width: 35px;
+	    	}
+	    	.news-content {
+	    		padding: 4px 0 3px 0px;
+		        position: relative;
+		        p {
+		          margin-bottom: 0;
+		        }
+	    	}
+	    	.shedule-participants {
+	    		background: fadeout(@white, 30%);
+	        	bottom: 0;
+	        	margin-top: 5px;
+	    		margin-bottom: 0;
+	    		padding: 5px;
+	        	position: absolute;
+	    		right: 0px;
+	  		}
+	  		.edition {
+	  			display: none;
+	  		}
+	  		&.no-date {
+	    		.news-content {
+	    			margin-top: -1px;
+	    			padding-bottom: 2px;
+	    		}
+	    		padding-bottom: 1px;
+	    		position: relative;
+	    		.edition {
+	    			left: 10px;
+	    		}
+	    	}
+	    }
+    	&.result {
+	    	.result-data {
+	    		margin: 0;
+	    		width: 40px;
+	    	}
+	    }
+	    aside {
+	    	padding: 1px 1px 2px 1px;
+	    }
+	    .news-content {
+	    	padding: 6px 10px 7px;
+	        .media {
+	        	border-top-width: 0;
+	        }
+	    	h6 {
+	    		margin-top: 5px;
+	    	}
+	    }
+    	.edition {
+      		position: absolute;
+      		left: 8px;
+      		top: 27px;
     	}
-    	.calendar-date {
-    		width: 35px;
-    	}
-    	.news-content {
-    		padding: 4px 0 3px 0px;
-        position: relative;
-        p {
-          margin-bottom: 0;
-        }
-    	}
-    	.shedule-participants {
-    		background: fadeout(@white, 30%);
-        bottom: 0;
-        margin-top: 5px;
-    		margin-bottom: 0;
-    		padding: 5px;
-        position: absolute;
-    		right: 0px;
-  		}
-  		.edition {
-  			display: none;
-  		}
-    }
-    aside {
-    	padding: 1px 1px 2px 1px;
-    }
-    .news-content {
-    	padding: 6px 10px 7px;
-        .media {
-        	border-top-width: 0;
-        }
-    	h6 {
-    		margin-top: 5px;
-    	}
-    }
-    .edition {
-      position: absolute;
-      left: 8px;
-      top: 27px;
-    }
-    .shedule-participants {
+	    .shedule-participants {
 	 		margin-left: 0px;
 	 		height: 27px;
 	 		position: relative;
-  		overflow: hidden;
+  			overflow: hidden;
 	 		margin-top: 8px;
 	 		.avatar {
 		    	float: left;
@@ -587,7 +596,7 @@ body {
 			 	}
 		 	}
 	 	}
-    }
+  	}
     &.list {
     	padding: 0 10px;
     	border-width: 1px 1px 2px;
