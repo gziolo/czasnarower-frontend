@@ -383,7 +383,7 @@ body {
   			margin-left: 5px;
   		}
   		&.no-date {
- 			padding-left: 55px;
+ 			padding-left: 60px;
  			section {
 			   	border-top: 1px solid @white;
 			}
@@ -414,6 +414,16 @@ body {
       		.title {
         		margin-bottom: 1px;
       		}
+    	}
+    	&.comment {
+    		p {
+    			margin-bottom: 0;
+    		}
+    		.quotation {
+    			margin-bottom: 5px;
+    		}
+    		padding-right: 10px;
+    		overflow: auto;
     	}
   	}
   	&.comment {
@@ -446,7 +456,7 @@ body {
 	          z-index: 1;
 	  	}
 	  	.form {
-	 			background-color: fadeout(@white, 20%);
+	 		background-color: fadeout(@white, 20%);
 		    left: 5px;
 	  		right: 5px;
 	  		top: 5px;
@@ -500,7 +510,7 @@ body {
 		      	}
 	    	}
 	    	.calendar-date {
-	    		margin: 0;
+	    		margin: 0 5px 0 10px;
 	    		width: 35px;
 	    	}
 	    	.news-content {
@@ -512,10 +522,10 @@ body {
 	    	}
 	    	.shedule-participants {
 	    		background: fadeout(@white, 30%);
-	        	bottom: 0;
-	        	margin-top: 5px;
+	        	bottom: 5px;
+	        	margin-top: 0px;
 	    		margin-bottom: 0;
-	    		padding: 5px;
+	    		padding: 2px;
 	        	position: absolute;
 	    		right: 0px;
 	  		}
@@ -536,8 +546,13 @@ body {
 	    }
     	&.result {
 	    	.result-data {
-	    		margin: 0;
+	    		margin: 0 5px 0 10px;
 	    		width: 40px;
+	    	}
+	    }
+	    &.photo {
+	    	.title {
+	    		margin-bottom: 0;
 	    	}
 	    }
 	    aside {
@@ -673,14 +688,12 @@ body {
     &.team, &.user, &.partner {
         border-width: 0;
         padding: 0;
-        margin: 0 0 10px 10px;
+        margin: 0 1px 1px 0;
         aside {
             padding-bottom: @baseLineHeight/2 + 5;
             position: relative;
             text-align: center;
-            top: 0;
-            left: 0;
-            padding-top: 5px;
+            padding: 10px 11px 5px;
         }
         .thumbnail {
             margin: 0 auto;
@@ -688,18 +701,12 @@ body {
             height: 50px;
         }
         .title {
-            color: @white;
-            background: rgba(0,0,0,.7);
             font-weight: normal;
             font-size: 1em;
+            margin-bottom: 0;
             padding: 2px 5px;
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 1px;
             .text-overflow();
             a {
-                color: @white;
                 .text-overflow();
             }
         }
@@ -953,12 +960,7 @@ big.distance-length {
 .component {
     margin-top: 10px;
     position: relative;
-    background-color: @white;
     .content {
-        border: 1px solid lighten(@blueLight, 10%);
-        padding: 5px;
-        margin-top: -1px;
-
         .stats {
         	margin: 3px 5px 10px;
         }
@@ -967,28 +969,26 @@ big.distance-length {
   		padding: 10px 10px 0;
     }
     header {
-    	#gradient > .vertical-three-colors(lighten(#FF7600, 15%), lighten(#FF7600, 10%), 50%, #FF7600);
-        border: 1px solid @orange;
-        border-bottom-width: 0;
-        padding: 5px 5px 0;
-    	height: 22px;
-        .text-overflow();
+		.text-overflow();
+		background-color: @blueCustom;
+	    color: @grayCustom;
+	    #font .special(18px, normal, 18px);
+	    padding: 6px 0px 2px;
+	    margin: 20px 0 1px 0;
         h4 {
-            line-height: 30px;
-            border-bottom-width: 0;
-            padding: 2px 5px 2px;
-            color: @white;
-            #font .special(18px, normal, 22px);
-            margin: 0 1px;
+            background-color: @blueCustom;
+	        color: @grayCustom;
             display: inline;
+            #font .special(18px, normal, 18px);
+			margin: 0 10px;
+        	line-height: 18px;
+	        padding: 0px 5px 0;
             &.active {
-                #gradient > .vertical-three-colors(lighten(@orange, 25%), @white, 20%, @white);
-                box-shadow: 0 0 2px @white;
-                border: 1px solid @white;
-                color: @black;
-                padding: 2px 10px 0px;
-            }
+        		color: @orange;
+        	}
             &.clickable {
+           	    color: fadeout(@white, 60%);;
+                background-color: fadeout(@black,80%);
                 cursor: pointer;
                 &:hover {
                     background-color: fadeout(@white,80%);
@@ -1003,13 +1003,16 @@ big.distance-length {
         .clearfix();
     }
     .entry {
-        border-width: 0 0 1px 0;
     }
+    .tags {
+		background-color: @grayCustom;
+		margin-bottom: 1px;
+		text-align: center;
+		.tag {
+			border-color: @white;
+		}
+	}
     footer {
-        min-height: 1px;
-        margin: 0 1px 0;
-        border-width: 0;
-        box-shadow: 0 2px 1px @blueLight;
         &.link-more {
 
         }
@@ -1019,15 +1022,15 @@ big.distance-length {
 .box-header {
 	.text-overflow();
 	background-color: @blueCustom;
-    color: @grayCustom;
+    color: @orange;
     #font .special(18px, normal, 18px);
     padding: 6px 0px 2px;
     margin: 20px 0 1px 0;
     span {
-	    color: @grayCustom;
+	    color: @orange;
 		margin: 0 10px;
 		line-height: 18px;
-        padding: 2px 5px 0;
+        padding: 0px 5px 0;
     }
 	small {
 		#font .special(.6em, 400, 1em);
@@ -1039,6 +1042,9 @@ big.distance-length {
 		margin-top: 0;
 		text-align: right;
 		text-transform: none;
+		span {
+			color: @grayCustom;
+		}
 	}
 }
 h1.box-header {
@@ -1332,7 +1338,7 @@ h1.special {
 }
 .users-list {
     margin: 10px 0 ;
-    #gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
+    background-color: @blueCustomLighter;
     line-height: 31px;
     height: 31px;
     position: relative;
@@ -1374,9 +1380,7 @@ h1.special {
     .avatar {
     	float: left;
     	display: block;
-    	padding: 1px;
     	list-style: none;
-    	margin-left: -2px;
     	img, a {
     		display: block;
     	}
@@ -1385,10 +1389,10 @@ h1.special {
            height: 25px;
     	}
     	a {
-    		margin: 1px;
-    		border-width: 1px;
-    		padding: 0;
+    		border: 1px solid @blueCustomLighter;
     		display: block;
+    		margin-left: -1px;
+    		padding: 0;
     	}
     }
 }
@@ -1396,14 +1400,14 @@ h1.special {
 /* CUSTOMIZE THE CAROUSEL
   -------------------------------------------------- */
 .carousel {
-   	background: #bbd9ee;
+   	background: transparent;
    	height: 251px;
-   	margin-top: 15px;
+   	margin-top: 20px;
    	margin-bottom: 0;
    	position: relative;
    	.carousel-indicators {
    		li {
-   			background-color: fadeout(@black, 75%);
+   			background-color: fadeout(@blueCustom, 95%);
    			box-shadow: 0 0 2px fadeout(@white, 50%);
    			&.active {
    				background-color: fadeout(@orange, 35%);
@@ -1411,14 +1415,14 @@ h1.special {
 		}
    	}
    	.item {
-   		border: 1px solid #fff;
-   		height: 245px;
+   		height: 251px;
    		overflow: hidden;
-   		margin: 2px;
+   		margin: 0px;
    		a { color: @white; }
    		h6 {   	margin: 5px 0 0; color: @white;}
 		img{ overflow: hidden; }
 		.carousel-caption {
+			background-color: fadeout(@blueCustom, 15%);
 			padding: 5px 10px;
 			p {
 				&.title {
@@ -1445,21 +1449,12 @@ h1.special {
    	img { max-width: none;}
    	.box-header {
    		border-width: 0;
-   		border-top: 3px solid @orange;
-   		background: transparent none;
    		position: absolute;
    	    z-index:1;
    	    margin-top: -4px;
-   	    padding: 0;
-   	    width: 100%;
+   	    width: auto;
    	    span {
-   	      color: @white;
-   	      background: #ff7600 none;
-   	      display: inline;
-   	      line-height: 30px;
-   	      padding: 5px 10px;
-   	      border: none;
-   	      margin: 0;
+
    	    }
    	}
 }
@@ -1472,28 +1467,25 @@ h1.special {
 }
 .carousel-items {
    	margin-left: 439px;
-   	margin-right: 2px;
-   	padding-top: 3px;
+   	margin-right: 0;
+   	padding-top: 0px;
    	width: auto;
    	position: relative;
    	z-index:2;
    	article {
-	   	background-color: #f1f1f1;
-	   	border: 1px solid #fff;
-	   	height: 54px;
-	   	margin-top: -1px;
+	   	background-color: @grayCustom;
+	   	height: 57px;
+	   	margin-top: 0px;
+	   	margin-bottom: 1px;
 	   	padding-left: 5px;
 	   	padding-right: 65px;
 	   	padding-top: 5px;
 	   	position: relative;
 	   	&.active {
 		   	box-shadow: 2px 0 2px rgba(0,0,0,0.2);
-		   	background-color: fadeout(@black, 25%);
-		   	border-color: transparent;
+		   	background-color: @blueCustom;
 		   	margin-left: -10px;
 		   	margin-right: 15px;
-		   	margin-top: 2px;
-		   	margin-bottom: 3px;
 		   	padding-left: 15px;
 		   	a {
 		   		color: @white;
