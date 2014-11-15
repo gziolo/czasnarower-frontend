@@ -410,7 +410,7 @@ body {
 	     	}
   		}
   		.news-content {
-      		margin: 4px 0 3px 0px;
+	  		padding: 4px 0 3px 0px;
       		.title {
         		margin-bottom: 1px;
       		}
@@ -427,12 +427,26 @@ body {
     	}
   	}
   	&.comment {
-	  	min-height: 62px;
-	  	border-width: 1px 0px 1px 0px;
-	  	position: relative;
+	  	min-height: 66px;
 	  	overflow: visible;
+	  	padding-left: 10px;
+	  	padding-right: 10px;
+	  	position: relative;
+	  	.thumbnail {
+	    	height: 50px;
+	    	margin: 7px 0 7px 0px;
+	      	overflow: hidden;
+	      	position: relative;
+	      	width: 50px;
+	      	img {
+	        	display: block;
+	        	max-width: none;
+	     	}
+  		}
+	  	.media-body {
+      		padding: 4px 0 3px 0px;
+      	}
 	  	&.odd {
-	  	   background-color: @blueLighter;
 	  	}
 	  	.overlay {
 	  		display: none;
@@ -479,6 +493,9 @@ body {
   	}
   	&.special {
   		padding: 0px;
+  		.title {
+  			margin-bottom: @baseLineHeight;
+  		}
   		&.sponsored {
       		h2.title {
         		position: relative;
@@ -564,7 +581,7 @@ body {
 	        	border-top-width: 0;
 	        }
 	    	h6 {
-	    		margin-top: 5px;
+	  			margin-top: 8px;
 	    	}
 	    }
     	.edition {
@@ -613,52 +630,47 @@ body {
 	 	}
   	}
     &.list {
-    	padding: 0 10px;
-    	border-width: 1px 1px 2px;
-        .clearfix();
+    	&.sponsored {
+  			.news-content {
+        		position: relative;
+      		}
+	    	.news-content:after {
+		        content: "REKLAMA";
+		        position: absolute;
+		        font-size: 9px;
+		        top: 5px;
+		        right: 5px;
+		        background-color: #636363;
+		        color: #cdcdcd;
+		        padding: 0 2px;
+		        line-height: 11px;
+	      	}
+    	}
+    	padding-left: 10px;
+    	padding-right: 10px;
+    	.clearfix();
     	.title {
     		font-size: 1.3em;
     		margin: 5px 0 10px;
     	}
-    	.media-body {
-    		margin: 3px 0;
-    	}
-    	.media-object {
-    		margin: 10px 0 10px 0;
+    	.thumbnail {
+	    	margin: 7px 0 7px 0px;
     	}
     	.news-content {
-    		border-right: 3px solid @blueLight;
-    		margin-right: 3px;
-    		max-height: 160px;
-    		padding-right: 5px;
+	    	padding: 4px 0 3px 0px;
     	}
-    	.additional-info {
-    		border-left: 3px solid @blueLight;
-    		width: 200px;
-    		margin-left: -3px;
-    		padding: 0 0 0 10px;
-    		.last {
-    		font-size: .9em;
-    		font-weight: bold;
-    			margin-top: 15px;
-    			margin-bottom: 0;
-    		}
-    		.author {
-    			margin-bottom: 15px;
-    		}
-    		.tags {
-    			line-height: 22px;
-    			max-height: 44px;
-    			overflow: hidden;
-    		}
-    		p {
-    			margin-bottom: 3px;
-    		}
-    		big {
-    			font-family: @specialFontFamily;
-				color: #ff7600;
-    		}
-    	}
+		.tags {
+			line-height: 22px;
+			max-height: 44px;
+			overflow: hidden;
+		}
+		p {
+			margin-bottom: 3px;
+		}
+		big {
+			font-family: @specialFontFamily;
+			color: @orange;
+		}
     }
     &.team-list, &.user-list {
         position: relative;
@@ -689,6 +701,7 @@ body {
         border-width: 0;
         padding: 0;
         margin: 0 1px 1px 0;
+        width: 74px;
         aside {
             padding-bottom: @baseLineHeight/2 + 5;
             position: relative;
@@ -705,6 +718,7 @@ body {
             font-size: 1em;
             margin-bottom: 0;
             padding: 2px 5px;
+            text-align: center;
             .text-overflow();
             a {
                 .text-overflow();
@@ -716,7 +730,7 @@ body {
     	height: auto;
     }
     .title, .author { line-height: @baseLineHeight; }
-    .title { font-size: 1.1em; margin: 0; margin-bottom: @baseLineHeight; }
+    .title { font-size: 1.1em; margin: 0; }
     .title a { display: block; }
     .author { font-size: .9em; margin: 0; }
     .rows6 { height: 6*@baseLineHeight; overflow: hidden;}
@@ -730,6 +744,17 @@ body {
         text-align: right;
         margin-bottom: 0;
     }
+}
+.tracks-list {
+	.entry {
+		&.special {
+			padding-top: 3px;
+		}
+		&.small {
+			padding-top: 3px;
+			padding-bottom: 3px;
+		}
+	}
 }
 .profile-one {
 	position: relative;
@@ -863,10 +888,9 @@ body {
 }
 .shedule-calendar {
 	.entry.shedule {
-		border-bottom-width: 0;
+		background-color: @white;
 		&.big {
 			position: relative;
-			border-width: 1px 0 0;
 			.title {
 				font-size: .9em;
 				.text-overflow();
@@ -880,7 +904,7 @@ body {
 			}
 
 			.cat(@color) {
-				 border-right: 4px solid @color; box-shadow: 2px 0px 0px fadeout(@color, 25%);
+				 border-right: 5px solid @color;
 			}
   			.edition {
   				position: absolute;
@@ -912,7 +936,7 @@ body {
 			}
 		}
 		&.no-date {
-   			border-top-color: transparent;
+
 		}
 		.title, .title a, p {
 			.text-overflow();
@@ -1047,6 +1071,19 @@ big.distance-length {
 		}
 	}
 }
+.header-subcontent {
+	background-color: @blueCustomLighter;
+	#font .special(18px, normal, 18px);
+    padding: 6px 0px 2px;
+    margin: 20px 0 1px 0;
+    text-transform: none;
+    span {
+	    color: @grayCustom;
+	    margin: 0 10px;
+		line-height: 18px;
+        padding: 0px 5px 0;
+    }
+}
 h1.box-header {
 	color: #ff7600;
 	font-size: 24px;
@@ -1057,7 +1094,6 @@ h1.box-header {
 	border: none;
 
 	&.main-header {
-		border-bottom: 2px solid @blueLight;
 		margin-bottom: 5px;
 		position: relative;
 		.cnr-btn-add {
@@ -1139,23 +1175,7 @@ h1.special {
 		}
 	}
 }
-.header-subcontent {
-	border-bottom: 2px solid @blueLight;
-	#gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
-	#font .special(18px, normal, 24px);
-	margin-top: 20px;
-	padding-top: 2px;
-	padding-bottom: 0px;
-	text-transform: none;
-	.text-overflow();
-    span {
-	    margin-left: 2px;
-	    font-weight: normal;
-	    padding: 0 10px;
-	    color: #fff;
-	    line-height: 24px;
-	}
-}
+
 #personal_data {
 	.header-subcontent {
 		background: transparent none;
