@@ -694,6 +694,7 @@ body {
         position: relative;
         h4 {
             margin: 0 40px 0 0;
+            padding: 5px 0px 7px;
             .text-overflow();
         }
         p {
@@ -713,6 +714,12 @@ body {
         	position: absolute;
         	bottom: 0;
         	right: 3px;
+        }
+        aside {
+            padding-bottom: @baseLineHeight/2 + 5;
+            position: relative;
+            text-align: center;
+            padding: 10px 0 5px 10px;
         }
     }
     &.team, &.user, &.partner {
@@ -906,6 +913,12 @@ body {
 	.entry.shedule {
 		background-color: @white;
 		&.big {
+			section {
+				border-top: 1px solid @grayCustom;
+				&:hover {
+					background-color: @grayCustom;
+				}
+			}
 			position: relative;
 			.title {
 				font-size: .9em;
@@ -948,7 +961,7 @@ body {
 				}
 			}
 			.calendar-date {
-				margin-top: 2px;
+				margin-top: 5px;
 			}
 		}
 		&.no-date {
@@ -1045,10 +1058,11 @@ big.distance-length {
     .entry {
     }
     .tags {
-		background-color: @grayCustom;
+	    background-color: @grayCustom;
 		margin-bottom: 1px;
 		text-align: center;
 		.tag {
+			background-color: @white;
 			border-color: @white;
 		}
 	}
@@ -1255,7 +1269,13 @@ h1.special {
 		}
 	}
 }
-
+.component.user_info_box {
+	.content {
+		background: @grayCustom;
+		margin-bottom: 1px;
+		padding: 3px 0 5px;
+	}
+}
 .social {
     position: relative;
     .social-container {
