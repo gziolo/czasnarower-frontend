@@ -671,6 +671,24 @@ body {
 			font-family: @specialFontFamily;
 			color: @orange;
 		}
+		.properties {
+			margin-left: -10px;
+			margin-bottom: 10px;
+			.lbl {
+				color: @gray;
+				margin-left: 10px;
+				font-weight: bold;
+			}
+		}
+		.message {
+			margin: 10px 5px;
+		}
+		h6 {
+			margin: 5px 0;
+		}
+		&.comment {
+			min-height: initial;
+		}
     }
     &.team-list, &.user-list {
         position: relative;
@@ -805,23 +823,26 @@ body {
 #sidepanel .profile-one {
 	margin-top: 5px;
 }
+.thumbnails .photo {
+	.description {
+		height: 18px;
+		.text-overflow();
+	}
+}
 .photo {
     &.thumb {
+        background-color: @grayCustom;
+        padding: 2px;
         position: relative;
-        margin-bottom: 10px;
+        margin-bottom: 1px;
         .description {
-            background-color: @blueLighter;
-            border-bottom: @blueLight;
-            padding: 0px 5px;
-            position: absolute;
-            .text-overflow();
-        	display: block;
-            left: 2px;
-            right: 2px;
+            display: block;
+            font-size: .9em;
+            line-height: 18px;
             margin: 0;
-            bottom: 2px;
-            height: auto;
-            z-index:1;
+            max-height: 36px;
+        	overflow: hidden;
+        	padding: 3px 7px;
         }
  		h6.user-signed-in {
  			position: absolute;
@@ -833,11 +854,6 @@ body {
  			margin: 0;
  			background: fadeout(@blueLighter, 30%);
  		}
-        &:hover .description {
-        	text-overflow: visible;
-        	height: auto;
-        	white-space: normal;
-        }
         .form {
         	padding: 5px;
         	position: absolute;
@@ -1115,9 +1131,19 @@ h1.box-header {
 	}
 }
 .entry-header {
-	border-bottom: 2px solid @blueLight;
-	padding-bottom: 5px;
-	p {
+	.sub-header {
+		background: @grayCustom;
+		border: 1px solid #e2e2e2;
+		border-width: 1px 0;
+		padding: 5px 10px;
+	}
+	.thumbnail {
+		margin-right: 10px;
+	}
+	h6 {
+		color: @gray;	
+		font-weight: normal;
+		line-height: 27px;
 		margin: 0;
 	}
 }
@@ -1133,19 +1159,25 @@ h1.special {
 .item_content {
 	padding-left: 5px;
 	padding-right: 5px;
-	h3 {
-		border-left: 5px solid @orange;
-	    font-size: 20px;
-	    line-height: 26px;
-	    padding-left: 10px;
+	.description {
+		h3 {
+			border-left: 5px solid @orange;
+		    font-size: 20px;
+		    line-height: 26px;
+		    padding-left: 10px;
+		}
+		q {
+			font-size: 1.1em;
+			font-style: oblique;
+			color: lighten(@black, 10%);
+			&:before, &:after { content: '"'; color: @blueLight; font-size: 1.5em; line-height: 20px; }
+		}
+		p {
+			font-size: 1.2em;
+			line-height: 1.5em;
+		}
 	}
-	q {
-		font-size: 1.1em;
-		font-style: oblique;
-		color: lighten(@black, 10%);
-		&:before, &:after { content: '"'; color: @blueLight; font-size: 1.5em; line-height: 20px; }
-	}
-	 a:not(.tag):not(.thumbnail) {
+	a:not(.tag):not(.thumbnail) {
 		font-weight: bold;
 		border-bottom: 1px solid @blueLight;
 
@@ -1173,6 +1205,19 @@ h1.special {
 		    	width: 14px;
 			}
 		}
+	}
+	dl {
+		dt {
+			color: @gray;
+			font-size: .9em;
+			width: 120px;
+		}
+		dd {
+			margin-left: 125px;
+		}
+	}
+	.photos-list {
+		margin-left: 10px;
 	}
 }
 
@@ -1214,16 +1259,13 @@ h1.special {
 .social {
     position: relative;
     .social-container {
-        box-shadow: 0px 0px 3px rgba(0,0,0,.3);
-        left: -91px;
+        left: -96px;
         margin: 0 auto;
         position: absolute;
         top: 95px;
         width: 90px;
     }
     .social-box {
-        box-shadow: inset 0 0 5px @blueLighter;
-        background-color: fadeout(@white, 20%);
         height: 65px;
         margin: 1px auto;
         padding: 5px 10px;
@@ -1235,7 +1277,7 @@ h1.special {
 	line-height: 40px;
  	&.small { line-height: 20px;}
  	.tag {
- 		border: 1px solid #bcdaee;
+ 		border: 1px solid @grayCustom;
  		background-color: #f3f6fa;
 		display: inline-block;
 		line-height: 1.2em;
@@ -1254,14 +1296,12 @@ h1.special {
 	text-align: center;
 }
 .map-global {
+    margin: 15px 0 10px;
 	position: relative;
-	border: 2px solid #18425f;
-	border-width: 2px 0;
-	margin-top: 10px;
-	margin-bottom: 15px;
 	.map-global-header {
-		#gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
-    	line-height: 31px;
+		border: 1px solid @blueCustomLighter;
+	    background-color: @blueCustomLighter;
+		line-height: 31px;
 	    height: 31px;
 	    overflow: hidden;
 	    position: relative;
@@ -1301,7 +1341,7 @@ h1.special {
     	z-index: 3;
     }
     .title, .caption {
-    	#gradient > .vertical(desaturate(darken(@blueLight, 50%), 50%), desaturate(darken(@blueLight, 60%), 50%));
+	    background-color: @blueCustomLighter;
     	z-index: 2;
         position: absolute;
         top: 0;
@@ -1309,7 +1349,7 @@ h1.special {
         bottom: 0;
         color: #fff;
         #font .special(18px,normal,31px);
-        padding: 0 10px;
+        padding: 2px 10px 0;
         text-shadow: 0 0 1px rgba(0,0,0,.5);
     }
 	.title {
@@ -1357,7 +1397,7 @@ h1.special {
 	}
 }
 .users-list {
-    margin: 10px 0 ;
+    margin: 15px 0 10px;
     background-color: @blueCustomLighter;
     line-height: 31px;
     height: 31px;
@@ -1576,11 +1616,10 @@ h1.special {
     }
 }
 #geo, #map_legend, .map-legend-row  {
-    border: 2px solid @blueLight;
-    border-width: 2px 2px 0;
-    padding: 10px;
     background-color: @blueLighter;
-    margin: 0;
+    margin: 0 0 1px 0;
+    padding: 10px;
+    
 }
 
 #planned_races {
