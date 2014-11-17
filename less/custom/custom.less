@@ -1155,7 +1155,7 @@ h1.box-header {
 		margin-right: 10px;
 	}
 	h6 {
-		color: @gray;	
+		color: @gray;
 		font-weight: normal;
 		line-height: 27px;
 		margin: 0;
@@ -1190,6 +1190,10 @@ h1.special {
 			font-size: 1.2em;
 			line-height: 1.5em;
 		}
+        ul li {
+            font-size: 1.2em;
+            line-height: 1.5em;
+        }
 	}
 	a:not(.tag):not(.thumbnail) {
 		font-weight: bold;
@@ -1201,22 +1205,37 @@ h1.special {
 
 		}
 	}
+    .unstyled {
+        i, .icon-orange {
+            background-image: none;
+            background-color: @orange;
+            height: 5px;
+            left: -5px;
+            position: absolute;
+            top: 9px;
+            width: 5px;
+        }
+        li {
+            margin-left: 15px;
+            padding-left: 10px;
+            position: relative;
+        }
+    }
 	.items {
-		margin-left: 20px;
+        margin-left: 0;
 		li {
-			list-style: none;
+			margin-left: 15px;
+            list-style: none;
+            padding-left: 10px;
+            position: relative;
 			&:before {
 				content: ' ';
-				background-image: url("../img/glyphicons-halflings-orange.png");
-				background-position: -72px -96px;
-				height: 14px;
-		    	line-height: 14px;
-		    	margin-top: 2px;
-		    	position: absolute;
-		    	margin-left: -16px;
-		    	margin-top: 2px;
-		    	vertical-align: text-top;
-		    	width: 14px;
+                background-color: @orange;
+				height: 5px;
+                left: -5px;
+                position: absolute;
+                top: 9px;
+                width: 5px;
 			}
 		}
 	}
@@ -1639,7 +1658,7 @@ h1.special {
     background-color: @blueLighter;
     margin: 0 0 1px 0;
     padding: 10px;
-    
+
 }
 
 #planned_races {
