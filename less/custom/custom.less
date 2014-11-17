@@ -365,6 +365,20 @@ body {
 // -- should be separate style .special for home-larger items
 // -- separate style .small for home and sidebar items [avatar or thumbnail file is size of 50x50].
 
+.sponsored(@top, @right) {
+	position: relative;
+	&:after {
+	    content: "Art. sponsorowany";
+        position: absolute;
+        font-size: 10px;
+        right: @right;
+        top: @top;
+        background-color: #636363;
+        color: #cdcdcd;
+        padding: 1px 2px;
+        line-height: 10px;
+  	}
+}
 .entry {
   	&:hover {
 		background-color: @white;
@@ -414,6 +428,9 @@ body {
       		.title {
         		margin-bottom: 1px;
       		}
+      		.author {
+	      		.text-overflow();
+      		}
     	}
     	&.comment {
     		p {
@@ -424,6 +441,18 @@ body {
     		}
     		padding-right: 10px;
     		overflow: auto;
+    	}
+    	&.shedule {
+	    	.news-content {
+	    		padding: 4px 0 3px 0;
+	    		p, .title {
+	    			.text-overflow();
+	    			margin-bottom: 0;
+	    		}
+    		}
+    		.calendar-date {
+    			margin-top: 5px;
+    		}
     	}
   	}
   	&.comment {
@@ -498,19 +527,8 @@ body {
   		}
   		&.sponsored {
       		.news-content {
-        		position: relative;
+        		.sponsored(-5px, 0);
       		}
-	    	.news-content:after {
-		        content: "Art. sponsorowany";
-		        position: absolute;
-		        font-size: 9px;
-		        right: 5px;
-		        top: -5px;
-		        background-color: #636363;
-		        color: #cdcdcd;
-		        padding: 0 2px;
-		        line-height: 11px;
-	      	}
     	}
 	    &.shedule {
 	      	padding-bottom: 0;
@@ -571,12 +589,23 @@ body {
 	    	.title {
 	    		margin-bottom: 0;
 	    	}
+	    	.thumbnail {
+	    		img {
+	    			max-width: 100%;
+	    		}
+	    	}
 	    }
 	    aside {
 	    	padding: 1px 1px 2px 1px;
+	    	.thumbnail {
+	    		overflow: hidden;
+	    		img {
+	    			max-width: none;
+	    		}
+	    	}
 	    }
 	    .news-content {
-	    	padding: 6px 10px 7px;
+	    	padding: 5px 10px;
 	        .media {
 	        	border-top-width: 0;
 	        }
@@ -632,18 +661,7 @@ body {
     &.list {
     	&.sponsored {
   			.news-content {
-        		position: relative;
-      		}
-	    	.news-content:after {
-		        content: "Art. sponsorowany";
-		        position: absolute;
-		        font-size: 9px;
-		        top: 5px;
-		        right: 5px;
-		        background-color: #636363;
-		        color: #cdcdcd;
-		        padding: 0 2px;
-		        line-height: 11px;
+        		.sponsored(5px, 0);
 	      	}
     	}
     	padding-left: 10px;
@@ -773,18 +791,7 @@ body {
 .entry-big {
     &.sponsored {
             header {
-                position: relative;
-            }
-            header:after {
-                content: "Art. sponsorowany";
-                position: absolute;
-                font-size: 10px;
-                top: -5px;
-                right: 0px;
-                background-color: #636363;
-                color: #cdcdcd;
-                padding: 1px 2px;
-                line-height: 10px;
+               .sponsored(-5px, 0);
             }
         }
 }
@@ -1037,7 +1044,7 @@ big.distance-length {
         }
     }
     .content-space {
-  		padding: 10px 10px 0;
+  		padding: 10px 10px 1px;
     }
     header {
 		.text-overflow();
@@ -1462,7 +1469,7 @@ h1.special {
     position: relative;
     .list {
         height: 31px;
-        margin-left: 140px;
+        margin-left: 130px;
         text-align: right;
         li {
             float: left;
@@ -1483,7 +1490,7 @@ h1.special {
         bottom: 0;
         color: #fff;
         #font .special(18px,normal,31px);
-        padding: 0 10px;
+        padding: 3px 10px 0;
         text-shadow: 0 0 1px rgba(0,0,0,.5);
     }
     .cnr-join-us {
@@ -1503,8 +1510,8 @@ h1.special {
     		display: block;
     	}
     	img {
-    	   width: 25px;
-           height: 25px;
+    	   width: 29px;
+           height: 29px;
     	}
     	a {
     		border: 1px solid @blueCustomLighter;
@@ -1539,6 +1546,11 @@ h1.special {
    		a { color: @white; }
    		h6 {   	margin: 5px 0 0; color: @white;}
 		img{ overflow: hidden; }
+		&.sponsored {
+			.title {
+				.sponsored(-5px, 0);
+			}
+		}
 		.carousel-caption {
 			background-color: fadeout(@blueCustom, 15%);
 			padding: 5px 10px;
