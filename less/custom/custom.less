@@ -497,15 +497,15 @@ body {
   			margin-bottom: @baseLineHeight;
   		}
   		&.sponsored {
-      		h2.title {
+      		.news-content {
         		position: relative;
       		}
-	    	h2.title a:after {
-		        content: "REKLAMA";
+	    	.news-content:after {
+		        content: "Art. sponsorowany";
 		        position: absolute;
 		        font-size: 9px;
 		        right: 5px;
-		        bottom: 5px;
+		        top: -5px;
 		        background-color: #636363;
 		        color: #cdcdcd;
 		        padding: 0 2px;
@@ -635,7 +635,7 @@ body {
         		position: relative;
       		}
 	    	.news-content:after {
-		        content: "REKLAMA";
+		        content: "Art. sponsorowany";
 		        position: absolute;
 		        font-size: 9px;
 		        top: 5px;
@@ -769,6 +769,24 @@ body {
         text-align: right;
         margin-bottom: 0;
     }
+}
+.entry-big {
+    &.sponsored {
+            header {
+                position: relative;
+            }
+            header:after {
+                content: "Art. sponsorowany";
+                position: absolute;
+                font-size: 10px;
+                top: -5px;
+                right: 0px;
+                background-color: #636363;
+                color: #cdcdcd;
+                padding: 1px 2px;
+                line-height: 10px;
+            }
+        }
 }
 .tracks-list {
 	.entry {
