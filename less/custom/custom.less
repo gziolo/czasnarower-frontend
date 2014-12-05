@@ -21,7 +21,10 @@ body {
 	    text-align: center;
     }
     #facebook {
-        text-align: center;
+        .content{
+        	background-color: @grayCustom;
+        	text-align: center;
+    	}
     }
 }
 #footer {
@@ -498,6 +501,13 @@ body {
 	          top: 0;
 	          z-index: 1;
 	  	}
+	  	&.form {
+	  		padding-top: 5px;
+	  		.alert {
+	  			margin-bottom: 10px;
+	  			padding: 3px 8px;
+	  		}
+	  	}
 	  	.form {
 	 		background-color: fadeout(@white, 20%);
 		    left: 5px;
@@ -640,7 +650,8 @@ body {
 		    .info {
 		 		float: left;
 		 		height: 29px;
-		 		margin-left: 10px;
+		 		margin-left: 2px;
+		 		margin-right: 3px;
 		 		list-style: none;
 		 		.number {
 			 		color: #ff7600;
@@ -1080,7 +1091,10 @@ big.distance-length {
         }
         .clearfix();
     }
-    .entry {
+    .content {
+    	div.user-action + p {
+    		margin-top: 5px;
+    	}
     }
     .tags {
 	    background-color: @grayCustom;
@@ -1361,7 +1375,7 @@ h1.special {
 	text-align: center;
 }
 .map-global {
-    margin: 15px 0 10px;
+    margin: 15px 0 20px;
 	position: relative;
 	.map-global-header {
 		border: 1px solid @blueCustomLighter;
@@ -1526,7 +1540,7 @@ h1.special {
   -------------------------------------------------- */
 .carousel {
    	background: transparent;
-   	height: 251px;
+   	height: 252px;
    	margin-top: 20px;
    	margin-bottom: 0;
    	position: relative;
@@ -1540,7 +1554,8 @@ h1.special {
 		}
    	}
    	.item {
-   		height: 251px;
+   		border: 2px solid @grayCustom;
+   		height: 248px;
    		overflow: hidden;
    		margin: 0px;
    		a { color: @white; }
@@ -1589,7 +1604,7 @@ h1.special {
    	}
 }
 .carousel-inner {
-   	left: 0;
+   	left: 0px;
    	top: 0;
    	height: 100%;
    	position: absolute;
