@@ -1007,7 +1007,36 @@ body {
 			.text-overflow();
 		}
 	}
-
+	section.tab-pane{
+		padding-top: 20px;
+	 	.entry:first-child section {
+			border-top-width: 0px;
+		}
+	}
+	.nav-pills {
+		margin-left: 98px;
+		margin-bottom: 0px;
+		border-bottom: 5px solid #ddd;
+		li {
+			background-color: #fafafa;
+			margin-bottom: 0;
+			margin-right: 3px;
+			margin-left: -1px;
+			margin-bottom: 0;
+			a {
+				border: 1px solid transparent;
+				font-weight: bold;
+			}
+			&.active a {
+				border-color: #ddd #ddd transparent #ddd;
+				background-color: #fff;
+				color: #555555;
+				margin-bottom: -5px;
+				margin-top: 0px;
+				height: 23px;
+			}
+		}
+	}
 }
 .calendar-date, .distance-data, .result-data {
 	height: 35px;
