@@ -973,13 +973,26 @@ body {
 			}
   			.edition {
   				position: absolute;
-				right: 0;
-				top: 7px;
+				top: 50%;
+				margin-top: -11px;
+				right: 5px;
+				.btn {
+					height: 14px;
+					line-height: 14px;
+					padding: 2px;
+					width: 14px;
+				}
+				.btn:hover {
+					content: "Dodaj wynik";
+					width: auto;
+
+				}
 			}
 			.category {
 				position: absolute;
 				right: 30px;
-				top: 15px;
+				top: 50%;
+				margin-top: -10px;
 				font-size: .9em;
 				padding-right: 5px;
 				&.cat{
@@ -1014,9 +1027,10 @@ body {
 		}
 	}
 	.nav-pills {
+		border-bottom: 5px solid #ddd;
 		margin-left: 98px;
 		margin-bottom: 0px;
-		border-bottom: 5px solid #ddd;
+		padding-left: 5px;
 		li {
 			background-color: #fafafa;
 			margin-bottom: 0;
@@ -1034,6 +1048,7 @@ body {
 				margin-bottom: -5px;
 				margin-top: 0px;
 				height: 23px;
+				margin-right: 1px;
 			}
 		}
 	}
