@@ -47,3 +47,16 @@
 .tabs-left > .nav-tabs > li > a:focus {
   border-color: transparent;
 }
+
+.tabs-left > .nav-tabs {
+  border-right-width: 5px;
+  li {
+    background-color: #fafafa;
+    a {
+      font-weight: bold;
+    }
+    &.active a {
+      margin-right: -5px;
+    }
+  }
+}
