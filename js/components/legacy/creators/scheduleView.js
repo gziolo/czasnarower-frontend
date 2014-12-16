@@ -1,4 +1,4 @@
-/*jshint unused:false, maxcomplexity:50, maxstatements:30, strict:false */
+/*jshint unused:false, maxcomplexity:55, maxstatements:30, strict:false */
 /*global google, InfoBox, MarkerClusterer */
 define(function() {
   return function(facade, $) {
