@@ -60,7 +60,7 @@ define(function() {
     var _createSchedules = function(map, data) {
       var schedule = {}, latitude = 52.066667, longitude = 19.483333, zoom = 7,
         minZoomLevel = 6, area;
-      
+
       if (data.selected) {
         schedule = data.races.races[Number(data.selected)];
         latitude = schedule.latitude;
@@ -200,9 +200,9 @@ define(function() {
       var past = $('#cat-past').prop('checked');
       var categories = $('.schedule-category');
       //markersBounds = new google.maps.LatLngBounds();
-      
+
       visibleMarkers = [];
-      
+
       categories.each(function(i) {
         var category = $(this).val();
         var isChecked = $(this).prop('checked');
@@ -224,9 +224,9 @@ define(function() {
           }
         }
       });
-      
+
       markerCluster.addMarkers(visibleMarkers);
-      
+
       //map.fitBounds(markersBounds);
     };
 
@@ -276,6 +276,10 @@ define(function() {
           x : (size ? 723 : 723),
           y : (size ? 32 : 0)
         },
+        12 : {
+          x : (size ? 723 : 723),
+          y : (size ? 32 : 0)
+        },
         100 : {
           x : (size ? 762 : 785),
           y : (size ? 32 : 0)
@@ -321,6 +325,10 @@ define(function() {
           y : (size ? 32 : 0)
         },
         111 : {
+          x : (size ? 742 : 753),
+          y : (size ? 32 : 0)
+        },
+        112 : {
           x : (size ? 742 : 753),
           y : (size ? 32 : 0)
         }
@@ -452,7 +460,7 @@ define(function() {
     };
 
     /**
-     * 
+     *
      */
     var _viewLocationSelect = function(map, locations) {
       var txt = '';
@@ -478,14 +486,14 @@ define(function() {
     };
 
     /**
-     * 
+     *
      */
     var _zoomLocation = function(map, location) {
       map.setCenter(location.position);
       map.setZoom(13);
     };
     /**
-     * 
+     *
      */
     var _zoomSchedule = function(map, marker) {
       // map.setCenter( marker.getPosition() );
@@ -521,7 +529,7 @@ define(function() {
             $('body .cnr-expand-map').click();
           }
         );
-        
+
         $('body').on('click', '.cnr-expand-map', function () {
           var button = $(this),
             data = button.data('params'),
