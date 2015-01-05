@@ -44,6 +44,15 @@
 		.clearfix();
 	}
 	.news-content {
+		.unstyled {
+	        i, .icon-orange {
+	            background-image: none;
+	            background-color: @orange;
+	            height: 5px;	            
+	            margin: 9px 5px 0;
+	            width: 5px;
+	        }
+	    }
 		padding: 0 10px;
 		.listing-photos {
 			background: @white;
@@ -252,6 +261,15 @@
 }
 @media (max-width: 480px) {
 	.blog-entry {
+		header {
+			padding-left: 0;
+			aside.calendar-date {
+				position: static;
+				big.date {
+					display: inline;
+				}
+			}
+		}
 	  	.news-content {
 	  		&.media-body {
 		  		.listing-photos {
