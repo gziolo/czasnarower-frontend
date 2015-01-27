@@ -106,7 +106,7 @@ define(function() {
       });
     }
     function _bindConfirmNewsRemove(params) {
-      var elem = $('#news_' + params.news_id + ' .cnr-news-remove');
+      var elem = $('#article_' + params.news_id + ' .cnr-news-remove');
       var html = "<p>Czy na pewno chcesz usunąć news?</p><button class='btn btn-small btn-danger confirm-remove'>Usuń</button><button class='btn btn-small cancel-remove'>Anuluj</button>";
       elem.popover({
         html : true,
@@ -115,11 +115,11 @@ define(function() {
         placement : 'left'
       });
 
-      $('body').on('click', '#news_' + params.news_id + ' .confirm-remove', function() {
+      $('body').on('click', '#article_' + params.news_id + ' .confirm-remove', function() {
         elem.popover('hide');
         _removeNews(params);
       });
-      $('body').on('click', '#news_' + params.news_id + ' .cancel-remove', function() {
+      $('body').on('click', '#article_' + params.news_id + ' .cancel-remove', function() {
         elem.popover('hide');
       });
     }
@@ -205,7 +205,7 @@ define(function() {
       },
       newsRemoved : function(messageInfo) {
         var data = messageInfo.data;
-        $("#news_" + data.id).fadeOut(500);
+        $("#article_" + data.id).fadeOut(500);
       },
       destroy : function() {}
     };
