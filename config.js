@@ -17,6 +17,7 @@ define(function() {
       bootstrap_lightbox : 'js/vendor/bootstrap/plugins/lightbox',
       bootstrap_plugins : 'js/vendor/bootstrap/index',
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
+      bootstrap_collapse : 'js/vendor/bootstrap/plugins/bootstrap-collapse',
       es5shim : 'bower_components/es5-shim/es5-shim',
       es5sham : 'bower_components/es5-shim/es5-sham',
       flight : 'bower_components/flight',
@@ -59,6 +60,10 @@ define(function() {
       bootstrap_tag : {
         deps : [ 'bootstrap' ],
         exports : '$.fn.tag'
+      },
+      bootstrap_collapse : {
+        deps : [ 'bootstrap' ],
+        exports : '$.fn.collapse'
       },
       'bower_components/flight/lib/index' : {
         deps : [ 'jquery_migrate', 'es5shim', 'es5sham' ]
