@@ -1056,6 +1056,25 @@ body {
 			}
 		}
 	}
+	.accordion-group {
+		border-bottom: 5px solid #ddd;
+		.accordion-heading {
+			a {
+				background-color: #fafafa;
+				font-weight: bold;
+				&.collapsed {
+					background-color: #fff;
+					color: #555555;
+					text-decoration: none;
+				}
+			}
+
+		}	
+		.accordion-inner {
+			border-top-width: 0;
+		}
+	}
+	
 }
 .calendar-date, .distance-data, .result-data {
 	height: 35px;
