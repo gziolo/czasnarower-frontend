@@ -1451,6 +1451,7 @@ h1.special {
 	.map-global-header {
 		border: 1px solid @blueCustomLighter;
 	    background-color: @blueCustomLighter;
+		display: none;
 		line-height: 31px;
 	    height: 31px;
 	    overflow: hidden;
@@ -1472,7 +1473,6 @@ h1.special {
     }
 	.component {
 		clear: both;
-        display: none;
 		margin-top: 2px;
 		margin-bottom: 1px;
 	}
@@ -1509,21 +1509,31 @@ h1.special {
     .caption {
     	right: 0;
     }
+    #globalMapContent.big {
+    	height: 150px;
+    }
+    #map_legend, #geo {
+    	display: none;
+    }
     &.cnr-expanded {
     	.map-global-header {
+    		display: block;
     		.bg {
 				background-image: none;
 			}
 		}
-        .component {
-            display: block;
-        }
         .cnr-expand-map {
             display: none;
         }
         .cnr-collapse-map {
             display: block;
         }
+        #globalMapContent.big {
+			height: 350px;
+		}	
+		#map_legend, #geo {
+	    	display: block;
+	    }
 	}
 	&.cnr-loading {
 		position: relative;
@@ -1533,18 +1543,20 @@ h1.special {
     		left: 0;
     		right: 0;
     		bottom: 0px;
-    		background: rgba(0, 0, 0,.7);
+    		background: rgba(255, 255, 255,.7);
     		z-index: 1000;
     		display: block;
     		content: "Trwa wczytywanie mapy...";
-    		color: @white;
+    		color: @gray;
+    		font-style: oblique;
     		text-align: center;
-    		padding-top: 100px;
+    		padding-top: 75px;
 		}
 	}
 	#geo {
 		.input-append {width: 100%;}
 	}
+	
 }
 .users-list {
     margin: 15px 0 10px;

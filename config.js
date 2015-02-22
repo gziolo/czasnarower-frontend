@@ -18,6 +18,7 @@ define(function() {
       bootstrap_plugins : 'js/vendor/bootstrap/index',
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
       bootstrap_collapse : 'js/vendor/bootstrap/plugins/bootstrap-collapse',
+      bootstrap_multiselect : 'js/vendor/bootstrap/plugins/bootstrap-multiselect',
       es5shim : 'bower_components/es5-shim/es5-shim',
       es5sham : 'bower_components/es5-shim/es5-sham',
       flight : 'bower_components/flight',
@@ -29,7 +30,6 @@ define(function() {
       moment_pl : 'js/vendor/moment/moment-pl',
       text : 'bower_components/requirejs-text/text',
       underscore : 'bower_components/lodash/dist/lodash.underscore',
-
       cookies_alert : 'js/components/cookies_alert',
       google_plus : 'js/components/google_plus',
       twitter : 'js/components/twitter',
@@ -64,6 +64,10 @@ define(function() {
       bootstrap_collapse : {
         deps : [ 'bootstrap' ],
         exports : '$.fn.collapse'
+      },
+      bootstrap_multiselect : {
+        deps : [ 'bootstrap' ],
+        exports : '$.fn.multiselect'
       },
       'bower_components/flight/lib/index' : {
         deps : [ 'jquery_migrate', 'es5shim', 'es5sham' ]

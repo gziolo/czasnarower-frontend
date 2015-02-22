@@ -7,11 +7,13 @@ define(function() {
      * array Maps data
      */
     var _data = [],
+    maps = {},
+    _initialFilteredRaces = {},
 
     /**
      * object InfoWindow for displaying found location
      */
-    locationInfo, locationLabel, markerCluster,
+    locationInfo, 
 
     /**
      * object which keeps info about all markers
@@ -37,11 +39,13 @@ define(function() {
 
       /** set center Poland point */
       var mapElem = document.getElementById(data.id);
+      
       var map = new google.maps.Map(mapElem, {
         streetViewControl : false,
         mapTypeId : google.maps.MapTypeId.ROADMAP,
         scrollwheel : false
       });
+      maps[data.id] = map;
       if (data.races) {
         _createSchedules(map, data);
       }
@@ -56,6 +60,10 @@ define(function() {
         }
       });
     };
+
+    var _resizeMapBox = function(map) {
+      google.maps.event.trigger(map, 'resize');
+    }
 
     var _createSchedules = function(map, data) {
       var schedule = {}, latitude = 52.066667, longitude = 19.483333, zoom = 7,
@@ -112,7 +120,7 @@ define(function() {
       $.each(data.races.races, function(i, schedule) {
         var latLng = new google.maps.LatLng(schedule.latitude, schedule.longitude);
         if (!area || area.contains(latLng)) {
-          var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.1.png', anchor = {
+          var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.3.png', anchor = {
             x : 60,
             y : 32
           };
@@ -129,46 +137,26 @@ define(function() {
           } else {
             anchor = _getScheduleAnchor(schedule.category, 0, 20);
           }
-          var img = new google.maps.MarkerImage(src, new google.maps.Size(20, 20), new google.maps.Point(anchor.x, anchor.y), new google.maps.Point(10, 10));
+          var img = new google.maps.MarkerImage(src, new google.maps.Size(20, 30), new google.maps.Point(anchor.x, anchor.y), new google.maps.Point(10, 15));
 
           var marker = _marker(map, schedule, {
             position : latLng,
             id : Number(i),
             icon : img,
-            map: null
-            //map : (mode || !schedule.past) ? map : null
           });
           //markersBounds.extend(latLng);
           markers[Number(i)] = marker;
         }
       });
-
-      markerCluster = new MarkerClusterer(map, {
-        maxZoom: 11,
-        gridSize: 50,
-        zoomOnClick: true
-      });
-
       if (data.races.groups) {
         groups = data.races.groups;
-
-        $('.schedule-category,.schedule-past').change(function () {
-          _updateSchedulesView(map);
-        });
-
-        var categories = $('.schedule-category');
-        categories.each(function (i) {
-
-          var category = $(this).val();
-          if (groups[category]) {
-            $(this).attr('disabled', false);
-          }
-        });
       }
-
-      //if (data.category) {
-      _selectScheduleCategory(data.category, map);
-      //}
+      if (data.categories) {
+        _updateSchedulesView(map, data.categories);
+      }
+      if ( _initialFilteredRaces[map.getDiv().id] ) {
+        _refreshMapMarkers({map_id: map.getDiv().id, ids: _initialFilteredRaces[map.getDiv().id]});
+      }
       if (data.selected) {
         _zoomSchedule(map, markers[data.selected]);
       }
@@ -178,40 +166,79 @@ define(function() {
       }
     };
 
-    var _selectScheduleCategory = function (cat, map) {
-      var categories = $('.schedule-category');
-      if (cat) {
-        categories.each(function (i) {
+    var _refreshMapMarkers = function(data) {
+      var ids = data.ids;
+      var map = maps[data.map_id];
+      
+      if (data.year) {
+        $.each(_data, function(id, map_data){
+          if (map_data.id == data.map_id) {
+            if (data.year == map_data.year) {
+             //update ids
+              visibleMarkers = [];
+              $.each(markers, function (index, marker) {
+                if (jQuery.inArray(index, ids) >= 0) {
+                  visibleMarkers.push(marker);
+                  marker.setMap(map);
+                } else {
+                  marker.setMap(null);
+                }
+              });
+            } else {
+              $.each(visibleMarkers, function (index, marker) {
+                marker.setMap(null);
+              });
+              _data[id].year = data.year;
+              console.log(_data);
 
-          var category = $(this).val();
-
-          if (category === cat) {
-            $(this).attr('checked', true);
+              facade.rest.getAll('race-location', {
+                year : data.year
+              }, {
+                success : function(response) {
+                  if (response.data) {
+                    markers = {};
+                    
+                    _initialFilteredRaces[data.map_id] = ids;
+                    console.log(_initialFilteredRaces);
+                    _createSchedules(map, {year: data.year, races: response.data});
+                  }
+                },
+                complete: function() {}
+              });
+            }  
+          }
+        });
+      } else {
+        //update ids
+        visibleMarkers = [];
+        $.each(markers, function (index, marker) {
+          if (jQuery.inArray(index, ids) >= 0) {
+            visibleMarkers.push(marker);
+            marker.setMap(map);
           } else {
-            $(this).attr('checked', false);
+            marker.setMap(null);
           }
         });
       }
-      _updateSchedulesView(map);
     };
 
-    var _updateSchedulesView = function(map) {
-      markerCluster.clearMarkers();
-      var past = $('#cat-past').prop('checked');
-      var categories = $('.schedule-category');
-      //markersBounds = new google.maps.LatLngBounds();
-
+    var _updateSchedulesView = function(map, categories) {
       visibleMarkers = [];
-
-      categories.each(function(i) {
-        var category = $(this).val();
-        var isChecked = $(this).prop('checked');
-
-        if (groups[category]) {
+      
+      $.each(categories, function (index, cat) {
+        var category = cat.id;
+        var isChecked = cat.value;
+         if (groups[category]) {
           if (groups[category][0]) {
             $.each(groups[category][0], function (i, elem) {
               if (isChecked) {
                 visibleMarkers.push(markers[elem]);
+                if (null === markers[elem].getMap()) {
+                  markers[elem].setMap(map);
+                }
+              }
+              else {
+                markers[elem].setMap(null);
               }
             });
           }
@@ -219,15 +246,111 @@ define(function() {
             $.each(groups[category][1], function (i, elem) {
               if (isChecked) {
                 visibleMarkers.push(markers[elem]);
+                console.log(markers[elem].getMap());
+                if (null === markers[elem].getMap()) {
+                  markers[elem].setMap(map);
+                }
+              }
+              else {
+                markers[elem].setMap(null);
               }
             });
           }
         }
       });
-
-      markerCluster.addMarkers(visibleMarkers);
+      //markerCluster.addMarkers(visibleMarkers);
 
       //map.fitBounds(markersBounds);
+    };
+    
+    var _updateSchedulesCalendar = function(data) {
+      var year = data.year;
+      var btn = $('#cnr-filter-accept');
+      if (!year) {
+        $.each(_data, function(id, map_data){
+          if (map_data.id == data.map_id) {
+            year = map_data.year;
+          }
+        });
+      }
+      
+      var sUrlData = "dao=4&action=13&category=8&tag=" + data.tags + (year ? "&year=" + year : "");
+      btn.text('Wczytywanie...');
+      
+      $.ajax({
+        type: 'POST',
+        data: sUrlData,
+        url: 'ajax',
+        beforeSend: function() {
+          
+        },
+        success: function(sData) {
+          $("#cnr-shedule-calendar").html(sData);
+        },
+        complete: function(){
+            btn.text('Filtruj');  
+        },
+        cache: false,
+        global: false
+      });
+    }
+
+    var _bindSheduleSelects = function(map) {
+      $('#cnr-shedule-category-select').multiselect({
+            nonSelectedText: 'Rodzaj wyścigu',
+            allSelectedText: 'Wszystkie',
+            includeSelectAllOption: true,
+            nSelectedText: ' wybranych kategorii',
+            onChange: function(option, checked, select) {
+            }
+      });
+      $('#cnr-shedule-cycle-select').multiselect({
+            nonSelectedText: 'Cykl wyścigu',
+            allSelectedText: 'Wszystkie',
+            includeSelectAllOption: true,
+            nSelectedText: ' wybranych cykli',
+            maxHeight: 200,
+            onChange: function(option, checked, select) {
+            }
+      });
+
+      function _updateData() {
+        var active_tags = _getActiveTags();
+        var data = {tags: active_tags.join(','), map_id: map.getDiv().id};
+        _updateSchedulesCalendar(data);
+      }
+
+      $('#cnr-filter-accept').on('click', function(){
+        _updateData();
+      });
+      
+      $('body').on('click', '.cnr-remove-tag-filter', function(){
+          var tag = $(this).attr('data-tag');
+          $('#cnr-shedule-category-select').multiselect('deselect', tag);
+          $('#cnr-shedule-cycle-select').multiselect('deselect', tag);
+          $(this).remove();
+          _updateData();
+          return false;
+      });
+      
+      $('body').on('click', '.cnr-change-calendar-year', function() {
+        var year = $(this).attr('data-year');
+        var active_tags = _getActiveTags();
+        
+        data = {tags: active_tags.join(','), year: year, map_id: map.getDiv().id};
+        _updateSchedulesCalendar(data);
+        return false;
+      });
+    }
+    
+    var _getActiveTags = function() {
+      var active_tags = [];
+      $('#cnr-shedule-category-select option, #cnr-shedule-cycle-select option').each(function() {
+        if( $(this).attr('selected')) {
+          active_tags.push( $( this ).attr('data-tag'));
+        }
+      });
+      return active_tags;
     };
 
     var _getScheduleAnchor = function(cat, past, size) {
@@ -344,7 +467,8 @@ define(function() {
      */
     var _marker = function(map, schedule, opts) {
       var defaults = {
-        map : map
+        map : null,
+        title : schedule.title
       };
 
       $.extend(defaults, opts);
@@ -352,39 +476,18 @@ define(function() {
       marker.past = schedule.past;
       marker.category = schedule.category;
 
-      var content = '<div class="previewBox"><span class="arrowTop">&nbsp;</span>';
-      content += '<h5><a title="Przejdź do strony wyścigu" href="' + schedule.url_view + '"/>' + schedule.race_name + '</a></h5>';
-      content += '<h6 class="muted">' + schedule.nick + '</h6>';
-      content += '<p><i class="icon icon-map-marker"></i> ' + schedule.start_place + ' / ' + schedule.race_sort + '</p>';
-      content += '<p><i class="icon-calendar icon"></i> ' + schedule.start_day + '</p>';
-      content += '<h6 class="pull-right"><a title="Przejdź do strony wyścigu" href="' + schedule.url_view + '"/>więcej &raquo;</a></h6>';
+      var content = '<div class="previewBox_">';
+      content += '<h5><a title="Przejdź do strony wyścigu" href="' + schedule.url_view + '"/>' + schedule.race_name + ' &raquo;</a></h5>';
+      content += '<p><i class="icon-calendar icon"></i> ' + schedule.start_day + '<br />';
+      content += '<i class="icon icon-map-marker"></i> ' + schedule.start_place + ' / ' + schedule.race_sort + '</p>';
       content += '</div>';
 
       marker.content = content;
-
-      google.maps.event.addListener(marker, 'mouseover', function(event) {
-        locationLabel.close();
-        locationLabel.setOptions({
-          content : '<div class="labelBox"><span class="arrowTop">&nbsp;</span><h5>' + (schedule.title.length > 40 ? schedule.title.substring(0, 40) + '...' : schedule.title) +
-              ' <small> &raquo; kliknij w ikonę</small></h5></div>',
-          position : marker.getPosition()
-        });
-        locationLabel.open(map, marker);
-      });
-      google.maps.event.addListener(marker, 'mouseout', function(event) {
-        locationLabel.close();
-      });
-
+      
       google.maps.event.addListener(marker, 'click', function(event) {
-        locationLabel.close();
-        locationInfo.close();
-        locationInfo.setOptions({
-          content : content,
-          position : marker.getPosition()
-        });
-        locationInfo.open(map, marker);
+        locationInfo.setContent(marker.content);
+        locationInfo.open(map,marker);
       });
-
       return marker;
     };
 
@@ -395,7 +498,6 @@ define(function() {
     var _codeAddress = function(map) {
       var address = document.getElementById("searchAddress").value;
       $('#geoAddresses').empty().hide();
-      locationInfo.close();
       geocoder.geocode({
         'address' : address
       }, function(results, status) {
@@ -498,11 +600,7 @@ define(function() {
     var _zoomSchedule = function(map, marker) {
       // map.setCenter( marker.getPosition() );
       map.setZoom(12);
-      locationInfo.close();
-      locationInfo.setOptions({
-        content : marker.content,
-        position : marker.getPosition()
-      });
+      locationInfo.setContent(marker.content);
       locationInfo.open(map, marker);
     };
 
@@ -515,11 +613,14 @@ define(function() {
         facade.listen('map-initialised', this.mapInitialised, this);
         facade.listen('schedule-view-register-map', this.registerMap, this);
         facade.listen('schedule-view-load-map', this.loadMap, this);
+        facade.listen('schedule-view-load-preview', this.loadMap, this);
         facade.listen('event-attending-member-added', this.addMemberToSchedule, this);
         facade.listen('event-attending-member-removed', this.removeMemberFromSchedule, this);
         facade.listen('user-signed-out', this.updateMemberSignedOut, this);
         facade.listen('user-signed-in', this.updateMemberSignedIn, this);
         facade.listen('schedule-view-mark-user-events', this.markUserEvents, this);
+        facade.listen('schedule-view-filter-races', this.filterRacesOnMap, this);
+        facade.listen('schedule-view-filtered-races', this.setInitialFilteredRaces, this);
 
         $('body').on('click', '.cnr-expand-map-link', function () {
             var mapBox = $(this).parents('.cnr-map-global');
@@ -530,92 +631,66 @@ define(function() {
           }
         );
 
-        $('body').on('click', '.cnr-expand-map', function () {
-          var button = $(this),
-            data = button.data('params'),
-            mapBox = button.parents('.cnr-map-global');
-
-          mapBox.addClass('cnr-expanded cnr-loading');
-
-          if (!data) {
-            mapBox.removeClass('cnr-loading');
-            return;
-          }
-
-          button.button('loading');
-          data.completeCallback = function () {
-            button.button('reset');
-            mapBox.removeClass('cnr-loading');
-          };
-          data.successCallback = function () {
-            button.data('params', null);
-          };
-          facade.notify({
-            type: 'schedule-view-load-map',
-            data: data
-          });
-        });
-
-        $('body').on('click', '.cnr-collapse-map', function () {
-          var button = $(this),
-            mapBox = button.parents('.cnr-map-global');
-
-          mapBox.removeClass('cnr-expanded');
-        });
+        
         $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
           $('#map_legend .cnr-change-options').toggleClass('hidden');
           $('#map_legend .cnr-selected-options').toggleClass('hidden');
-        });
+        });  
+
       },
       mapInitialised : function() {
         geocoder = new google.maps.Geocoder();
         markersBounds = new google.maps.LatLngBounds();
-        var opt = {
-          disableAutoPan : false,
-          maxWidth : 0,
-          pixelOffset : new google.maps.Size(0, 5),
-          zIndex : null,
-          closeBoxMargin : "10px 4px 2px 2px",
-          closeBoxURL : "http://www.google.com/intl/en_us/mapfiles/close.gif",
-          infoBoxClearance : new google.maps.Size(1, 1),
-          isHidden : false,
-          pane : "floatPane",
-          enableEventPropagation : false
-        };
-
-        locationInfo = new InfoBox(opt);
-
-        var optLabel = {
-          disableAutoPan : true,
-          pixelOffset : new google.maps.Size(0, 5),
-          closeBoxURL : "",
-          isHidden : false,
-          pane : "floatPane",
-          enableEventPropagation : true
-        };
-
-        locationLabel = new InfoBox(optLabel);
-
+        locationInfo = new google.maps.InfoWindow({content:''});
         var length = _data.length;
         for ( var i = 0; i < length; i++) {
           _initializeMap(_data[i]);
         }
+
         _googleMapsLoaded = true;
+      },
+      setInitialFilteredRaces : function(messageInfo) {
+        console.log(messageInfo);
+        _initialFilteredRaces[messageInfo.data.map_id] = messageInfo.data.ids;
       },
       registerMap : function(messageInfo) {
         if (!messageInfo.data.id || (!messageInfo.data.races)) {
           return;
         }
+        
         _data.push(messageInfo.data);
         if (_googleMapsLoaded) {
           _initializeMap(messageInfo.data);
         }
       },
-      loadMap : function(messageInfo) {
+      filterRacesOnMap : function(messageInfo) {        
+          _refreshMapMarkers(messageInfo.data);
+      },
+      loadMap : function(messageInfo) {        
           var options = messageInfo.data;
+          console.log(options);
           if (!options.year || !$('#' + options.id).length) {
             return;
           }
+          mapBox = $('#map_global');
+          mapBox.addClass('cnr-loading');
+          options.completeCallback = function () {
+            mapBox.removeClass('cnr-loading');
+            
+            $('body').on('click', '.cnr-expand-map', function () {
+              var mapBox = $(this).parents('.cnr-map-global');
+              mapBox.addClass('cnr-expanded');
+              _resizeMapBox(maps[options.id]);
+            });
+
+            $('body').on('click', '.cnr-collapse-map', function () {
+              var mapBox = $(this).parents('.cnr-map-global');
+              mapBox.removeClass('cnr-expanded');
+              _resizeMapBox(maps[options.id]);
+           });
+            _bindSheduleSelects(maps[options.id]);
+
+          };
           facade.rest.getAll('race-location', {
             year : options.year
           }, {
