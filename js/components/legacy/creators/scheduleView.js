@@ -7,33 +7,33 @@ define(function() {
      * array Maps data
      */
     var _data = [],
-    maps = {},
-    _initialFilteredRaces = {},
+      maps = {},
+      _initialFilteredRaces = {},
 
-    /**
-     * object InfoWindow for displaying found location
-     */
-    locationInfo,
+      /**
+       * object InfoWindow for displaying found location
+       */
+      locationInfo,
 
-    /**
-     * object which keeps info about all markers
-     */
-    markers = {}, visibleMarkers = [],
+      /**
+       * object which keeps info about all markers
+       */
+      markers = {}, visibleMarkers = [],
 
-    groups = {},
+      groups = {},
 
-    /**
-     * object LatLngBounds polyBounds for keeping information about current
-     * polys bounds
-     */
-    markersBounds,
+      /**
+       * object LatLngBounds polyBounds for keeping information about current
+       * polys bounds
+       */
+      markersBounds,
 
-    /**
-     * object Geocoder:
-     */
-    geocoder,
+      /**
+       * object Geocoder:
+       */
+      geocoder,
 
-    _googleMapsLoaded = false;
+      _googleMapsLoaded = false;
 
     var _initializeMap = function(data) {
 
@@ -41,9 +41,9 @@ define(function() {
       var mapElem = document.getElementById(data.id);
 
       var map = new google.maps.Map(mapElem, {
-        streetViewControl : false,
-        mapTypeId : google.maps.MapTypeId.ROADMAP,
-        scrollwheel : false
+        streetViewControl: false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        scrollwheel: false
       });
       maps[data.id] = map;
       if (data.races) {
@@ -63,7 +63,7 @@ define(function() {
 
     var _resizeMapBox = function(map) {
       google.maps.event.trigger(map, 'resize');
-    }
+    };
 
     var _createSchedules = function(map, data) {
       var schedule = {}, latitude = 52.066667, longitude = 19.483333, zoom = 7,
@@ -84,8 +84,8 @@ define(function() {
 
       if (data.radius) {
         var circle = new google.maps.Circle({
-          center : centerLatLng,
-          radius : data.radius
+          center: centerLatLng,
+          radius: data.radius
         });
         area = circle.getBounds();
 
@@ -121,8 +121,8 @@ define(function() {
         var latLng = new google.maps.LatLng(schedule.latitude, schedule.longitude);
         if (!area || area.contains(latLng)) {
           var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.3.png', anchor = {
-            x : 60,
-            y : 32
+            x: 60,
+            y: 32
           };
 
           if (!mode) {
@@ -130,8 +130,8 @@ define(function() {
             anchor = _getScheduleAnchor(schedule.category, schedule.past, 20);
           } else if (Number(i) === Number(data.selected)) {
             anchor = {
-              x : 380,
-              y : 32
+              x: 380,
+              y: 32
             };
 
           } else {
@@ -140,9 +140,9 @@ define(function() {
           var img = new google.maps.MarkerImage(src, new google.maps.Size(20, 30), new google.maps.Point(anchor.x, anchor.y), new google.maps.Point(10, 15));
 
           var marker = _marker(map, schedule, {
-            position : latLng,
-            id : Number(i),
-            icon : img,
+            position: latLng,
+            id: Number(i),
+            icon: img,
           });
           //markersBounds.extend(latLng);
           markers[Number(i)] = marker;
@@ -154,7 +154,7 @@ define(function() {
       if (data.categories) {
         _updateSchedulesView(map, data.categories);
       }
-      if ( _initialFilteredRaces[map.getDiv().id] ) {
+      if (_initialFilteredRaces[map.getDiv().id]) {
         _refreshMapMarkers({map_id: map.getDiv().id, ids: _initialFilteredRaces[map.getDiv().id]});
       }
       if (data.selected) {
@@ -171,13 +171,13 @@ define(function() {
       var map = maps[data.map_id];
 
       if (data.year) {
-        $.each(_data, function(id, map_data){
-          if (map_data.id == data.map_id) {
-            if (data.year == map_data.year) {
-             //update ids
+        $.each(_data, function(id, map_data) {
+          if (map_data.id === data.map_id) {
+            if (data.year === map_data.year) {
+              //update ids
               visibleMarkers = [];
-              $.each(markers, function (index, marker) {
-                if (jQuery.inArray(index, ids) >= 0) {
+              $.each(markers, function(index, marker) {
+                if ($.inArray(index, ids) >= 0) {
                   visibleMarkers.push(marker);
                   marker.setMap(map);
                 } else {
@@ -185,16 +185,16 @@ define(function() {
                 }
               });
             } else {
-              $.each(visibleMarkers, function (index, marker) {
+              $.each(visibleMarkers, function(index, marker) {
                 marker.setMap(null);
               });
               _data[id].year = data.year;
               console.log(_data);
 
               facade.rest.getAll('race-location', {
-                year : data.year
+                year: data.year
               }, {
-                success : function(response) {
+                success: function(response) {
                   if (response.data) {
                     markers = {};
 
@@ -203,7 +203,8 @@ define(function() {
                     _createSchedules(map, {year: data.year, races: response.data});
                   }
                 },
-                complete: function() {}
+                complete: function() {
+                }
               });
             }
           }
@@ -211,8 +212,8 @@ define(function() {
       } else {
         //update ids
         visibleMarkers = [];
-        $.each(markers, function (index, marker) {
-          if (jQuery.inArray(index, ids) >= 0) {
+        $.each(markers, function(index, marker) {
+          if ($.inArray(index, ids) >= 0) {
             visibleMarkers.push(marker);
             marker.setMap(map);
           } else {
@@ -225,12 +226,12 @@ define(function() {
     var _updateSchedulesView = function(map, categories) {
       visibleMarkers = [];
 
-      $.each(categories, function (index, cat) {
+      $.each(categories, function(index, cat) {
         var category = cat.id;
         var isChecked = cat.value;
-         if (groups[category]) {
+        if (groups[category]) {
           if (groups[category][0]) {
-            $.each(groups[category][0], function (i, elem) {
+            $.each(groups[category][0], function(i, elem) {
               if (isChecked) {
                 visibleMarkers.push(markers[elem]);
                 if (null === markers[elem].getMap()) {
@@ -243,7 +244,7 @@ define(function() {
             });
           }
           if (groups[category][1]) {
-            $.each(groups[category][1], function (i, elem) {
+            $.each(groups[category][1], function(i, elem) {
               if (isChecked) {
                 visibleMarkers.push(markers[elem]);
                 console.log(markers[elem].getMap());
@@ -264,90 +265,105 @@ define(function() {
     };
 
     var _updateSchedulesCalendar = function(data) {
-      var year = data.year;
-      var btn = $('#cnr-filter-accept');
+      var urlData,
+        year = data.year,
+        btn = $('#cnr-filter-accept');
+
+      btn.text('Wczytywanie...');
+
       if (!year) {
-        $.each(_data, function(id, map_data){
-          if (map_data.id == data.map_id) {
+        $.each(_data, function(id, map_data) {
+          if (map_data.id === data.map_id) {
             year = map_data.year;
           }
         });
       }
 
-      var sUrlData = "dao=4&action=13&category=8&tag=" + data.tags + (year ? "&year=" + year : "");
-      btn.text('Wczytywanie...');
+      urlData = {
+        dao: 4,
+        action: 13,
+        category:8,
+        tags: data.tags
+      };
+      if (year) {
+        urlData.year = year;
+      }
 
       $.ajax({
         type: 'POST',
-        data: sUrlData,
+        data: urlData,
         url: 'ajax',
-        beforeSend: function() {
-
+        success: function(response) {
+          $("#cnr-shedule-calendar").html(response);
         },
-        success: function(sData) {
-          $("#cnr-shedule-calendar").html(sData);
-        },
-        complete: function(){
-            btn.text('Filtruj');
+        complete: function() {
+          btn.text('Filtruj');
         },
         cache: false,
         global: false
       });
-    }
+    };
 
     var _bindSheduleSelects = function(map_id) {
       $('#cnr-shedule-category-select').multiselect({
-            nonSelectedText: 'Rodzaj wyścigu',
-            allSelectedText: 'Wszystkie',
-            includeSelectAllOption: true,
-            nSelectedText: ' wybranych kategorii',
-            onChange: function(option, checked, select) {
-            }
+        nonSelectedText: 'Rodzaj wyścigu',
+        allSelectedText: 'Wszystkie',
+        includeSelectAllOption: true,
+        nSelectedText: ' wybranych kategorii',
+        onChange: function(option, checked, select) {
+        }
       });
       $('#cnr-shedule-cycle-select').multiselect({
-            nonSelectedText: 'Cykl wyścigu',
-            allSelectedText: 'Wszystkie',
-            includeSelectAllOption: true,
-            nSelectedText: ' wybranych cykli',
-            maxHeight: 200,
-            onChange: function(option, checked, select) {
-            }
+        nonSelectedText: 'Cykl wyścigu',
+        allSelectedText: 'Wszystkie',
+        includeSelectAllOption: true,
+        nSelectedText: ' wybranych cykli',
+        maxHeight: 200,
+        onChange: function(option, checked, select) {
+        }
       });
 
       function _updateData() {
-        var active_tags = _getActiveTags();
-        var data = {tags: active_tags.join(','), map_id: map_id};
+        var active_tags = _getActiveTags(),
+          data = {
+            tags: active_tags,
+            map_id: map_id
+          };
+
         _updateSchedulesCalendar(data);
       }
 
-      $('#cnr-filter-accept').on('click', function(){
+      $('#cnr-filter-accept').on('click', function() {
         _updateData();
       });
 
-      $('body').on('click', '.cnr-remove-tag-filter', function(){
-          var tag = $(this).attr('data-tag');
-          $('#cnr-shedule-category-select').multiselect('deselect', tag);
-          $('#cnr-shedule-cycle-select').multiselect('deselect', tag);
-          $(this).remove();
-          _updateData();
-          return false;
+      $('body').on('click', '.cnr-remove-tag-filter', function() {
+        var tag = $(this).attr('data-tag');
+        $('#cnr-shedule-category-select').multiselect('deselect', tag);
+        $('#cnr-shedule-cycle-select').multiselect('deselect', tag);
+        $(this).remove();
+        _updateData();
+        return false;
       });
 
       $('body').on('click', '.cnr-change-calendar-year', function() {
         var year = $(this).attr('data-year');
         var active_tags = _getActiveTags();
 
-        data = {tags: active_tags.join(','), year: year, map_id: map_id};
-        _updateSchedulesCalendar(data);
+        _updateSchedulesCalendar({
+          tags: active_tags,
+          year: year,
+          map_id: map_id
+        });
         return false;
       });
-    }
+    };
 
     var _getActiveTags = function() {
       var active_tags = [];
       $('#cnr-shedule-category-select option, #cnr-shedule-cycle-select option').each(function() {
-        if( $(this).attr('selected')) {
-          active_tags.push( $( this ).attr('data-tag'));
+        if ($(this).attr('selected')) {
+          active_tags.push($(this).attr('data-tag'));
         }
       });
       return active_tags;
@@ -355,105 +371,105 @@ define(function() {
 
     var _getScheduleAnchor = function(cat, past, size) {
       var aAnchors = {
-        1 : {
-          x : (size ? 340 : 544),
-          y : (size ? 32 : 0)
+        1: {
+          x: (size ? 340 : 544),
+          y: (size ? 32 : 0)
         },
-        2 : {
-          x : (size ? 300 : 481),
-          y : (size ? 32 : 0)
+        2: {
+          x: (size ? 300 : 481),
+          y: (size ? 32 : 0)
         },
-        3 : {
-          x : (size ? 260 : 416),
-          y : (size ? 32 : 0)
+        3: {
+          x: (size ? 260 : 416),
+          y: (size ? 32 : 0)
         },
-        4 : {
-          x : (size ? 220 : 352),
-          y : (size ? 32 : 0)
+        4: {
+          x: (size ? 220 : 352),
+          y: (size ? 32 : 0)
         },
-        5 : {
-          x : (size ? 60 : 96),
-          y : (size ? 32 : 0)
+        5: {
+          x: (size ? 60 : 96),
+          y: (size ? 32 : 0)
         },
-        6 : {
-          x : (size ? 802 : 849),
-          y : (size ? 32 : 0)
+        6: {
+          x: (size ? 802 : 849),
+          y: (size ? 32 : 0)
         },
-        7 : {
-          x : (size ? 140 : 224),
-          y : (size ? 32 : 0)
+        7: {
+          x: (size ? 140 : 224),
+          y: (size ? 32 : 0)
         },
-        8 : {
-          x : (size ? 100 : 160),
-          y : (size ? 32 : 0)
+        8: {
+          x: (size ? 100 : 160),
+          y: (size ? 32 : 0)
         },
-        9 : {
-          x : (size ? 60 : 96),
-          y : (size ? 32 : 0)
+        9: {
+          x: (size ? 60 : 96),
+          y: (size ? 32 : 0)
         },
-        10 : {
-          x : (size ? 60 : 96),
-          y : (size ? 32 : 0)
+        10: {
+          x: (size ? 60 : 96),
+          y: (size ? 32 : 0)
         },
-        11 : {
-          x : (size ? 723 : 723),
-          y : (size ? 32 : 0)
+        11: {
+          x: (size ? 723 : 723),
+          y: (size ? 32 : 0)
         },
-        12 : {
-          x : (size ? 723 : 723),
-          y : (size ? 32 : 0)
+        12: {
+          x: (size ? 723 : 723),
+          y: (size ? 32 : 0)
         },
-        100 : {
-          x : (size ? 762 : 785),
-          y : (size ? 32 : 0)
+        100: {
+          x: (size ? 762 : 785),
+          y: (size ? 32 : 0)
         },
-        101 : {
-          x : (size ? 360 : 576),
-          y : (size ? 32 : 0)
+        101: {
+          x: (size ? 360 : 576),
+          y: (size ? 32 : 0)
         },
-        102 : {
-          x : (size ? 320 : 512),
-          y : (size ? 32 : 0)
+        102: {
+          x: (size ? 320 : 512),
+          y: (size ? 32 : 0)
         },
-        103 : {
-          x : (size ? 280 : 448),
-          y : (size ? 32 : 0)
+        103: {
+          x: (size ? 280 : 448),
+          y: (size ? 32 : 0)
         },
-        104 : {
-          x : (size ? 240 : 384),
-          y : (size ? 32 : 0)
+        104: {
+          x: (size ? 240 : 384),
+          y: (size ? 32 : 0)
         },
-        105 : {
-          x : (size ? 80 : 128),
-          y : (size ? 32 : 0)
+        105: {
+          x: (size ? 80 : 128),
+          y: (size ? 32 : 0)
         },
-        106 : {
-          x : (size ? 822 : 881),
-          y : (size ? 32 : 0)
+        106: {
+          x: (size ? 822 : 881),
+          y: (size ? 32 : 0)
         },
-        107 : {
-          x : (size ? 160 : 256),
-          y : (size ? 32 : 0)
+        107: {
+          x: (size ? 160 : 256),
+          y: (size ? 32 : 0)
         },
-        108 : {
-          x : (size ? 120 : 192),
-          y : (size ? 32 : 0)
+        108: {
+          x: (size ? 120 : 192),
+          y: (size ? 32 : 0)
         },
-        109 : {
-          x : (size ? 80 : 128),
-          y : (size ? 32 : 0)
+        109: {
+          x: (size ? 80 : 128),
+          y: (size ? 32 : 0)
         },
-        110 : {
-          x : (size ? 782 : 817),
-          y : (size ? 32 : 0)
+        110: {
+          x: (size ? 782 : 817),
+          y: (size ? 32 : 0)
         },
-        111 : {
-          x : (size ? 742 : 753),
-          y : (size ? 32 : 0)
+        111: {
+          x: (size ? 742 : 753),
+          y: (size ? 32 : 0)
         },
-        112 : {
-          x : (size ? 742 : 753),
-          y : (size ? 32 : 0)
+        112: {
+          x: (size ? 742 : 753),
+          y: (size ? 32 : 0)
         }
       };
       var index = Number(cat) + (past ? 100 : 0);
@@ -467,8 +483,8 @@ define(function() {
      */
     var _marker = function(map, schedule, opts) {
       var defaults = {
-        map : null,
-        title : schedule.title
+        map: null,
+        title: schedule.title
       };
 
       $.extend(defaults, opts);
@@ -486,7 +502,7 @@ define(function() {
 
       google.maps.event.addListener(marker, 'click', function(event) {
         locationInfo.setContent(marker.content);
-        locationInfo.open(map,marker);
+        locationInfo.open(map, marker);
       });
       return marker;
     };
@@ -499,7 +515,7 @@ define(function() {
       var address = document.getElementById("searchAddress").value;
       $('#geoAddresses').empty().hide();
       geocoder.geocode({
-        'address' : address
+        'address': address
       }, function(results, status) {
         if (status === google.maps.GeocoderStatus.OK) {
           if (results.length === 1) {
@@ -522,17 +538,17 @@ define(function() {
     var _formatGeocoderResult = function(result) {
 
       var ret = {
-        raw_name : result.formatted_address,
-        name : result.formatted_address,
-        position : result.geometry.location,
-        locality : '',
-        administrativeRegion : '',
-        country : '',
-        raw_tags : []
+        raw_name: result.formatted_address,
+        name: result.formatted_address,
+        position: result.geometry.location,
+        locality: '',
+        administrativeRegion: '',
+        country: '',
+        raw_tags: []
       };
 
       var addr_components = result.address_components;
-      for ( var index = 0; index < addr_components.length; index++) {
+      for (var index = 0; index < addr_components.length; index++) {
         var component = addr_components[index];
         if ($.inArray('administrative_area_level_1', component.types) > -1) {
           ret.administrativeRegion = component;
@@ -552,7 +568,7 @@ define(function() {
         }
         if (component.long_name) {
           if ($.inArray('postal_code', component.types) === -1 && $.inArray('post_box', component.types) === -1 && $.inArray('street_number', component.types) === -1 &&
-              $.inArray('floor', component.types) === -1 && $.inArray('route', component.types) === -1 && $.inArray('postal_code', component.types) === -1) {
+            $.inArray('floor', component.types) === -1 && $.inArray('route', component.types) === -1 && $.inArray('postal_code', component.types) === -1) {
             ret.raw_tags.push(component.long_name);
           }
 
@@ -609,7 +625,7 @@ define(function() {
     }
 
     return {
-      init : function(data) {
+      init: function(data) {
         facade.listen('map-initialised', this.mapInitialised, this);
         facade.listen('schedule-view-register-map', this.registerMap, this);
         facade.listen('schedule-view-load-map', this.loadMap, this);
@@ -622,7 +638,7 @@ define(function() {
         facade.listen('schedule-view-filter-races', this.filterRacesOnMap, this);
         facade.listen('schedule-view-filtered-races', this.setInitialFilteredRaces, this);
 
-        $('body').on('click', '.cnr-expand-map-link', function () {
+        $('body').on('click', '.cnr-expand-map-link', function() {
             var mapBox = $(this).parents('.cnr-map-global');
             if (mapBox.hasClass('cnr-expanded')) {
               return;
@@ -631,29 +647,28 @@ define(function() {
           }
         );
 
-
-        $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
+        $('body').on('click', '#map_legend .cnr-btn-toggle-options', function() {
           $('#map_legend .cnr-change-options').toggleClass('hidden');
           $('#map_legend .cnr-selected-options').toggleClass('hidden');
         });
 
       },
-      mapInitialised : function() {
+      mapInitialised: function() {
         geocoder = new google.maps.Geocoder();
         markersBounds = new google.maps.LatLngBounds();
-        locationInfo = new google.maps.InfoWindow({content:''});
+        locationInfo = new google.maps.InfoWindow({content: ''});
         var length = _data.length;
-        for ( var i = 0; i < length; i++) {
+        for (var i = 0; i < length; i++) {
           _initializeMap(_data[i]);
         }
 
         _googleMapsLoaded = true;
       },
-      setInitialFilteredRaces : function(messageInfo) {
+      setInitialFilteredRaces: function(messageInfo) {
         console.log(messageInfo);
         _initialFilteredRaces[messageInfo.data.map_id] = messageInfo.data.ids;
       },
-      registerMap : function(messageInfo) {
+      registerMap: function(messageInfo) {
         if (!messageInfo.data.id || (!messageInfo.data.races)) {
           return;
         }
@@ -663,57 +678,57 @@ define(function() {
           _initializeMap(messageInfo.data);
         }
       },
-      filterRacesOnMap : function(messageInfo) {
-          _refreshMapMarkers(messageInfo.data);
+      filterRacesOnMap: function(messageInfo) {
+        _refreshMapMarkers(messageInfo.data);
       },
-      loadMap : function(messageInfo) {
-          var options = messageInfo.data;
-          console.log(options);
-          if (!options.year || !$('#' + options.id).length) {
-            return;
-          }
-          mapBox = $('#map_global');
-          mapBox.addClass('cnr-loading');
-          options.completeCallback = function () {
-            mapBox.removeClass('cnr-loading');
+      loadMap: function(messageInfo) {
+        var options = messageInfo.data, mapBox;
 
-            $('body').on('click', '.cnr-expand-map', function () {
-              var mapBox = $(this).parents('.cnr-map-global');
-              mapBox.addClass('cnr-expanded');
-              _resizeMapBox(maps[options.id]);
-            });
+        if (!options.year || !$('#' + options.id).length) {
+          return;
+        }
+        mapBox = $('#map_global');
+        mapBox.addClass('cnr-loading');
+        options.completeCallback = function() {
+          mapBox.removeClass('cnr-loading');
 
-            $('body').on('click', '.cnr-collapse-map', function () {
-              var mapBox = $(this).parents('.cnr-map-global');
-              mapBox.removeClass('cnr-expanded');
-              _resizeMapBox(maps[options.id]);
-           });
-            _bindSheduleSelects(options.id);
-
-          };
-          facade.rest.getAll('race-location', {
-            year : options.year
-          }, {
-            success : function(response) {
-              if (response.data) {
-                if (options.successCallback) {
-                  options.successCallback();
-                }
-                options.races = response.data;
-                facade.notify({
-                  type : 'schedule-view-register-map',
-                  data : options
-                });
-              }
-            },
-            complete: function() {
-              if (options.completeCallback) {
-                options.completeCallback();
-              }
-            }
+          $('body').on('click', '.cnr-expand-map', function() {
+            var mapBox = $(this).parents('.cnr-map-global');
+            mapBox.addClass('cnr-expanded');
+            _resizeMapBox(maps[options.id]);
           });
-        },
-      addMemberToSchedule : function(messageInfo) {
+
+          $('body').on('click', '.cnr-collapse-map', function() {
+            var mapBox = $(this).parents('.cnr-map-global');
+            mapBox.removeClass('cnr-expanded');
+            _resizeMapBox(maps[options.id]);
+          });
+          _bindSheduleSelects(options.id);
+
+        };
+        facade.rest.getAll('race-location', {
+          year: options.year
+        }, {
+          success: function(response) {
+            if (response.data) {
+              if (options.successCallback) {
+                options.successCallback();
+              }
+              options.races = response.data;
+              facade.notify({
+                type: 'schedule-view-register-map',
+                data: options
+              });
+            }
+          },
+          complete: function() {
+            if (options.completeCallback) {
+              options.completeCallback();
+            }
+          }
+        });
+      },
+      addMemberToSchedule: function(messageInfo) {
         var dao = +messageInfo.data.item_dao;
         if (dao !== 8) {
           return;
@@ -736,7 +751,7 @@ define(function() {
           homeElem.find('.info .number').text(num + 1);
         }
       },
-      removeMemberFromSchedule : function(messageInfo) {
+      removeMemberFromSchedule: function(messageInfo) {
         var user = facade.getUserData();
         $(".cnr-attendee[data-id=" + messageInfo.data.id + '][data-user-id=' + user.id + ']').remove();
         $('#join_event_btn').show();
@@ -746,7 +761,7 @@ define(function() {
         $(".cnr-shedule_plan_no").html((numAttendee ? 'Liczba zapisanych: ' + numAttendee : 'Nikt jeszcze nie zgłosił udziału.'));
 
       },
-      updateMemberSignedIn : function(messageInfo) {
+      updateMemberSignedIn: function(messageInfo) {
         var user = messageInfo.data, id = 0;
 
         // check if user is on the member list
@@ -762,13 +777,13 @@ define(function() {
         }
         matching = $('#results .cnr-attendee[data-user-id=' + user.id + ']');
       },
-      updateMemberSignedOut : function(messageInfo) {
+      updateMemberSignedOut: function(messageInfo) {
         $('#join_event_btn').show();
         $('#leave_event_btn').hide();
         $('#leave_event_btn.removeActivity').attr('data-id', '');
         $('.addActivity, .addResult').show();
       },
-      markUserEvents : function(messageInfo) {
+      markUserEvents: function(messageInfo) {
         var attending = messageInfo.data.attending || [];
         var results = messageInfo.data.results || [];
         $.each(attending, function(i) {
@@ -778,7 +793,8 @@ define(function() {
           $('.addResult[id="schedule_' + results[i] + '"]').hide();
         });
       },
-      destroy : function() {}
+      destroy: function() {
+      }
     };
   };
 });
