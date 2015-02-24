@@ -324,8 +324,12 @@ define(function() {
       });
 
       function _updateData() {
-        var active_tags = _getActiveTags();
-        var data = {tags: active_tags.join(','), map_id: map.getDiv().id};
+        var active_tags = _getActiveTags(),
+          data = {
+            tags: active_tags,
+            map_id: map.getDiv().id
+          };
+
         _updateSchedulesCalendar(data);
       }
 
