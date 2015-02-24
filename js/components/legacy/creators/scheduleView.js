@@ -13,7 +13,7 @@ define(function() {
     /**
      * object InfoWindow for displaying found location
      */
-    locationInfo, 
+    locationInfo,
 
     /**
      * object which keeps info about all markers
@@ -39,7 +39,7 @@ define(function() {
 
       /** set center Poland point */
       var mapElem = document.getElementById(data.id);
-      
+
       var map = new google.maps.Map(mapElem, {
         streetViewControl : false,
         mapTypeId : google.maps.MapTypeId.ROADMAP,
@@ -169,7 +169,7 @@ define(function() {
     var _refreshMapMarkers = function(data) {
       var ids = data.ids;
       var map = maps[data.map_id];
-      
+
       if (data.year) {
         $.each(_data, function(id, map_data){
           if (map_data.id == data.map_id) {
@@ -197,7 +197,7 @@ define(function() {
                 success : function(response) {
                   if (response.data) {
                     markers = {};
-                    
+
                     _initialFilteredRaces[data.map_id] = ids;
                     console.log(_initialFilteredRaces);
                     _createSchedules(map, {year: data.year, races: response.data});
@@ -205,7 +205,7 @@ define(function() {
                 },
                 complete: function() {}
               });
-            }  
+            }
           }
         });
       } else {
@@ -224,7 +224,7 @@ define(function() {
 
     var _updateSchedulesView = function(map, categories) {
       visibleMarkers = [];
-      
+
       $.each(categories, function (index, cat) {
         var category = cat.id;
         var isChecked = cat.value;
@@ -262,7 +262,7 @@ define(function() {
 
       //map.fitBounds(markersBounds);
     };
-    
+
     var _updateSchedulesCalendar = function(data) {
       var year = data.year;
       var btn = $('#cnr-filter-accept');
@@ -273,29 +273,29 @@ define(function() {
           }
         });
       }
-      
+
       var sUrlData = "dao=4&action=13&category=8&tag=" + data.tags + (year ? "&year=" + year : "");
       btn.text('Wczytywanie...');
-      
+
       $.ajax({
         type: 'POST',
         data: sUrlData,
         url: 'ajax',
         beforeSend: function() {
-          
+
         },
         success: function(sData) {
           $("#cnr-shedule-calendar").html(sData);
         },
         complete: function(){
-            btn.text('Filtruj');  
+            btn.text('Filtruj');
         },
         cache: false,
         global: false
       });
     }
 
-    var _bindSheduleSelects = function(map) {
+    var _bindSheduleSelects = function(map_id) {
       $('#cnr-shedule-category-select').multiselect({
             nonSelectedText: 'Rodzaj wyścigu',
             allSelectedText: 'Wszystkie',
@@ -316,14 +316,14 @@ define(function() {
 
       function _updateData() {
         var active_tags = _getActiveTags();
-        var data = {tags: active_tags.join(','), map_id: map.getDiv().id};
+        var data = {tags: active_tags.join(','), map_id: map_id};
         _updateSchedulesCalendar(data);
       }
 
       $('#cnr-filter-accept').on('click', function(){
         _updateData();
       });
-      
+
       $('body').on('click', '.cnr-remove-tag-filter', function(){
           var tag = $(this).attr('data-tag');
           $('#cnr-shedule-category-select').multiselect('deselect', tag);
@@ -332,17 +332,17 @@ define(function() {
           _updateData();
           return false;
       });
-      
+
       $('body').on('click', '.cnr-change-calendar-year', function() {
         var year = $(this).attr('data-year');
         var active_tags = _getActiveTags();
-        
-        data = {tags: active_tags.join(','), year: year, map_id: map.getDiv().id};
+
+        data = {tags: active_tags.join(','), year: year, map_id: map_id};
         _updateSchedulesCalendar(data);
         return false;
       });
     }
-    
+
     var _getActiveTags = function() {
       var active_tags = [];
       $('#cnr-shedule-category-select option, #cnr-shedule-cycle-select option').each(function() {
@@ -483,7 +483,7 @@ define(function() {
       content += '</div>';
 
       marker.content = content;
-      
+
       google.maps.event.addListener(marker, 'click', function(event) {
         locationInfo.setContent(marker.content);
         locationInfo.open(map,marker);
@@ -631,11 +631,11 @@ define(function() {
           }
         );
 
-        
+
         $('body').on('click', '#map_legend .cnr-btn-toggle-options', function () {
           $('#map_legend .cnr-change-options').toggleClass('hidden');
           $('#map_legend .cnr-selected-options').toggleClass('hidden');
-        });  
+        });
 
       },
       mapInitialised : function() {
@@ -657,16 +657,16 @@ define(function() {
         if (!messageInfo.data.id || (!messageInfo.data.races)) {
           return;
         }
-        
+
         _data.push(messageInfo.data);
         if (_googleMapsLoaded) {
           _initializeMap(messageInfo.data);
         }
       },
-      filterRacesOnMap : function(messageInfo) {        
+      filterRacesOnMap : function(messageInfo) {
           _refreshMapMarkers(messageInfo.data);
       },
-      loadMap : function(messageInfo) {        
+      loadMap : function(messageInfo) {
           var options = messageInfo.data;
           console.log(options);
           if (!options.year || !$('#' + options.id).length) {
@@ -676,7 +676,7 @@ define(function() {
           mapBox.addClass('cnr-loading');
           options.completeCallback = function () {
             mapBox.removeClass('cnr-loading');
-            
+
             $('body').on('click', '.cnr-expand-map', function () {
               var mapBox = $(this).parents('.cnr-map-global');
               mapBox.addClass('cnr-expanded');
@@ -688,7 +688,7 @@ define(function() {
               mapBox.removeClass('cnr-expanded');
               _resizeMapBox(maps[options.id]);
            });
-            _bindSheduleSelects(maps[options.id]);
+            _bindSheduleSelects(options.id);
 
           };
           facade.rest.getAll('race-location', {
