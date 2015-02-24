@@ -265,8 +265,12 @@ define(function() {
     };
 
     var _updateSchedulesCalendar = function(data) {
-      var year = data.year;
-      var btn = $('#cnr-filter-accept');
+      var urlData,
+        year = data.year,
+        btn = $('#cnr-filter-accept');
+
+      btn.text('Wczytywanie...');
+
       if (!year) {
         $.each(_data, function(id, map_data) {
           if (map_data.id === data.map_id) {
@@ -275,18 +279,22 @@ define(function() {
         });
       }
 
-      var sUrlData = "dao=4&action=13&category=8&tag=" + data.tags + (year ? "&year=" + year : "");
-      btn.text('Wczytywanie...');
+      urlData = {
+        dao: 4,
+        action: 13,
+        category:8,
+        tags: data.tags
+      };
+      if (year) {
+        urlData.year = year;
+      }
 
       $.ajax({
         type: 'POST',
-        data: sUrlData,
+        data: urlData,
         url: 'ajax',
-        beforeSend: function() {
-
-        },
-        success: function(sData) {
-          $("#cnr-shedule-calendar").html(sData);
+        success: function(response) {
+          $("#cnr-shedule-calendar").html(response);
         },
         complete: function() {
           btn.text('Filtruj');
