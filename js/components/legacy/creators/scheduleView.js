@@ -351,7 +351,7 @@ define(function() {
         var active_tags = _getActiveTags();
 
         _updateSchedulesCalendar({
-          tags: active_tags.join(','),
+          tags: active_tags,
           year: year,
           map_id: map.getDiv().id
         });
