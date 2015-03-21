@@ -189,17 +189,13 @@ define(function() {
                 marker.setMap(null);
               });
               _data[id].year = data.year;
-              console.log(_data);
-
               facade.rest.getAll('race-location', {
                 year: data.year
               }, {
                 success: function(response) {
                   if (response.data) {
                     markers = {};
-
                     _initialFilteredRaces[data.map_id] = ids;
-                    console.log(_initialFilteredRaces);
                     _createSchedules(map, {year: data.year, races: response.data});
                   }
                 },
@@ -247,7 +243,6 @@ define(function() {
             $.each(groups[category][1], function(i, elem) {
               if (isChecked) {
                 visibleMarkers.push(markers[elem]);
-                console.log(markers[elem].getMap());
                 if (null === markers[elem].getMap()) {
                   markers[elem].setMap(map);
                 }
@@ -260,7 +255,6 @@ define(function() {
         }
       });
       //markerCluster.addMarkers(visibleMarkers);
-
       //map.fitBounds(markersBounds);
     };
 
@@ -294,7 +288,7 @@ define(function() {
         data: urlData,
         url: 'ajax',
         success: function(response) {
-          $("#cnr-shedule-calendar").html(response);
+          $("#cnr-shedule-calendar").replaceWith(response);
         },
         complete: function() {
           btn.text('Filtruj');
@@ -665,7 +659,6 @@ define(function() {
         _googleMapsLoaded = true;
       },
       setInitialFilteredRaces: function(messageInfo) {
-        console.log(messageInfo);
         _initialFilteredRaces[messageInfo.data.map_id] = messageInfo.data.ids;
       },
       registerMap: function(messageInfo) {
