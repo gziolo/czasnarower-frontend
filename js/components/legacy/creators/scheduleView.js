@@ -355,11 +355,24 @@ define(function() {
 
     var _getActiveTags = function() {
       var active_tags = [];
-      $('#cnr-shedule-category-select option, #cnr-shedule-cycle-select option').each(function() {
+      var active_tags_group_category = [];
+      var active_tags_group_cycle = [];
+      $('#cnr-shedule-category-select option').each(function() {
         if ($(this).attr('selected')) {
-          active_tags.push($(this).attr('data-tag'));
+          active_tags_group_category.push($(this).attr('data-tag'));
         }
       });
+      $('#cnr-shedule-cycle-select option').each(function() {
+        if ($(this).attr('selected')) {
+          active_tags_group_cycle.push($(this).attr('data-tag'));
+        }
+      });
+      if (active_tags_group_category.length) {
+        active_tags.push(active_tags_group_category);
+      }
+      if (active_tags_group_cycle.length) {
+        active_tags.push(active_tags_group_cycle);
+      }
       return active_tags;
     };
 
