@@ -160,7 +160,11 @@ define(function() {
       if (data.selected) {
         _zoomSchedule(map, markers[data.selected]);
       }
-      var count = Object.keys(markers).length;
+      _refreshMapMarkersCount();
+    };
+
+    var _refreshMapMarkersCount = function() {
+      var count = Object.keys(visibleMarkers).length;
       if (count) {
         $('.map-global-header .caption').html("<span style='color: #ff7600'>" + count + '</span> wyścigów');
       }
@@ -184,6 +188,7 @@ define(function() {
                   marker.setMap(null);
                 }
               });
+              _refreshMapMarkersCount();
             } else {
               $.each(visibleMarkers, function(index, marker) {
                 marker.setMap(null);
@@ -200,6 +205,7 @@ define(function() {
                   }
                 },
                 complete: function() {
+                  _refreshMapMarkersCount();
                 }
               });
             }
@@ -216,6 +222,7 @@ define(function() {
             marker.setMap(null);
           }
         });
+        _refreshMapMarkersCount();
       }
     };
 
