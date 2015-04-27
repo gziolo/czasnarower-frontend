@@ -144,7 +144,7 @@ define(function() {
             id: Number(i),
             icon: img,
           });
-          //markersBounds.extend(latLng);
+          markersBounds.extend(latLng);
           markers[Number(i)] = marker;
         }
       });
@@ -161,6 +161,14 @@ define(function() {
         _zoomSchedule(map, markers[data.selected]);
       }
       _refreshMapMarkersCount();
+    };
+
+    var _refreshMapMarkersBounds = function(data) {
+      markersBounds = new google.maps.LatLngBounds();
+      $.each(visibleMarkers, function(index, marker) {
+          markersBounds.extend(marker.getPosition());
+      });
+      maps[data.map_id].setCenter(markersBounds.getCenter());
     };
 
     var _refreshMapMarkersCount = function() {
@@ -189,6 +197,7 @@ define(function() {
                 }
               });
               _refreshMapMarkersCount();
+              _refreshMapMarkersBounds(data);
             } else {
               $.each(visibleMarkers, function(index, marker) {
                 marker.setMap(null);
@@ -206,6 +215,7 @@ define(function() {
                 },
                 complete: function() {
                   _refreshMapMarkersCount();
+                  _refreshMapMarkersBounds(data);
                 }
               });
             }
@@ -223,6 +233,7 @@ define(function() {
           }
         });
         _refreshMapMarkersCount();
+        _refreshMapMarkersBounds(data);
       }
     };
 
@@ -309,8 +320,11 @@ define(function() {
       $('#cnr-shedule-category-select').multiselect({
         nonSelectedText: 'Rodzaj wyścigu',
         allSelectedText: 'Wszystkie',
-        includeSelectAllOption: true,
+        includeSelectAllOption: false,
         nSelectedText: ' wybranych kategorii',
+        buttonText: function(options, select) {
+          return 'Rodzaj wyścigu';
+        },
         onChange: function(option, checked, select) {
         }
       });
@@ -320,6 +334,9 @@ define(function() {
         includeSelectAllOption: true,
         nSelectedText: ' wybranych cykli',
         maxHeight: 200,
+        buttonText: function(options, select) {
+          return 'Cykl wyścigu';
+        },
         onChange: function(option, checked, select) {
         }
       });
