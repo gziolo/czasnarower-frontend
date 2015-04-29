@@ -163,14 +163,6 @@ define(function() {
       _refreshMapMarkersCount();
     };
 
-    var _refreshMapMarkersBounds = function(data) {
-      markersBounds = new google.maps.LatLngBounds();
-      $.each(visibleMarkers, function(index, marker) {
-          markersBounds.extend(marker.getPosition());
-      });
-      maps[data.map_id].setCenter(markersBounds.getCenter());
-    };
-
     var _refreshMapMarkersCount = function() {
       var count = Object.keys(visibleMarkers).length;
       if (count) {
@@ -197,7 +189,6 @@ define(function() {
                 }
               });
               _refreshMapMarkersCount();
-              _refreshMapMarkersBounds(data);
             } else {
               $.each(visibleMarkers, function(index, marker) {
                 marker.setMap(null);
@@ -215,7 +206,6 @@ define(function() {
                 },
                 complete: function() {
                   _refreshMapMarkersCount();
-                  _refreshMapMarkersBounds(data);
                 }
               });
             }
@@ -233,7 +223,6 @@ define(function() {
           }
         });
         _refreshMapMarkersCount();
-        _refreshMapMarkersBounds(data);
       }
     };
 
