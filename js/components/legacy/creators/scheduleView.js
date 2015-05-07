@@ -261,17 +261,14 @@ define(function() {
           }
         }
       });
-      //markerCluster.addMarkers(visibleMarkers);
-      //map.fitBounds(markersBounds);
     };
 
     var _updateSchedulesCalendar = function(data) {
       var urlData,
-        year = data.year,
-        btn = $('#cnr-filter-accept');
+        year = data.year;
 
-      btn.text('Wczytywanie...');
-
+      // TODO: add some loader
+      $('.cnr-spinner').addClass('active');
       if (!year) {
         $.each(_data, function(id, map_data) {
           if (map_data.id === data.map_id) {
@@ -298,7 +295,8 @@ define(function() {
           $("#cnr-shedule-calendar").replaceWith(response);
         },
         complete: function() {
-          btn.text('Filtruj');
+          // TODO: remove loader
+          $('.cnr-spinner').removeClass('active');
         },
         cache: false,
         global: false
@@ -315,6 +313,7 @@ define(function() {
           return 'Rodzaj wyścigu';
         },
         onChange: function(option, checked, select) {
+          _updateData();
         }
       });
       $('#cnr-shedule-cycle-select').multiselect({
@@ -327,6 +326,7 @@ define(function() {
           return 'Cykl wyścigu';
         },
         onChange: function(option, checked, select) {
+          _updateData();
         }
       });
 
@@ -339,10 +339,6 @@ define(function() {
 
         _updateSchedulesCalendar(data);
       }
-
-      $('#cnr-filter-accept').on('click', function() {
-        _updateData();
-      });
 
       $('body').on('click', '.cnr-remove-tag-filter', function() {
         var tag = $(this).attr('data-tag');
