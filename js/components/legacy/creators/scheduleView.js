@@ -320,7 +320,7 @@ define(function() {
       $('#cnr-shedule-cycle-select').multiselect({
         nonSelectedText: 'Cykl wyścigu',
         allSelectedText: 'Wszystkie',
-        includeSelectAllOption: true,
+        includeSelectAllOption: false,
         nSelectedText: ' wybranych cykli',
         maxHeight: 200,
         buttonText: function(options, select) {
