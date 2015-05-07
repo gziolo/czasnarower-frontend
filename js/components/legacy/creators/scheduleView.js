@@ -13,7 +13,7 @@ define(function() {
       /**
        * object InfoWindow for displaying found location
        */
-      locationInfo,
+      locationInfo, locationLabel,
 
       /**
        * object which keeps info about all markers
@@ -503,8 +503,7 @@ define(function() {
      */
     var _marker = function(map, schedule, opts) {
       var defaults = {
-        map: null,
-        title: schedule.title
+        map: null
       };
 
       $.extend(defaults, opts);
@@ -512,16 +511,35 @@ define(function() {
       marker.past = schedule.past;
       marker.category = schedule.category;
 
-      var content = '<div class="previewBox_">';
+      var content = '<div class="previewBox">';
       content += '<h5><a title="Przejdź do strony wyścigu" href="' + schedule.url_view + '"/>' + schedule.race_name + ' &raquo;</a></h5>';
-      content += '<p><i class="icon-calendar icon"></i> ' + schedule.start_day + '<br />';
-      content += '<i class="icon icon-map-marker"></i> ' + schedule.start_place + ' / ' + schedule.race_sort + '</p>';
+      content += '<p><span class="nowrap"><i class="icon-calendar icon icon-blue"></i> ' + schedule.start_day + '</span> ';
+      content += '<span class="nowrap"><i class="icon icon-map-marker icon-blue"></i> ' + schedule.start_place + '</span> ';
+      content += '<span class="nowrap"><i class="icon-tag icon icon-blue"></i> ' + schedule.race_sort + '</span></p>';
       content += '</div>';
 
       marker.content = content;
 
+      google.maps.event.addListener(marker, 'mouseover', function(event) {
+        locationLabel.close();
+        locationLabel.setOptions({
+          content : '<div class="labelBox"><span class="arrowTop">&nbsp;</span><h5>' + (schedule.title.length > 40 ? schedule.title.substring(0, 40) + '...' : schedule.title) +
+                    ' <small> &raquo; kliknij w ikonę</small></h5></div>',
+          position : marker.getPosition()
+        });
+        locationLabel.open(map, marker);
+      });
+      google.maps.event.addListener(marker, 'mouseout', function(event) {
+        locationLabel.close();
+      });
+
       google.maps.event.addListener(marker, 'click', function(event) {
-        locationInfo.setContent(marker.content);
+        locationLabel.close();
+        locationInfo.close();
+        locationInfo.setOptions({
+          content : content,
+          position : marker.getPosition()
+        });
         locationInfo.open(map, marker);
       });
       return marker;
@@ -534,6 +552,7 @@ define(function() {
     var _codeAddress = function(map) {
       var address = document.getElementById("searchAddress").value;
       $('#geoAddresses').empty().hide();
+      locationInfo.close();
       geocoder.geocode({
         'address': address
       }, function(results, status) {
@@ -634,9 +653,12 @@ define(function() {
      *
      */
     var _zoomSchedule = function(map, marker) {
-      // map.setCenter( marker.getPosition() );
       map.setZoom(12);
-      locationInfo.setContent(marker.content);
+      locationInfo.close();
+      locationInfo.setOptions({
+        content : marker.content,
+        position : marker.getPosition()
+      });
       locationInfo.open(map, marker);
     };
 
@@ -676,7 +698,27 @@ define(function() {
       mapInitialised: function() {
         geocoder = new google.maps.Geocoder();
         markersBounds = new google.maps.LatLngBounds();
-        locationInfo = new google.maps.InfoWindow({content: ''});
+        locationInfo = new InfoBox({
+          disableAutoPan : false,
+          maxWidth : 0,
+          pixelOffset : new google.maps.Size(0, 5),
+          zIndex : null,
+          closeBoxMargin : "10px 4px 2px 2px",
+          closeBoxURL : "http://www.google.com/intl/en_us/mapfiles/close.gif",
+          infoBoxClearance : new google.maps.Size(1, 1),
+          isHidden : false,
+          pane : "floatPane",
+          enableEventPropagation : false
+        });
+        locationLabel = new InfoBox({
+          disableAutoPan : true,
+          pixelOffset : new google.maps.Size(0, 5),
+          closeBoxURL : "",
+          isHidden : false,
+          pane : "floatPane",
+          enableEventPropagation : true
+        });
+        //locationInfo = new google.maps.InfoWindow({content: ''});
         var length = _data.length;
         for (var i = 0; i < length; i++) {
           _initializeMap(_data[i]);
