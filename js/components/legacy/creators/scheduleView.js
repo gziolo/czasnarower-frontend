@@ -511,7 +511,7 @@ define(function() {
       marker.past = schedule.past;
       marker.category = schedule.category;
 
-      var content = '<div class="previewBox">';
+      var content = '<div class="previewBox"><span class="arrowTop">&nbsp;</span>';
       content += '<h5><a title="Przejdź do strony wyścigu" href="' + schedule.url_view + '"/>' + schedule.race_name + ' &raquo;</a></h5>';
       content += '<p><span class="nowrap"><i class="icon-calendar icon icon-blue"></i> ' + schedule.start_day + '</span> ';
       content += '<span class="nowrap"><i class="icon icon-map-marker icon-blue"></i> ' + schedule.start_place + '</span> ';
