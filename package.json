@@ -2,7 +2,7 @@
   "name": "czasnarower-frontend",
   "title": "Czas na rower! frontend",
   "description": "Frontend application for Czas na rower! portal.",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "homepage": "https://github.com/gziolo/czasnarower-frontend",
   "repository": {
     "type": "git",
