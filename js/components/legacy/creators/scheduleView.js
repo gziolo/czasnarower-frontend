@@ -263,9 +263,16 @@ define(function() {
       });
     };
 
+    var scheduleCalendarXhr = null;
+
     var _updateSchedulesCalendar = function(data) {
       var urlData,
         year = data.year;
+
+      if ( scheduleCalendarXhr !== null ) {
+        scheduleCalendarXhr.abort();
+        scheduleCalendarXhr = null;
+      }
 
       // TODO: add some loader
       $('.cnr-spinner').addClass('active');
@@ -287,7 +294,7 @@ define(function() {
         urlData.year = year;
       }
 
-      $.ajax({
+      scheduleCalendarXhr = $.ajax({
         type: 'POST',
         data: urlData,
         url: 'ajax',
@@ -295,6 +302,7 @@ define(function() {
           $("#cnr-shedule-calendar").replaceWith(response);
         },
         complete: function() {
+          scheduleCalendarXhr = null;
           // TODO: remove loader
           $('.cnr-spinner').removeClass('active');
         },
