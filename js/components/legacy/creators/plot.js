@@ -94,8 +94,7 @@ define(function() {
       });
     };
 
-    var showTrackProfile = function(target, elevations) {
-
+    var showTrackProfile = function(target, elevations, yRange) {
       $.jqplot.postDrawHooks.push(function() {
         $('#' + target + ' .loader-progress').hide();
       });
@@ -129,7 +128,7 @@ define(function() {
             min : 0,
             pad : 0,
             tickOptions : {
-              formatString : '%.2f km'
+              formatString : '%.1f km'
             }
           },
           x2axis : {
@@ -141,7 +140,9 @@ define(function() {
           yaxis : {
             tickOptions : {
               formatString : '%d m'
-            }
+            },
+            min: 100 * Math.floor( yRange.min / 100 ),
+            max: 100 * Math.ceil( yRange.max / 100 )
           }
         },
         cursor : {
@@ -261,7 +262,7 @@ define(function() {
             'js/jqplot/plugins/jqplot.canvasAxisTickRenderer.min.js', 'js/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js', 'js/jqplot/plugins/jqplot.categoryAxisRenderer.min.js',
             'js/jqplot/plugins/jqplot.pointLabels.min.js', 'js/jqplot/plugins/jqplot.cursor.min.js' ];
         facade.requireScripts(requiredScripts, function() {
-          showTrackProfile(messageInfo.data.target, messageInfo.data.elevations);
+          showTrackProfile(messageInfo.data.target, messageInfo.data.elevations, messageInfo.data.yRange);
         });
       },
       destroy : function() {}

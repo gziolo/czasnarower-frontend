@@ -231,8 +231,8 @@ define([ 'underscore' ], function(_) {
         position : startLatLng,
         title : track.title
       });
-
-      _getElevationData(path, map);
+      var pathLength = google.maps.geometry.spherical.computeLength(path);
+      _getElevationData(path, map, pathLength);
 
       var img = new google.maps.MarkerImage(facade.config.staticUrl + 'img-1.3/markers/icon10_point.png', new google.maps.Size(10, 10), new google.maps.Point(0, 0), new google.maps.Point(5, 5));
       var imgShadow = new google.maps.MarkerImage(facade.config.staticUrl + 'img-1.3/markers/iconset-1.png', new google.maps.Size(19, 10), new google.maps.Point(400, 32), new google.maps.Point(5, 5));
@@ -291,22 +291,13 @@ define([ 'underscore' ], function(_) {
       info.bindTo('text', mousemarker, 'position');
     };
 
-    var _getElevationData = function(aData, map) {
+    var _getElevationData = function(aData, map, fLength) {
       var elevationService;
-      var rad = function(x) {
-        return x * Math.PI / 180;
-      };
-      // compute distance beetwen 2 points
-      var distHaversine = function(p1, p2) {
-        var R = 6371; // earth's mean radius in km
-        var dLat = rad(p2.lat() - p1.lat());
-        var dLong = rad(p2.lng() - p1.lng());
-        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        var d = R * c;
-        return d;// .toFixed(3);
-      };
-      var arrReduction = function(arr, size) {
+      var arrReduction = function(aPoints, size) {
+        var arr = [];
+        for (var i=0; i<aPoints.length; i++){
+          arr.push(aPoints[i]);
+        }
         if (arr.length < size) {
           return arr;
         }
@@ -318,30 +309,25 @@ define([ 'underscore' ], function(_) {
         }
         return arr;
       };
-
+      // Reduce array to 256 points and genereate profile
       var tmpArray = arrReduction(aData, 256);
-
       // prepare profile only if track has minimum 10 points
       if (10 <= tmpArray.length) {
         elevationService = new google.maps.ElevationService();
-
         elevationService.getElevationAlongPath({
           path : tmpArray,
-          samples : 150
+          samples : 512
         }, function(result, status) {
-
           if (status === google.maps.ElevationStatus.OK) {
-
             var elevations = [];
             var max = -100000;
             var min = 100000;
-            var distances = [];
             var climb = 0;
             var descent = 0;
             var currentDistance = 0;
             for ( var j = 0; j < result.length; ++j) {
               if (j > 0) {
-                currentDistance = (currentDistance + distHaversine(result[j - 1].location, result[j].location));
+                currentDistance = Math.round((j * fLength) / 5120) /100;
               }
               elevations.push([ currentDistance, result[j].elevation, result[j].location ]);
               max = (max > result[j].elevation ? max : result[j].elevation.toFixed(0));
@@ -352,7 +338,7 @@ define([ 'underscore' ], function(_) {
               if (result[j].elevation < result[j - 1].elevation) {
                 descent += result[j - 1].elevation - result[j].elevation;
               }
-              if (result[j].elevation > result[j - 1].elevation) {
+              else {
                 climb += result[j].elevation - result[j - 1].elevation;
               }
             }
@@ -366,10 +352,13 @@ define([ 'underscore' ], function(_) {
               type : 'plot-show-track-profile',
               data : {
                 target : 'track_profile_full',
-                elevations : elevations
+                elevations : elevations,
+                yRange: {
+                  max: ((max - min) < 50) ? +max + 75 : +max,
+                  min: ((max - min) < 50) ? +min - 50 : +min
+                }
               }
             });
-
           }
         });
       } else {
@@ -392,7 +381,6 @@ define([ 'underscore' ], function(_) {
       $.extend(defaults, opts);
       var marker = new google.maps.Marker(defaults);
       marker.categories = track.categories;
-      // console.log(marker.categories);
       if (opts.title) {
         return;
       }
