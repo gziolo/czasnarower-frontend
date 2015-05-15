@@ -354,8 +354,8 @@ define([ 'underscore' ], function(_) {
                 target : 'track_profile_full',
                 elevations : elevations,
                 yRange: {
-                  max: ((max - min) < 50) ? +max + 75 : +max,
-                  min: ((max - min) < 50) ? +min - 50 : +min
+                  max: ((max - min) < 50) ? +max + 49 : +max,
+                  min: ((max - min) < 50) ? +min - 49 : +min
                 }
               }
             });
@@ -389,16 +389,16 @@ define([ 'underscore' ], function(_) {
         content += '<aside class="pull-left"><a class="thumbnail" title="Przejdź do strony trasy" href="' + track.url_view + '"/><img src="' + (track.url_photo) +
             '" width="50" height="50"/></a></aside>';
       }
-      content += '<div><h5><a title="Przejdź do strony trasy" href="' + track.url_view + '"/>' + track.title + '</a></h5>';
-      content += '<h6 class="muted">' + track.author + ' (' + track.created_date.substring(0, 10) + ')</h6>';
-
+      content += '<div' + (track.url_photo ? ' class="has-photo"' : '') + '><h5><a title="Przejdź do strony trasy" href="' + track.url_view + '"/>' + track.title + '</a></h5>';
+      content += '<p>';
+      content += '<span class="nowrap muted text-cut"><i class="icon-user icon icon-blue"></i> ' + track.author + ' (' + track.created_date.substring(0, 10) + ')</span>';
       if (track.start_place || track.distance) {
-        content += '<p><i class="icon icon-map-marker"></i>' + track.start_place + (track.distance ? ' / ' + Number(track.distance).toFixed() + ' km' : '') + '</p>';
+        content += '<br /><span class="nowrap text-cut"><i class="icon icon-blue icon-map-marker"></i> ' + track.start_place + (track.distance ? ' / ' + Number(track.distance).toFixed() + ' km' : '') + '</span>';
       }
       if (track.categories_view) {
-        content += '<p><i class="icon icon-tags"></i>' + track.categories_view + '</p>';
+        content += '<br /><span class="nowrap text-cut"><i class="icon icon-blue icon-tags"></i> ' + track.categories_view + '</span>';
       }
-      content += '<h6 class="pull-right"><a title="Przejdź do strony trasy" href="' + track.url_view + '"/>więcej &raquo;</a></h6>';
+      content += '</p>';
       content += '</div><div>';
       google.maps.event.addListener(marker, 'click', function(event) {
         locationInfo.close();
