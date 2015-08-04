@@ -1041,6 +1041,7 @@ define(function() {
       var special_highlighted = $('#special_highlighted').prop('checked');
       var special_tag_silvini = $('#special_tag_silvini').prop('checked');
       var special_tag_autumn_contest = $('#special_tag_autumn_contest').prop('checked');
+      var special_tag_dworelizy_contest = $('#special_tag_dworelizy_contest').prop('checked');
 
       if (aTitle.length < 2 || title.length < 5 || title.length > 80) {
         aErrors.push({
@@ -1106,7 +1107,8 @@ define(function() {
         fb_publish : fb_publish,
         special_highlighted : special_highlighted,
         special_tag_silvini : special_tag_silvini,
-        special_tag_autumn_contest: special_tag_autumn_contest
+        special_tag_autumn_contest: special_tag_autumn_contest,
+        special_tag_dworelizy_contest: special_tag_dworelizy_contest
       };
     }
     /**
