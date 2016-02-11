@@ -196,8 +196,7 @@ define(function() {
           var errors = 0,
             userNameValue = $.trim($("input[name='username']").val()),
             password1Value = $("input[type='password'].first:eq(0)").val(),
-            password2Value = $("input[type='password'].first:eq(1)").val(),
-            captchaValue = $("input[name='captcha']").val();
+            password2Value = $("input[type='password'].first:eq(1)").val();
 
           var nickControlGroup = $("input[name='username']").parents('.control-group');
           if (nickControlGroup.hasClass('error')) {
@@ -205,10 +204,6 @@ define(function() {
           }
           if (userNameValue.length < 3 || userNameValue.length > 25) {
             setErrorCommunique('username_communique', 'Prosimy o podanie nazwy użytkownika zawierającej od 3 do 25 znaków.');
-            errors += 1;
-          }
-          if (captchaValue.length === 0) {
-            setErrorCommunique('captcha_communique', 'Prosimy o wpisanie kodu z obrazka.');
             errors += 1;
           }
           if (password1Value.length < 3 || password1Value.length > 25) {
@@ -245,11 +240,6 @@ define(function() {
           type: 'user-nick-availability',
           data: {'username': userNameValue, 'userId': userId}
         });
-      });
-
-      $('body').on('click', '#refresh-captcha', function() {
-        var src = $('#captcha_img').attr("data-url");
-        $('#captcha_img').attr("src", src + "?rnd=" + Math.random());
       });
 
       $('body').on('submit', '#nick_update_form', function() {
