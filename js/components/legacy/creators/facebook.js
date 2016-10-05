@@ -5,7 +5,7 @@ define(function() {
     'use strict';
 
     var bEnabled = false;
-    var sPerms = 'publish_stream,email,user_hometown';
+    var sPerms = 'public_profile,email,user_hometown,publish_actions';
 
     function isEnabled() {
       return bEnabled;
@@ -28,14 +28,14 @@ define(function() {
         if (!data.appId) {
           return;
         }
+
         window.fbAsyncInit = function() {
           FB.init({
             appId : data.appId,
-            status : true,
             cookie : true,
-            xfbml : true,
-            oauth : true,
-            channelUrl : '//' + document.location.host + '/facebook/channel.php'
+            status : true,
+            version : 'v2.7',
+            xfbml : true
           });
           sandbox.notify({
             type : 'facebook-initialised'
@@ -43,6 +43,7 @@ define(function() {
         };
         var e = document.createElement('script');
         e.async = true;
+        e.id = 'facebook-jssdk';
         e.src = '//connect.facebook.net/pl_PL/all.js';
         if (!$('#fb-root').size()) {
           $('body').append('<div id="fb-root"></div>');
