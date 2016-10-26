@@ -7,7 +7,7 @@ body {
 #main {
     background: #f8f8f8;
     background: @white;
-    margin-top: -5px;
+    margin-top: -10px;
     padding: 1px @blockGutterWidth 10px;
 }
 #sidepanel {
@@ -61,22 +61,13 @@ body {
   -------------------------------------------------- */
 
 .navbar-wrapper {
-    background: #232323 url('../img/header-bg.gif') top left repeat-x;
-    height: 160px;
+    background: #191919;
+    height: auto;
     .container {
-        background: url('../img/header/01_s.jpg') 200px center no-repeat;
-        &.image-2 {
-            background-image: url('../img/header/02_s.jpg');
-        }
-        &.image-3 {
-            background-image: url('../img/header/03_s.jpg');
-        }
-        &.image-4 {
-            background-image: url('../img/header/04_s.jpg');
-        }
+        background: none;
     }
     .navbar {
-        height: 160px;
+        height: auto;
         position: relative;
         .nav-collapse .nav > li > a, .nav-collapse .dropdown-menu a {
             font-weight: normal;
@@ -84,33 +75,36 @@ body {
     }
 }
 .navbar .nav {
-    margin-top: 0px;
-    width: 100%;
+    margin-top: 66px;
+    margin-bottom: 10px;
     li {
         font-size: 18px;
+        .box-shadow(0 0 2px rgba(255, 255, 255, .5));
     }
     .cnr-shop {
-        background: @orange url('../img/icons/brands.gif') right center no-repeat;
-        border-color: @orange;
-        float: right;
-        margin-top: -10px;
-        padding-top: 10px;
-        margin-right: 15px;
+        background: @orange;
+        padding-bottom: 1px;
         a {
-            padding-right: 50px;
             color: @black;
-            font-size: 1.2em;
         }
-
     }
     .utility-buttons {
         .buttonBackground(@btnPrimaryBackground, @btnPrimaryBackgroundHighlight);
         border-radius: 0;
+        padding-bottom: 1px;
         .special, .special:hover {
             background: transparent;
             border-radius: 0;
             margin: 0;
-            padding: 9px 20px;
+            padding: 9px 5px 9px 20px;
+            .text {
+                border-right: 1px solid #54a4de;
+                margin-right: 5px;
+                padding-right: 20px;
+            }
+            .caret {
+                margin-top: 5px;
+            }
         }
         &.open {
             background: @white;
@@ -121,59 +115,56 @@ body {
         border-color: @btnPrimaryBackground;
         float: right;
         &:hover {
-            background-position: 0 -15px;
+            background-position: 0 -20px;
         }
         .special {
             color: @white;
-        }
-        .dropdown-menu {
-            padding: 5px 10px;
-            a {
-                color: @white;
-                text-align: left;
-                padding: 4px 15px;
-                &:hover {
-                    background-color: @btnPrimaryBackground;
-                }
-            }
         }
     }
 }
 .navbar .brand {
     margin-left: 0px;
-    height: 111px;
     .logo {
-        background: url(@logoPath) left top no-repeat;
-        height: 91px;
         display: block;
+        margin-top: 7px;
         margin-left: 0px;
-        margin-top: -10px;
-        width: 109px;
-    }
-    small {
-        margin-left: 75px;
-        font-size: 10px;
+        margin-bottom: 0px;
+        &:focus {
+            outline:0;
+        }
     }
 }
-.navbar #search_panel {
+.navbar #top_panel {
     position: absolute;
-    top: 60px;
-    right: 0px;
+    top: 0;
+    left: 0;
+    left: 250px;
+}
+.navbar #search_panel {
+    float: left;
+    margin: 1px 0 0 10px;
     .input-search {
         margin: 0;
         &:hover {
             .box-shadow(0 1px 4px rgba(0, 105, 214, .25));
         }
+        input {
+            background-color: #515151;
+            border-color: #111111;
+            color: #ffffff;
+            &:focus {
+                background-color: #ffffff;
+                border-color: #111111;
+                color: #333333;
+            }
+        }
     }
 }
 .navbar #social_panel {
-    position: absolute;
-    right: 295px;
-    top: 10px;
+    float: left;
     .icon-social {
-        border: 2px solid fadeout(@white, 50%);
+        border: 1px solid #111111;;
         float: left;
-        margin-left: 1px;
         width: 28px;
         height: 28px;
         background: url('../img/icons/social.gif') left center no-repeat;
@@ -204,6 +195,7 @@ body {
     }
     #login_menu .btn {
         font-family: @specialFontFamily;
+        margin-top: 0;
     }
     .welcome {
         #gradient > .vertical-three-colors(@white, @white, 20%, @blueLighter);
@@ -246,7 +238,7 @@ body {
         overflow: visible;
         padding: 10px 10px 0 10px;
         position: absolute;
-        right: 0;
+        right: -1px;
         top: 30px;
         width: 340px;
         z-index: 50;
