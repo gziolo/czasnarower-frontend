@@ -1,5 +1,5 @@
 /*jshint strict:false, maxcomplexity:15 */
-/*global setErrorCommunique */
+/*global DISQUS, setErrorCommunique */
 define(function() {
   return function(sandbox, $) {
     'use strict';
@@ -471,7 +471,7 @@ define(function() {
           DISQUS.reset({
             reload:true,
             config: function () {
-              this.page.remote_auth_s3 = ''
+              this.page.remote_auth_s3 = '';
             }
           });
         }
