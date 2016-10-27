@@ -75,7 +75,11 @@ define(function() {
               facebook_id : response.authResponse.userID
             }, {
               success : function() {
-                window.location.reload();
+                if ($('#full_window').val() != 1) {
+                  window.location.reload();
+                } else {
+                  window.close();
+                }
               }
             });
           } else {
