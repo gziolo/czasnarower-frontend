@@ -166,14 +166,18 @@ define(function() {
       map.mapTypes.set('sigma', sigmamapRenderer);
 
       var osmmapRenderer = new google.maps.ImageMapType({
-        getTileUrl : function(ll, z) {
-          var X = ll.x % (1 << z);
-          return "http://osm.trail.pl/" + z + "/" + X + "/" + ll.y + ".png";
+        getTileUrl: function(coord, zoom) {
+          var tilesPerGlobe = 1 << zoom;
+          var x = coord.x % tilesPerGlobe;
+          if (x < 0) {
+            x = tilesPerGlobe+x;
+          }
+          return "http://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
         },
         tileSize : new google.maps.Size(256, 256),
         isPng : true,
         maxZoom : 18,
-        name : "OSM-Topo",
+        name : "OpenStreetMap",
         alt : "Open Streetmap"
       });
 
