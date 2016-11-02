@@ -309,7 +309,8 @@ function bindFormEvents() {
     }
     return valid;
   });
-  $('#news_description').wysihtml5({"locale": "pl-PL"});
+  // Field to bind wysihtml5editor
+  $('.cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
   $('#news_form').on('click', ':input[type=submit]', function() {
     $(this).button('loading');
   });
