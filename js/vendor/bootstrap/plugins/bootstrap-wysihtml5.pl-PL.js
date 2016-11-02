@@ -5,12 +5,12 @@
     $.fn.wysihtml5.locale["pl-PL"] = {
         font_styles: {
             normal: "Tekst podstawowy",
-            h1: "Nagłówek 1",
-            h2: "Nagłówek 2",
-            h3: "Nagłówek 3",
-            h4: "Nagłówek 4",
-            h5: "Nagłówek 5",
-            h6: "Nagłówek 6"
+            h1: "Nagłówek",
+            h2: "Nagłówek",
+            h3: "Nagłówek",
+            h4: "Nagłówek",
+            h5: "Nagłówek",
+            h6: "Nagłówek"
         },
         emphasis: {
             bold: "Pogrubienie",
