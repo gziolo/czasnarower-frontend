@@ -102,32 +102,6 @@ var Forum = {
 
 };
 
-var HTMLtextarea = {
-  setBold: function() {
-    wrapSelection("'''", "'''", "Pogrubienie");
-  },
-  setCite: function() {
-    wrapSelection('"""', '"""', "Cytat");
-  },
-  setHeader: function() {
-    if (document.selection) {
-      wrapSelection("\r\n== ", " ==\n", "Nagłówek");
-    } else {
-      wrapSelection("\n== ", " ==\n", "Nagłówek");
-    }
-  },
-  setLink: function() {
-    wrapSelection("[", " tytuł linka]", "http://www.example.com");
-  },
-  setList: function() {
-    if (document.selection) {
-      wrapSelection("\r\n* element A\r\n* element B\r\n* element C", "", "");
-    } else {
-      wrapSelection("\n* element A\n* element B\n* element C", "", "");
-    }
-  }
-};
-
 function bindNewWindow() {
 
   $('body').on('click', '.new_window, .cnr-new-window', function() {
@@ -309,6 +283,8 @@ function bindFormEvents() {
     }
     return valid;
   });
+  // Field to bind wysihtml5editor
+  $('.cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
   $('#news_form').on('click', ':input[type=submit]', function() {
     $(this).button('loading');
   });

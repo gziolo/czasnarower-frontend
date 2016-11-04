@@ -28,7 +28,7 @@ body {
     }
 }
 #footer {
-    background: url('../img/pattern.gif') repeat;
+    background: #191919;
     border-top: 5px solid #F89406;
     color: @grayLighter;
     margin-top: 1px;
@@ -1334,34 +1334,44 @@ h1.special {
     padding-left: 5px;
     padding-right: 5px;
     .description {
+        font-size: 1.2em;
+        line-height: 1.5em;
         h3 {
-            border-left: 5px solid @orange;
-            font-size: 20px;
-            line-height: 26px;
+            color: @black;
+            font-size: 1.2em;
+            line-height: 1em;
             margin: 1.5em 0 1em;
-            padding-left: 10px;
+        }
+        h4{
+            color: @grayDarker;
+            font-size: 1.1em;
+            line-height: 1em;
+            margin: 1.5em 0 1em;
         }
         q {
-            font-size: 1.1em;
             font-style: oblique;
-            color: lighten(@black, 10%);
+            color: lighten(@black, 20%);
             &:before, &:after {
-                content: '"';
-                color: @blueLight;
-                font-size: 1.5em;
-                line-height: 20px;
+                content: "“";
+                color: @blueMid;
+            }
+            &:after {
+                content: "”";
             }
         }
         blockquote p {
             margin-bottom: 10px;
             font-weight: normal;
         }
+        br {
+            display: block;
+            content: ' ';
+            margin-bottom: .5em;
+        }
         p {
-            font-size: 1.2em;
-            line-height: 1.5em;
+            
         }
         ul li {
-            font-size: 1.2em;
             line-height: 1.5em;
         }
     }

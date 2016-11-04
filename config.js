@@ -19,6 +19,9 @@ define(function() {
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
       bootstrap_collapse : 'js/vendor/bootstrap/plugins/bootstrap-collapse',
       bootstrap_multiselect : 'js/vendor/bootstrap/plugins/bootstrap-multiselect',
+      wysihtml5: 'js/vendor/bootstrap/plugins/wysihtml5',
+      bootstrap_wysihtml5: 'js/vendor/bootstrap/plugins/bootstrap-wysihtml5',
+      bootstrap_wysihtml5_pl: 'js/vendor/bootstrap/plugins/bootstrap-wysihtml5.pl-PL',
       es5shim : 'bower_components/es5-shim/es5-shim',
       es5sham : 'bower_components/es5-shim/es5-sham',
       flight : 'bower_components/flight',
@@ -54,6 +57,12 @@ define(function() {
         deps : [ 'jquery' ],
         exports : '$.fn.affix'
       },
+      bootstrap_wysihtml5 : {
+        deps : [ 'bootstrap', 'wysihtml5']
+      },
+      bootstrap_wysihtml5_pl: {
+        deps: ['bootstrap_wysihtml5']
+      },
       bootstrap_datepicker : {
         deps : [ 'bootstrap' ]
       },
@@ -62,7 +71,7 @@ define(function() {
         exports : '$.fn.tag'
       },
       bootstrap_collapse : {
-        deps : [ 'bootstrap' ],
+        deps : [ 'bootstrap'],
         exports : '$.fn.collapse'
       },
       bootstrap_multiselect : {
