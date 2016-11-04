@@ -58,10 +58,12 @@ define(function() {
         exports : '$.fn.affix'
       },
       bootstrap_wysihtml5 : {
-        deps : [ 'bootstrap', 'wysihtml5']
+        deps : [ 'bootstrap', 'wysihtml5'],
+        exports : '$.fn.wysihtml5'
       },
       bootstrap_wysihtml5_pl: {
-        deps: ['bootstrap_wysihtml5']
+        deps: ['bootstrap_wysihtml5'],
+        exports : '$.fn.wysihtml5'
       },
       bootstrap_datepicker : {
         deps : [ 'bootstrap' ]
@@ -107,11 +109,11 @@ define(function() {
         deps : [ 'es5shim', 'es5sham' ],
         exports : '_'
       },
+      wysihtml5: {
+        exports : 'wysihtml5'
+      },
       '//apis.google.com/js/plusone.js' : {
         exports : 'gapi'
-      },
-      '//platform.twitter.com/widgets.js' : {
-        exports : '__twttrlr'
       }
     }
   });
