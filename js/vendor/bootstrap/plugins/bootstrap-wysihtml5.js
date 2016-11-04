@@ -140,12 +140,13 @@
         var ytMatch = url.match(REG_EXP_YT);
         var REG_EXP_VIM = /\/\/(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/;
         var vimMatch = url.match(REG_EXP_VIM);
+        var id, type;
         if (ytMatch && ytMatch[1].length === 11) {
-            var id = ytMatch[1];
-            var type = 'youtube';
+            id = ytMatch[1];
+            type = 'youtube';
         } else if (vimMatch && vimMatch[3].length) {
-             var type = 'vimeo';
-             var id = vimMatch[3];
+            type = 'vimeo';
+            id = vimMatch[3];
         }
         else {
             return false;
@@ -153,7 +154,7 @@
 
         return {
             type: type,
-            id: RegExp.$6
+            id: id
         };
     }
 
