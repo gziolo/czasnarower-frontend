@@ -3967,13 +3967,16 @@ wysihtml5.browser = (function() {
     return str.replace(URL_REG_EXP, function(match, url) {
 
         var parseVideo = function(url) {
-            url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
-            if (RegExp.$3.indexOf('youtu') > -1) {
+            var REG_EXP_YT = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+            var ytMatch = url.match(REG_EXP_YT);
+            var REG_EXP_VIM = /\/\/(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/;
+            var vimMatch = url.match(REG_EXP_VIM);
+            if (ytMatch && ytMatch[1].length === 11) {
                 return '<iframe frameborder="0" src="https://www.youtube.com/embed/' + 
-                    RegExp.$6 + '" class="youtube-player" width="630" height="388"></iframe><br />';
-            } else if (RegExp.$3.indexOf('vimeo') > -1) {
-                return '<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="//player.vimeo.com/video/' + 
-                    RegExp.$6 + '" class="vimeo-player" width="630" height="388"></iframe><br />';
+                    ytMatch[1] + '" class="youtube-player" width="630" height="388"></iframe><br />';
+            } else if (vimMatch && vimMatch[3].length) {
+                 return '<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="//player.vimeo.com/video/' + 
+                    vimMatch[3] + '" class="vimeo-player" width="630" height="388"></iframe><br />';
             }
             else {
                 return false;
@@ -5082,14 +5085,13 @@ wysihtml5.dom.parse = (function() {
     })(),
 
     video: (function() {
-      var REG_EXP = /(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/i;
+      var REG_EXP_YT = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+      var REG_EXP_VIM = /\/\/(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/;
       return function(attributeValue) {
-        if (!attributeValue || !attributeValue.match(REG_EXP)) {
+        if (!attributeValue || !(attributeValue.match(REG_EXP_YT) || attributeValue.match(REG_EXP_VIM))) {
           return null;
         }
-        return attributeValue.replace(REG_EXP, function(match) {
-          return match;
-        });
+        return attributeValue;
       };
     })(),
 
