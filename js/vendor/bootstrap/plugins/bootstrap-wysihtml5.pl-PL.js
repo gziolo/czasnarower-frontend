@@ -32,6 +32,10 @@
             insert: "Wstaw obrazek",
             cancel: "Anuluj"
         },
+        video: {
+            insert: "Wstaw filmik",
+            cancel: "Anuluj"
+        },
         html: {
             edit: "Edycja HTML"
         },
