@@ -75,7 +75,7 @@ define(function() {
               facebook_id : response.authResponse.userID
             }, {
               success : function() {
-                if ($('#full_window').val() != 1) {
+                if ($('#full_window').val() !== 1) {
                   window.location.reload();
                 } else {
                   window.close();
