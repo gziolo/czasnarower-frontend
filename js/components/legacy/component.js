@@ -340,12 +340,10 @@ function bindFormEvents() {
  */
 var _core = _core || [];
 
-define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending',
-  'legacy/creators/facebook', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
+define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 
+  'legacy/creators/facebook', 'legacy/creators/fileUploader', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
   'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView',
-  'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback,
-                                                                     mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback,
-                                                                     trackViewCallback, userCallback, usersDataViewCallback) {
+  'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, fileUploaderCallback, mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback, trackViewCallback, userCallback, usersDataViewCallback) {
   'use strict';
 
   window.Core = core;
@@ -355,6 +353,7 @@ define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/com
   core.creator.register('entryView', entryViewCallback);
   core.creator.register('eventAttending', eventAttendingCallback);
   core.creator.register('facebook', facebookCallback);
+  core.creator.register('fileUploader', fileUploaderCallback);
   core.creator.register('map', mapCallback);
   core.creator.register('mapHandler', mapHandlerCallback);
   core.creator.register('message', messageCallback);
