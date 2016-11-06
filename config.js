@@ -27,6 +27,8 @@ define(function() {
       flight : 'bower_components/flight',
       jquery : 'bower_components/jquery/jquery',
       jquery_migrate : 'bower_components/jquery/jquery-migrate',
+      fileinput: 'js/vendor/bootstrap/plugins/fileinput',
+      fileinput_pl: 'js/vendor/bootstrap/plugins/fileinput-pl',
       json2 : 'bower_components/json2/json2',
       'load-image' : 'js/vendor/bootstrap/plugins/load-image',
       moment : 'js/vendor/moment/moment',
@@ -79,6 +81,10 @@ define(function() {
       bootstrap_multiselect : {
         deps : [ 'bootstrap' ],
         exports : '$.fn.multiselect'
+      },
+      fileinput: {
+        deps: [ 'jquery' ],
+        exports: '$.fn.fileinput'
       },
       'bower_components/flight/lib/index' : {
         deps : [ 'jquery_migrate', 'es5shim', 'es5sham' ]
