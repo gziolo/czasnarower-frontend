@@ -3244,143 +3244,143 @@ rangy.createModule("DomUtil", function(api, module) {
     });
 });
 /*
-	Base.js, version 1.1a
-	Copyright 2006-2010, Dean Edwards
-	License: http://www.opensource.org/licenses/mit-license.php
+    Base.js, version 1.1a
+    Copyright 2006-2010, Dean Edwards
+    License: http://www.opensource.org/licenses/mit-license.php
 */
 
 var Base = function() {
-	// dummy
+    // dummy
 };
 
 Base.extend = function(_instance, _static) { // subclass
-	var extend = Base.prototype.extend;
-	
-	// build the prototype
-	Base._prototyping = true;
-	var proto = new this;
-	extend.call(proto, _instance);
+    var extend = Base.prototype.extend;
+    
+    // build the prototype
+    Base._prototyping = true;
+    var proto = new this;
+    extend.call(proto, _instance);
   proto.base = function() {
     // call this method from any other method to invoke that method's ancestor
   };
-	delete Base._prototyping;
-	
-	// create the wrapper for the constructor function
-	//var constructor = proto.constructor.valueOf(); //-dean
-	var constructor = proto.constructor;
-	var klass = proto.constructor = function() {
-		if (!Base._prototyping) {
-			if (this._constructing || this.constructor == klass) { // instantiation
-				this._constructing = true;
-				constructor.apply(this, arguments);
-				delete this._constructing;
-			} else if (arguments[0] != null) { // casting
-				return (arguments[0].extend || extend).call(arguments[0], proto);
-			}
-		}
-	};
-	
-	// build the class interface
-	klass.ancestor = this;
-	klass.extend = this.extend;
-	klass.forEach = this.forEach;
-	klass.implement = this.implement;
-	klass.prototype = proto;
-	klass.toString = this.toString;
-	klass.valueOf = function(type) {
-		//return (type == "object") ? klass : constructor; //-dean
-		return (type == "object") ? klass : constructor.valueOf();
-	};
-	extend.call(klass, _static);
-	// class initialisation
-	if (typeof klass.init == "function") klass.init();
-	return klass;
+    delete Base._prototyping;
+    
+    // create the wrapper for the constructor function
+    //var constructor = proto.constructor.valueOf(); //-dean
+    var constructor = proto.constructor;
+    var klass = proto.constructor = function() {
+        if (!Base._prototyping) {
+            if (this._constructing || this.constructor == klass) { // instantiation
+                this._constructing = true;
+                constructor.apply(this, arguments);
+                delete this._constructing;
+            } else if (arguments[0] != null) { // casting
+                return (arguments[0].extend || extend).call(arguments[0], proto);
+            }
+        }
+    };
+    
+    // build the class interface
+    klass.ancestor = this;
+    klass.extend = this.extend;
+    klass.forEach = this.forEach;
+    klass.implement = this.implement;
+    klass.prototype = proto;
+    klass.toString = this.toString;
+    klass.valueOf = function(type) {
+        //return (type == "object") ? klass : constructor; //-dean
+        return (type == "object") ? klass : constructor.valueOf();
+    };
+    extend.call(klass, _static);
+    // class initialisation
+    if (typeof klass.init == "function") klass.init();
+    return klass;
 };
 
-Base.prototype = {	
-	extend: function(source, value) {
-		if (arguments.length > 1) { // extending with a name/value pair
-			var ancestor = this[source];
-			if (ancestor && (typeof value == "function") && // overriding a method?
-				// the valueOf() comparison is to avoid circular references
-				(!ancestor.valueOf || ancestor.valueOf() != value.valueOf()) &&
-				/\bbase\b/.test(value)) {
-				// get the underlying method
-				var method = value.valueOf();
-				// override
-				value = function() {
-					var previous = this.base || Base.prototype.base;
-					this.base = ancestor;
-					var returnValue = method.apply(this, arguments);
-					this.base = previous;
-					return returnValue;
-				};
-				// point to the underlying method
-				value.valueOf = function(type) {
-					return (type == "object") ? value : method;
-				};
-				value.toString = Base.toString;
-			}
-			this[source] = value;
-		} else if (source) { // extending with an object literal
-			var extend = Base.prototype.extend;
-			// if this object has a customised extend method then use it
-			if (!Base._prototyping && typeof this != "function") {
-				extend = this.extend || extend;
-			}
-			var proto = {toSource: null};
-			// do the "toString" and other methods manually
-			var hidden = ["constructor", "toString", "valueOf"];
-			// if we are prototyping then include the constructor
-			var i = Base._prototyping ? 0 : 1;
-			while (key = hidden[i++]) {
-				if (source[key] != proto[key]) {
-					extend.call(this, key, source[key]);
+Base.prototype = {  
+    extend: function(source, value) {
+        if (arguments.length > 1) { // extending with a name/value pair
+            var ancestor = this[source];
+            if (ancestor && (typeof value == "function") && // overriding a method?
+                // the valueOf() comparison is to avoid circular references
+                (!ancestor.valueOf || ancestor.valueOf() != value.valueOf()) &&
+                /\bbase\b/.test(value)) {
+                // get the underlying method
+                var method = value.valueOf();
+                // override
+                value = function() {
+                    var previous = this.base || Base.prototype.base;
+                    this.base = ancestor;
+                    var returnValue = method.apply(this, arguments);
+                    this.base = previous;
+                    return returnValue;
+                };
+                // point to the underlying method
+                value.valueOf = function(type) {
+                    return (type == "object") ? value : method;
+                };
+                value.toString = Base.toString;
+            }
+            this[source] = value;
+        } else if (source) { // extending with an object literal
+            var extend = Base.prototype.extend;
+            // if this object has a customised extend method then use it
+            if (!Base._prototyping && typeof this != "function") {
+                extend = this.extend || extend;
+            }
+            var proto = {toSource: null};
+            // do the "toString" and other methods manually
+            var hidden = ["constructor", "toString", "valueOf"];
+            // if we are prototyping then include the constructor
+            var i = Base._prototyping ? 0 : 1;
+            while (key = hidden[i++]) {
+                if (source[key] != proto[key]) {
+                    extend.call(this, key, source[key]);
 
-				}
-			}
-			// copy each of the source object's properties to this object
-			for (var key in source) {
-				if (!proto[key]) extend.call(this, key, source[key]);
-			}
-		}
-		return this;
-	}
+                }
+            }
+            // copy each of the source object's properties to this object
+            for (var key in source) {
+                if (!proto[key]) extend.call(this, key, source[key]);
+            }
+        }
+        return this;
+    }
 };
 
 // initialise
 Base = Base.extend({
-	constructor: function() {
-		this.extend(arguments[0]);
-	}
+    constructor: function() {
+        this.extend(arguments[0]);
+    }
 }, {
-	ancestor: Object,
-	version: "1.1",
-	
-	forEach: function(object, block, context) {
-		for (var key in object) {
-			if (this.prototype[key] === undefined) {
-				block.call(context, object[key], key, object);
-			}
-		}
-	},
-		
-	implement: function() {
-		for (var i = 0; i < arguments.length; i++) {
-			if (typeof arguments[i] == "function") {
-				// if it's a function, call it
-				arguments[i](this.prototype);
-			} else {
-				// add the interface using the extend method
-				this.prototype.extend(arguments[i]);
-			}
-		}
-		return this;
-	},
-	
-	toString: function() {
-		return String(this.valueOf());
-	}
+    ancestor: Object,
+    version: "1.1",
+    
+    forEach: function(object, block, context) {
+        for (var key in object) {
+            if (this.prototype[key] === undefined) {
+                block.call(context, object[key], key, object);
+            }
+        }
+    },
+        
+    implement: function() {
+        for (var i = 0; i < arguments.length; i++) {
+            if (typeof arguments[i] == "function") {
+                // if it's a function, call it
+                arguments[i](this.prototype);
+            } else {
+                // add the interface using the extend method
+                this.prototype.extend(arguments[i]);
+            }
+        }
+        return this;
+    },
+    
+    toString: function() {
+        return String(this.valueOf());
+    }
 });/**
  * Detect browser support for specific features
  */
@@ -3931,7 +3931,7 @@ wysihtml5.browser = (function() {
   var /**
        * Don't auto-link urls that are contained in the following elements:
        */
-      IGNORE_URLS_IN        = wysihtml5.lang.array(["CODE", "PRE", "A", "SCRIPT", "HEAD", "TITLE", "STYLE"]),
+      IGNORE_URLS_IN        = wysihtml5.lang.array(["CODE", "PRE", "A", "SCRIPT", "HEAD", "TITLE", "STYLE", "IFRAME"]),
       /**
        * revision 1:
        *    /(\S+\.{1}[^\s\,\.\!]+)/g
@@ -3965,25 +3965,47 @@ wysihtml5.browser = (function() {
    */
   function _convertUrlsToLinks(str) {
     return str.replace(URL_REG_EXP, function(match, url) {
-      var punctuation = (url.match(TRAILING_CHAR_REG_EXP) || [])[1] || "",
-          opening     = BRACKETS[punctuation];
-      url = url.replace(TRAILING_CHAR_REG_EXP, "");
 
-      if (url.split(opening).length > url.split(punctuation).length) {
-        url = url + punctuation;
-        punctuation = "";
+        var parseVideo = function(url) {
+            var REG_EXP_YT = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+            var ytMatch = url.match(REG_EXP_YT);
+            var REG_EXP_VIM = /\/\/(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/;
+            var vimMatch = url.match(REG_EXP_VIM);
+            if (ytMatch && ytMatch[1].length === 11) {
+                return '<iframe frameborder="0" src="https://www.youtube.com/embed/' + 
+                    ytMatch[1] + '" class="youtube-player" width="630" height="388"></iframe><br />';
+            } else if (vimMatch && vimMatch[3].length) {
+                 return '<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen frameborder="0" src="//player.vimeo.com/video/' + 
+                    vimMatch[3] + '" class="vimeo-player" width="630" height="388"></iframe><br />';
+            }
+            else {
+                return false;
+            }
+        }
+        var videoStr = parseVideo(str);
+        if (videoStr) {
+            return videoStr;
+        } else {
+          var punctuation = (url.match(TRAILING_CHAR_REG_EXP) || [])[1] || "",
+              opening     = BRACKETS[punctuation];
+          url = url.replace(TRAILING_CHAR_REG_EXP, "");
+
+          if (url.split(opening).length > url.split(punctuation).length) {
+            url = url + punctuation;
+            punctuation = "";
+          }
+          var realUrl    = url,
+              displayUrl = url;
+          if (url.length > MAX_DISPLAY_LENGTH) {
+            displayUrl = displayUrl.substr(0, MAX_DISPLAY_LENGTH) + "...";
+          }
+          // Add http prefix if necessary
+          if (realUrl.substr(0, 4) === "www.") {
+            realUrl = "http://" + realUrl;
+          }
+          
+          return '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
       }
-      var realUrl    = url,
-          displayUrl = url;
-      if (url.length > MAX_DISPLAY_LENGTH) {
-        displayUrl = displayUrl.substr(0, MAX_DISPLAY_LENGTH) + "...";
-      }
-      // Add http prefix if necessary
-      if (realUrl.substr(0, 4) === "www.") {
-        realUrl = "http://" + realUrl;
-      }
-      
-      return '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
     });
   }
   
@@ -5061,7 +5083,18 @@ wysihtml5.dom.parse = (function() {
         });
       };
     })(),
-    
+
+    video: (function() {
+      var REG_EXP_YT = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+      var REG_EXP_VIM = /\/\/(player\.)?vimeo\.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*/;
+      return function(attributeValue) {
+        if (!attributeValue || !(attributeValue.match(REG_EXP_YT) || attributeValue.match(REG_EXP_VIM))) {
+          return null;
+        }
+        return attributeValue;
+      };
+    })(),
+
     alt: (function() {
       var REG_EXP = /[^ a-z0-9_\-]/gi;
       return function(attributeValue) {
@@ -5071,7 +5104,7 @@ wysihtml5.dom.parse = (function() {
         return attributeValue.replace(REG_EXP, "");
       };
     })(),
-    
+
     numbers: (function() {
       var REG_EXP = /\D/g;
       return function(attributeValue) {
@@ -7053,7 +7086,7 @@ wysihtml5.Commands = Base.extend(
       // Following elements are grouped
       // when the caret is within a H1 and the H4 is invoked, the H1 should turn into H4
       // instead of creating a H4 within a H1 which would result in semantically invalid html
-      BLOCK_ELEMENTS_GROUP    = ["H1", "H2", "H3", "H4", "H5", "H6", "P", "BLOCKQUOTE", DEFAULT_NODE_NAME];
+      BLOCK_ELEMENTS_GROUP    = ["H1", "H2", "H3", "H4", "H5", "H6", "P", "IFRAME", "BLOCKQUOTE", DEFAULT_NODE_NAME];
   
   /**
    * Remove similiar classes (based on classRegExp)
@@ -7487,6 +7520,114 @@ wysihtml5.Commands = Base.extend(
     value: function(composer) {
       var image = this.state(composer);
       return image && image.src;
+    }
+  };
+})(wysihtml5);(function(wysihtml5) {
+  var NODE_NAME = "IFRAME";
+  
+  wysihtml5.commands.insertVideo = {
+    /**
+     * Inserts an <iframe>
+     * If selection is already an  video, it removes it
+     * 
+     * @example
+     *    wysihtml5.commands.insertImage.exec(composer, "insertVideo", 
+     {src: "http://www.google.de/logo.jpg", className: "foo", "width": xxx, "height": xxx });
+     */
+    exec: function(composer, command, value) {
+      var doc     = composer.doc,
+          videoIframe   = this.state(composer),
+          textNode,
+          i,
+          parent;
+
+      if (videoIframe) {
+        // Video already selected, set the caret before it and delete it
+        composer.selection.setBefore(videoIframe);
+        parent = videoIframe.parentNode;
+        parent.removeChild(videoIframe);
+
+        // and it's parent <iframe> too if it hasn't got any other relevant child nodes
+        wysihtml5.dom.removeEmptyTextNodes(parent);
+        if (parent.nodeName === "IFRAME" && !parent.firstChild) {
+          composer.selection.setAfter(parent);
+          parent.parentNode.removeChild(parent);
+        }
+
+        // firefox and ie sometimealts don't remove the videoIframe handles, even though the videoIframe got removed
+        wysihtml5.quirks.redraw(composer.element);
+        return;
+      }
+
+      videoIframe = doc.createElement(NODE_NAME);
+      if (value["type"] && value["type"] === "alt") {
+          videoIframe.setAttribute('webkitallowfullscreen', "");
+          videoIframe.setAttribute('mozallowfullscreen', "");
+          videoIframe.setAttribute('allowfullscreen', "");
+      }
+      videoIframe.className = value["type"] + "-player";
+      videoIframe.frameBorder = 0;
+      videoIframe.setAttribute('width', value['width']);
+      videoIframe.setAttribute('height', value['height']);
+      videoIframe.setAttribute('src', value['src']);
+      for (i in value) {
+        videoIframe[i] = value[i];
+      }
+
+      composer.selection.insertNode(videoIframe);
+      if (wysihtml5.browser.hasProblemsSettingCaretAfterImg()) {
+        textNode = doc.createTextNode(wysihtml5.INVISIBLE_SPACE);
+        composer.selection.insertNode(textNode);
+        composer.selection.setAfter(textNode);
+      } else {
+        composer.selection.setAfter(videoIframe);
+      }
+    },
+
+    state: function(composer) {
+      var doc = composer.doc,
+          selectedNode,
+          text,
+          iframeInSelection;
+
+      if (!wysihtml5.dom.hasElementWithTagName(doc, NODE_NAME)) {
+        return false;
+      }
+
+      selectedNode = composer.selection.getSelectedNode();
+      if (!selectedNode) {
+        return false;
+      }
+
+      if (selectedNode.nodeName === NODE_NAME) {
+        // This works perfectly in IE
+        return selectedNode;
+      }
+
+      if (selectedNode.nodeType !== wysihtml5.ELEMENT_NODE) {
+        return false;
+      }
+
+      text = composer.selection.getText();
+      text = wysihtml5.lang.string(text).trim();
+      if (text) {
+        return false;
+      }
+
+      iframeInSelection = composer.selection.getNodes(wysihtml5.ELEMENT_NODE, function(node) {
+        return node.nodeName === "IFRAME";
+      });
+
+      if (iframeInSelection.length !== 1) {
+        return false;
+      }
+
+      return iframeInSelection[0];
+    },
+
+    value: function(composer) {
+      var iframe = this.state(composer);
+      return iframe && iframe.src;
     }
   };
 })(wysihtml5);(function(wysihtml5) {
