@@ -20,7 +20,7 @@ define(function() {
         var script = document.createElement("script");
         script.type = "text/javascript";
         script.id = 'googleMaps';
-        script.src = "http://maps.google.com/maps/api/js?libraries=geometry&language=pl&sensor=false&callback=mapInitialisedCallback";
+        script.src = "http://maps.google.com/maps/api/js?key=AIzaSyDO5nzYLpXlRdCHPfhMJqSAw-43Eqk_otI&libraries=geometry&language=pl&sensor=false&callback=mapInitialisedCallback";
         $('body').append(script);
       }
     }

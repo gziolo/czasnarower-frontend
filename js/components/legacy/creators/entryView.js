@@ -106,7 +106,7 @@ define(function() {
       });
     }
     function _bindConfirmNewsRemove(params) {
-      var elem = $('#article_' + params.news_id + ' .cnr-news-remove');
+      var elem = $('#article_' + params.news_id + ' .removeEntry');
       var html = "<p>Czy na pewno chcesz usunąć news?</p><button class='btn btn-small btn-danger confirm-remove'>Usuń</button><button class='btn btn-small cancel-remove'>Anuluj</button>";
       elem.popover({
         html : true,
@@ -163,7 +163,7 @@ define(function() {
     }
     function bindButtons() {
 
-      $('.cnr-news-remove').each(function(index) {
+      $('.cnr-news-remove, .cnr-article-remove').each(function(index) {
         var elem = $(this);
         var params = {
           news_id : elem.attr('data-id')

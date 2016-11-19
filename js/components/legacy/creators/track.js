@@ -72,7 +72,7 @@ define(function() {
     /**
      *
      */
-    draft,
+    draft = true,
 
     /**
      * if track is loaded from gpx, this variable should point at temporary gpx
@@ -307,36 +307,109 @@ define(function() {
       }
     }
 
+    function initializeUploadForm(messageInfo) {
+      var data = messageInfo.data;
+      $("#track_path").fileinput({
+            browseLabel: "Wybierz plik .gpx",
+            showPreview: false,
+            language: "pl",
+            theme: "gly",
+            layoutTemplates: {
+              main2: '{preview}\n{remove}\n{cancel}\n{upload}\n{browse}\n',
+              main1: '{preview}\n' +
+                '<div class="input-group {class}">\n' +
+                '   {caption}\n' +
+                '   <div class="input-group-btn">\n' +
+                '       {remove}\n' +
+                '       {cancel}\n' +
+                '       {upload}\n' +
+                '       {browse}\n' +
+                '   </div>\n' +
+                '</div>'
+            },
+            showRemove: false,
+            uploadAsync: true,
+            uploadExtraData: data.params,
+            uploadUrl: "ajax"
+      }).on('fileuploaded', function(event, data, previewId, index) {
+          var response = data.response;
+          console.log(response);
+          $('#gpx_field .help-block').html(response.result.sMessage);
+          if (!response.result.iStatus) {
+            sandbox.notify({
+              type: 'display-poly',
+              data: response.result.params.track_locations});
+            sandbox.notify({type: 'set-file-src',
+              data: response.result.params.tmp_file_src});
+          } else {
+            $('#gpx_field').addClass('has-error has-danger');
+          }
+      }).on('filebatchselected', function(event, numFiles, label) {
+          $('#gpx_field').removeClass('has-error has-danger');
+          $('#gpx_field .help-block').html('');
+      }).on('fileuploaderror', function(event, data, msg) {
+          var response = data.response;
+          $('#gpx_field .help-block').html(response.result.sMessage);
+          $('#gpx_field').addClass('has-error has-danger');
+      });
+    }
+
     function initializeForm() {
+
+      $('#track_form').validator().on('submit', function (e) {
+        if (e.isDefaultPrevented()) {
+          return false;
+        } else {
+          e.preventDefault();
+           saveTrack(draft ? $('#track_draft_submit') : $('#track_submit'));
+        }
+      });
+
+      // Field to bind wysihtml5editor
+      $('.cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
+
       $('#track_submit').on('click', function() {
-        $("#success_communique").remove();
-        $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+        $('#validation_communique').removeClass('alert alert-error error').html('');
         draft = false;
-        saveTrack($(this));
+        $('#track_form').submit();
       });
 
       $('#track_draft_submit').on('click', function() {
-        $("#success_communique").remove();
-        $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
+       $('#validation_communique').removeClass('alert alert-error error').html('');
         draft = true;
-        saveTrack($(this));
+        $('#track_form').submit();
       });
-
     }
 
     /**
      * binding events with form elements
      */
     function bindForm() {
-      $('#track_file_submit').on('click', function() {
-        $(this).button('loading');
+
+      $('#track_locations_form').validator().on('submit', function (e) {
+        if (e.isDefaultPrevented()) {
+          return false;
+        } else {
+          e.preventDefault();
+          if (validateTrackLocations()) {
+            getCoordinates();
+          }
+        }
       });
-      $('#btnGeocode').click(function() {
+
+      $('#track_location_submit').on('click', function() {
+        $('#validation_communique').removeClass('alert alert-error error').html('');
+        $('#track_field .help-block').removeClass('has-danger has-error').html('');
+        $('#track_locations_form').submit();
+      });
+
+      $('#btnGeocode').on('click', function() {
         codeAddress();
       });
 
-      $('#searchAddress').keypress(function(e) {
-        if (e.which === '13') {
+      $('#searchAddress').on('keypress', function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
           codeAddress();
         }
       });
@@ -365,41 +438,6 @@ define(function() {
       $('#autoRouteLabel').click(function() {
         var checked = $('#autoRoute').prop('checked');
         $('#autoRoute').attr('checked', !checked);
-      });
-
-      $('#track_location_submit').on('click', function() {
-        $("#success_communique").remove();
-        $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-        draft = false;
-        if (validateTrackLocations()) {
-          getCoordinates($(this));
-        }
-      });
-
-      $('#track_location_draft_submit').on('click', function() {
-        $("#success_communique").remove();
-        $(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-        draft = true;
-        if (validateTrackLocations()) {
-          getCoordinates($(this));
-        }
-      });
-
-      $('#track_title').blur(function() {
-        var title = $(this).val();
-        var aTitle = title.split(' ');
-        if (aTitle.length < 2) {
-          $(this).closest('.control-group').addClass('alert error alert-error');
-          $('#title_communique').html('<span>Tytuł powinien się składać przynajmniej z 2 wyrazów i 5 liter</span>').show();
-        }
-        if (title.length < 5 || title.length > 80) {
-          $(this).closest('.control-group').addClass('alert error alert-error');
-          $('#title_communique').html('<span>Tytuł powinien się składać przynajmniej z 2 wyrazów i 5 liter</span>').show();
-        }
-      }).focus(function() {
-      // $(this).closest('.control-group').removeClass('alert error
-      // alert-error');
-      // $('#title_communique').hide();
       });
     }
 
@@ -1012,26 +1050,8 @@ define(function() {
     /**
      *
      */
-    function validateTrack() {
-      var aErrors = [];
-      var aParams = {};
-
-      var title = $('#track_title').val();
-      var aTitle = title.split(' ');
-
-      var description = $('#track_description').val();
-      var aDescription = description.split(' ');
-      var start_place = $('#track_start_place').val();
-      var distance = $('#track_distance').val();
-
+    function getTrackParams() {
       var difficulty = $('input[name="difficulty"]:checked');
-      var difficultyVal = 0;
-      if (difficulty.length) {
-        difficulty.each(function(i) {
-          difficultyVal = $(this).val();
-        });
-      }
-
       var categories = $('input[name="category"]:checked');
       var categoriesVal = [];
       if (categories.length) {
@@ -1040,79 +1060,21 @@ define(function() {
         });
       }
 
-      var tags = $('#track_tags').val();
-      var fb_publish = $('#fb_publish').prop('checked');
-      var special_highlighted = $('#special_highlighted').prop('checked');
-      var special_tag_silvini = $('#special_tag_silvini').prop('checked');
-      var special_tag_autumn_contest = $('#special_tag_autumn_contest').prop('checked');
-      var special_tag_dworelizy_contest = $('#special_tag_dworelizy_contest').prop('checked');
-
-      if (aTitle.length < 2 || title.length < 5 || title.length > 80) {
-        aErrors.push({
-          id : 'title_communique',
-          msg : '<span>Tytuł powinien się składać przynajmniej z 2 wyrazów i 5 liter.</span>'
-        });
-      }
-      if (start_place.length < 1) {
-        aErrors.push({
-          id : 'start_place_communique',
-          msg : '<span>Uzupełnij miejsce startu.</span>'
-        });
-      }
-
-      if (!draft) {
-        if (!difficulty.length) {
-          aErrors.push({
-            id : 'difficulty_communique',
-            msg : '<span>Wybierz trudność trasy.</span>'
-          });
-        }
-        if (!categories.length) {
-          aErrors.push({
-            id : 'category_communique',
-            msg : '<span>Zaznacz przynajmniej jedną kategorię.</span>'
-          });
-        }
-        var aWords = [];
-        $.each(aDescription, function(i, val) {
-          if (val.length > 3) {
-            aWords.push(val);
-          }
-        });
-        if (aWords.length < 10 || description.length < 60) {
-          aErrors.push({
-            id : 'description_communique',
-            msg : '<span>Opis trasy powinien się składać z minimum 60 znaków i 10 unikalnych wyrazów.</span>'
-          });
-        }
-      }
-      // return false;
-      if (aErrors.length) {
-        aErrors.push({
-          id : 'validation_communique',
-          msg : 'Formularz zawiera błędy. Popraw je aby zapisać trasę.'
-        });
-        showError({
-          noDialog : true,
-          errors : aErrors,
-          title : 'Błąd',
-          content : 'Formularz zawiera błędy. Popraw je aby zapisać opis trasy.'
-        });
-        return false;
-      }
       return {
-        title : title,
-        description : description,
-        difficulty : difficultyVal,
+        title : $('#track_title').val(),
+        description : $('#track_description').val(),
+        difficulty : (difficulty.length ? difficulty.val() : 0),
         categories : categoriesVal,
-        tags : tags,
-        start_place : start_place,
-        distance : distance,
-        fb_publish : fb_publish,
-        special_highlighted : special_highlighted,
-        special_tag_silvini : special_tag_silvini,
-        special_tag_autumn_contest: special_tag_autumn_contest,
-        special_tag_dworelizy_contest: special_tag_dworelizy_contest
+        tags : $('#track_tags').val(),
+        start_place : $('#track_start_place').val(),
+        distance : $('#track_distance').val(),
+        fb_publish : $('#fb_publish').prop('checked'),
+        special_highlighted : $('#special_highlighted').prop('checked'),
+        special_tag_silvini : $('#special_tag_silvini').prop('checked'),
+        special_tag_autumn_contest:  $('#special_tag_autumn_contest').prop('checked'),
+        special_tag_dworelizy_contest: $('#special_tag_dworelizy_contest').prop('checked'),
+        track_id: $('#track_id').val(),
+        draft: draft
       };
     }
     /**
@@ -1120,20 +1082,7 @@ define(function() {
      */
     function validateTrackLocations() {
 
-      var aErrors = [];
-
-      var title = $('#track_title').val() || "";
-      var aTitle = title.split(' ');
-
-      if (aTitle.length < 2 || title.length < 5 || title.length > 80) {
-        aErrors.push({
-          id : 'title_communique',
-          msg : '<span>Tytuł powinien się składać przynajmniej z 2 wyrazów i 5 liter</span>'
-        });
-      }
-
       var path = [];
-
       if (aMarkers.length) {
         path.push(aMarkers[0].getPosition());
       }
@@ -1145,24 +1094,8 @@ define(function() {
         });
       }
       if (path.length < MIN_TRACK_LOCATIONS) {
-        aErrors.push({
-          id : 'path_communique',
-          msg : '<span>Trasa musi mieć minimum ' + MIN_TRACK_LOCATIONS + ' punktów aby została zapisana.</span>'
-        });
-      }
-
-      if (aErrors.length) {
-        aErrors.push({
-          id : 'validation_communique',
-          msg : 'Formularz zawiera błędy. Popraw je aby zapisać trasę.'
-        });
-        showError({
-          noDialog : true,
-          errors : aErrors,
-          title : 'Błąd',
-          content : 'Formularz zawiera błędy. Popraw je aby zapisać ślad trasy.'
-        });
-
+        $('.map-box').parent('.form-group').addClass('has-error has-danger')
+        $('.map-box').parent('.form-group').find('.help-block.with-errors').html('Trasa musi mieć minimum ' + MIN_TRACK_LOCATIONS + ' punktów aby została zapisana.');
         return false;
       }
       return true;
@@ -1171,8 +1104,9 @@ define(function() {
     /**
      *
      */
-    function getCoordinates(button) {
+    function getCoordinates() {
 
+      var button = $('#track_location_submit');
       var path = [];
 
       var params = {
@@ -1198,10 +1132,12 @@ define(function() {
         });
       }
 
+      /*
       if (path.length < MIN_TRACK_LOCATIONS) {
         $('#validation_communique').html('Trasa musi mieć minimum ' + MIN_TRACK_LOCATIONS + ' punktów aby została zapisana.').show();
         return false;
       }
+      */
 
       if (path.length) {
         $.each(path, function(i, pt) {
@@ -1310,45 +1246,34 @@ define(function() {
         dataType : 'json',
         url : 'ajax',
         cache : false
-      }).done(
-          function(data) {
-            if (!data.result.iStatus) {
-              $('#track_id').val(data.result.track.id);
-              $('#track_location_id').val(data.result.track_location.id);
-
-              // no errors, everything is fine
-              if (data.result.sRedirect) {
-                window.location = data.result.sRedirect;
-              } else {
-                // display alert with proper info
-                $('<div id="success_communique" class="alert alert-success">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + data.result.sMessage + '</div>')
-                    .insertBefore('.form-actions');
-                modified = false;
-                fileSrc = '';
-              }
-            } else {
-              var aErrors = [];
-              if (data.errors) {
-                $.each(data.errors, function(key, err) {
-                  var id = key.split('_')[1];
-                  aErrors.push({
-                    id : id + "_communique",
-                    msg : err
-                  });
-                });
-                aErrors.push({
-                  id : "validation_communique",
-                  msg : "Formularz zawiera błędy. Popraw je aby zapisać ślad trasy."
-                });
-              }
-              showError({
-                noDialog : true,
-                title : 'Błąd',
-                content : data.result.sMessage,
-                errors : aErrors
-              });
-            }
-          }).always(function() {
+      }).done(function(data) {
+        // no errors, everything is fine
+        if (!data.result.iStatus) {
+          if (data.result.track.id && !params['track_id']) {
+            $('#track_id').val(data.result.track.id);
+            $('#track_location_id').val(data.result.track_location.id);
+            history.pushState({}, 'Edycja trasy rowerowej', data.result.url.edition);
+          }
+          $('#validation_communique').addClass("alert alert-success").html(
+          data.result.sMessage);
+          if (data.result.sRedirect) {
+            window.location = data.result.sRedirect;
+          } else {
+            modified = false;
+            fileSrc = '';
+          }
+        } else {
+          var aErrors = [];
+          if (data.errors) {
+            $.each(data.errors, function(key, err) {
+              var formElem = $('[name="' + key + '"]').closest('.control-group');
+              formElem.find('.help-block.with-errors').html(err);
+              formElem.addClass('has-error has-danger');
+            });
+          }
+          $('#validation_communique').addClass("alert alert-error").html(data.result.sMessage);
+        }
+      }).always(function() {
         button.button('reset');
       });
     }
@@ -1357,62 +1282,48 @@ define(function() {
      * save track
      */
     function saveTrack(button) {
-      var params, urlData;
-
       button.button('loading');
-      params = validateTrack();
+      var params = getTrackParams();
       if (!params) {
         button.button('reset');
         return false;
       }
-      params['track_id'] = $('#track_id').val();
-      params['draft'] = draft;
-
-      urlData = {
-        dao : 13,
-        action : 2,
-        dataType : 'json',
-        params : JSON.stringify(params)
-      };
-
+      
       sandbox.ajax({
-        type : 'POST',
-        data : urlData,
+        cache : false,
+        data : {
+          dao : 13,
+          action : 2,
+          dataType : 'json',
+          params : JSON.stringify(params)
+        },
         dataType : 'json',
-        url : 'ajax',
-        cache : false
+        type : 'POST',
+        url : 'ajax'
       }).done(
           function(data) {
-            var aErrors = [];
-
             if (!data.result.iStatus) {
               // no errors, everything is fine
-              if (data.result.sRedirect) {
-                window.location = data.result.sRedirect;
+              if (!draft) {
+                $('#validation_communique').addClass("alert alert-success").html(
+                  data.result.sMessage);
+                  window.location = data.url.preview;
               } else {
-                $('<div id="success_communique" class="alert alert-success">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + data.result.sMessage + '</div>')
-                    .insertBefore('.form-actions');
+                $('#validation_communique').addClass("alert alert-success").html(
+                  data.result.sMessage +
+                  (data.url && data.url.preview ? (" | <a href='" + data.url.preview + "'>Wyświetl podgląd</a>") : "") +
+                  (data.url && data.url.manage_photos ? (" | <a href='" + data.url.manage_photos + "'>Dodaj zdjęcia</a>") : "")
+                );
               }
             } else {
               if (data.errors) {
                 $.each(data.errors, function(key, err) {
-                  var id = key.split('_')[1];
-                  aErrors.push({
-                    id : id + "_communique",
-                    msg : err
-                  });
-                });
-                aErrors.push({
-                  id : "validation_communique",
-                  msg : "Formularz zawiera błędy. Popraw je aby zapisać trasę."
+                  var formElem = $('[name="' + key + '"]').closest('.control-group');
+                  formElem.find('.help-block.with-errors').html(err);
+                  formElem.addClass('has-error has-danger');
                 });
               }
-              showError({
-                noDialog : true,
-                title : 'Błąd',
-                content : data.result.sMessage,
-                errors : aErrors
-              });
+              $('#validation_communique').addClass("alert alert-error").html(data.result.sMessage);
             }
           }).always(function() {
         button.button('reset');
@@ -1483,6 +1394,7 @@ define(function() {
         sandbox.listen('map-initialised', this.mapInitialised, this);
         sandbox.listen('init-track-form', this.initForm, this);
         sandbox.listen('set-poly-cords', this.setPolyCoords, this);
+        sandbox.listen('init-track-upload-form', this.initUploadForm, this);
         sandbox.listen('set-file-src', this.setFileSrc, this);
         sandbox.listen('display-poly', this.displayPoly, this);
         sandbox.listen('track-creator-error', this.showError, this);
@@ -1492,6 +1404,11 @@ define(function() {
       },
       initForm : function() {
         initializeForm();
+      },
+      initUploadForm: function(messageInfo){
+        sandbox.requireScripts(['js/fileinput_pl.js', 'js/fileinput_theme.js'], function() {
+            initializeUploadForm(messageInfo);
+          });
       },
       setPolyCoords : function(messageInfo) {
         polyCoords = messageInfo.data;

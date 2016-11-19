@@ -64,43 +64,6 @@ var User = {
     });
   }
 };
-var Forum = {
-
-  Thread: {
-
-    validateForm: function() {
-      var errors = 0;
-      var id = $('input[name="forum_thread_id"]').val();
-      var titleValue = $('input[name="title"]').val();
-      var descriptionValue = $("textarea[name='message']").val();
-      var category = +$("select[name='category_id']").val();
-
-      if (!titleValue || titleValue.length < 3 || titleValue.length > 80) {
-        setErrorCommunique('title_communique', 'Tytuł nie został poprawnie wypełniony: wpisz tekst o długości 3-80 znaków.');
-        errors += 1;
-      }
-
-      if (!category) {
-        setErrorCommunique('forum_thread_category_communique', 'Kategoria nie została wybrana.');
-        errors += 1;
-      }
-
-      if (id) {
-        if (!descriptionValue || descriptionValue.length < 1) {
-          setErrorCommunique('description_communique', 'Wpisz treść komentarza.');
-          errors += 1;
-        }
-      }
-
-      if (errors > 0) {
-        setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
-        return false;
-      }
-      return true;
-    }
-  }
-
-};
 
 function bindNewWindow() {
 
@@ -108,48 +71,6 @@ function bindNewWindow() {
     window.open(this.href);
     return false;
   });
-}
-
-function validateUserPhoto() {
-
-  var photoValue = $("input[name='photo']").val();
-  if (!photoValue) {
-    setErrorCommunique('photo_error_communique', 'Prosimy o dodanie zdjęcia');
-    return false;
-  }
-  return true;
-}
-function validateNews() {
-  var errors = 0;
-  var titleValue = $("input[name='title']").val();
-  var descriptionValue = $("textarea[name='description']").val();
-  var urlValue = $("input[name='url']").val();
-  var bDraft = ($("input[name='draft']").val() === '1');
-  var category = +$("select[name='category']").val();
-
-  if (titleValue.length < 3 || titleValue.length > 80) {
-    setErrorCommunique('title_communique', 'Tytuł nie został poprawnie wypełniony: wpisz tekst o długości 3-80 znaków');
-    errors += 1;
-  }
-  if (!category) {
-    setErrorCommunique('news_category_communique', 'Kategoria nie została wybrana');
-    errors += 1;
-  }
-  if (!bDraft && descriptionValue.length < 60) {
-    setErrorCommunique('description_communique', 'Opis nie został poprawnie wypełniony: wpisz tekst o długości minimum 60 znaków');
-    errors += 1;
-  }
-
-  if (!bDraft && urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
-    setErrorCommunique('url_communique', 'Adres strony musi zaczynać się od http:// lub https://');
-    errors += 1;
-  }
-
-  if (errors > 0) {
-    setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
-    return false;
-  }
-  return true;
 }
 
 function validateSchedule() {
@@ -203,8 +124,6 @@ function bindLoadEvents() {
     $("#userData_communique").fadeOut(2000);
   }, 5000);
 
-  var avatar = $('#user_menu .avatar').attr('src');
-  $('#comment_form .avatar').attr('src', avatar);
 
   $('#schedule_start_datepicker').datepicker({
     format: 'yyyy-mm-dd',
@@ -237,16 +156,6 @@ function bindLoadEvents() {
     }
   });
 
-  $('.form_steps li').not('.active').css("opacity", 0.5);
-
-  $('input[id=photo]').change(function() {
-    $('#photoCover').val($(this).val());
-  });
-
-  $('input[id=track_file]').change(function() {
-    $('#track_fileCover').val($(this).val());
-  });
-
   $('#myCarousel').carousel({
     interval: 5000
   }).bind('slid', function(evt) {
@@ -270,36 +179,7 @@ function bindLoadEvents() {
 }
 
 function bindFormEvents() {
-  $('body').on('submit', '#forum_thread_form', function() {
-    var valid;
-    var form = $(this);
-    var button = form.find(':input[type=submit]');
-
-    button.button('loading');
-    form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-    valid = Forum.Thread.validateForm();
-    if (valid === false) {
-      button.button('reset');
-    }
-    return valid;
-  });
-  // Field to bind wysihtml5editor
-  $('.cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
-  $('#news_form').on('click', ':input[type=submit]', function() {
-    $(this).button('loading');
-  });
-  $('body').on('submit', '#news_form', function() {
-    var valid;
-    var form = $(this);
-    var button = form.find(':input[type=submit]');
-
-    form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-    valid = validateNews();
-    if (valid === false) {
-      button.button('reset');
-    }
-    return valid;
-  });
+ 
   $('body').on('submit', '#photo_form', function() {
     var valid;
     var form = $(this);
@@ -341,9 +221,9 @@ function bindFormEvents() {
 var _core = _core || [];
 
 define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 
-  'legacy/creators/facebook', 'legacy/creators/fileUploader', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
+  'legacy/creators/facebook', 'legacy/creators/fileUploader', 'legacy/creators/news', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
   'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView',
-  'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, fileUploaderCallback, mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback, trackViewCallback, userCallback, usersDataViewCallback) {
+  'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, fileUploaderCallback, newsCallback, mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback, trackViewCallback, userCallback, usersDataViewCallback) {
   'use strict';
 
   window.Core = core;
@@ -354,6 +234,7 @@ define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/com
   core.creator.register('eventAttending', eventAttendingCallback);
   core.creator.register('facebook', facebookCallback);
   core.creator.register('fileUploader', fileUploaderCallback);
+  core.creator.register('news', newsCallback);
   core.creator.register('map', mapCallback);
   core.creator.register('mapHandler', mapHandlerCallback);
   core.creator.register('message', messageCallback);

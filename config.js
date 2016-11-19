@@ -22,13 +22,14 @@ define(function() {
       wysihtml5: 'js/vendor/bootstrap/plugins/wysihtml5',
       bootstrap_wysihtml5: 'js/vendor/bootstrap/plugins/bootstrap-wysihtml5',
       bootstrap_wysihtml5_pl: 'js/vendor/bootstrap/plugins/bootstrap-wysihtml5.pl-PL',
+      bootstrap_validator: 'js/vendor/bootstrap/plugins/validator',
       es5shim : 'bower_components/es5-shim/es5-shim',
       es5sham : 'bower_components/es5-shim/es5-sham',
       flight : 'bower_components/flight',
       jquery : 'bower_components/jquery/jquery',
       jquery_migrate : 'bower_components/jquery/jquery-migrate',
+      canvas_to_blob: 'js/vendor/bootstrap/plugins/canvas-to-blob',
       fileinput: 'js/vendor/bootstrap/plugins/fileinput',
-      fileinput_pl: 'js/vendor/bootstrap/plugins/fileinput-pl',
       json2 : 'bower_components/json2/json2',
       'load-image' : 'js/vendor/bootstrap/plugins/load-image',
       moment : 'js/vendor/moment/moment',
@@ -82,8 +83,12 @@ define(function() {
         deps : [ 'bootstrap' ],
         exports : '$.fn.multiselect'
       },
+      bootstrap_validator: {
+        deps : [ 'bootstrap' ],
+        exports : '$.fn.validator'
+      },
       fileinput: {
-        deps: [ 'jquery' ],
+        deps: [ 'jquery', 'canvas_to_blob' ],
         exports: '$.fn.fileinput'
       },
       'bower_components/flight/lib/index' : {
