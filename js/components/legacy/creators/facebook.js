@@ -34,7 +34,7 @@ define(function() {
             appId : data.appId,
             cookie : true,
             status : true,
-            version : 'v2.7',
+            version : 'v2.8',
             xfbml : true
           });
           sandbox.notify({
@@ -75,10 +75,10 @@ define(function() {
               facebook_id : response.authResponse.userID
             }, {
               success : function() {
-                if ($('#full_window').val() !== 1) {
-                  window.location.reload();
-                } else {
+                if ($('#full_window').val() === "1") {
                   window.close();
+                } else {
+                  window.location.reload();
                 }
               }
             });
