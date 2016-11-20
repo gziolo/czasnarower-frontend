@@ -310,47 +310,49 @@ define(function() {
     function initializeUploadForm(messageInfo) {
       var data = messageInfo.data;
       $("#track_path").fileinput({
-            browseLabel: "Wybierz plik .gpx",
-            showPreview: false,
-            language: "pl",
-            theme: "gly",
-            layoutTemplates: {
-              main2: '{preview}\n{remove}\n{cancel}\n{upload}\n{browse}\n',
-              main1: '{preview}\n' +
-                '<div class="input-group {class}">\n' +
-                '   {caption}\n' +
-                '   <div class="input-group-btn">\n' +
-                '       {remove}\n' +
-                '       {cancel}\n' +
-                '       {upload}\n' +
-                '       {browse}\n' +
-                '   </div>\n' +
-                '</div>'
-            },
-            showRemove: false,
-            uploadAsync: true,
-            uploadExtraData: data.params,
-            uploadUrl: "ajax"
+        browseLabel: "Wybierz plik .gpx",
+        showPreview: false,
+        language: "pl",
+        theme: "gly",
+        layoutTemplates: {
+          main2: '{preview}\n{remove}\n{cancel}\n{upload}\n{browse}\n',
+          main1: '{preview}\n' +
+            '<div class="input-group {class}">\n' +
+            '   {caption}\n' +
+            '   <div class="input-group-btn">\n' +
+            '       {remove}\n' +
+            '       {cancel}\n' +
+            '       {upload}\n' +
+            '       {browse}\n' +
+            '   </div>\n' +
+            '</div>'
+        },
+        showRemove: false,
+        uploadAsync: true,
+        uploadExtraData: data.params,
+        uploadUrl: "ajax"
       }).on('fileuploaded', function(event, data, previewId, index) {
-          var response = data.response;
-          console.log(response);
-          $('#gpx_field .help-block').html(response.result.sMessage);
-          if (!response.result.iStatus) {
-            sandbox.notify({
-              type: 'display-poly',
-              data: response.result.params.track_locations});
-            sandbox.notify({type: 'set-file-src',
-              data: response.result.params.tmp_file_src});
-          } else {
-            $('#gpx_field').addClass('has-error has-danger');
-          }
-      }).on('filebatchselected', function(event, numFiles, label) {
-          $('#gpx_field').removeClass('has-error has-danger');
-          $('#gpx_field .help-block').html('');
-      }).on('fileuploaderror', function(event, data, msg) {
-          var response = data.response;
-          $('#gpx_field .help-block').html(response.result.sMessage);
+        var response = data.response;
+        console.log(response);
+        $('#gpx_field .help-block').html(response.result.sMessage);
+        if (!response.result.iStatus) {
+          sandbox.notify({
+            type: 'display-poly',
+            data: response.result.params.track_locations
+          });
+          sandbox.notify({type: 'set-file-src',
+            data: response.result.params.tmp_file_src
+          });
+        } else {
           $('#gpx_field').addClass('has-error has-danger');
+        }
+      }).on('filebatchselected', function(event, numFiles, label) {
+        $('#gpx_field').removeClass('has-error has-danger');
+        $('#gpx_field .help-block').html('');
+      }).on('fileuploaderror', function(event, data, msg) {
+        var response = data.response;
+        $('#gpx_field .help-block').html(response.result.sMessage);
+        $('#gpx_field').addClass('has-error has-danger');
       });
     }
 
@@ -361,7 +363,7 @@ define(function() {
           return false;
         } else {
           e.preventDefault();
-           saveTrack(draft ? $('#track_draft_submit') : $('#track_submit'));
+          saveTrack(draft ? $('#track_draft_submit') : $('#track_submit'));
         }
       });
 
@@ -375,7 +377,7 @@ define(function() {
       });
 
       $('#track_draft_submit').on('click', function() {
-       $('#validation_communique').removeClass('alert alert-error error').html('');
+        $('#validation_communique').removeClass('alert alert-error error').html('');
         draft = true;
         $('#track_form').submit();
       });
@@ -409,7 +411,7 @@ define(function() {
 
       $('#searchAddress').on('keypress', function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13'){
+        if(keycode === '13'){
           codeAddress();
         }
       });
@@ -1094,7 +1096,7 @@ define(function() {
         });
       }
       if (path.length < MIN_TRACK_LOCATIONS) {
-        $('.map-box').parent('.form-group').addClass('has-error has-danger')
+        $('.map-box').parent('.form-group').addClass('has-error has-danger');
         $('.map-box').parent('.form-group').find('.help-block.with-errors').html('Trasa musi mieć minimum ' + MIN_TRACK_LOCATIONS + ' punktów aby została zapisana.');
         return false;
       }
@@ -1307,7 +1309,7 @@ define(function() {
               if (!draft) {
                 $('#validation_communique').addClass("alert alert-success").html(
                   data.result.sMessage);
-                  window.location = data.url.preview;
+                window.location = data.url.preview;
               } else {
                 $('#validation_communique').addClass("alert alert-success").html(
                   data.result.sMessage +

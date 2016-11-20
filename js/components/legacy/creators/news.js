@@ -6,7 +6,6 @@ define(function() {
     var button;
 
     function initForm() {
-      //$('#news_form .cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
       $('#news_form').validator().on('submit', function (e) {
         if (e.isDefaultPrevented()) {
           //e.preventDefault();
@@ -111,7 +110,7 @@ define(function() {
           $('#validation_communique').addClass("alert alert-error").html(data.result.sMessage);
         }
       }).always(function() {
-          button.button('reset');
+        button.button('reset');
       });
     }
 
@@ -120,10 +119,9 @@ define(function() {
         sandbox.listen('init-news-form', this.initForm, this);
       },
       initForm : function() {
-          initForm();
+        initForm();
       },
       destroy : function() {}
     };
-
   };
 });

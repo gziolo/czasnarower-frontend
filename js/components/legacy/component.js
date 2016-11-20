@@ -179,20 +179,7 @@ function bindLoadEvents() {
 }
 
 function bindFormEvents() {
- 
-  $('body').on('submit', '#photo_form', function() {
-    var valid;
-    var form = $(this);
-    var button = form.find(':input[type=submit]');
 
-    button.button('loading');
-    form.find(".control-group").removeClass('alert alert-error error');
-    valid = validateUserPhoto();
-    if (valid === false) {
-      button.button('reset');
-    }
-    return valid;
-  });
   $('body').on('submit', '#schedule_form', function() {
     var valid;
     var form = $(this);
@@ -220,8 +207,7 @@ function bindFormEvents() {
  */
 var _core = _core || [];
 
-define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 
-  'legacy/creators/facebook', 'legacy/creators/fileUploader', 'legacy/creators/news', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
+define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 'legacy/creators/facebook', 'legacy/creators/fileUploader', 'legacy/creators/news', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
   'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView',
   'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, fileUploaderCallback, newsCallback, mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback, trackViewCallback, userCallback, usersDataViewCallback) {
   'use strict';
