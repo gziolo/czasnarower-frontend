@@ -6,26 +6,6 @@ function setErrorCommunique(fieldName, textMsg) {
   $('#' + fieldName).fadeIn(1000);
 }
 
-var Schedule = {
-
-  getRaces4selectedDay: function(sStartDay) {
-    var sUrlData = "dao=8&action=12&start_day=" + sStartDay;
-
-    $.ajax({
-      type: 'POST',
-      data: sUrlData,
-      url: 'ajax',
-      beforeSend: function() {
-        $("#planned_races").hide();
-      },
-      success: function(sData) {
-        $("#planned_races").html(sData);
-      },
-      cache: false,
-      global: false
-    });
-  }
-};
 var User = {
 
   checkUsername: function(sUsername, iUserId) {
@@ -73,38 +53,6 @@ function bindNewWindow() {
   });
 }
 
-function validateSchedule() {
-
-  var errors = 0, raceNameValue = $("input[name='race_name']").val(), startPlaceValue = $("input[name='start_place']").val(), startDayValue = $("input[name='start_day']").val(), urlValue = $(
-    "input[name='url']").val(), sortValue = +$("select[name='race_sort']").val();
-
-  if (startDayValue.length < 1) {
-    setErrorCommunique('start_day_communique', 'Data wyścigu nie została wybrana');
-    errors += 1;
-  }
-  if (raceNameValue.length < 1) {
-    setErrorCommunique('race_name_communique', 'Nazwa wyścigu lub cyklu jest wymagana');
-    errors += 1;
-  }
-  if (startPlaceValue.length < 1) {
-    setErrorCommunique('start_place_communique', 'Miejsce startu jest wymagane');
-    errors += 1;
-  }
-  if (!sortValue) {
-    setErrorCommunique('race_sort_communique', 'Rodzaj wyścigu nie został wybrany');
-    errors += 1;
-  }
-  if (urlValue.length > 0 && urlValue.indexOf("http://") !== 0 && urlValue.indexOf("https://") !== 0) {
-    setErrorCommunique('url_communique', 'Adres strony musi zaczynać się od http:// lub https://');
-    errors += 1;
-  }
-  if (errors > 0) {
-    setErrorCommunique('validation_communique', 'Nie wszystkie pola formularza zostały poprawnie wypełnione. Popraw błędne pola i spróbuj raz jeszcze.');
-    return false;
-  }
-  return true;
-}
-
 function bindLoadEvents() {
 
   bindNewWindow();
@@ -123,38 +71,6 @@ function bindLoadEvents() {
   setTimeout(function() {
     $("#userData_communique").fadeOut(2000);
   }, 5000);
-
-
-  $('#schedule_start_datepicker').datepicker({
-    format: 'yyyy-mm-dd',
-    language: 'pl'
-  }).on('changeDate', function(ev) {
-    $('#schedule_start_day').val($('#schedule_start_datepicker').data('date'));
-    var date = $('#schedule_start_day').val();
-    Schedule.getRaces4selectedDay(date);
-    $('#schedule_start_datepicker').datepicker('hide');
-  });
-
-  $('#schedule_cycle').change(function() {
-    var cycleName = $(this);
-    var raceName = $("#schedule_race_name");
-    var changeValue = true;
-    if (raceName.val()) {
-      changeValue = false;
-      $(this).find('option').each(function() {
-        if ($(this).text() === raceName.val()) {
-          changeValue = true;
-        }
-      });
-    }
-    if (changeValue) {
-      if (cycleName.val() !== 'inny') {
-        raceName.val(cycleName.val());
-      } else {
-        raceName.val('');
-      }
-    }
-  });
 
   $('#myCarousel').carousel({
     interval: 5000
@@ -180,19 +96,6 @@ function bindLoadEvents() {
 
 function bindFormEvents() {
 
-  $('body').on('submit', '#schedule_form', function() {
-    var valid;
-    var form = $(this);
-    var button = form.find(':input[type=submit]');
-
-    button.button('loading');
-    form.find(".control-group").removeClass('alert alert-error error').find('span[id$="communique"]').hide();
-    valid = validateSchedule();
-    if (valid === false) {
-      button.button('reset');
-    }
-    return valid;
-  });
   $('body').on('submit', '#user_data_form, #team_form, #password_change_form', function() {
     var button = $(this).find(':input[type=submit]');
 
@@ -207,9 +110,8 @@ function bindFormEvents() {
  */
 var _core = _core || [];
 
-define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 'legacy/creators/facebook', 'legacy/creators/fileUploader', 'legacy/creators/news', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot',
-  'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView',
-  'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, fileUploaderCallback, newsCallback, mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback, trackViewCallback, userCallback, usersDataViewCallback) {
+define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 'legacy/creators/facebook', 'legacy/creators/fileUploader', 'legacy/creators/news', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot', 'legacy/creators/schedule', 'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView',
+  'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, fileUploaderCallback, newsCallback, mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleCallback, scheduleResultCallback, scheduleViewCallback, teamViewCallback, trackCallback, trackViewCallback, userCallback, usersDataViewCallback) {
   'use strict';
 
   window.Core = core;
@@ -226,6 +128,7 @@ define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/com
   core.creator.register('message', messageCallback);
   core.creator.register('photoView', photoViewCallback);
   core.creator.register('plot', plotCallback);
+  core.creator.register('schedule', scheduleCallback);
   core.creator.register('scheduleResult', scheduleResultCallback);
   core.creator.register('scheduleView', scheduleViewCallback);
   core.creator.register('teamView', teamViewCallback);
