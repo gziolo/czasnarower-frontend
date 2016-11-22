@@ -246,13 +246,13 @@ define(function() {
         var resetButton = function() {
           button.button('reset');
         };
-
+        $('#validation_communique').removeClass(
+          'alert alert-error alert-success').addClass('hidden').val('');
         button.button('loading');
         if ('' === $('#longitude').val() || '' === $('#latitude').val()) {
           resetButton();
-          facade.dialogError({
-            content : 'Lokalizacja nie została zaznaczona na mapie.'
-          });
+          $('#validation_communique').removeClass('hidden').addClass("alert alert-error").html(
+            'Lokalizacja nie została zaznaczona na mapie.');
           return;
         }
         var data = {
@@ -262,6 +262,10 @@ define(function() {
         };
         var options = {
           success : function(response) {
+            if (response.data.sMessage) {
+              $('#validation_communique').addClass("alert alert-success").removeClass('hidden').html(
+                  response.data.sMessage);
+            }
             if (response.data.url) {
               window.location.href = response.data.url;
             }

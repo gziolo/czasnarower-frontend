@@ -20,19 +20,94 @@ define(function() {
       });
     }
 
+    /**
+     * Get schedule params to save
+     */
+    function getScheduleParams() {
+      return {
+        start_day: $('#schedule_start_day').val(),
+        start_hour: $("select[name='start_hour']").val(),
+        start_minute: $("select[name='start_minute']").val(),
+        start_place: $('#schedule_start_place').val(),
+        race_name : $('#schedule_race_name').val(),
+        cycle: $('#schedule_cycle').val(),
+        race_sort : +$("select[name='race_sort']").val(),
+        description : $('#schedule_description').val(),
+        tags : $('#race_tags').val(),
+        url: $("input[name='url']").val(),
+        licence: $('#schedule_licence').prop('checked'),
+        fb_publish : $('#fb_publish').prop('checked'),
+        id: $('#schedule_id').val()
+      };
+    }
+
+    /**
+     * save schedule
+     */
+    function saveSchedule() {
+      var params, urlData, button = $('#schedule_submit');
+      button.button('loading');
+      params = getScheduleParams();
+      if (!params) {
+        button.button('reset');
+        return false;
+      }
+
+      urlData = {
+        dao : 20,
+        action : 1,
+        dataType : 'json',
+        params : JSON.stringify(params)
+      };
+
+      sandbox.ajax({
+        type : 'POST',
+        data : urlData,
+        dataType : 'json',
+        url : 'ajax',
+        cache : false
+      }).done(function(data) {
+        if (!data.result.iStatus) {
+          // no errors, everything is fine
+          if (data.result.iId && !params['id']) {
+            $('#schedule_id').val(data.result.iId);
+          }
+          $('#validation_communique').addClass("alert alert-success").html(
+            data.result.sMessage);
+          window.location = data.url.redirect;
+        } else {
+          if (data.errors) {
+            $.each(data.errors, function(key, err) {
+              var formElem = $('[name="' + key + '"]');
+              formElem.closest('.control-group').addClass(
+                'has-error has-danger').find('.help-block.with-errors').html(err);
+            });
+          }
+          $('#validation_communique').addClass(
+            "alert alert-error").html(data.result.sMessage);
+        }
+      }).always(function() {
+        button.button('reset');
+      });
+    }
+
     function initForm() {
       // Field to bind wysihtml5editor
       $('.cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
 
-      $('#schedule_form').validator();
+      $('#schedule_form').validator().on('submit', function (e) {
+        if (e.isDefaultPrevented()) {
+          return false;
+        } else {
+          e.preventDefault();
+          saveSchedule();
+        }
+      });
 
-      $('#schedule_form').on('submit', function (e) {
-        var form = $(this);
-        var button = form.find(':input[type=submit]');
-        form.find(".control-group").removeClass(
-          'alert alert-error error').find('span[id$="communique"]').hide();
-        button.button('loading');
-        return true;
+      $('#schedule_submit').on('click', function() {
+        $('#validation_communique').removeClass(
+          'alert alert-error error').html('');
+        $('#schedule_form').submit();
       });
 
       $('#schedule_cycle').change(function() {
@@ -53,6 +128,7 @@ define(function() {
           } else {
             raceName.val('');
           }
+          raceName.focus();
         }
       });
 
@@ -60,7 +136,8 @@ define(function() {
         format: 'yyyy-mm-dd',
         language: 'pl'
       }).on('changeDate', function(ev) {
-        $('#schedule_start_day').val($('#schedule_start_datepicker').data('date'));
+        $('#schedule_start_day').val(
+          $('#schedule_start_datepicker').data('date'));
         var date = $('#schedule_start_day').val();
         getRaces4selectedDay(date);
         $('#schedule_start_datepicker').datepicker('hide');
