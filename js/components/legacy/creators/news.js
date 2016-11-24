@@ -1,4 +1,5 @@
 /*jshint strict:false */
+/*global tinymce */
 define(function() {
   return function(sandbox, $) {
 

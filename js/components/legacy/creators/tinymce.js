@@ -1,10 +1,11 @@
 /*jshint strict:false */
+/*global tinymce */
 define(function() {
   return function(sandbox, $) {
 
     function initTextarea() {
 
-      tinyMCE.baseURL = sandbox.config.staticUrl + 'js/tinymce';
+      tinymce.baseURL = sandbox.config.staticUrl + 'js/tinymce';
       tinymce.init({
         block_formats: 'Paragraph=p;Header 1=h3;Header 2=h4;Header 3=h5',
         formats: {
@@ -22,18 +23,18 @@ define(function() {
         plugins: 'autolink link lists media paste preview wordcount',
         setup: function(editor) {
           editor.addButton('cite', {
-             title: 'Cytat',
-             icon: false,
-             onclick: function() {
-                tinymce.activeEditor.formatter.toggle('cite');
+            title: 'Cytat',
+            icon: false,
+            onclick: function() {
+              tinymce.activeEditor.formatter.toggle('cite');
             },
             onPostRender: function() {
-              ctrl = this,
+              var ctrl = this;
               editor.on('NodeChange', function(e) {
-                  ctrl.active(e.element.className == "cite");
+                ctrl.active(e.element.className === "cite");
               });
             }
-          })
+          });
         },
         selector: '.cnr-wysihtml5-field',
         skin_url: sandbox.config.staticUrl + 'js/tinymce/skins/lightgray',
@@ -42,13 +43,6 @@ define(function() {
         toolbar: "bold italic underline cite blockquote | formatselect | bullist numlist | outdent indent | undo redo | link unlink media",
         wordcount_cleanregex: /[0-9.(),;:!?%#$?\x27\x22_+=\\\/\-]*/g
       });
-    }
-
-    /**
-     *
-     */
-    function getHTML() {
-      return tinymce.activeEditor.getContent();
     }
 
     return {

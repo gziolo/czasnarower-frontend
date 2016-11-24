@@ -1,5 +1,5 @@
 /*jshint maxstatements:50, maxcomplexity:15, unused:false, strict:false */
-/*global google */
+/*global google, tinymce */
 define(function() {
   return function(sandbox, $) {
 
