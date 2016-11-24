@@ -16,9 +16,6 @@ define(function() {
         }
       });
 
-      // Field to bind wysihtml5editor
-      $('.cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
-
       $('#news_submit').on('click', function() {
         $('#validation_communique').removeClass('alert alert-error error').html('');
         draft = false;
@@ -42,7 +39,7 @@ define(function() {
 
       return {
         title : $('#news_title').val(),
-        description : $('#news_description').val(),
+        description : (typeof(tinymce) !== "undefined") ? tinymce.activeEditor.getContent() : $("#news_description").val(),
         category : +$("select[name='category']").val(),
         tags : $('#news_tags').val(),
         url: $("input[name='url']").val(),
@@ -118,9 +115,7 @@ define(function() {
       init : function(data) {
         sandbox.listen('init-news-form', this.initForm, this);
       },
-      initForm : function() {
-        initForm();
-      },
+      initForm : initForm,
       destroy : function() {}
     };
   };

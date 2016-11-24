@@ -32,7 +32,7 @@ define(function() {
         race_name : $('#schedule_race_name').val(),
         cycle: $('#schedule_cycle').val(),
         race_sort : +$("select[name='race_sort']").val(),
-        description : $('#schedule_description').val(),
+        description : (typeof(tinymce) !== "undefined") ? tinymce.activeEditor.getContent() : $("#schedule_description").val(),
         tags : $('#race_tags').val(),
         url: $("input[name='url']").val(),
         licence: $('#schedule_licence').prop('checked'),
@@ -92,8 +92,6 @@ define(function() {
     }
 
     function initForm() {
-      // Field to bind wysihtml5editor
-      $('.cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
 
       $('#schedule_form').validator().on('submit', function (e) {
         if (e.isDefaultPrevented()) {

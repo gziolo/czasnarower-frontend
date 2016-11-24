@@ -19,9 +19,6 @@ define(function() {
       bootstrap_tag : 'js/vendor/bootstrap/plugins/bootstrap-tag',
       bootstrap_collapse : 'js/vendor/bootstrap/plugins/bootstrap-collapse',
       bootstrap_multiselect : 'js/vendor/bootstrap/plugins/bootstrap-multiselect',
-      wysihtml5: 'js/vendor/bootstrap/plugins/wysihtml5',
-      bootstrap_wysihtml5: 'js/vendor/bootstrap/plugins/bootstrap-wysihtml5',
-      bootstrap_wysihtml5_pl: 'js/vendor/bootstrap/plugins/bootstrap-wysihtml5.pl-PL',
       bootstrap_validator: 'js/vendor/bootstrap/plugins/validator',
       es5shim : 'bower_components/es5-shim/es5-shim',
       es5sham : 'bower_components/es5-shim/es5-sham',
@@ -59,14 +56,6 @@ define(function() {
       bootstrap : {
         deps : [ 'jquery' ],
         exports : '$.fn.affix'
-      },
-      bootstrap_wysihtml5 : {
-        deps : [ 'bootstrap', 'wysihtml5'],
-        exports : '$.fn.wysihtml5'
-      },
-      bootstrap_wysihtml5_pl: {
-        deps: ['bootstrap_wysihtml5'],
-        exports : '$.fn.wysihtml5'
       },
       bootstrap_datepicker : {
         deps : [ 'bootstrap' ]
@@ -119,9 +108,6 @@ define(function() {
       underscore : {
         deps : [ 'es5shim', 'es5sham' ],
         exports : '_'
-      },
-      wysihtml5: {
-        exports : 'wysihtml5'
       },
       '//apis.google.com/js/plusone.js' : {
         exports : 'gapi'

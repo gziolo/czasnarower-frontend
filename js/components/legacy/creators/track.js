@@ -367,9 +367,6 @@ define(function() {
         }
       });
 
-      // Field to bind wysihtml5editor
-      $('.cnr-wysihtml5-field').wysihtml5({"locale": "pl-PL"});
-
       $('#track_submit').on('click', function() {
         $('#validation_communique').removeClass('alert alert-error error').html('');
         draft = false;
@@ -1064,7 +1061,7 @@ define(function() {
 
       return {
         title : $('#track_title').val(),
-        description : $('#track_description').val(),
+        description : (typeof(tinymce) !== "undefined") ? tinymce.activeEditor.getContent() : $("#track_description").val(),
         difficulty : (difficulty.length ? difficulty.val() : 0),
         categories : categoriesVal,
         tags : $('#track_tags').val(),
