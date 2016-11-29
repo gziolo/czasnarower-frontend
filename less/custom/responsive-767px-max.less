@@ -13,41 +13,28 @@
     float: none;
     width: auto;
   }
-  .navbar #user_panel {
-    right: 5px;
-    width: auto;
-    top: 5px;
-    .logout {
-    }
-    #login_menu .btn {
-        font-size: .8em;
-        padding: 0 6px;
-    }
-   }
+  table {
+    table-layout:fixed;
+    word-wrap:break-word;
+    tr.visible-phone { display: table-row !important; }
+    td.visible-phone { display: table-cell !important; }
+  }
 
-    table {
-        table-layout:fixed;
-        word-wrap:break-word;
-        tr.visible-phone { display: table-row !important; }
-        td.visible-phone { display: table-cell !important; }
-    }
-
-    .media .photos-list.pull-right,
-    .photos-list.pull-right {
+  .media .photos-list.pull-right,
+  .photos-list.pull-right {
         float: right;
         width: auto;
         max-width: 125px;
         .photo.thumb {
             float: right;
         }
+  }
+  .entry-big {
+    #photos {
+      float: right;
+      max-width: 175px;
     }
-    .entry-big {
-        .item_content {  }
-        #photos {
-            float: right;
-            max-width: 175px;
-        }
-    }
+  }
     .entry {
         &.list {
            .news-content {
