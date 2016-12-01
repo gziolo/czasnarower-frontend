@@ -79,7 +79,9 @@ define(function() {
       var size = 20; // set small size
       markerCluster = new MarkerClusterer(map, [], {
         gridSize : 50,
-        maxZoom : 11
+        maxZoom : 11,
+        zoomOnClick : true,
+        imagePath: sandbox.config.staticUrl + 'img-1.3/markers/cluster-'
       });
       $.each(data.users_data, function(i, user_data) {
         var latLng = new google.maps.LatLng(user_data.latitude, user_data.longitude);
