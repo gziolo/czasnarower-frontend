@@ -1405,7 +1405,7 @@ define(function() {
         initializeForm();
       },
       initUploadForm: function(messageInfo){
-        sandbox.requireScripts(['js/fileinput_pl.js', 'js/fileinput_theme.js'], function() {
+        sandbox.requireScripts(['js/fileinput/fileinput_pl.js', 'js/fileinput/fileinput_theme.js'], function() {
             initializeUploadForm(messageInfo);
           });
       },
