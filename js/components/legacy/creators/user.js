@@ -461,7 +461,7 @@ define(function() {
           $("#ebilightbox").html(data);
         });
       },
-      signedOut: function() {
+      signedOut: function(messageInfo) {
         sandbox.setUserData(null);
         if ($('body.cnr-user-loading').length > 0) {
           $('body').removeClass('cnr-user-loading');
@@ -476,7 +476,7 @@ define(function() {
           });
           return false;
         });
-        if ($('#disqus_thread').html()) {
+        if (messageInfo.data && messageInfo.data.disqus_config && $('#disqus_thread').html()) {
           DISQUS.reset({
             reload:true,
             config: function () {
