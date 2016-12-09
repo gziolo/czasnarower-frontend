@@ -545,6 +545,9 @@ body {
                     display: block;
                 }
             }
+            .rows1, .title {
+                margin-right: 40px;
+            }
             .calendar-date {
                 margin: 0 5px 0 10px;
                 width: 35px;
@@ -558,15 +561,32 @@ body {
             }
             .shedule-participants {
                 background: fadeout(@white, 30%);
-                bottom: 5px;
-                margin-top: 0px;
-                margin-bottom: 0;
                 padding: 2px;
-                position: absolute;
-                right: 0px;
+                .info {
+                    float: right;
+                    height: 32px;
+                    big {
+                        color: #999;
+                        height: 22px;
+                        line-height: 25px;
+                        text-align: right;
+                    }
+                    span {
+                        color: #ccc;
+                        right: 0;
+                    }
+                }
             }
             .edition {
-                display: none;
+                right: 0px;
+                top: 5px;
+                left: auto;
+                .btn {
+                    height: 16px;
+                    line-height: 16px;
+                    padding: 2px;
+                    width: 16px;
+                }
             }
             &.no-date {
                 .news-content {
@@ -575,15 +595,30 @@ body {
                 }
                 padding-bottom: 1px;
                 position: relative;
-                .edition {
-                    left: 10px;
-                }
             }
         }
         &.result {
+            .title {
+                font-size: 1em;
+                margin-right: 50px;
+            }
             .result-data {
                 margin: 0 5px 0 10px;
                 width: 40px;
+            }
+            .rows1 {
+                margin-right: 50px;
+            }
+            .progress {
+                height: 16px;
+                line-height: 16px;
+            }
+            .shedule-participants {
+                bottom: 5px;
+                margin-top: 0px;
+                margin-bottom: 0;
+                position: absolute;
+                right: 0px;
             }
         }
         &.photo {

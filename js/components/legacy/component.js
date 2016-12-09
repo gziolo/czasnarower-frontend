@@ -110,12 +110,53 @@ function bindFormEvents() {
  */
 var _core = _core || [];
 
-define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/component', 'legacy/creators/draft', 'legacy/creators/entryView', 'legacy/creators/eventAttending', 'legacy/creators/facebook', 'legacy/creators/fileUploader', 'legacy/creators/news', 'legacy/creators/map', 'legacy/creators/mapHandler', 'legacy/creators/message', 'legacy/creators/photoView', 'legacy/creators/plot', 'legacy/creators/schedule', 'legacy/creators/scheduleResult', 'legacy/creators/scheduleView', 'legacy/creators/tinymce', 'legacy/creators/teamView', 'legacy/creators/track', 'legacy/creators/trackView',
-  'legacy/creators/user', 'legacy/creators/usersDataView'], function($, core, commentCallback, componentCallback, draftCallback, entryViewCallback, eventAttendingCallback, facebookCallback, fileUploaderCallback, newsCallback, mapCallback, mapHandlerCallback, messageCallback, photoViewCallback, plotCallback, scheduleCallback, scheduleResultCallback, scheduleViewCallback, tinymceCallback, teamViewCallback, trackCallback, trackViewCallback, userCallback, usersDataViewCallback) {
+define(['jquery',
+        'legacy/core',
+        'legacy/creators/component',
+        'legacy/creators/draft',
+        'legacy/creators/entryView',
+        'legacy/creators/eventAttending',
+        'legacy/creators/facebook',
+        'legacy/creators/fileUploader',
+        'legacy/creators/news',
+        'legacy/creators/map',
+        'legacy/creators/mapHandler',
+        'legacy/creators/message',
+        'legacy/creators/photoView',
+        'legacy/creators/plot',
+        'legacy/creators/schedule',
+        'legacy/creators/scheduleResult',
+        'legacy/creators/scheduleView',
+        'legacy/creators/tinymce',
+        'legacy/creators/track',
+        'legacy/creators/trackView',
+        'legacy/creators/user',
+        'legacy/creators/usersDataView'],
+       function($,
+                core,
+                componentCallback,
+                draftCallback,
+                entryViewCallback,
+                eventAttendingCallback,
+                facebookCallback,
+                fileUploaderCallback,
+                newsCallback,
+                mapCallback,
+                mapHandlerCallback,
+                messageCallback,
+                photoViewCallback,
+                plotCallback,
+                scheduleCallback,
+                scheduleResultCallback,
+                scheduleViewCallback,
+                tinymceCallback,
+                trackCallback,
+                trackViewCallback,
+                userCallback,
+                usersDataViewCallback) {
   'use strict';
 
   window.Core = core;
-  core.creator.register('comment', commentCallback);
   core.creator.register('component', componentCallback);
   core.creator.register('draft', draftCallback);
   core.creator.register('entryView', entryViewCallback);
@@ -132,7 +173,6 @@ define(['jquery', 'legacy/core', 'legacy/creators/comment', 'legacy/creators/com
   core.creator.register('scheduleResult', scheduleResultCallback);
   core.creator.register('scheduleView', scheduleViewCallback);
   core.creator.register('tinymce', tinymceCallback);
-  core.creator.register('teamView', teamViewCallback);
   core.creator.register('track', trackCallback);
   core.creator.register('trackView', trackViewCallback);
   core.creator.register('user', userCallback);

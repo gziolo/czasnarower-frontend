@@ -436,6 +436,15 @@ define(function() {
             type: 'user-nick-update-form'
           });
         }
+
+        if (messageInfo.data.disqus_remote_auth && $('#disqus_thread').html()) {
+          DISQUS.reset({
+            reload:true,
+            config: function () {
+              this.page.remote_auth_s3 = messageInfo.data.disqus_remote_auth;
+            }
+          });
+        }
       },
       nickUpdated: function(messageInfo) {
         var user = messageInfo.data;

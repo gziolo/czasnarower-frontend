@@ -100,9 +100,17 @@ define(function() {
         });
       },
       updateMemberCount : function(messageInfo) {
-        var counter = $('.total-attendees[data-id=' + messageInfo.data.id + ']');
-
+        var counter = $('.shedule[data-id=' + messageInfo.data.item_id + '] .total-attendees');
         counter.text(+counter.first().text() + 1);
+        // Append user ICON.
+        var user = sandbox.getUserData();
+        var memberData = {
+          url: user.url,
+          nick: user.nick,
+          avatar: user.avatar
+        };
+        $(sandbox.template('scheduleAttendingMember', memberData)).prependTo('.shedule[data-id=' + messageInfo.data.item_id + '] .shedule-participants');
+        $('.shedule[data-id=' + messageInfo.data.item_id + '] .shedule-participants').removeClass('hidden');
       },
       destroy : function() {}
     };
