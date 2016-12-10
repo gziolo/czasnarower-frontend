@@ -66,6 +66,22 @@
         }
         .clearfix();
     }
+    .shedule-calendar {
+        .entry.big.shedule {
+            .edition {
+                margin-top: 0;
+                top: 3px;
+                right: 0px;
+            }
+            .title, p {
+                min-height: 20px;
+                padding: 5px 20px 1px 0;
+            }
+            p {
+                padding: 1px 20px 5px 0;
+            }
+        }
+    }
     #recent_photos {
         .span4 { width: 50%; margin: 0 -1px;}
     }
@@ -99,21 +115,6 @@
             font-weight: bold;
         }
     }
-    .shedule-calendar {
-        .entry.big.shedule {
-            .title {
-                padding-right: 5px;
-                margin-right: 25px;
-            }
-            .category {
-                position: static;
-                margin-left: 47px;
-            }
-            &.no-date .category{
-                margin-left: 0;
-            }
-        }
-    }
     #user_thumbs { clear: both; }
 
     .entry {
@@ -131,10 +132,10 @@
 // ---------------------
 
 @media (max-width: 480px) {
-
+    #main {
+        padding: 1px 5px 10px;
+    }
     #map.big, .mapCanvas.big { height: 400px; }
-
-
     .carousel {
         min-height: 251px;
         .carousel-caption {position: absolute;}
@@ -155,49 +156,6 @@
           }
         }
     }
-    .shedule-calendar {
-        .nav-tabs {
-          .clearfix();
-          float: none;
-          border-width: 0;
-          li {
-               float: left;
-               a {
-                  margin-bottom: 2px;
-                  margin-top: 2px;
-                  padding-bottom: 5px;
-                  padding-top: 5px;
-                  border-color: transparent;
-                  min-width: auto;
-                  &:hover {
-                      border: 1px solid #ddd;
-                  }
-               }
-               &.active > a, &.active > a:hover {
-                  background-color: @grayLighter;
-                  border: 1px solid #ddd;
-               }
-          }
-        }
-        .tab-content {
-            overflow: hidden;
-
-        }
-        .entry.big.shedule {
-            .title {
-                padding-right: 5px;
-                margin-right: 25px;
-            }
-            .category {
-                position: static;
-                margin-left: 47px;
-            }
-            &.no-date .category{
-                margin-left: 0;
-            }
-        }
-    }
-
     .photo.thumb {
         float: left;
         img { max-width: 115px;}

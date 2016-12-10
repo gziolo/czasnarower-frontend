@@ -373,11 +373,11 @@ body {
     }
 }
 .entry {
-    &:hover {
-        background-color: @white;
-    }
-    background-color: @grayCustom;
-    margin-bottom: 1px;
+    &:hover {}
+    border-style: solid;
+    border-width: 0 0 1px;
+    border-color: @borderEntryCustom;
+    background-color: @bgEntryCustom;
     &.media, .media {
         margin-top: 0;
     }
@@ -929,7 +929,7 @@ body {
 }
 .photo {
     &.thumb {
-        background-color: @grayCustom;
+        background-color: @bgEntryCustom;
         padding: 2px;
         position: relative;
         margin-bottom: 1px;
@@ -1004,17 +1004,13 @@ body {
     .entry.shedule {
         background-color: @white;
         &.big {
-            section {
-                border-top: 1px solid @grayCustom;
-                &:hover {
-                    background-color: @grayCustom;
-                }
-            }
+            padding-left: 50px;
+            border-top-width: 1px;
             position: relative;
             .title {
                 font-size: .9em;
                 .text-overflow();
-                padding: 10px 250px 10px 0;
+                
                 font-weight: normal;
                 a {
                     font-size: 1.2em;
@@ -1022,8 +1018,13 @@ body {
                     .text-overflow();
                 }
             }
+            .title, p {
+                margin: 0;
+                padding: 10px 5px 10px 0;
+                .text-overflow();
+            }
             .cat(@color) {
-                border-right: 5px solid @color;
+                border-left: 10px solid @color;
             }
             .edition {
                 position: absolute;
@@ -1042,15 +1043,10 @@ body {
                 }
             }
             .category {
-                position: absolute;
-                right: 30px;
-                top: 50%;
-                margin-top: -10px;
-                font-size: .9em;
-                padding-right: 5px;
-                .text-overflow();
-                max-width: 200px;
-                height: 21px;
+                margin-top: 10px;
+                min-height: 20px;
+                line-height: 20px;
+                padding: 0 0 0 5px;
                 &.cat {
                     &-1 {
                         .cat(#6DBCF4);
@@ -1092,49 +1088,37 @@ body {
             }
             .calendar-date {
                 margin-top: 5px;
+                position: absolute;
+                left: 0;
+                .month {
+                    color: @grayLighter;
+                }
+                .date {
+                    font-size: 25px;
+                }
+                .day {
+                    left: -10px;
+                    font-size: 12px;
+                }
             }
         }
         &.no-date {
-            padding-left: 50px;
+            border-top-width: 0;
+            section {
+                border-top: 1px solid @grayCustom;
+                &:hover {}
+            }
         }
         .title, .title a, p {
             .text-overflow();
         }
     }
-    section.tab-pane {
-        padding-top: 20px;
-        .entry:first-child section {
-            border-top-width: 0px;
-        }
-    }
-    .nav-pills {
-        border-bottom: 5px solid #ddd;
-        margin-left: 102px;
-        margin-bottom: 0px;
-        padding-left: 0px;
-        li {
-            background-color: #fafafa;
-            margin-bottom: 0;
-            margin-right: 3px;
-            margin-left: -1px;
-            margin-bottom: 0;
-            a {
-                border: 1px solid transparent;
-                font-weight: bold;
-            }
-            &.active a {
-                border-color: #ddd #ddd transparent #ddd;
-                background-color: #fff;
-                color: #555555;
-                margin-bottom: -5px;
-                margin-top: 0px;
-                height: 23px;
-                margin-right: 1px;
-            }
-        }
+    .nav {
+        border-bottom: none;
+        margin-bottom: 0;
     }
     .accordion-group {
-        border-bottom: 5px solid #ddd;
+        margin-bottom: -1px;
         .accordion-heading {
             a {
                 background-color: #fafafa;
@@ -1148,6 +1132,7 @@ body {
         }
         .accordion-inner {
             border-top-width: 0;
+            padding: 2px 5px 2px 15px;
         }
     }
 }
@@ -1237,12 +1222,12 @@ big.distance-length {
         }
     }
     .tags {
-        background-color: @grayCustom;
+        background-color: @bgEntryCustom;
         margin-bottom: 1px;
         text-align: center;
         .tag {
-            background-color: @white;
-            border-color: @white;
+            background-color: @bgTagCustom;
+            border-color: @borderEntryCustom;
         }
     }
     footer {
@@ -1321,10 +1306,10 @@ h1.box-header {
 }
 .entry-header {
     .sub-header {
-        background: @grayCustom;
+        background: @bgEntryCustom;
         border: 1px solid #e2e2e2;
         border-width: 1px 0;
-        padding: 5px 10px;
+        padding: 5px 0;
     }
     .thumbnail {
         margin-right: 10px;
@@ -1515,8 +1500,8 @@ h1.special {
         line-height: 20px;
     }
     .tag {
-        border: 1px solid @grayCustom;
-        background-color: #f3f6fa;
+        border: 1px solid @borderEntryCustom;
+        background-color: @bgTagCustom;
         display: inline-block;
         line-height: 1.2em;
         margin: 0 0 0 5px;
@@ -1810,10 +1795,10 @@ h1.special {
     position: relative;
     z-index: 2;
     article {
-        background-color: @grayCustom;
+        background-color: @bgEntryCustom;
         height: 57px;
         margin-top: 0px;
-        margin-bottom: 1px;
+        border-bottom: 1px solid @borderEntryCustom;
         padding-left: 5px;
         padding-right: 65px;
         padding-top: 5px;
