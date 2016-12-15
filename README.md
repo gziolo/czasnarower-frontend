@@ -48,7 +48,7 @@ Run `npm test`.
 Development dependencies:
 * [Grunt](http://gruntjs.com/)
 * [Bower](http://bower.io/)
-* [Mocha](http://visionmedia.github.io/mocha/)
+* [Mocha](http://mochajs.org/)
 * [Chai](http://chaijs.com/)
 * [Sinon](http://sinonjs.org/)
 
