@@ -1001,16 +1001,84 @@ body {
     max-width: 95%;
 }
 .shedule-calendar {
+
+    .sub-header {
+        font-family: @sansFontFamily;
+        line-height: 30px;
+        .schedule-filter-remove {
+            .tag {
+                line-height: 30px;
+                .close {
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+    .nav-tabs {
+        background-color: @blueCustom;
+        li.dropdown > a {
+            color: @blue;
+        }
+        li.dropdown > a:focus {
+            outline: 0;
+            background-color: transparent;
+            border-color: transparent;
+        }
+        li.active > a {
+            background: none @blueLight;
+            color: @black;
+        }
+        .dropdown-menu > li > a:hover {
+            background: none @blueCustom;
+        }
+        .dropdown.open > a {
+            border: none;
+            background-color: lighten(@black, 10%);
+            .icon.icon-blue {
+                background-image: url(@iconWhiteSpritePath);
+            } 
+        }
+           
+        .multiselect-container {
+            margin: 2px 0 0 0;
+            a:hover {
+                background: @grayLighter none;
+            }
+        }
+    }
+    .calendar-date-container {
+        padding-left: 50px;
+        position: relative;
+        border-top: 1px solid @borderEntryCustom;
+        aside {
+            position: absolute;
+            top: 5px;
+            left: 7px;
+            .calendar-date {
+                .month {
+                    color: @grayLighter;
+                }
+                .date {
+                    font-size: 25px;
+                }
+                .day {
+                    left: -10px;
+                    font-size: 12px;
+                }
+            }
+        }
+        article:not(.hidden):first-of-type {
+            border-top: none;
+        }
+    }
     .entry.shedule {
         background-color: @white;
         &.big {
-            padding-left: 50px;
             border-top-width: 1px;
             position: relative;
             .title {
                 font-size: .9em;
                 .text-overflow();
-                
                 font-weight: normal;
                 a {
                     font-size: 1.2em;
@@ -1086,28 +1154,6 @@ body {
                     }
                 }
             }
-            .calendar-date {
-                margin-top: 5px;
-                position: absolute;
-                left: 0;
-                .month {
-                    color: @grayLighter;
-                }
-                .date {
-                    font-size: 25px;
-                }
-                .day {
-                    left: -10px;
-                    font-size: 12px;
-                }
-            }
-        }
-        &.no-date {
-            border-top-width: 0;
-            section {
-                border-top: 1px solid @grayCustom;
-                &:hover {}
-            }
         }
         .title, .title a, p {
             .text-overflow();
@@ -1134,6 +1180,27 @@ body {
             border-top-width: 0;
             padding: 2px 5px 2px 15px;
         }
+    }
+    .cnr-schedule-cal-cnt.cnr-loading {
+        position: relative;
+        &:after {
+            position: absolute;
+            top: 0px;
+            left: 0;
+            right: 0;
+            bottom: 0px;
+            background: rgba(255, 255, 255, .7);
+            z-index: 1000;
+            display: block;
+            content: "Trwa aktualizacja...";
+            color: @gray;
+            font-style: oblique;
+            text-align: center;
+            padding-top: 25px;
+        }
+    }
+    .info {
+        padding: 15px 10px 5px;
     }
 }
 .calendar-date, .distance-data, .result-data {

@@ -151,9 +151,6 @@ define(function() {
       if (data.races.groups) {
         groups = data.races.groups;
       }
-      if (data.categories) {
-        _updateSchedulesView(map, data.categories);
-      }
       if (_initialFilteredRaces[map.getDiv().id]) {
         _refreshMapMarkers({map_id: map.getDiv().id, ids: _initialFilteredRaces[map.getDiv().id]});
       }
@@ -165,11 +162,12 @@ define(function() {
 
     var _refreshMapMarkersCount = function() {
       var count = Object.keys(visibleMarkers).length;
-      if (count) {
-        $('.map-global-header .caption').html("<span style='color: #ff7600'>" + count + '</span> wyścigów');
-      }
+      $('.map-global-header .caption').html("<span style='color: #ff7600'>" + count + '</span> wyścigów');
     };
 
+    /*
+     *  Method for updating markers on map based on given IDs.
+     */
     var _refreshMapMarkers = function(data) {
       var ids = data.ids;
       var map = maps[data.map_id];
@@ -226,104 +224,242 @@ define(function() {
       }
     };
 
-    var _updateSchedulesView = function(map, categories) {
-      visibleMarkers = [];
-
-      $.each(categories, function(index, cat) {
-        var category = cat.id;
-        var isChecked = cat.value;
-        if (groups[category]) {
-          if (groups[category][0]) {
-            $.each(groups[category][0], function(i, elem) {
-              if (isChecked) {
-                visibleMarkers.push(markers[elem]);
-                if (null === markers[elem].getMap()) {
-                  markers[elem].setMap(map);
-                }
-              }
-              else {
-                markers[elem].setMap(null);
-              }
-            });
-          }
-          if (groups[category][1]) {
-            $.each(groups[category][1], function(i, elem) {
-              if (isChecked) {
-                visibleMarkers.push(markers[elem]);
-                if (null === markers[elem].getMap()) {
-                  markers[elem].setMap(map);
-                }
-              }
-              else {
-                markers[elem].setMap(null);
-              }
-            });
+    var _isScheduleVisibleForCategory = function(race, filters) {
+      // First check category
+      if (!filters.category.length) {
+        return true;
+      }
+      var category = ""+ ( race.attr("data-category"));
+      return (0 <= $.inArray(category, filters.category));
+    };
+    var _isScheduleVisibleForCycle = function(race, filters) {
+      // First check category
+      if (!filters.cycle.length) {
+        return true;
+      }
+      var cycle = (race.attr("data-cycle"));
+      var cycle_arr = cycle.split(',');
+      for (var index in cycle_arr) {
+        if (cycle_arr.hasOwnProperty(index)) {
+          var item = cycle_arr[index];
+          if (0 <= $.inArray(item, filters.cycle)) {
+            return true;
           }
         }
+      }
+      return false;
+    };
+    var _isScheduleVisibleForTag = function(race, filters) {
+      // First check category
+      if (!filters.other.length) {
+        return true;
+      }
+      var tags = (race.attr("data-tags"));
+      var tags_arr = tags.split(',');
+      for (var index in tags_arr) {
+        if (tags_arr.hasOwnProperty(index)) {
+          var item = tags_arr[index];
+          if (0 <= $.inArray(item, filters.other)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+    /*
+     * This method is used when calendar is fully loaded for whole year and 
+     * some filters are applied:
+     * - cycle
+     * - category
+     * based on active_tags parameter
+     * Pass selected IDs to the active map and update view.
+     * map is object containing id of map and year
+     */
+    var _filterCalendarRaces = function(active_tags, map) {
+      var categories = active_tags['category'];
+      var cycles = active_tags['cycle'];
+      var categories_label = active_tags['category_txt'];
+      var cycles_label = active_tags['cycle_txt'];
+
+      var filtredIds = [];
+      $('#cnr-shedule-calendar .dropdown.open .dropdown-toggle').dropdown('toggle');
+      $('#cnr-shedule-calendar .cnr-schedule-cal-cnt').addClass('cnr-loading');
+      $('#cnr-shedule-calendar .cnr-no-schedule').addClass('hidden');
+
+      $('#cnr-shedule-calendar .cnr-schedule' ).each(function() {
+        var race = $(this);
+        if (_isScheduleVisibleForCategory(race, active_tags) && _isScheduleVisibleForCycle(race, active_tags) && _isScheduleVisibleForTag(race, active_tags)) {
+          race.removeClass('hidden');
+          filtredIds.push(race.attr("data-id"));
+        } else {
+          race.addClass('hidden');
+        }
       });
+
+      if (!categories.length) {
+        $('#cnr-shedule-calendar .cnr-active-category').html('Wszystkie');
+      } else {
+        $('#cnr-shedule-calendar .cnr-active-category').html('');//categories_label);
+        for (var i= 0; i < categories.length; i++) {
+          $(facade.template('scheduleTag', {
+              tag: categories[i],
+              label: categories_label[i],
+              type: 'category'
+            })
+          ).appendTo("#cnr-shedule-calendar .cnr-active-category");
+        }
+      }
+
+      if (!cycles.length) {
+        $('#cnr-shedule-calendar .cnr-active-cycle').text('Wszystkie');
+      } else {
+        $('#cnr-shedule-calendar .cnr-active-cycle').html('');//categories_label);
+        for (var idx = 0; idx < cycles.length; idx++) {
+          $(facade.template('scheduleTag', {
+              tag: cycles[idx],
+              label: cycles_label[idx],
+              type: 'cycle'
+            }
+          )).appendTo("#cnr-shedule-calendar .cnr-active-cycle");
+        }
+      }
+
+      $('#cnr-shedule-calendar .cnr-number-rows-filtred').text(filtredIds.length);
+      if (0 === filtredIds.length) {
+        $('#cnr-shedule-calendar .cnr-no-schedule').removeClass('hidden');
+      }
+      updateCalendarVisibleElements();
+      //fixAccordionOpenElement();
+      $('#cnr-shedule-calendar .cnr-schedule-cal-cnt').removeClass('cnr-loading');
+      if (map) {
+        _refreshMapMarkers({
+          ids: filtredIds,
+          map_id: map.id,
+          year: map.year
+        });
+      }
+    };
+    
+    var fixAccordionOpenElement = function() {
+      console.log($('#cnr-shedule-calendar .calendar-month-container.hidden .in'));
+      $('#cnr-shedule-calendar .calendar-month-container.hidden .in').collapse('hide');
+      if ($('#cnr-shedule-calendar .calendar-month-container:not(".hidden") .in').length === 0) {
+        var firstMonth = $('#cnr-shedule-calendar .calendar-month-container').not('.hidden').first();
+        if (firstMonth.length !== 0) {
+          firstMonth.find('.accordion-body').collapse('show');
+          firstMonth.find('.accordion-body').attr('style', '');
+          console.log('First month show! ' + firstMonth.attr('data-month'));
+        }
+      }
+    };
+
+    var updateCalendarVisibleElements = function(){
+      $('#cnr-shedule-calendar .calendar-date-container').each(function(){
+          var items = $( this ).find('.cnr-schedule').not('.hidden');
+          if( items.size() === 0) {
+            $(this).addClass('hidden');
+          } else {
+            $(this).removeClass('hidden');
+          }
+        }
+      );
+
+      $('#cnr-shedule-calendar .calendar-month-container').each(function(){
+          var items = $( this ).find('.calendar-date-container').not('.hidden');
+          if( items.size() === 0) {
+            $(this).addClass('hidden');
+          } else {
+            $(this).removeClass('hidden');
+          }
+        }
+      );
     };
 
     var scheduleCalendarXhr = null;
-
+    
+    /*
+     * Call this method when year is changing. 
+     * Load schedules for given year.
+     */
     var _updateSchedulesCalendar = function(data) {
       var urlData,
-        year = data.year;
+          year = data.year,
+          map = data.map_id;
 
       if ( scheduleCalendarXhr !== null ) {
         scheduleCalendarXhr.abort();
         scheduleCalendarXhr = null;
       }
-
-      // TODO: add some loader
-      $('.cnr-spinner').addClass('active');
-      if (!year) {
-        $.each(_data, function(id, map_data) {
-          if (map_data.id === data.map_id) {
-            year = map_data.year;
-          }
-        });
-      }
+      $('#cnr-shedule-calendar .dropdown.open .dropdown-toggle').dropdown('toggle');
+      $('#cnr-shedule-calendar .cnr-schedule-cal-cnt').addClass('cnr-loading');
 
       urlData = {
-        dao: 4,
-        action: 13,
-        category:8,
-        tags: data.tags
+        dao: 8,
+        action: 0,
+        year: year,
+        dataType : 'json'
       };
-      if (year) {
-        urlData.year = year;
-      }
 
       scheduleCalendarXhr = $.ajax({
         type: 'POST',
         data: urlData,
+        dataType : 'json',
         url: 'ajax',
-        success: function(response) {
-          $("#cnr-shedule-calendar").replaceWith(response);
+        success: function(data) {
+          $('#cnr-shedule-calendar .cnr-schedule-cal-cnt').html(
+            $(facade.template('scheduleCalendar', data)));
+          $('#cnr-shedule-calendar .cnr-number-rows').text(data.number_rows);
+          $('#cnr-shedule-calendar .cnr-number-rows-filtred').text(data.number_rows_filtred);
+          $('#cnr-shedule-calendar .cnr-active-year').text(data.active_year);
+          $('#cnr-shedule-year-select .cnr-year-menu-active-year').text(data.active_year);
+          $('#cnr-shedule-year-select li.active').removeClass('active');
+          $('#cnr-shedule-year-select li a[data-year="'+ data.active_year + '"]').parent().addClass('active');
+          var active_tags = _getActiveTags();
+          if (active_tags['count'] > 0) {
+            _filterCalendarRaces(active_tags, {id: map, year: year});
+          } else {
+            _refreshMapMarkers({
+              ids: data.race_ids,
+              map_id: map,
+              year: year
+            });
+          }
         },
         complete: function() {
           scheduleCalendarXhr = null;
-          // TODO: remove loader
-          $('.cnr-spinner').removeClass('active');
+          $('#cnr-shedule-calendar .cnr-schedule-cal-cnt').removeClass('cnr-loading');
         },
         cache: false,
         global: false
       });
     };
 
+    /*
+     * Binding schedule-select events.
+     * Including tags-removal.
+     * Called once on loading full calendar, 
+     * use live() method to be able to bing future element-events.
+     */
     var _bindSheduleSelects = function(map_id) {
       $('#cnr-shedule-category-select').multiselect({
         nonSelectedText: 'Rodzaj wyścigu',
         allSelectedText: 'Wszystkie',
         includeSelectAllOption: false,
         nSelectedText: ' wybranych kategorii',
+        maxHeight: 200,
         buttonText: function(options, select) {
           return 'Rodzaj wyścigu';
+        },
+        buttonContainer: '<li class="dropdown"></li>',
+        buttonClass: '',
+        templates: {
+          button: '<a class="multiselect dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list icon icon-blue"></i> Rodzaj wyścigu&nbsp;<b class="caret"></b></a>'
         },
         onChange: function(option, checked, select) {
           _updateData();
         }
       });
+
       $('#cnr-shedule-cycle-select').multiselect({
         nonSelectedText: 'Cykl wyścigu',
         allSelectedText: 'Wszystkie',
@@ -333,6 +469,11 @@ define(function() {
         buttonText: function(options, select) {
           return 'Cykl wyścigu';
         },
+        buttonContainer: '<li class="dropdown"></li>',
+        buttonClass: '',
+        templates: {
+          button: '<a class="multiselect dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list icon icon-blue"></i> Cykl wyścigu&nbsp;<b class="caret"></b></a>'
+        },
         onChange: function(option, checked, select) {
           _updateData();
         }
@@ -340,29 +481,31 @@ define(function() {
 
       function _updateData() {
         var active_tags = _getActiveTags(),
-          data = {
-            tags: active_tags,
-            map_id: map_id
-          };
+          year = +$('#cnr-shedule-calendar .cnr-active-year').text();
 
-        _updateSchedulesCalendar(data);
+        _filterCalendarRaces(active_tags, {id: map_id, year: year});
       }
 
-      $('body').on('click', '.cnr-remove-tag-filter', function() {
+      $('.cnr-remove-tag-filter').live('click', function() {
         var tag = $(this).attr('data-tag');
-        $('#cnr-shedule-category-select').multiselect('deselect', tag);
-        $('#cnr-shedule-cycle-select').multiselect('deselect', tag);
+        var type = $(this).attr('data-type');
+        if (type === 'cycle') {
+          $('#cnr-shedule-cycle-select').multiselect('deselect', tag);
+        } else if (type === 'category') {
+          $('#cnr-shedule-category-select').multiselect('deselect', tag);
+        } else if (type === 'other') {
+          $('#cnr-shedule-calendar .cnr-active-tag-other').remove();
+        }
         $(this).remove();
         _updateData();
-        return false;
       });
 
-      $('body').on('click', '.cnr-change-calendar-year', function() {
+      $('body').on('click', '.cnr-change-calendar-year', function(evt) {
         var year = $(this).attr('data-year');
-        var active_tags = _getActiveTags();
-
+        if ($(this).parent().hasClass('active')) {
+          return false;
+        }
         _updateSchedulesCalendar({
-          tags: active_tags,
           year: year,
           map_id: map_id
         });
@@ -370,26 +513,40 @@ define(function() {
       });
     };
 
+    /*
+     * Get all active categories and cycles for filtering calendar.
+     * Return object with proper arrays to filter.
+     */
     var _getActiveTags = function() {
-      var active_tags = [];
-      var active_tags_group_category = [];
-      var active_tags_group_cycle = [];
+      var active_tags = {
+        'category' : [],
+        'category_txt' : [],
+        'cycle': [],
+        'cycle_txt': [],
+        'other': [],
+        'other_txt': [],
+        'count': 0
+      };
+      // FOR other check in sub-header.
+      $('#cnr-shedule-calendar .cnr-remove-tag-filter[data-type="other"]').each(function() {
+        active_tags['other'].push($(this).attr('data-tag'));
+        active_tags['other_txt'].push($(this).attr('data-label'));
+        active_tags['count'] += 1;
+      });
       $('#cnr-shedule-category-select option').each(function() {
         if ($(this).attr('selected')) {
-          active_tags_group_category.push($(this).attr('data-tag'));
+          active_tags['category'].push($(this).attr('data-category'));
+          active_tags['category_txt'].push($(this).text());
+          active_tags['count'] += 1;
         }
       });
       $('#cnr-shedule-cycle-select option').each(function() {
         if ($(this).attr('selected')) {
-          active_tags_group_cycle.push($(this).attr('data-tag'));
+          active_tags['cycle'].push($(this).attr('data-tag'));
+          active_tags['cycle_txt'].push($(this).text());
+          active_tags['count'] += 1;
         }
       });
-      if (active_tags_group_category.length) {
-        active_tags.push(active_tags_group_category);
-      }
-      if (active_tags_group_cycle.length) {
-        active_tags.push(active_tags_group_cycle);
-      }
       return active_tags;
     };
 
@@ -665,10 +822,6 @@ define(function() {
       });
       locationInfo.open(map, marker);
     };
-
-    function update() {
-      _updateSchedulesView();
-    }
 
     return {
       init: function(data) {

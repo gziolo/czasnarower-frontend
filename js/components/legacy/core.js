@@ -8,7 +8,9 @@ define([
     'text!legacy/templates/message/row.html',
     'text!legacy/templates/photo/editForm.html',
     'text!legacy/templates/user/info.html',
-    'text!legacy/templates/schedule/attendingMember.html'
+    'text!legacy/templates/schedule/attendingMember.html',
+    'text!legacy/templates/schedule/calendar.html',
+    'text!legacy/templates/schedule/tag.html'
   ], function($,
               _,
               entryDraftItemTemplate,
@@ -17,7 +19,9 @@ define([
               messageRowTemplate,
               photoEditFormTemplate,
               userInfoTemplate,
-              scheduleAttendingMemberTemplate) {
+              scheduleAttendingMemberTemplate,
+              scheduleCalendarTemplate,
+              scheduleTagTemplate) {
     'use strict';
 
     // TODO: move this global to require.config
@@ -38,7 +42,9 @@ define([
         'messageRow' : _.template(messageRowTemplate),
         'photoEditForm' : _.template(photoEditFormTemplate),
         'userInfo' : _.template(userInfoTemplate),
-        'scheduleAttendingMember': _.template(scheduleAttendingMemberTemplate)
+        'scheduleAttendingMember': _.template(scheduleAttendingMemberTemplate),
+        'scheduleCalendar': _.template(scheduleCalendarTemplate),
+        'scheduleTag': _.template(scheduleTagTemplate)
       };
 
       return {

@@ -1,0 +1,88 @@
+<% if (typeof error === "undefined") { %>
+    <% for (var year_val in schedule) { 
+        var year = schedule[year_val];
+    %>
+    <div class="accordion cnr-schedule-cal" id="accordion_schedule">
+        <% for (var idx in months.order) { 
+            var month_val = months.order[idx];
+            if (month_val in year) {
+                var month = year[month_val];
+            %>
+            <div class="accordion-group calendar-month-container<% if (!active_months[month_val]) { %> hidden<% } %>" 
+                data-month="<%= month_val %>">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle"
+                       data-toggle="collapse"
+                       data-parent="#accordion_schedule"
+                       href="<%= base_url %>#acc_m_<%= month_val %>_<%= year_val %>">
+                            <%= months.long[month_val] %>
+                    </a>
+                </div>
+                <div id="acc_m_<%= month_val %>_<%= year_val %>" class="accordion-body collapse<% if (active_month == month_val) {%> in<% } %>">
+                    <div class="accordion-inner">
+                        <% for (var day_idx in days.order) {
+                            var day_val = days.order[day_idx];
+                            if (day_val in month) {
+                                var day = month[day_val];
+                            %>
+                            <section class="calendar-date-container<% if (day.items == 0) {%> hidden<% } %>" 
+                                     data-date="<%= day_val %>">
+                                <aside>
+                                    <div class="calendar-date">
+                                        <big class="date"><%= day_val %></big>
+                                        <small class="month"><%= months.short[month_val] %></small>
+                                        <span class="day"><%= day.start_week_day %></span>
+                                    </div>
+                                </aside>
+                                <% for (var key in day.schedules) {
+                                        var item = day.schedules[key];
+                                    %>
+                                    <article class="entry big shedule cnr-schedule<% if (!item.visible) { %> hidden<% } %>" 
+                                     data-category="<%= item.category %>"
+                                     data-cycle="<%= item.cycle_tags %>"
+                                     data-tags="<%= item.all_tags %>"
+                                     data-id="<%= item.id %>">
+                                        <section class="row-fluid">
+                                            <h2 class="title span6">
+                                                <a href="<%= item.url_view %>"><%= item.race_name %></a>
+                                            </h2>
+                                            <p class="visible-phone span5"><%= item.start_place %> / <%= item.race_sort %></p>
+                                            <p class="hidden-phone span3"><%= item.start_place %></p>
+                                            <p class="hidden-phone span2 category cat-<%= item.category %>"><%= item.race_sort %></p>
+                                            <span class="edition">
+                                            <% if (item.finished ) { %>
+                                                <i id="schedule_<%= item.id %>"
+                                                    class="add addResult btn btn-primary btn-small"
+                                                    title="Dodaj wynik wyścigu"><i class="icon-white icon-time">&nbsp;</i>
+                                                </i>
+                                            <% } else { %>
+                                                <i id="schedule_<%= item.id %>"
+                                                    class="add addActivity btn btn-primary btn-small"
+                                                    data-itemId="<%= item.id %>"
+                                                    data-itemDao="8"
+                                                    data-value="1"
+                                                    title="Zapisz się na wyścig"><i class="icon-white icon-calendar">&nbsp;</i>
+                                                </i>
+                                            <% } %>
+                                            </span>
+                                        </section>
+                                    </article>
+                                <% } %>
+                            </section>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <%}%>
+        <% } %>
+    </div>
+    <% } %>
+    <div class="<% if (number_rows > 0) { %>hidden <% } %>cnr-no-schedule info">
+        <p>Brak wyścigów dla wybranych filtrów.</b>
+    </div>
+<% } else { %>
+    <div class="cnr-error-schedule info">
+        <p><i><%= error.s_message %></i></p>
+    </div>
+<% } %>
