@@ -334,7 +334,7 @@ define(function() {
         $('#cnr-shedule-calendar .cnr-no-schedule').removeClass('hidden');
       }
       updateCalendarVisibleElements();
-      fixAccordionOpenElement();
+      //fixAccordionOpenElement();
       $('#cnr-shedule-calendar .cnr-schedule-cal-cnt').removeClass('cnr-loading');
       if (map) {
         _refreshMapMarkers({
