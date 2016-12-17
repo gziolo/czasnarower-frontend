@@ -149,6 +149,10 @@ define(function() {
             id: Number(i),
             icon: img,
           });
+          if (data.selected) {
+            visibleMarkers.push(marker);
+            marker.setMap(map);
+          }
           markersBounds.extend(latLng);
           markers[Number(i)] = marker;
         }
@@ -892,7 +896,6 @@ define(function() {
         if (!messageInfo.data.id || (!messageInfo.data.races)) {
           return;
         }
-
         _data.push(messageInfo.data);
         if (_googleMapsLoaded) {
           _initializeMap(messageInfo.data);
