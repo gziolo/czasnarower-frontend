@@ -137,7 +137,12 @@ define(function() {
           } else {
             anchor = _getScheduleAnchor(schedule.category, 0, 20);
           }
-          var img = new google.maps.MarkerImage(src, new google.maps.Size(20, 30), new google.maps.Point(anchor.x, anchor.y), new google.maps.Point(10, 15));
+          var img = new google.maps.MarkerImage(
+            src,
+            new google.maps.Size(20, 30),
+            new google.maps.Point(anchor.x, anchor.y),
+            new google.maps.Point(10, 15)
+          );
 
           var marker = _marker(map, schedule, {
             position: latLng,
@@ -329,7 +334,7 @@ define(function() {
         $('#cnr-shedule-calendar .cnr-no-schedule').removeClass('hidden');
       }
       updateCalendarVisibleElements();
-      //fixAccordionOpenElement();
+      fixAccordionOpenElement();
       $('#cnr-shedule-calendar .cnr-schedule-cal-cnt').removeClass('cnr-loading');
       if (map) {
         _refreshMapMarkers({
@@ -341,14 +346,11 @@ define(function() {
     };
     
     var fixAccordionOpenElement = function() {
-      console.log($('#cnr-shedule-calendar .calendar-month-container.hidden .in'));
       $('#cnr-shedule-calendar .calendar-month-container.hidden .in').collapse('hide');
       if ($('#cnr-shedule-calendar .calendar-month-container:not(".hidden") .in').length === 0) {
         var firstMonth = $('#cnr-shedule-calendar .calendar-month-container').not('.hidden').first();
         if (firstMonth.length !== 0) {
           firstMonth.find('.accordion-body').collapse('show');
-          firstMonth.find('.accordion-body').attr('style', '');
-          console.log('First month show! ' + firstMonth.attr('data-month'));
         }
       }
     };
@@ -453,7 +455,7 @@ define(function() {
         buttonContainer: '<li class="dropdown"></li>',
         buttonClass: '',
         templates: {
-          button: '<a class="multiselect dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list icon icon-blue"></i> Rodzaj wyścigu&nbsp;<b class="caret"></b></a>'
+          button: '<a class="multiselect dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list icon icon-white"></i> Rodzaj wyścigu&nbsp;<b class="caret"></b></a>'
         },
         onChange: function(option, checked, select) {
           _updateData();
@@ -472,7 +474,7 @@ define(function() {
         buttonContainer: '<li class="dropdown"></li>',
         buttonClass: '',
         templates: {
-          button: '<a class="multiselect dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list icon icon-blue"></i> Cykl wyścigu&nbsp;<b class="caret"></b></a>'
+          button: '<a class="multiselect dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-list icon icon-white"></i> Cykl wyścigu&nbsp;<b class="caret"></b></a>'
         },
         onChange: function(option, checked, select) {
           _updateData();
@@ -569,7 +571,7 @@ define(function() {
           y: (size ? 32 : 0)
         },
         5: {
-          x: (size ? 60 : 96),
+          x: (size ? 180 : 289),
           y: (size ? 32 : 0)
         },
         6: {
@@ -593,11 +595,11 @@ define(function() {
           y: (size ? 32 : 0)
         },
         11: {
-          x: (size ? 723 : 723),
+          x: (size ? 722 : 722),
           y: (size ? 32 : 0)
         },
         12: {
-          x: (size ? 723 : 723),
+          x: (size ? 722 : 722),
           y: (size ? 32 : 0)
         },
         100: {

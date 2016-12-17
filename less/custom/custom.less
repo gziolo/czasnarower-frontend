@@ -1016,8 +1016,19 @@ body {
     }
     .nav-tabs {
         background-color: @blueCustom;
+        li {
+            margin-bottom: 0;
+        }
         li.dropdown > a {
-            color: @blue;
+            color: @white;
+            &:hover {
+                background-color: lighten(@black, 10%);
+                border-color: transparent;
+            }
+            .caret {
+                border-top-color: @white;
+                border-bottom-color: @white;
+            }
         }
         li.dropdown > a:focus {
             outline: 0;
@@ -1031,12 +1042,17 @@ body {
         .dropdown-menu > li > a:hover {
             background: none @blueCustom;
         }
-        .dropdown.open > a {
+        li.dropdown.open > a {
             border: none;
             background-color: lighten(@black, 10%);
-            .icon.icon-blue {
-                background-image: url(@iconWhiteSpritePath);
-            } 
+            color: @blue;
+            .icon.icon-white {
+                background-image: url(@iconBlueSpritePath);
+            }
+            .caret {
+                border-top-color: @blue;
+                border-bottom-color: @blue;
+            }
         }
            
         .multiselect-container {
