@@ -120,7 +120,7 @@ define(function() {
       $.each(data.races.races, function(i, schedule) {
         var latLng = new google.maps.LatLng(schedule.latitude, schedule.longitude);
         if (!area || area.contains(latLng)) {
-          var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.3.png', anchor = {
+          var src = facade.config.staticUrl + 'img-1.3/markers/iconset-1.4.png', anchor = {
             x: 60,
             y: 32
           };
@@ -606,6 +606,10 @@ define(function() {
           x: (size ? 722 : 722),
           y: (size ? 32 : 0)
         },
+        13: {
+          x: (size ? 439 : 481),
+          y: (size ? 32 : 0)
+        },
         100: {
           x: (size ? 762 : 785),
           y: (size ? 32 : 0)
@@ -656,6 +660,10 @@ define(function() {
         },
         112: {
           x: (size ? 742 : 753),
+          y: (size ? 32 : 0)
+        },
+        113: {
+          x: (size ? 459 : 512),
           y: (size ? 32 : 0)
         }
       };
