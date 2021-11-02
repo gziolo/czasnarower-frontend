@@ -41,7 +41,7 @@ define([ 'underscore' ], function(_) {
       var sigmamapRenderer = new google.maps.ImageMapType({
         getTileUrl : function(ll, z) {
           var X = ll.x % (1 << z);
-          return "http://tiles1.sigma-dc-control.com/layer8/" + z + "/" + X + "/" + ll.y + ".png";
+          return "https://tiles1.sigma-dc-control.com/layer8/" + z + "/" + X + "/" + ll.y + ".png";
         },
         tileSize : new google.maps.Size(256, 256),
         isPng : true,
@@ -59,7 +59,7 @@ define([ 'underscore' ], function(_) {
           if (x < 0) {
             x = tilesPerGlobe+x;
           }
-          return "http://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
+          return "https://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
         },
         tileSize : new google.maps.Size(256, 256),
         isPng : true,
@@ -115,8 +115,10 @@ define([ 'underscore' ], function(_) {
       var longitude = 19.483333;
       if (data.selected) {
         var track = data.tracks[data.selected];
-        latitude = track.start_latlng.latitude;
-        longitude = track.start_latlng.longitude;
+        if (track) {
+          latitude = track.start_latlng.latitude;
+          longitude = track.start_latlng.longitude;
+        }
       }
       var centerLatLng = new google.maps.LatLng(latitude, longitude);
       map.setCenter(centerLatLng);
@@ -687,9 +689,21 @@ define([ 'underscore' ], function(_) {
         $('body').on('click', '.cnr-collapse-map', function () {
           var button = $(this),
             mapBox = button.parents('.cnr-map-global');
-
           mapBox.removeClass('cnr-expanded');
         });
+        $("body").on("click", ".cnr-show-map", function() {
+          var button = $(this),
+              data = button.data("params"),
+              map = $("#track_map .cnr-track-map");
+          map.addClass("big cnr-loading"),
+          map.removeClass("hidden"),
+          button.addClass("hidden"),
+          $("#profile_full").removeClass("hidden"),
+          facade.notify({
+              type: "track-view-register-map",
+              data: data
+          });
+        })
       },
       mapInitialised : function() {
         geocoder = new google.maps.Geocoder();
@@ -704,7 +718,7 @@ define([ 'underscore' ], function(_) {
            * boxStyle: { width: "200px" },
            */
           closeBoxMargin : "10px 4px 2px 2px",
-          closeBoxURL : "http://www.google.com/intl/en_us/mapfiles/close.gif",
+          closeBoxURL : "https://www.google.com/intl/en_us/mapfiles/close.gif",
           infoBoxClearance : new google.maps.Size(1, 1),
           isHidden : false,
           pane : "floatPane",

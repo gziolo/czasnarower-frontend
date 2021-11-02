@@ -851,12 +851,24 @@ define(function() {
         facade.listen('schedule-view-filter-races', this.filterRacesOnMap, this);
         facade.listen('schedule-view-filtered-races', this.setInitialFilteredRaces, this);
 
-        $('body').on('click', '.cnr-expand-map-link', function() {
-            var mapBox = $(this).parents('.cnr-map-global');
-            if (mapBox.hasClass('cnr-expanded')) {
+        $('body').on('click', '.cnr-load-map', function() {
+            var button = $(this),
+                data = button.data("params"),
+                mapBox = button.parents('.cnr-map-global');
+
+            if (mapBox.hasClass('map-schedule')) {
               return;
             }
-            $('body .cnr-expand-map').click();
+            button.button('loading');
+            mapBox.addClass("map-schedule cnr-loading")
+            if (!data) {
+              mapBox.removeClass('cnr-loading map-schedule');
+              return;
+            }
+            facade.notify({
+              type: 'schedule-view-load-map',
+              data: data
+            });
           }
         );
 
@@ -875,7 +887,7 @@ define(function() {
           pixelOffset : new google.maps.Size(0, 5),
           zIndex : null,
           closeBoxMargin : "10px 4px 2px 2px",
-          closeBoxURL : "http://www.google.com/intl/en_us/mapfiles/close.gif",
+          closeBoxURL : "https://www.google.com/intl/en_us/mapfiles/close.gif",
           infoBoxClearance : new google.maps.Size(1, 1),
           isHidden : false,
           pane : "floatPane",

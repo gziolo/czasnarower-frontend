@@ -154,7 +154,7 @@ define(function() {
       var sigmamapRenderer = new google.maps.ImageMapType({
         getTileUrl : function(ll, z) {
           var X = ll.x % (1 << z);
-          return "http://tiles1.sigma-dc-control.com/layer8/" + z + "/" + X + "/" + ll.y + ".png";
+          return "https://tiles1.sigma-dc-control.com/layer8/" + z + "/" + X + "/" + ll.y + ".png";
         },
         tileSize : new google.maps.Size(256, 256),
         isPng : true,
@@ -172,7 +172,7 @@ define(function() {
           if (x < 0) {
             x = tilesPerGlobe+x;
           }
-          return "http://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
+          return "https://tile.openstreetmap.org/" + zoom + "/" + x + "/" + coord.y + ".png";
         },
         tileSize : new google.maps.Size(256, 256),
         isPng : true,

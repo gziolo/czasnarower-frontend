@@ -321,23 +321,16 @@ define(function() {
         var signOutButton = $(this);
 
         signOutButton.button('loading');
-        sandbox.notify({
-          type: 'facebook-logout',
-          data: {
-            callback: function() {
-              sandbox.ajax({
-                type: "POST",
-                url: "ajax",
-                data: "dao=21&action=3",
-                dataType: 'html',
-                cache: false
-              }).done(function(data) {
-                $('#user_panel').html(data);
-              }).always(function() {
-                signOutButton.button('reset');
-              });
-            }
-          }
+        sandbox.ajax({
+            type: "POST",
+            url: "ajax",
+            data: "dao=21&action=3",
+            dataType: 'html',
+            cache: false
+        }).done(function(data) {
+            $('#user_panel').html(data);
+        }).always(function() {
+            signOutButton.button('reset');
         });
         return false;
       });
