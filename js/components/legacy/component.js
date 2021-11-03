@@ -116,6 +116,7 @@ define(['jquery',
         'legacy/creators/draft',
         'legacy/creators/entryView',
         'legacy/creators/eventAttending',
+        'legacy/creators/facebook',
         'legacy/creators/fileUploader',
         'legacy/creators/news',
         'legacy/creators/map',
@@ -137,6 +138,7 @@ define(['jquery',
                 draftCallback,
                 entryViewCallback,
                 eventAttendingCallback,
+                facebookCallback,
                 fileUploaderCallback,
                 newsCallback,
                 mapCallback,
@@ -159,6 +161,7 @@ define(['jquery',
   core.creator.register('draft', draftCallback);
   core.creator.register('entryView', entryViewCallback);
   core.creator.register('eventAttending', eventAttendingCallback);
+  core.creator.register('facebook', facebookCallback);
   core.creator.register('fileUploader', fileUploaderCallback);
   core.creator.register('news', newsCallback);
   core.creator.register('map', mapCallback);

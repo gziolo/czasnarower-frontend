@@ -14,13 +14,16 @@ define(function() {
 
     var googleMapsInitalised = false;
 
-    function initGoogleMaps() {
+    function initGoogleMaps(data) {
+      if (!data.apiKey) {
+        return;
+      }
       if (!googleMapsInitalised && !$('#googleMaps').length) {
         googleMapsInitalised = true;
         var script = document.createElement("script");
         script.type = "text/javascript";
         script.id = 'googleMaps';
-        script.src = "https://maps.google.com/maps/api/js?key=AIzaSyDO5nzYLpXlRdCHPfhMJqSAw-43Eqk_otI&libraries=geometry&language=pl&sensor=false&callback=mapInitialisedCallback";
+        script.src = "https://maps.google.com/maps/api/js?key=" + data.apiKey + "&libraries=geometry&language=pl&sensor=false&callback=mapInitialisedCallback";
         $('body').append(script);
       }
     }
@@ -29,7 +32,7 @@ define(function() {
       init : function(data) {
         facade.listen('map-init-libraries', this.mapInitLibraries, this);
 
-        initGoogleMaps();
+        initGoogleMaps(data);
       },
       mapInitLibraries : function() {
         facade.requireScripts([ 'js/gmaps/infobox_packed.js', 'js/gmaps/markerclusterer_packed.js' ], function() {
