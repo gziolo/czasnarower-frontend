@@ -106,7 +106,7 @@ define(function() {
       });
     }
     function _bindConfirmNewsRemove(params) {
-      var elem = $('#article_' + params.news_id + ' .removeEntry');
+      var elem = $('#article_' + params.news_id + ' .cnr-article-remove');
       var html = "<p>Czy na pewno chcesz usunąć news?</p><button class='btn btn-small btn-danger confirm-remove'>Usuń</button><button class='btn btn-small cancel-remove'>Anuluj</button>";
       elem.popover({
         html : true,

@@ -147,6 +147,7 @@ define(function() {
         streetViewControl : false,
         mapTypeId : google.maps.MapTypeId.ROADMAP,
         scrollwheel : false,
+        controlSize: 24,
         center : new google.maps.LatLng(52.066667, 19.483333)
       });
 
@@ -881,11 +882,16 @@ define(function() {
           ret.locality = component;
         }
         if (component.long_name) {
-          if ($.inArray('postal_code', component.types) === -1 && $.inArray('post_box', component.types) === -1 && $.inArray('street_number', component.types) === -1 &&
-              $.inArray('floor', component.types) === -1 && $.inArray('route', component.types) === -1 && $.inArray('postal_code', component.types) === -1) {
+          if ($.inArray('establishment', component.types) === -1 &&
+              $.inArray('floor', component.types) === -1 &&
+              $.inArray('plus_code', component.types) === -1 &&
+              $.inArray('postal_code', component.types) === -1 &&
+              $.inArray('post_box', component.types) === -1 &&
+              $.inArray('premise', component.types) === -1 &&
+              $.inArray('route', component.types) === -1 &&
+              $.inArray('street_number', component.types) === -1) {
             ret.raw_tags.push(component.long_name);
           }
-
         }
       }
       return ret;

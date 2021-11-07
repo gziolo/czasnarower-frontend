@@ -43,7 +43,8 @@ define(function() {
       var map = new google.maps.Map(mapElem, {
         streetViewControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        scrollwheel: false
+        scrollwheel: false,
+        controlSize: 24
       });
       maps[data.id] = map;
       if (data.races) {
@@ -859,12 +860,21 @@ define(function() {
             if (mapBox.hasClass('map-schedule')) {
               return;
             }
-            button.button('loading');
+
             mapBox.addClass("map-schedule cnr-loading")
             if (!data) {
               mapBox.removeClass('cnr-loading map-schedule');
               return;
             }
+            
+            button.button('loading');
+            data.successCallback = function() {
+              button.button('reset');
+              button.text('Rozwiń')
+              button.addClass('cnr-expand-map')
+              mapBox.removeClass('cnr-loading');
+            };
+
             facade.notify({
               type: 'schedule-view-load-map',
               data: data

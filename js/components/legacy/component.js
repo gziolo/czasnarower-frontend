@@ -96,7 +96,7 @@ function bindLoadEvents() {
 
 function bindFormEvents() {
 
-  $('body').on('submit', '#user_data_form, #team_form, #password_change_form', function() {
+  $('body').on('submit', '#user_data_form, #password_change_form', function() {
     var button = $(this).find(':input[type=submit]');
 
     button.button('loading');

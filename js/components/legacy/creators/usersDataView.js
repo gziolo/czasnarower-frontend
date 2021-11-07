@@ -40,6 +40,7 @@ define(function() {
       var map = new google.maps.Map(mapElem, {
         streetViewControl : false,
         mapTypeId : google.maps.MapTypeId.ROADMAP,
+        controlSize: 24,
         scrollwheel : false
       });
       if (data.users_data) {

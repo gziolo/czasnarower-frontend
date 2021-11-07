@@ -395,17 +395,11 @@ define(function() {
         sandbox.setUserData(user);
         if ($('body.cnr-user-loading').length > 0) {
           $('body').removeClass('cnr-user-loading');
-          $('.signed-out, .user-signed-in, .team_member, .user-signed-in-exclude').hide();
+          $('.signed-out, .user-signed-in, .user-signed-in-exclude').hide();
         } else {
           $(".signed-out").fadeOut(timeVal);
         }
-        if ($("#member_" + user.nick).length > 0) {
-          $("#join_team_button").fadeOut(timeVal);
-          $("#leave_team_button, .team_member").fadeIn(timeVal);
-        } else {
-          $("#join_team_button").fadeIn(timeVal);
-          $("#leave_team_button, .team_member").fadeOut(timeVal);
-        }
+
         var selectorSignIn = '.signed-in, .user-signed-in[data-user-id=' + user.id + '], .user-signed-in-exclude[data-user-id-exclude!=' + user.id + ']';
         $.each(user.permissions.split(','), function() {
           if (this.length) {

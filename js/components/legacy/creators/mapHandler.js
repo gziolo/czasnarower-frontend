@@ -30,6 +30,7 @@ define(function() {
         zoom : 6,
         streetViewControl : false,
         mapTypeId : google.maps.MapTypeId.ROADMAP,
+        controlSize: 24,
         scrollwheel : false
       };
       var opts = {};

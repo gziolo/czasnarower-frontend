@@ -34,6 +34,7 @@ define([ 'underscore' ], function(_) {
       map = new google.maps.Map(mapElem, {
         streetViewControl : false,
         mapTypeId : google.maps.MapTypeId.ROADMAP,
+        controlSize: 24,
         scrollwheel : false
       });
 
@@ -71,8 +72,14 @@ define([ 'underscore' ], function(_) {
       map.mapTypes.set('osm', osmmapRenderer);
       var optionsUpdate = {
         mapTypeControlOptions : {
-          mapTypeIds : [ google.maps.MapTypeId.HYBRID, google.maps.MapTypeId.SATELLITE, google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN, 'sigma', 'osm'],
-          style : google.maps.MapTypeControlStyle.DEFAULT
+          mapTypeIds : [
+            google.maps.MapTypeId.HYBRID,
+            google.maps.MapTypeId.SATELLITE,
+            google.maps.MapTypeId.ROADMAP,
+            google.maps.MapTypeId.TERRAIN,
+            'sigma', 'osm'],
+          style : google.maps.MapTypeControlStyle.DEFAULT,
+          position: google.maps.ControlPosition.TOP_LEFT
         }
       };
       map.setOptions(optionsUpdate);
