@@ -1171,6 +1171,9 @@ body {
                     &-13 {
                         .cat(#cc7815);
                     }
+                    &-14 {
+                        .cat(#ddbb44)
+                    }
                 }
             }
         }
@@ -1455,7 +1458,7 @@ h1.special {
             margin-bottom: .5em;
         }
         p {
-            
+            margin: 10px 0;
         }
         ul li {
             line-height: 1.5em;
@@ -1572,17 +1575,15 @@ h1.special {
 .social {
     position: relative;
     .social-container {
-        left: -96px;
+        left: -100px;
         margin: 0 auto;
         position: absolute;
-        top: 95px;
+        top: 100px;
         width: 90px;
     }
     .social-box {
-        height: 65px;
-        margin: 1px auto;
-        padding: 5px 10px;
-        width: 70px;
+        margin: 0 0 5px;
+        padding: 0;
         text-align: center;
     }
 }
@@ -1717,9 +1718,9 @@ h1.special {
             display: block;
         }
         #globalMapContent.big {
-            height: 150px;
+            height: 200px;
         }
-        .map-global-header, #geo {
+        .map-global-header, #geo, #geoAddresses {
             display: none;
         }
         &.cnr-expanded {
@@ -1727,7 +1728,7 @@ h1.special {
                 display: block;
             }
             #globalMapContent.big {
-                height: 350px;
+                height: 450px;
             }
         }
         &.cnr-loading .map-box {
@@ -1941,6 +1942,7 @@ h1.special {
 .map-box, .plot-box {
     padding: 1px;
     border: 2px solid @blueLight;
+    overflow: hidden;
     position: relative;
     .distance-info {
         position: absolute;
@@ -2030,12 +2032,32 @@ h1.special {
         margin: 0;
     }
 }
-#track_profile_full {
-    height: 300px;
+#track-elevation {
+    .elevation .tooltip {opacity: 1;}
+    .elevation-div {padding-top: 2px;}
+    .elevation-control.elevation .background { background-color: white; }
+    .leaflet-control-layers label {margin-bottom: 0;}
+    .leaflet-control-layers label span, .leaflet-control-layers label input {
+        font-size: 11px;
+        line-height: 20px;
+        margin: 0;
+    }
+    .leaflet-control-layers label span { font-size: 12px;line-height: 22px;}
+    .leaflet-container:not(.leaflet-touch) .leaflet-control-layers-inline .leaflet-control-layers-base span {
+        padding: 6px;
+        font-size: 12px
+    }
+    .data-summary {
+        margin: 0;
+        background-color: #f8fafc;
+        padding: 3px 5px;
+        border: 1px solid #bbd9ee;
+        border-width: 1px 0 0 0;
+    }
 }
 #map, .mapCanvas {
     width: 100%;
-    height: 250px;
+    height: 300px;
     &.big {
         height: 600px;
     }
@@ -2048,6 +2070,46 @@ h1.special {
     }
     .infoBox img {
         z-index: 1;
+    }
+    .racePopup {
+        .clearfix();
+        .leaflet-popup-content-wrapper {
+            border: 1px solid #A2BAD9;
+            box-shadow: 2px 3px 6px rgba(102, 102, 102, 0.75);    
+        }
+        .leaflet-popup-tip-container {
+            margin-top: -1px;
+            .leaflet-popup-tip {
+                border: 1px solid #A2BAD9;
+                border-top-width: 0;
+            }
+        }
+        h5, p, h6 {
+            margin: 0;
+            line-height: 1.4em;
+        }
+        p {
+            font-size: .9em;
+            line-height: 18px;
+            .nowrap {
+                white-space: nowrap;
+            }
+            .text-cut {
+                .text-overflow();
+            }
+            .icon {
+                margin-top: -2px;
+            }
+        }
+        h6 {
+            font-weight: normal;
+        }
+        h5 {
+            font-size: 1em;
+        }
+        h5 + p, h6 + p {
+            margin-top: 5px;
+        }
     }
     .previewBox, .labelBox {
         background-color: #FFFFFF;

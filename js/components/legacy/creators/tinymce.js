@@ -59,6 +59,7 @@ define(function () {
 
       tinymce.init({
         block_formats: 'Paragraph=p;Header 1=h3;Header 2=h4;Header 3=h5',
+        contextmenu: false,
         extended_valid_elements: "script[language|type|async|src|charset]",
         formats: {
           cite: { inline: 'q', attributes: { class: 'cite' } }
@@ -86,6 +87,7 @@ define(function () {
             editor_id = args.target.id;
           });
         },
+        browser_spellcheck: true,
         target_list: false,
         toolbar: "bold italic underline blockquote cite | formatselect | bullist numlist | outdent indent | undo redo | link unlink media instagram"
       });

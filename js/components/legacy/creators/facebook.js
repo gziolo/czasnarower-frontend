@@ -13,9 +13,9 @@ define(function() {
         window.fbAsyncInit = function() {
           FB.init({
             appId : data.appId,
-            autoLogAppEvents: true,
             xfbml: true,
-            version : 'v12.0',
+            autoLogAppEvents : true,
+            version : 'v12.0'
           });
         };
         var e = document.createElement('script');
